@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game_Engine.Entities;
+using System;
 
 namespace Game_Engine.Components{
 
@@ -8,9 +9,9 @@ namespace Game_Engine.Components{
     public abstract class Component{
         public Guid ComponentId { get; }
 
-        public Component()
+        public Component(Entity id)
         {
-            ComponentId = Guid.NewGuid();
+            ComponentId = id.EntityID;
         }
     }
 }
