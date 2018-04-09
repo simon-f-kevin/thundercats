@@ -32,7 +32,7 @@ namespace thundercats
             // TODO: Add your initialization logic here
             ComponentSystem componentSystem = ComponentSystem.Instance;
             Entity entity = EntityFactory.NewEntity();
-            ModelComponent component = new ModelComponent(null);
+            ModelComponent component = new ModelComponent(null,null);
             componentSystem.AddComponentToEntity(entity, component);
             //componentSystem.AddComponentToEntity(entity, component);
             component = componentSystem.GetComponentOfEntity<ModelComponent>(entity);
