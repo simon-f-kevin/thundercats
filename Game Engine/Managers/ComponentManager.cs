@@ -4,20 +4,20 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Game_Engine.Systems
+namespace Game_Engine.Managers
 {
     /*
      * Provides methods for adding/removing/retrieving all components in the game.
      */
-    public class ComponentSystem
+    public class ComponentManager
     {
         private Dictionary<Type, Dictionary<Entity, Component>> _components;
 
-        private static ComponentSystem instance;
+        private static ComponentManager instance;
 
         /* Constructors */
 
-        private ComponentSystem()
+        private ComponentManager()
         {
             _components = new Dictionary<Type, Dictionary<Entity, Component>>();
         }
@@ -25,12 +25,12 @@ namespace Game_Engine.Systems
         /* Properties */
 
         //Creates an instance of the compmanager if one does not already exist
-        public static ComponentSystem Instance
+        public static ComponentManager Instance
         {
             get {
                 if(instance == null)
                 {
-                    instance = new ComponentSystem();
+                    instance = new ComponentManager();
                 }
                 return instance;
             }

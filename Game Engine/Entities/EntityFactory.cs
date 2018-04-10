@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Components;
+using Game_Engine.Managers;
 using Game_Engine.Systems;
 using System.Collections.Generic;
 
@@ -19,7 +20,7 @@ namespace Game_Engine.Entities
 
             for(int i = 0; i < components.Count; i++)
             {
-                ComponentSystem.Instance.AddComponentToEntity(entity, components[i]);
+                ComponentManager.Instance.AddComponentToEntity(entity, components[i]);
             }
             return new Entity();
         }
