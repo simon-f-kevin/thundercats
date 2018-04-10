@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using thundercats.Menu;
 
-namespace thundercats.Menu.States
+namespace thundercats.GameStates.States.MenuStates
 {
     public class MultiplayerMenu : IMenu
     {

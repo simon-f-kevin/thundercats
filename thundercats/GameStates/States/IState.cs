@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace thundercats.Menu
+namespace thundercats.GameStates.States
 {
-    interface IMenu
+    public interface IState
     {
         void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         void Update(GameTime gameTime);
-
     }
 }
