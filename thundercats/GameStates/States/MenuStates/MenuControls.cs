@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace thundercats.Menu
+namespace thundercats.GameStates.States.MenuStates
 {
     public class MenuControls
     {
@@ -106,7 +106,7 @@ namespace thundercats.Menu
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
                 {
                     gameManager.PreviousGameState = gameManager.CurrentGameState;
-                    gameManager.CurrentGameState = state;
+                    gameManager.CurrentGameState = GameManager.GameState.PlayingSinglePlayer;
                     clicked = true;
                 }
                 gameManager.OldGamepadState = gamePadState;

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using thundercats.Menu;
-using thundercats.Menu.States;
+using thundercats.GameStates.States;
+using thundercats.GameStates.States.MenuStates;
+using thundercats.GameStates.States.PlayingStates;
 
-namespace thundercats
+namespace thundercats.GameStates
 {
     public class GameManager
     {
@@ -20,7 +16,7 @@ namespace thundercats
         protected internal KeyboardState OldKeyboardState;
         protected internal GamePadState OldGamepadState;
 
-        private Dictionary<GameState, IMenu> gameStates;
+        private Dictionary<GameState, IState> gameStates;
 
         protected internal SpriteFont menufont;
         protected internal Game game;
@@ -33,7 +29,8 @@ namespace thundercats
             SinglePlayer,
             Quit,
             Credits,
-            Paused
+            Paused,
+            PlayingSinglePlayer,
         };
 
         public GameManager(Game game, SpriteFont font)
@@ -41,12 +38,13 @@ namespace thundercats
             this.game = game;
             menufont = font;
 
-            gameStates = new Dictionary<GameState, IMenu>();
+            gameStates = new Dictionary<GameState, IState>();
             gameStates.Add(GameState.MainMenu, new MainMenu(this));
             gameStates.Add(GameState.SinglePlayer, new SinglePlayer(this));
             gameStates.Add(GameState.MultiPlayer, new MultiplayerMenu(this));
             gameStates.Add(GameState.Paused, new PausedMenu(this));
             gameStates.Add(GameState.Credits, new Credits(this));
+            gameStates.Add(GameState.PlayingSinglePlayer, new PlayingSinglePlayerState(this));
         }
 
         // Draw method consists of a switch case with all

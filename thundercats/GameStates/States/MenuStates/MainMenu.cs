@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace thundercats.Menu.States
+namespace thundercats.GameStates.States.MenuStates
 {
     /// <summary>
     /// The main game menu state. This state is used as the first
