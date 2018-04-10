@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game_Engine.Components;
+using Game_Engine.Entities;
+using Game_Engine.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -28,6 +31,13 @@ namespace thundercats
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ComponentSystem componentSystem = ComponentSystem.Instance;
+            Entity entity = EntityFactory.NewEntity();
+            ModelComponent component = new ModelComponent(null,null);
+            componentSystem.AddComponentToEntity(entity, component);
+            //componentSystem.AddComponentToEntity(entity, component);
+            component = componentSystem.GetComponentOfEntity<ModelComponent>(entity);
+            //System.Console.WriteLine("Component: " + component.ToString());
 
             gameManager = new GameManager(this, Content.Load<SpriteFont>("menu"));
 

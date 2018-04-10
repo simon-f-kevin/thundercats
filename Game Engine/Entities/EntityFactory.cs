@@ -1,0 +1,27 @@
+﻿using Game_Engine.Components;
+using Game_Engine.Systems;
+using System.Collections.Generic;
+
+namespace Game_Engine.Entities
+{
+    /* Methods for instantiating Entities with different sets of components. */
+    public static class EntityFactory
+    {
+        public static Entity NewEntity()
+        {
+            return new Entity();
+        }
+
+        /* Adds all given components to a new Entity. */
+        public static Entity NewEntityWithComponents(List<Component> components)
+        {
+            Entity entity = new Entity();
+
+            for(int i = 0; i < components.Count; i++)
+            {
+                ComponentSystem.Instance.AddComponentToEntity(entity, components[i]);
+            }
+            return new Entity();
+        }
+    }
+}
