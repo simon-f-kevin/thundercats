@@ -42,6 +42,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="Menu\GameManager.cs" />
+    <Compile Include="Menu\IMenu.cs" />
+    <Compile Include="Menu\MenuControls.cs" />
+    <Compile Include="Menu\States\Credits.cs" />
+    <Compile Include="Menu\States\MainMenu.cs" />
+    <Compile Include="Menu\States\MultiplayerMenu.cs" />
+    <Compile Include="Menu\States\PausedMenu.cs" />
+    <Compile Include="Menu\States\SinglePlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

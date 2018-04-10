@@ -11,6 +11,7 @@ namespace thundercats
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        GameManager gameManager;
 
         public Game1()
         {
@@ -27,6 +28,8 @@ namespace thundercats
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            gameManager = new GameManager(this, Content.Load<SpriteFont>("menu"));
 
             base.Initialize();
         }
@@ -62,6 +65,7 @@ namespace thundercats
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            gameManager.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -75,6 +79,7 @@ namespace thundercats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
