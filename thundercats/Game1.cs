@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using thundercats.GameStates;
+using thundercats.Systems;
 
 namespace thundercats
 {
@@ -17,8 +18,11 @@ namespace thundercats
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameManager gameManager;
+        Viewport viewport;
 
         ModelRenderSystem modelRenderSystem;
+        MovementSystem movementSystem;
+        PlayerInputSystem playerInputSystem;
 
         public Game1()
         {
@@ -34,11 +38,13 @@ namespace thundercats
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             modelRenderSystem = new ModelRenderSystem();
+            movementSystem = new MovementSystem();
+            playerInputSystem = new PlayerInputSystem();
 
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
+            SystemManager.Instance.AddToUpdateables(movementSystem);
+            SystemManager.Instance.AddToUpdateables(playerInputSystem);
 
             base.Initialize();
         }
@@ -54,14 +60,9 @@ namespace thundercats
 
             SpriteFont font = Content.Load<SpriteFont>("menu");
             if (font != null) gameManager = new GameManager(this, font);
+            viewport = gameManager.game.GraphicsDevice.Viewport;
 
-            Model blob1Model = Content.Load<Model>("Models/Blob");
-
-            Entity blob1 = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(blob1, blob1Model);
-
-            ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
-            // TODO: use this.Content to load your game content here
+            gameManager.blobModel = Content.Load<Model>("Models/Blob");
         }
 
         /// <summary>

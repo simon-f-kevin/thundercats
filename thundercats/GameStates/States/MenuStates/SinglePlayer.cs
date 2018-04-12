@@ -18,6 +18,12 @@ namespace thundercats.GameStates.States.MenuStates
             controls = new MenuControls(gameManager);
             viewport = gameManager.game.GraphicsDevice.Viewport;
         }
+
+        public void Initialize()
+        {
+
+        }
+
         public void Draw(GameTime gameTime, SpriteBatch sb)
         {
             String txtSingleplayer = "Singelplayer";

@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\GamepadComponent.cs" />
+    <Compile Include="Components\KeyBoardComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
+    <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
