@@ -12,11 +12,14 @@ namespace Game_Engine.Managers
 
         private Dictionary<string, Texture2D> textureDict;
         private Dictionary<string, Model> modelDict;
+        private Dictionary<string, SpriteFont> fontDict;
+
 
         private AssetManager()
         {
             textureDict = new Dictionary<string, Texture2D>();
             modelDict = new Dictionary<string, Model>();
+            fontDict = new Dictionary<string, SpriteFont>();
         }
 
         public static AssetManager Instance()
@@ -34,9 +37,11 @@ namespace Game_Engine.Managers
                 modelDict.Add(contentName, Content.Load<Model>(contentName));
             else if (typeof(TypeT) == typeof(Texture2D))
                 textureDict.Add(contentName, Content.Load<Texture2D>(contentName));
+            else if (typeof(TypeT) == typeof(SpriteFont))
+                fontDict.Add(contentName, Content.Load<SpriteFont>(contentName));
         }
 
-        public TypeT GetContent<TypeT>(String contentName) where TypeT : Type
+        public TypeT GetContent<TypeT>(String contentName) where TypeT : class
         {
             if (typeof(TypeT) == typeof(Model))
                 return modelDict[contentName] as TypeT;

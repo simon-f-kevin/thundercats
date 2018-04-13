@@ -19,7 +19,7 @@ namespace thundercats.GameStates
         private Dictionary<GameState, IState> gameStates;
 
         protected internal SpriteFont menufont;
-        protected internal Model blobModel; //TODO: need a better structure for storing models
+        //protected internal Model blobModel; //TODO: need a better structure for storing models
         protected internal Game game;
 
         protected internal GameState PreviousGameState { get; set; }
@@ -59,17 +59,12 @@ namespace thundercats.GameStates
             gameStates.Add(GameState.PlayingSinglePlayer, new PlayingSinglePlayerState(this));
         }
 
-        // Draw method consists of a switch case with all
-        // the different states that we have, depending on which
-        // state we are we use that state's draw method.
         public void Draw(GameTime gameTime, SpriteBatch sb)
         {
             sb.GraphicsDevice.Clear(Color.CornflowerBlue);
             gameStates[CurrentGameState].Draw(gameTime, sb);
         }
 
-        // Same as the draw method, the update method
-        // we execute is the one of the current state.
         public void Update(GameTime gameTime)
         {
             gameStates[CurrentGameState].Update(gameTime);
