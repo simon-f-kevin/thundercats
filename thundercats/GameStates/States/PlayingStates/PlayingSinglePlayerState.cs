@@ -26,7 +26,13 @@ namespace thundercats.GameStates.States.PlayingStates
             PlayerComponent playerComponent = new PlayerComponent(blob1);
             KeyboardComponent keyboardComponent = new KeyboardComponent(blob1);
             GamePadComponent gamePadComponent = new GamePadComponent(blob1, 0);
+            CameraComponent cameraComponent = new CameraComponent(blob1);
+            cameraComponent.AspectRatio = viewport.AspectRatio;
+            cameraComponent.FieldOfView = MathHelper.PiOver2;
+            cameraComponent.position = new Vector3(0, 0, -10);
+            cameraComponent.target = Vector3.Zero;
 
+            ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);

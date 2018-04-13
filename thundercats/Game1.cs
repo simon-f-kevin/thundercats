@@ -23,6 +23,7 @@ namespace thundercats
         ModelRenderSystem modelRenderSystem;
         MovementSystem movementSystem;
         PlayerInputSystem playerInputSystem;
+        CameraSystem cameraSystem;
 
         public Game1()
         {
@@ -41,7 +42,9 @@ namespace thundercats
             modelRenderSystem = new ModelRenderSystem();
             movementSystem = new MovementSystem();
             playerInputSystem = new PlayerInputSystem();
+            cameraSystem = new CameraSystem();
 
+            SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(movementSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
