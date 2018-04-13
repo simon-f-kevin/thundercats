@@ -21,13 +21,15 @@ namespace Game_Engine.Managers
             ContentDict.Add(typeof(Effect), new Dictionary<string, object>());
         }
 
-        public static AssetManager Instance()
+        public static AssetManager Instance
         {
-            if (instance == null)
-            {
-                instance = new AssetManager();
+            get{
+                if (instance == null)
+                {
+                    instance = new AssetManager();
+                }
+                return instance;
             }
-            return instance;
         }
 
         public void AddContent<TypeT>(ContentManager Content, String contentName)

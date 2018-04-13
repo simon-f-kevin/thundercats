@@ -64,9 +64,9 @@ namespace thundercats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            AssetManager.Instance().AddContent<Model>(Content,"Models/Blob");
-            AssetManager.Instance().AddContent<Texture2D>(Content, "2DTextures/arrow");
-            AssetManager.Instance().AddContent<SpriteFont>(Content, "menu");
+            AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
+            AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
             gameManager = new GameManager(this);
 
