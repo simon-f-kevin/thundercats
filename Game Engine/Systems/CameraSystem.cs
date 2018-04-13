@@ -21,6 +21,7 @@ namespace Game_Engine.Systems
                 camera.ViewMatrix = Matrix.CreateLookAt(camera.position, camera.target, Vector3.Up);
                 camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FieldOfView, camera.AspectRatio, 1f, 1000f);
             }
+
         }
     }
 }

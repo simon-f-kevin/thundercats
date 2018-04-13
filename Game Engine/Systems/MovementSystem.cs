@@ -19,7 +19,7 @@ namespace Game_Engine.Systems
                 var velocity = velocityComponent.Value as VelocityComponent;
                 var transformation = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(velocityComponent.Key);
 
-                transformation.Position += velocity.Velocity;
+                transformation.position += velocity.Velocity;
             }
 
         }
