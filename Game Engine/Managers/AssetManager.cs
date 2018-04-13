@@ -9,17 +9,16 @@ namespace Game_Engine.Managers
     public class AssetManager
     {
         private static AssetManager instance;
-
-        private Dictionary<string, Texture2D> textureDict;
-        private Dictionary<string, Model> modelDict;
-        private Dictionary<string, SpriteFont> fontDict;
+        private Dictionary<Type, Dictionary<string, object>> ContentDict;
 
 
         private AssetManager()
         {
-            textureDict = new Dictionary<string, Texture2D>();
-            modelDict = new Dictionary<string, Model>();
-            fontDict = new Dictionary<string, SpriteFont>();
+            ContentDict = new Dictionary<Type, Dictionary<string, object>>();
+            ContentDict.Add(typeof(Texture2D), new Dictionary<string, object>());
+            ContentDict.Add(typeof(Model), new Dictionary<string, object>());
+            ContentDict.Add(typeof(SpriteFont), new Dictionary<string, object>());
+            ContentDict.Add(typeof(Effect), new Dictionary<string, object>());
         }
 
         public static AssetManager Instance()
@@ -33,21 +32,12 @@ namespace Game_Engine.Managers
 
         public void AddContent<TypeT>(ContentManager Content, String contentName)
         {
-            if (typeof(TypeT) == typeof(Model))
-                modelDict.Add(contentName, Content.Load<Model>(contentName));
-            else if (typeof(TypeT) == typeof(Texture2D))
-                textureDict.Add(contentName, Content.Load<Texture2D>(contentName));
-            else if (typeof(TypeT) == typeof(SpriteFont))
-                fontDict.Add(contentName, Content.Load<SpriteFont>(contentName));
+            ContentDict[typeof(TypeT)].Add(contentName, Content.Load<TypeT>(contentName));
         }
 
         public TypeT GetContent<TypeT>(String contentName) where TypeT : class
         {
-            if (typeof(TypeT) == typeof(Model))
-                return modelDict[contentName] as TypeT;
-            else if (typeof(TypeT) == typeof(Texture2D))
-                return textureDict[contentName] as TypeT;
-            else return null;
+            return ContentDict[typeof(TypeT)][contentName] as TypeT;
         }
     }
 }
