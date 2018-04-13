@@ -19,6 +19,7 @@ namespace thundercats
         GameManager gameManager;
 
         ModelRenderSystem modelRenderSystem;
+        CameraSystem cameraSystem;
 
         public Game1()
         {
@@ -37,7 +38,8 @@ namespace thundercats
             // TODO: Add your initialization logic here
 
             modelRenderSystem = new ModelRenderSystem();
-
+            cameraSystem = new CameraSystem();
+            SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
 
             base.Initialize();
@@ -55,12 +57,18 @@ namespace thundercats
             SpriteFont font = Content.Load<SpriteFont>("menu");
             if (font != null) gameManager = new GameManager(this, font);
 
-            Model blob1Model = Content.Load<Model>("Models/Blob");
+            Model blob1Model = Content.Load<Model>("Models/Chopper"); //blob
 
             Entity blob1 = EntityFactory.NewEntity();
             ModelComponent modelComponent = new ModelComponent(blob1, blob1Model);
-
+            CameraComponent cameraComponent = new CameraComponent(blob1);
+            cameraComponent.AspectRatio = GraphicsDevice.Viewport.AspectRatio;
+            cameraComponent.FieldOfView = MathHelper.ToRadians(45f);
+            cameraComponent.position = new Vector3(0,0,-10);
+            cameraComponent.target = Vector3.Zero;
+            
             ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
             // TODO: use this.Content to load your game content here
         }
 
@@ -85,7 +93,6 @@ namespace thundercats
 
             gameManager.Update(gameTime);
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
