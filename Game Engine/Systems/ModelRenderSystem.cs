@@ -27,6 +27,8 @@ namespace Game_Engine.Systems
             {
                 ModelComponent model = modelKeyValuePair.Value as ModelComponent;
                 var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
+
+                var cameraComponent = ComponentManager.Instance.GetComponentOfEntity<CameraComponent>(modelKeyValuePair.Key);
                 var boneTransformations = new Matrix[model.Model.Bones.Count];
                 model.Model.CopyAbsoluteBoneTransformsTo(boneTransformations);
                 foreach(var modelMesh in model.Model.Meshes)
@@ -34,8 +36,9 @@ namespace Game_Engine.Systems
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = boneTransformations[modelMesh.ParentBone.Index];
-                        effect.View = Matrix.CreateLookAt(Vector3.Backward, Vector3.Zero, Vector3.Up);
-                        effect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), (16 / 9), 1f, 1000f);
+                        effect.View = cameraComponent.ViewMatrix;
+                        effect.Projection = cameraComponent.ProjectionMatrix;
+                        effect.EnableDefaultLighting();
                         modelMesh.Draw();
                     }
                 }
