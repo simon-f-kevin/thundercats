@@ -1,4 +1,5 @@
 ﻿using System;
+using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -30,7 +31,7 @@ namespace thundercats.GameStates.States.MenuStates
 
             //sb.Draw(null, viewport.Bounds, Color.White);
             sb.Begin();
-            sb.DrawString(gameManager.menufont, txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
             sb.End();
 
         }

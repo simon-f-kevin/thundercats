@@ -44,22 +44,22 @@ namespace thundercats.GameStates.States.MenuStates
             String txtExit = "Quit";
 
             //sb.Draw(null, viewport.Bounds, Color.White);
-            sb.DrawString(AssetManager.Instance().GetContent<SpriteFont>("menu"), txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
-            sb.DrawString(AssetManager.Instance().GetContent<SpriteFont>("menu"), txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
-            sb.DrawString(AssetManager.Instance().GetContent<SpriteFont>("menu"), txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
 
             // draws a sprite next to current pos
 
             switch (currentPosition)
             {
                 case OptionsState.Singleplayer:
-                    sb.Draw(AssetManager.Instance().GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.40f), Color.White);
+                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.40f), Color.White);
                     break;
                 case OptionsState.Multiplayer:
-                    sb.Draw(AssetManager.Instance().GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.50f), Color.White);
+                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.50f), Color.White);
                     break;
                 case OptionsState.Exit:
-                    sb.Draw(AssetManager.Instance().GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.60f), Color.White);
+                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.60f), Color.White);
                     break;
             }
         }
