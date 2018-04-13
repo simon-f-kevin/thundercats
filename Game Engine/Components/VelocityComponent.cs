@@ -15,7 +15,7 @@ namespace Game_Engine.Components
 
         public VelocityComponent(Entity id) : base(id)
         {
-            
+            Velocity = Vector3.Zero;
         }
         public VelocityComponent(Entity id, Vector3 velocity, Vector3 DefaultSpeed) : base(id)
         {

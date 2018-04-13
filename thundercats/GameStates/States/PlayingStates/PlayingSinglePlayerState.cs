@@ -20,7 +20,7 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Initialize()
         {
             Entity blob1 = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(blob1, AssetManager.Instance.GetContent<Model>("Models/Chopper"));
+            ModelComponent modelComponent = new ModelComponent(blob1, AssetManager.Instance.GetContent<Model>("Models/Blob"));
             TransformComponent transformComponent = new TransformComponent(blob1, new Vector3(600, viewport.Height * 0.45f, 100));
             VelocityComponent velocityComponent = new VelocityComponent(blob1);
             PlayerComponent playerComponent = new PlayerComponent(blob1);
