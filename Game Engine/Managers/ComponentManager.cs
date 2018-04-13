@@ -39,7 +39,7 @@ namespace Game_Engine.Managers
         /* Methods */
 
         /*
-         * Returns the nestled Dictionary of all components of the given type, with their attached Entities as keys, or null of not found.
+         * Returns the nestled Dictionary of all Components of the given type, with their attached Entities as keys.
          */
         public Dictionary<Entity, Component> GetComponentDictionary<T>() where T : Component
         {
@@ -109,6 +109,24 @@ namespace Game_Engine.Managers
                 }
             }
             return null;
+        }
+
+        /*
+         * Removes Component of selected type from an Entity and returns true if succesful.
+         */
+        public bool RemoveComponentFromEntity<T>(Entity entity) where T : Component
+        {
+            Dictionary<Entity, Component> tempDict;
+            if(_components.TryGetValue(typeof(T), out tempDict))
+            {
+                Component comp;
+                if(tempDict.TryGetValue(entity, out comp))
+                {
+                    _components[typeof(T)].Remove(entity);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
