@@ -66,9 +66,10 @@ namespace thundercats
 
             AssetManager.Instance().AddContent<Model>(Content,"Models/Blob");
             AssetManager.Instance().AddContent<Texture2D>(Content, "2DTextures/arrow");
+            AssetManager.Instance().AddContent<SpriteFont>(Content, "menu");
 
-            SpriteFont font = Content.Load<SpriteFont>("menu");
-            if (font != null) gameManager = new GameManager(this, font);
+            gameManager = new GameManager(this);
+
             viewport = gameManager.game.GraphicsDevice.Viewport;
 
         }

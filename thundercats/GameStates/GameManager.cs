@@ -15,15 +15,12 @@ namespace thundercats.GameStates
 
         protected internal KeyboardState OldKeyboardState;
         protected internal GamePadState OldGamepadState;
-
         private Dictionary<GameState, IState> gameStates;
 
-        protected internal SpriteFont menufont;
-        //protected internal Model blobModel; //TODO: need a better structure for storing models
         protected internal Game game;
 
         protected internal GameState PreviousGameState { get; set; }
-        protected internal GameState CurrentGameState
+        protected internal GameState CurrentGameState 
         {
             get{ return _currentGameState; }
             set{
@@ -45,10 +42,9 @@ namespace thundercats.GameStates
             PlayingSinglePlayer,
         };
 
-        public GameManager(Game game, SpriteFont font)
+        public GameManager(Game game)
         {
             this.game = game;
-            menufont = font;
 
             gameStates = new Dictionary<GameState, IState>();
             gameStates.Add(GameState.MainMenu, new MainMenu(this));

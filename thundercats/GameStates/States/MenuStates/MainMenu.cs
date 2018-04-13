@@ -44,9 +44,9 @@ namespace thundercats.GameStates.States.MenuStates
             String txtExit = "Quit";
 
             //sb.Draw(null, viewport.Bounds, Color.White);
-            sb.DrawString(gameManager.menufont, txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
-            sb.DrawString(gameManager.menufont, txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
-            sb.DrawString(gameManager.menufont, txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
+            sb.DrawString(AssetManager.Instance().GetContent<SpriteFont>("menu"), txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
+            sb.DrawString(AssetManager.Instance().GetContent<SpriteFont>("menu"), txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
+            sb.DrawString(AssetManager.Instance().GetContent<SpriteFont>("menu"), txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
 
             // draws a sprite next to current pos
 
