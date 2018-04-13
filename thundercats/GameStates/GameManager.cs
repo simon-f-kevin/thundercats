@@ -75,15 +75,5 @@ namespace thundercats.GameStates
             gameStates[CurrentGameState].Update(gameTime);
 
         }
-
-        /*
-         * Changes game state and runs the Initialize method for that state.
-         */
-        public void ChangeGameState(GameState newState)
-        {
-            PreviousGameState = CurrentGameState;
-            CurrentGameState = newState;
-            gameStates[CurrentGameState].Initialize();
-        }
     }
 }
