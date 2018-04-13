@@ -27,6 +27,12 @@ namespace thundercats
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            //graphics.PreferMultiSampling = false;
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics.IsFullScreen = false;
+
             Content.RootDirectory = "Content";
         }
 
@@ -59,6 +65,7 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             AssetManager.Instance().AddContent<Model>(Content,"Models/Blob");
+            AssetManager.Instance().AddContent<Texture2D>(Content, "2DTextures/arrow");
 
             SpriteFont font = Content.Load<SpriteFont>("menu");
             if (font != null) gameManager = new GameManager(this, font);
