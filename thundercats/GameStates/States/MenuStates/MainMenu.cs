@@ -1,4 +1,5 @@
 ﻿using System;
+using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -38,29 +39,29 @@ namespace thundercats.GameStates.States.MenuStates
         // in an ordered fashion.
         private void MainMenuDisplay(SpriteBatch sb)    
         {
-            String txtMultiplayer = "multiplayer";
+            String txtMultiplayer = "Multiplayer";
             String txtSingleplayer = "Singelplayer";
-            String txtExit = "QUIT";
+            String txtExit = "Quit";
 
             //sb.Draw(null, viewport.Bounds, Color.White);
-            sb.DrawString(gameManager.menufont, txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
-            sb.DrawString(gameManager.menufont, txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
-            sb.DrawString(gameManager.menufont, txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
+            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
 
             // draws a sprite next to current pos
 
-            //switch (currentPosition)
-            //{
-            //    case OptionsState.Continue:
-            //        sb.Draw(gameManager.GameContent.ButtonContinue, new Vector2(250, viewport.Height * 0.40f), Color.White);
-            //        break;
-            //    case OptionsState.Credits:
-            //        sb.Draw(gameManager.GameContent.ButtonContinue, new Vector2(250, viewport.Height * 0.50f), Color.White);
-            //        break;
-            //    case OptionsState.Exit:
-            //        sb.Draw(gameManager.GameContent.ButtonContinue, new Vector2(250, viewport.Height * 0.60f), Color.White);
-            //        break;
-            //}
+            switch (currentPosition)
+            {
+                case OptionsState.Singleplayer:
+                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.40f), Color.White);
+                    break;
+                case OptionsState.Multiplayer:
+                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.50f), Color.White);
+                    break;
+                case OptionsState.Exit:
+                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.60f), Color.White);
+                    break;
+            }
         }
 
         public void Initialize()
