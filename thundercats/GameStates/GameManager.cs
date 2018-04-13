@@ -11,15 +11,27 @@ namespace thundercats.GameStates
     public class GameManager
     {
         // Here we just say that the first state is the Intro
-        protected internal GameState CurrentGameState = GameState.MainMenu;
-        protected internal GameState PreviousGameState;
+        private GameState _currentGameState = GameState.MainMenu;
+
         protected internal KeyboardState OldKeyboardState;
         protected internal GamePadState OldGamepadState;
 
         private Dictionary<GameState, IState> gameStates;
 
         protected internal SpriteFont menufont;
+        protected internal Model blobModel; //TODO: need a better structure for storing models
         protected internal Game game;
+
+        protected internal GameState PreviousGameState { get; set; }
+        protected internal GameState CurrentGameState
+        {
+            get{ return _currentGameState; }
+            set{
+                PreviousGameState = CurrentGameState;
+                _currentGameState = value;
+                gameStates[_currentGameState].Initialize();
+            }
+        }
 
         // Game states
         public enum GameState
@@ -52,7 +64,7 @@ namespace thundercats.GameStates
         // state we are we use that state's draw method.
         public void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            sb.GraphicsDevice.Clear(Color.Black);
+            sb.GraphicsDevice.Clear(Color.CornflowerBlue);
             gameStates[CurrentGameState].Draw(gameTime, sb);
         }
 

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine.Systems
 {
-    class MovementSystem : IUpdateableSystem
+    public class MovementSystem : IUpdateableSystem
     {
         public void Update(GameTime gameTime)
         {
@@ -21,7 +21,6 @@ namespace Game_Engine.Systems
 
                 transformation.position += velocity.Velocity;
             }
-
         }
     }
 }

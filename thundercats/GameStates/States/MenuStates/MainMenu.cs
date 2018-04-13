@@ -63,6 +63,11 @@ namespace thundercats.GameStates.States.MenuStates
             //}
         }
 
+        public void Initialize()
+        {
+
+        }
+
         // Draws
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

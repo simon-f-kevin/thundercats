@@ -28,6 +28,11 @@ namespace thundercats.GameStates.States.MenuStates
             //viewport = this.gameManager.Engine.Dependencies.GraphicsDeviceManager.GraphicsDevice.Viewport;
         }
 
+        public void Initialize()
+        {
+
+        }
+
         // drawing the menu background.
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

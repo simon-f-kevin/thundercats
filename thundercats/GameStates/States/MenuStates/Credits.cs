@@ -15,6 +15,11 @@ namespace thundercats.GameStates.States.MenuStates
             controls = new MenuControls(gameManager);
         }
 
+        public void Initialize()
+        {
+
+        }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();

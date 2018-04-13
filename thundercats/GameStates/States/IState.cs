@@ -10,6 +10,8 @@ namespace thundercats.GameStates.States
 {
     public interface IState
     {
+        void Initialize();
+
         void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         void Update(GameTime gameTime);

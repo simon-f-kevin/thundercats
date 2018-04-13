@@ -10,13 +10,18 @@ namespace Game_Engine.Components
 {
     public class TransformComponent : Component
     {
-        public Vector3 position;
-        public Vector3 scale;
+        public Vector3 position { get; set; }
+        public Vector3 scale { get; set; }
         public Matrix rotationMatrix { get; set; }
 
-        TransformComponent(Entity id) : base(id)
+        public TransformComponent(Entity id) : base(id)
         {
+            position = new Vector3(0, 0, 0);
+        }
 
+        public TransformComponent(Entity id, Vector3 pos) : base(id)
+        {
+            position = pos;
         }
     }
 }
