@@ -9,6 +9,8 @@ namespace thundercats.Actions
         private static float _playerStrafeAcceleration = 0.25f;
         private static float _playerMaxRunningSpeed = 0.50f;
         private static float _playerMaxStrafeSpeed = 0.25f;
+        private static float _playerJumpSpeed = 0.5f;
+        private static float _playerDescendSpeed = 0.25f;
 
         public static void AcceleratePlayerForwards(VelocityComponent velocityComponent)
         {
@@ -39,6 +41,18 @@ namespace thundercats.Actions
             if(velocityComponent.Velocity.X > -_playerMaxStrafeSpeed)
             {
                 velocityComponent.Velocity.X -= _playerStrafeAcceleration;
+            }
+        }
+        public static void PlayerJumpSpeed(VelocityComponent velocityComponent)
+        {
+            if (velocityComponent.Velocity.Y > -_playerJumpSpeed)
+            {
+                velocityComponent.Velocity.Y -= _playerJumpSpeed;
+            }
+
+            if(velocityComponent.Velocity.Y < _playerJumpSpeed)
+            {
+                velocityComponent.Velocity.Y += _playerDescendSpeed;
             }
         }
     }

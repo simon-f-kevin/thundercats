@@ -10,7 +10,7 @@ namespace Game_Engine.Components
 {
     public class TransformComponent : Component
     {
-        public Vector3 position { get; set; }
+        public Vector3 position;
         public Vector3 scale { get; set; }
         public Matrix rotationMatrix { get; set; }
 

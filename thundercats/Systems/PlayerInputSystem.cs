@@ -59,10 +59,16 @@ namespace thundercats.Systems
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
                 }
+
+                if (state.IsKeyDown(Keys.Space))
+                {
+                    PlayerActions.PlayerJumpSpeed(velocityComponent);
+                }
+
             }
 
             /* Gamepad actions */
-            if(gamePadComponent != null && velocityComponent != null)
+            if (gamePadComponent != null && velocityComponent != null)
             {
                 GamePadState state = GamePad.GetState(gamePadComponent.Index);
 
@@ -82,6 +88,11 @@ namespace thundercats.Systems
                 if(state.IsButtonDown(Buttons.LeftThumbstickRight) && !state.IsButtonDown(Buttons.LeftThumbstickLeft))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                }
+
+                if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
+                {
+                    PlayerActions.PlayerJumpSpeed(velocityComponent);
                 }
             }
         }

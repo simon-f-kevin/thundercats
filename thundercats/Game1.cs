@@ -24,6 +24,7 @@ namespace thundercats
         MovementSystem movementSystem;
         PlayerInputSystem playerInputSystem;
         CameraSystem cameraSystem;
+        PhysicsSystem physicsSystem;
 
         public Game1()
         {
@@ -49,11 +50,14 @@ namespace thundercats
             movementSystem = new MovementSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
+            physicsSystem = new PhysicsSystem();
+            
 
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(movementSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
+            SystemManager.Instance.AddToUpdateables(physicsSystem);
 
             base.Initialize();
         }
