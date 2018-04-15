@@ -21,9 +21,12 @@ namespace Game_Engine.Systems
             foreach (var cameraKeyValuePair in cameras)
             {
                 cameraComponent = cameraKeyValuePair.Value as CameraComponent;
-                cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.position, cameraComponent.target, Vector3.Up);
-                cameraComponent.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(cameraComponent.FieldOfView, cameraComponent.AspectRatio, 1f, 1000f);
-                if(cameraComponent.FollowPlayer) FollowPlayer(cameraKeyValuePair.Key);
+                if (cameraComponent == null) continue;
+                cameraComponent.ViewMatrix =
+                    Matrix.CreateLookAt(cameraComponent.position, cameraComponent.target, Vector3.Up);
+                cameraComponent.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(cameraComponent.FieldOfView,
+                    cameraComponent.AspectRatio, 1f, 1000f);
+                if (cameraComponent.FollowPlayer) FollowPlayer(cameraKeyValuePair.Key);
             }
 
         }
@@ -34,11 +37,10 @@ namespace Game_Engine.Systems
         private void FollowPlayer(Entity cameraEntity)
         {
             ModelComponent modelComponent = ComponentManager.Instance.GetComponentOfEntity<ModelComponent>(cameraEntity);
-            TransformComponent transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(cameraEntity);
 
             cameraComponent.position = modelComponent.Model.Bones[0].Transform.Translation + (modelComponent.Model.Bones[0].Transform.Backward * 30f) + (modelComponent.Model.Bones[0].Transform.Up * 20f);
             cameraComponent.target = modelComponent.Model.Bones[0].Transform.Translation + (modelComponent.Model.Bones[0].Transform.Forward * 20f);
-            //Console.WriteLine(cameraComponent.position.ToString());
+            //Console.WriteLine(cameraComponent.position.ToString()); //For debugging
 
             cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.position, cameraComponent.target, Vector3.Up);
 
