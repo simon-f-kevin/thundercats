@@ -21,7 +21,7 @@ namespace thundercats
         Viewport viewport;
 
         ModelRenderSystem modelRenderSystem;
-        MovementSystem movementSystem;
+        PhysicsSystem physicsSystem;
         PlayerInputSystem playerInputSystem;
         CameraSystem cameraSystem;
 
@@ -46,13 +46,13 @@ namespace thundercats
         protected override void Initialize()
         {
             modelRenderSystem = new ModelRenderSystem();
-            movementSystem = new MovementSystem();
+            physicsSystem = new PhysicsSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
 
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
-            SystemManager.Instance.AddToUpdateables(movementSystem);
+            SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
 
             base.Initialize();

@@ -18,7 +18,7 @@ namespace Game_Engine.Systems
             foreach (var cameraKeyValuePair in cameras)
             {
                 CameraComponent camera = cameraKeyValuePair.Value as CameraComponent;
-                camera.ViewMatrix = Matrix.CreateLookAt(camera.position, camera.target, Vector3.Up);
+                camera.ViewMatrix = Matrix.CreateLookAt(camera.Position, camera.Target, Vector3.Up);
                 camera.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(camera.FieldOfView, camera.AspectRatio, 1f, 1000f);
             }
 

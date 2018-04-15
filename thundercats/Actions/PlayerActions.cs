@@ -5,9 +5,9 @@ namespace thundercats.Actions
 {
     static class PlayerActions
     {
-        private static float _playerForwardAcceleration = 0.5f;
-        private static float _playerStrafeAcceleration = 0.25f;
-        private static float _playerMaxRunningSpeed = 0.50f;
+        private static float _playerForwardAcceleration = 0.25f;
+        private static float _playerStrafeAcceleration = 0.1f;
+        private static float _playerMaxRunningSpeed = 0.25f;
         private static float _playerMaxStrafeSpeed = 0.25f;
 
         public static void AcceleratePlayerForwards(VelocityComponent velocityComponent)

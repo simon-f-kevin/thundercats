@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
@@ -19,16 +17,26 @@ namespace Game_Engine.Systems
             //DrawGameWorld();
         }
 
+        /*
+         * Draws all Models in ModelComponents.
+         * Requires a CameraComponent to exist on some Entity.
+         */
         private void DrawModels(GameTime gameTime)
         {
             var models = ComponentManager.Instance.GetComponentDictionary<ModelComponent>();
+            var cameraComponents = ComponentManager.Instance.GetComponentDictionary<CameraComponent>();
+
+            if(cameraComponents.Count == 0)
+            {
+                return;
+            }
+            CameraComponent cameraComponent = (CameraComponent)cameraComponents.First().Value;
 
             foreach(var modelKeyValuePair in models)
             {
                 ModelComponent model = modelKeyValuePair.Value as ModelComponent;
                 var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
 
-                var cameraComponent = ComponentManager.Instance.GetComponentOfEntity<CameraComponent>(modelKeyValuePair.Key);
                 var boneTransformations = new Matrix[model.Model.Bones.Count];
                 model.Model.CopyAbsoluteBoneTransformsTo(boneTransformations);
                 foreach(var modelMesh in model.Model.Meshes)
