@@ -19,18 +19,10 @@ namespace Game_Engine.Systems
             foreach (var gravityComponent in gravityComponents)
             {
                 var gravity = gravityComponent.Value as GravityComponent;
-                var transform = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(gravityComponent.Key);
-  
-                Gravity(transform, gravity);
+                var velocity = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponent.Key);
+
+                velocity.Velocity.Y -= 0.5f;
             }
         }
-        private void Gravity(TransformComponent transform, GravityComponent gravity)
-        {
-            if(transform.position.Y != 0)
-            {
-                transform.position.Y += gravity.Gravity;
-            }
-        }
-       
     }
 }
