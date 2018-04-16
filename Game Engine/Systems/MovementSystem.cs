@@ -24,8 +24,7 @@ namespace Game_Engine.Systems
                 if (modelComponent != null)
                 {
                     //UpdateModel(modelComponent, transformation, velocity);
-                    modelComponent.Model.Bones[0].Transform *= Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z) * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
-
+                    modelComponent.world *= Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z) * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
                 }
             }
         }
