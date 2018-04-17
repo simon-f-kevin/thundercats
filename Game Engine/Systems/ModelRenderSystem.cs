@@ -29,12 +29,12 @@ namespace Game_Engine.Systems
                 var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
 
                 var cameraComponent = ComponentManager.Instance.GetComponentOfEntity<CameraComponent>(modelKeyValuePair.Key);
-                model.boneTransformations[0] = model.world;
+                model.BoneTransformations[0] = model.World;
                 foreach (var modelMesh in model.Model.Meshes)
                 {
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
-                        effect.World = model.boneTransformations[modelMesh.ParentBone.Index];
+                        effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();

@@ -36,7 +36,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 FieldOfView = MathHelper.PiOver2,
                 position = new Vector3(0, 0, -10),
                 target = Vector3.Zero,
-                FollowPlayer = false
+                FollowPlayer = true
             };
 
             ComponentManager.Instance.AddComponentToEntity(blob, cameraComponent);
