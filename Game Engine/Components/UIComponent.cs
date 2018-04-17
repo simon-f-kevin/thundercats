@@ -13,7 +13,7 @@ namespace Game_Engine.Components
     {
         public Vector2 Position { get; set; } = Vector2.Zero;
         public SpriteFont SpriteFont { get; set; }
-        public Texture2D UITexture { get; set; }
+        public Texture2D Texture { get; set; }
         public string Text { get; set; } 
         public Color Color { get; set; } = Color.White; 
                 

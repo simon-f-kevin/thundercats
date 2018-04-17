@@ -24,25 +24,15 @@ namespace thundercats.Systems
         {
             var components = ComponentManager.Instance.GetComponentDictionary<UIComponent>();
 
-            foreach (var component in components.Values)
-            {
-                var c = component as UIComponent;
-
-                if (c.UITexture != null)
-                    sb.DrawString(c.SpriteFont, c.Text, c.Position, c.Color);
-                else if (c.Text != null)
-                    DrawText(c);
-            }   
+            components.ToList().ForEach(c => DrawUI(c.Value as UIComponent));
         }
 
-        private void DrawText(UIComponent uIComponent)
+        private void DrawUI(UIComponent c)
         {
-            throw new NotImplementedException();
-        }
-
-        private void DrawTexture(UIComponent uIComponent)
-        {
-            
+            if (c.Texture != null)  
+                sb.DrawString(c.SpriteFont, c.Text, c.Position, c.Color);
+            else if (c.Text != null)
+                sb.Draw(c.Texture, new Rectangle(c.Position.ToPoint(), c.Texture.Bounds.Size), c.Color);
         }
     }
 }
