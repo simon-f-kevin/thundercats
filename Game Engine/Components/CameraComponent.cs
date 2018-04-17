@@ -23,6 +23,8 @@ namespace Game_Engine.Components
         public Matrix ProjectionMatrix { get; set; }
         public float FieldOfView { get; set; }
         public float AspectRatio { get; set; }
+        public bool FollowPlayer { get; set; }
+
         public CameraComponent(Entity id) : base(id)
         {
             WorldMatrix = new Matrix();
