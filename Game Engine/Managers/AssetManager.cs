@@ -6,7 +6,7 @@ namespace Game_Engine.Managers
 {
     public sealed class AssetManager
     {
-        private Dictionary<Type, Dictionary<string, object>> contentDictionary;
+        private readonly Dictionary<Type, Dictionary<string, object>> contentDictionary;
 
         #region Thread-safe singleton - use "AssetManager.Instance" to access
         private static readonly Lazy<AssetManager> lazy = new Lazy<AssetManager>(() => new AssetManager());
