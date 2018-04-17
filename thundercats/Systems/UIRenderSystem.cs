@@ -24,7 +24,9 @@ namespace thundercats.Systems
         {
             var components = ComponentManager.Instance.GetComponentDictionary<UIComponent>();
 
+            sb.Begin();
             components.ToList().ForEach(c => DrawUI(c.Value as UIComponent));
+            sb.End();
         }
 
         private void DrawUI(UIComponent c)
