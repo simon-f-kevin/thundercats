@@ -68,6 +68,7 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
+            AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
