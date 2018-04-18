@@ -25,16 +25,17 @@ namespace thundercats.Systems
             var components = ComponentManager.Instance.GetComponentDictionary<UIComponent>();
 
             sb.Begin();
-            components.ToList().ForEach(c => DrawUI(c.Value as UIComponent));
+            components.Values.ToList().ForEach(c => DrawUI(c as UIComponent));
             sb.End();
         }
 
         private void DrawUI(UIComponent c)
         {
-            if (c.Texture != null)  
-                sb.DrawString(c.SpriteFont, c.Text, c.Position, c.Color);
-            else if (c.Text != null)
+            if (c.Texture != null)
                 sb.Draw(c.Texture, new Rectangle(c.Position.ToPoint(), c.Texture.Bounds.Size), c.Color);
+            else if (c.Text != null)
+                sb.DrawString(c.SpriteFont, c.Text, c.Position, c.Color);
+
         }
     }
 }
