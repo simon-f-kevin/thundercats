@@ -13,7 +13,13 @@ namespace Game_Engine.Systems
     public class PhysicsSystem : IUpdateableSystem
     {
         KeyboardState newState = Keyboard.GetState();
-        public void Update(GameTime gameTime)
+        
+        public async void Update(GameTime gameTime)
+        {
+            await Task.Run(() => RunGravity());
+        }
+
+        private  void RunGravity()
         {
             var gravityComponents = ComponentManager.Instance.GetComponentDictionary<GravityComponent>();
             foreach (var gravityComponent in gravityComponents)
