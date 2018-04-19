@@ -19,27 +19,33 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {
-            Entity blob1 = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(blob1, AssetManager.Instance.GetContent<Model>("Models/Blob"));
-            TransformComponent transformComponent = new TransformComponent(blob1, new Vector3(600, viewport.Height * 0.45f, 100));
-            VelocityComponent velocityComponent = new VelocityComponent(blob1);
-            PlayerComponent playerComponent = new PlayerComponent(blob1);
-            KeyboardComponent keyboardComponent = new KeyboardComponent(blob1);
-            GamePadComponent gamePadComponent = new GamePadComponent(blob1, 0);
-            CameraComponent cameraComponent = new CameraComponent(blob1);
-            cameraComponent.AspectRatio = viewport.AspectRatio;
-            cameraComponent.FieldOfView = MathHelper.PiOver2;
-            cameraComponent.position = new Vector3(0, 0, -10);
-            cameraComponent.target = Vector3.Zero;
-            cameraComponent.FollowPlayer = true;
+            CreateBlob();
+        }
+        public void CreateBlob()
+        {
+            Entity blob = EntityFactory.NewEntity();
+            ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("Models/Blob"));
+            TransformComponent transformComponent = new TransformComponent(blob, new Vector3(650, viewport.Height * 0.45f, 150));
+            VelocityComponent velocityComponent = new VelocityComponent(blob);
+            PlayerComponent playerComponent = new PlayerComponent(blob);
+            KeyboardComponent keyboardComponent = new KeyboardComponent(blob);
+            GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
+            CameraComponent cameraComponent = new CameraComponent(blob)
+            {
+                AspectRatio = viewport.AspectRatio,
+                FieldOfView = MathHelper.PiOver2,
+                position = new Vector3(0, 0, -10),
+                target = Vector3.Zero,
+                FollowPlayer = true
+            };
 
-            ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, cameraComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, velocityComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
