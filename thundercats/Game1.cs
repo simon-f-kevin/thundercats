@@ -80,6 +80,8 @@ namespace thundercats
             AssetManager.Instance.AddContent<Model>(Content, "blob1");
             AssetManager.Instance.AddContent<Model>(Content, "farmhouse_obj");
             AssetManager.Instance.AddContent<Model>(Content, "Models/p1_wedge");
+            AssetManager.Instance.AddContent<Model>(Content, "STL");
+
 
 
             gameManager = new GameManager(this);

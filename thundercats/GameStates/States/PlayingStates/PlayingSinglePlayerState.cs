@@ -26,16 +26,16 @@ namespace thundercats.GameStates.States.PlayingStates
         public void CreateBlob()
         {
             Entity blob = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("Models/p1_wedge"));
+            ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("STL"));
             TransformComponent transformComponent = new TransformComponent(blob, new Vector3(650, viewport.Height * 0.45f, 150));
             VelocityComponent velocityComponent = new VelocityComponent(blob);
             PlayerComponent playerComponent = new PlayerComponent(blob);
             KeyboardComponent keyboardComponent = new KeyboardComponent(blob);
             GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
-            //TextureComponent textureComponent = new TextureComponent(blob)
-            //{
-            //    Texture = AssetManager.Instance.GetContent<Texture2D>("farmhouse-texture")//CreateTexture(gameManager.game.GraphicsDevice, 1, 1, pixel => Color.Gold)
-            //};
+            TextureComponent textureComponent = new TextureComponent(blob)
+            {
+                Texture = AssetManager.Instance.GetContent<Texture2D>("farmhouse-texture")//CreateTexture(gameManager.game.GraphicsDevice, 1, 1, pixel => Color.Gold)
+            };
             CameraComponent cameraComponent = new CameraComponent(blob)
             {
                 AspectRatio = viewport.AspectRatio,
@@ -52,7 +52,7 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
-            //ComponentManager.Instance.AddComponentToEntity(blob, textureComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, textureComponent);
 
         }
 
