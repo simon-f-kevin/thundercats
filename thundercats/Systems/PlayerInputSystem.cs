@@ -36,6 +36,7 @@ namespace thundercats.Systems
             VelocityComponent velocityComponent = componentManager.GetComponentOfEntity<VelocityComponent>(playerEntity);
             KeyboardComponent keyboardComponent = componentManager.GetComponentOfEntity<KeyboardComponent>(playerEntity);
             GamePadComponent gamePadComponent = componentManager.GetComponentOfEntity<GamePadComponent>(playerEntity);
+            
 
             /* Keyboard actions */
             if(keyboardComponent != null && velocityComponent != null)

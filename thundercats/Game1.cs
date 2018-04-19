@@ -52,7 +52,6 @@ namespace thundercats
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
             
-
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(movementSystem);
@@ -72,6 +71,7 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
+            AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
