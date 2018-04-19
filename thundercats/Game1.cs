@@ -47,6 +47,7 @@ namespace thundercats
         protected override void Initialize()
         {
             modelRenderSystem = new ModelRenderSystem();
+            modelRenderSystem.graphicsDevice = GraphicsDevice;
             movementSystem = new MovementSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
@@ -73,7 +74,13 @@ namespace thundercats
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "farmhouse-texture");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
+            AssetManager.Instance.AddContent<Model>(Content, "blob_stl");
+            AssetManager.Instance.AddContent<Model>(Content, "blob1");
+            AssetManager.Instance.AddContent<Model>(Content, "farmhouse_obj");
+            AssetManager.Instance.AddContent<Model>(Content, "Models/p1_wedge");
+
 
             gameManager = new GameManager(this);
 

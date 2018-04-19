@@ -12,7 +12,11 @@ namespace Game_Engine.Systems
 {
     public class ModelRenderSystem : IDrawableSystem
     {
-        
+        public GraphicsDevice graphicsDevice { get; set; }
+        public ModelRenderSystem()
+        {
+
+        }
         public void Draw(GameTime gameTime)
         {
             DrawModels(gameTime);
@@ -32,14 +36,22 @@ namespace Game_Engine.Systems
                 model.BoneTransformations[0] = model.World;
                 foreach (var modelMesh in model.Model.Meshes)
                 {
+                    var hej = modelMesh.MeshParts;
+
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
-                        effect.Texture = textureComponent.Texture;
-                        effect.TextureEnabled = true;
+                        //effect.Texture = textureComponent.Texture;
+                        //effect.TextureEnabled = true;
+                        //foreach(EffectPass ep in effect.CurrentTechnique.Passes)
+                        //{
+                        //    ep.Apply();
+                        //    graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
+                        //}
+
                         modelMesh.Draw();
                     }
                 }
