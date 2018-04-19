@@ -26,7 +26,7 @@ namespace thundercats.GameStates.States.PlayingStates
         public void CreateBlob()
         {
             Entity blob = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("DeBlob2"));
+            ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("Models/Blob"));
             TransformComponent transformComponent = new TransformComponent(blob, new Vector3(650, viewport.Height * 0.45f, 150));
             VelocityComponent velocityComponent = new VelocityComponent(blob);
             PlayerComponent playerComponent = new PlayerComponent(blob);

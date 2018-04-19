@@ -36,8 +36,6 @@ namespace Game_Engine.Systems
                 model.BoneTransformations[0] = model.World;
                 foreach (var modelMesh in model.Model.Meshes)
                 {
-                    var hej = modelMesh.MeshParts;
-
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
