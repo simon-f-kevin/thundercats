@@ -48,6 +48,7 @@
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
+    <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
