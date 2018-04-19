@@ -48,9 +48,8 @@ namespace Game_Engine.Managers
             {
                 return compDictionary;
             }
-            compDictionary = new Dictionary<Entity, Component>();
-            _components.Add(typeof(T), compDictionary);
-            return compDictionary;
+            
+            return new Dictionary<Entity, Component>();
         }
 
         /*

@@ -3,6 +3,7 @@ using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using thundercats.Factory;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -10,6 +11,7 @@ namespace thundercats.GameStates.States.PlayingStates
     {
         private GameManager gameManager;
         private Viewport viewport;
+        private UiFactory uiFactory;
 
         public PlayingSinglePlayerState(GameManager gameManager)
         {
@@ -19,7 +21,14 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {
+            uiFactory = new UiFactory(viewport);
+
+            // Creating Static ui stuff.
+            uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
+            uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
+            uiFactory.CreateEntity(new Vector2(20, 150), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             CreateBlob();
+            
         }
         public void CreateBlob()
         {
@@ -30,6 +39,12 @@ namespace thundercats.GameStates.States.PlayingStates
             PlayerComponent playerComponent = new PlayerComponent(blob);
             KeyboardComponent keyboardComponent = new KeyboardComponent(blob);
             GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
+            UIComponent uiComponent = new UIComponent(blob) {
+                Position = new Vector2(viewport.TitleSafeArea.X+10, viewport.TitleSafeArea.Y+10),
+                SpriteFont = AssetManager.Instance.GetContent<SpriteFont>("menu"),
+                Text = "hejsan"
+
+            };
             CameraComponent cameraComponent = new CameraComponent(blob)
             {
                 AspectRatio = viewport.AspectRatio,
@@ -38,7 +53,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 target = Vector3.Zero,
                 FollowPlayer = true
             };
-
+            ComponentManager.Instance.AddComponentToEntity(blob, uiComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
