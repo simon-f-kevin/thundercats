@@ -51,6 +51,7 @@ namespace thundercats
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
+
             
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
