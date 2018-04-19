@@ -48,6 +48,7 @@
     <Compile Include="Components\KeyBoardComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />

@@ -3,6 +3,7 @@ using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -21,6 +22,7 @@ namespace thundercats.GameStates.States.PlayingStates
         {
             CreateBlob();
         }
+
         public void CreateBlob()
         {
             Entity blob = EntityFactory.NewEntity();
@@ -30,6 +32,10 @@ namespace thundercats.GameStates.States.PlayingStates
             PlayerComponent playerComponent = new PlayerComponent(blob);
             KeyboardComponent keyboardComponent = new KeyboardComponent(blob);
             GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
+            TextureComponent textureComponent = new TextureComponent(blob)
+            {
+                Texture = CreateTexture(gameManager.game.GraphicsDevice, 1, 1, pixel => Color.Gold)
+            };
             CameraComponent cameraComponent = new CameraComponent(blob)
             {
                 AspectRatio = viewport.AspectRatio,
@@ -46,6 +52,7 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, textureComponent);
 
         }
 
@@ -57,6 +64,25 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Update(GameTime gameTime)
         {
             SystemManager.Instance.Update(gameTime);
+        }
+
+        private Texture2D CreateTexture(GraphicsDevice device, int width, int height, System.Func<int, Color> paint)
+        {
+            //initialize a texture
+            Texture2D texture = new Texture2D(device, width, height);
+
+            //the array holds the color for each pixel in the texture
+            Color[] data = new Color[width * height];
+            for (int pixel = 0; pixel < data.Count(); pixel++)
+            {
+                //the function applies the color according to the specified pixel
+                data[pixel] = paint(pixel);
+            }
+
+            //set the color
+            texture.SetData(data);
+
+            return texture;
         }
     }
 }

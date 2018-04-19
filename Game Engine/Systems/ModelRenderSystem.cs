@@ -27,7 +27,7 @@ namespace Game_Engine.Systems
             {
                 ModelComponent model = modelKeyValuePair.Value as ModelComponent;
                 var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
-
+                var textureComponent = ComponentManager.Instance.GetComponentOfEntity<TextureComponent>(modelKeyValuePair.Key);
                 var cameraComponent = ComponentManager.Instance.GetComponentOfEntity<CameraComponent>(modelKeyValuePair.Key);
                 model.BoneTransformations[0] = model.World;
                 foreach (var modelMesh in model.Model.Meshes)
@@ -38,6 +38,8 @@ namespace Game_Engine.Systems
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
+                        effect.Texture = textureComponent.Texture;
+                        effect.TextureEnabled = true;
                         modelMesh.Draw();
                     }
                 }
