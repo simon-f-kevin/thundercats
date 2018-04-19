@@ -72,14 +72,13 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
+            AssetManager.Instance.AddContent<Model>(Content,"DeBlob2");
+            AssetManager.Instance.AddContent<Model>(Content,"DeBlob");
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
             AssetManager.Instance.AddContent<Texture2D>(Content, "farmhouse-texture");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
-            AssetManager.Instance.AddContent<Model>(Content, "blob_stl");
-            AssetManager.Instance.AddContent<Model>(Content, "blob1");
-            AssetManager.Instance.AddContent<Model>(Content, "farmhouse_obj");
-            AssetManager.Instance.AddContent<Model>(Content, "Models/p1_wedge");
+
 
 
             gameManager = new GameManager(this);

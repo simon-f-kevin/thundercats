@@ -44,8 +44,8 @@ namespace Game_Engine.Systems
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
-                        //effect.Texture = textureComponent.Texture;
-                        //effect.TextureEnabled = true;
+                        effect.Texture = textureComponent.Texture;
+                        effect.TextureEnabled = true;
                         //foreach(EffectPass ep in effect.CurrentTechnique.Passes)
                         //{
                         //    ep.Apply();
