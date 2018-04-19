@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 namespace Game_Engine.Managers
 {
-    public class AssetManager
+    public sealed class AssetManager
     {
-        private static AssetManager instance;
-        private Dictionary<Type, Dictionary<string, object>> contentDictionary;
+        private readonly Dictionary<Type, Dictionary<string, object>> contentDictionary;
+
+        #region Thread-safe singleton - use "AssetManager.Instance" to access
+        private static readonly Lazy<AssetManager> lazy = new Lazy<AssetManager>(() => new AssetManager());
 
         private AssetManager()
         {
@@ -18,13 +20,10 @@ namespace Game_Engine.Managers
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new AssetManager();
-                }
-                return instance;
+                return lazy.Value;
             }
         }
+        #endregion
 
         public void AddContent<T>(ContentManager Content, String contentName)
         {
