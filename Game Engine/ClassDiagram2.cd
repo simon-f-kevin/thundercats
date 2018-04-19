@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Game_Engine.Components.CameraComponent" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAJwAAIAAAAAIAAAACAAAAAAgAAAA=</HashCode>
+      <FileName>Components\CameraComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.Component" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Components\Component.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.GamePadComponent" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Components\GamepadComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.KeyboardComponent" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\KeyBoardComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.ModelComponent" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Components\ModelComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.PlayerComponent" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\PlayerComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.TransformComponent" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAgAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\TransformComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.VelocityComponent" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAEAAA=</HashCode>
+      <FileName>Components\VelocityComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Entities.Entity" Collapsed="true">
+    <Position X="16.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Entities.EntityFactory" Collapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Entities\EntityFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.AssetManager" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAQSAAABAAAAA=</HashCode>
+      <FileName>Managers\AssetManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.ComponentManager" Collapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAABAgAAABAAQAARAAAAEAAAAA=</HashCode>
+      <FileName>Managers\ComponentManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.SystemManager" Collapsed="true">
+    <Position X="18.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUEABAAAAAAAgAAAABAQIAAEAABAAAARAAAAAAAAAA=</HashCode>
+      <FileName>Managers\SystemManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Systems.CameraSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Systems\CameraSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Game_Engine.Systems.ModelRenderSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\ModelRenderSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Game_Engine.Systems.MovementSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\MovementSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Game_Engine.Systems.TransformSystem" Collapsed="true">
+    <Position X="20" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\TransformSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Game_Engine.Systems.IDrawableSystem" Collapsed="true">
+    <Position X="16.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\IDrawableSystem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Game_Engine.Systems.IUpdateableSystem" Collapsed="true">
+    <Position X="18.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\IUpdateableSystem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

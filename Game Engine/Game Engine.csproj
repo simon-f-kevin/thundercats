@@ -49,6 +49,7 @@
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
+    <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
@@ -64,6 +65,8 @@
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
