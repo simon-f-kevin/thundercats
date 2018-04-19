@@ -46,6 +46,7 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
+
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

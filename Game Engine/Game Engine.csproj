@@ -44,6 +44,7 @@
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GamepadComponent.cs" />
+    <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\KeyBoardComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Systems\IDrawableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
     <Compile Include="Systems\MovementSystem.cs" />
+    <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
   </ItemGroup>
   <ItemGroup>
