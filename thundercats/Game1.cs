@@ -25,6 +25,7 @@ namespace thundercats
         PlayerInputSystem playerInputSystem;
         CameraSystem cameraSystem;
         PhysicsSystem physicsSystem;
+        UIRenderSystem uiSystem;
 
         public Game1()
         {
@@ -51,7 +52,9 @@ namespace thundercats
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
-            
+            uiSystem = new UIRenderSystem();
+           
+            SystemManager.Instance.AddToDrawables(uiSystem);
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(movementSystem);
@@ -69,7 +72,7 @@ namespace thundercats
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            uiSystem.Initialize(spriteBatch);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");

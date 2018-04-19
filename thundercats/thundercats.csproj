@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Actions\PlayerActions.cs" />
+    <Compile Include="Factory\Uifactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameStates\GameManager.cs" />
     <Compile Include="GameStates\States\IState.cs" />
