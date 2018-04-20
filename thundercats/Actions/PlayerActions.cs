@@ -5,40 +5,40 @@ namespace thundercats.Actions
 {
     static class PlayerActions
     {
-        private static float _playerForwardAcceleration = 0.25f;
-        private static float _playerStrafeAcceleration = 0.1f;
-        private static float _playerMaxRunningSpeed = 0.25f;
-        private static float _playerMaxStrafeSpeed = 0.25f;
+        private static float playerForwardAcceleration = 0.25f;
+        private static float playerStrafeAcceleration = 0.1f;
+        private static float playerMaxRunningSpeed = 0.25f;
+        private static float playerMaxStrafeSpeed = 0.25f;
 
         public static void AcceleratePlayerForwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Z < _playerMaxRunningSpeed)
+            if(velocityComponent.Velocity.Z < playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.Z += _playerForwardAcceleration;
+                velocityComponent.Velocity.Z += playerForwardAcceleration;
             }
         }
 
         public static void AcceleratePlayerBackwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Z > -_playerMaxRunningSpeed)
+            if(velocityComponent.Velocity.Z > -playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.Z -= _playerForwardAcceleration;
+                velocityComponent.Velocity.Z -= playerForwardAcceleration;
             }
         }
 
         public static void AcceleratePlayerLeftwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.X < _playerMaxStrafeSpeed)
+            if(velocityComponent.Velocity.X < playerMaxStrafeSpeed)
             {
-                velocityComponent.Velocity.X += _playerStrafeAcceleration;
+                velocityComponent.Velocity.X += playerStrafeAcceleration;
             }
         }
 
         public static void AcceleratePlayerRightwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.X > -_playerMaxStrafeSpeed)
+            if(velocityComponent.Velocity.X > -playerMaxStrafeSpeed)
             {
-                velocityComponent.Velocity.X -= _playerStrafeAcceleration;
+                velocityComponent.Velocity.X -= playerStrafeAcceleration;
             }
         }
     }

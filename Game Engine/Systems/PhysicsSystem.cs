@@ -22,13 +22,14 @@ namespace Game_Engine.Systems
          */
         public void UpdatePositions()
         {
-            var velocityComponents = componentManager.GetComponentDictionary<VelocityComponent>();
+            Dictionary<Entity, Component> velocityComponents = componentManager.GetComponentPairDictionary<VelocityComponent>();
+
             foreach(var velocityComponentPair in velocityComponents)
             {
-                var velocityComponent = velocityComponentPair.Value as VelocityComponent;
-                var transformationComponent = componentManager.GetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
-                var modelComponent = componentManager.GetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
-                var boundingSphereComponent = componentManager.GetComponentOfEntity<BoundingSphereComponent>(velocityComponentPair.Key);
+                VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
+                TransformComponent transformationComponent = componentManager.GetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
+                ModelComponent modelComponent = componentManager.GetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
+                BoundingSphereComponent boundingSphereComponent = componentManager.GetComponentOfEntity<BoundingSphereComponent>(velocityComponentPair.Key);
 
                 transformationComponent.position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
@@ -36,7 +37,6 @@ namespace Game_Engine.Systems
 
                 if(modelComponent != null)
                 {
-                    //UpdateModel(modelComponent, transformation, velocity);
                     modelComponent.Model.Bones[0].Transform *= translation;
                 }
                 if(boundingSphereComponent != null)
@@ -49,13 +49,6 @@ namespace Game_Engine.Systems
             }
         }
 
-        public void UpdateModel(ModelComponent modelComponent, TransformComponent transformComponent, VelocityComponent velocityComponent)
-        {
-            modelComponent.Model.Bones[0].Transform *= Matrix.CreateTranslation(velocityComponent.Velocity.X, 0, 0) * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, 0, 0);
-            modelComponent.Model.Bones[0].Transform *= Matrix.CreateTranslation(0, velocityComponent.Velocity.Y, 0) * Matrix.CreateRotationY(0) * Matrix.CreateTranslation(0, velocityComponent.Velocity.Y, 0);
-            modelComponent.Model.Bones[0].Transform *= Matrix.CreateTranslation(0, 0, velocityComponent.Velocity.Z) * Matrix.CreateRotationZ(0) * Matrix.CreateTranslation(0, 0, velocityComponent.Velocity.Z);
-        }
-
         /*
          * Checks intersections for all BoundingSphereComponents.
          * BoundingSphereComponents that equal themselves are ignored.
@@ -63,7 +56,7 @@ namespace Game_Engine.Systems
          */
         public void CheckCollision()
         {
-            Dictionary<Entity, Component> boundingSphereComponents = componentManager.GetComponentDictionary<BoundingSphereComponent>();
+            Dictionary<Entity, Component> boundingSphereComponents = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
             bool found = false;
 
             foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponents.Values)

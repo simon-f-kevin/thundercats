@@ -13,7 +13,7 @@ namespace Game_Engine.Systems
     {
         public void Update(GameTime gameTime)
         {
-            var cameras = ComponentManager.Instance.GetComponentDictionary<CameraComponent>();
+            var cameras = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
 
             foreach (var cameraKeyValuePair in cameras)
             {

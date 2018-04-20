@@ -20,7 +20,7 @@ namespace thundercats.Systems
          */
         public void Update(GameTime gameTime)
         {
-            Dictionary<Entity, Component> playerComponents = componentManager.GetComponentDictionary<PlayerComponent>();
+            Dictionary<Entity, Component> playerComponents = componentManager.GetComponentPairDictionary<PlayerComponent>();
 
             foreach(Entity playerEntity in playerComponents.Keys)
             {
