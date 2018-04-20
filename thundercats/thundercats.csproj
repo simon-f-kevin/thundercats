@@ -74,7 +74,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Game Engine\Game Engine.csproj">
+    <ProjectReference Include="..\Game_Engine\Game_Engine.csproj">
       <Project>{C1CF017E-819C-4EB5-A687-7E9FBEB20894}</Project>
       <Name>Game Engine</Name>
     </ProjectReference>
