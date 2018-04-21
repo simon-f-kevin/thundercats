@@ -34,7 +34,7 @@ namespace thundercats
             return player;
         }
 
-        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio)
+        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer)
         {
             Entity player = EntityFactory.NewEntity();
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
@@ -44,7 +44,7 @@ namespace thundercats
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
-            CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio);
+            CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);

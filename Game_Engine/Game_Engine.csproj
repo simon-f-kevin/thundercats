@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Game_Engine</RootNamespace>
-    <AssemblyName>Game Engine</AssemblyName>
+    <AssemblyName>Game_Engine</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,10 +45,12 @@
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GamepadComponent.cs" />
+    <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\KeyBoardComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
+    <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
@@ -63,6 +65,8 @@
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

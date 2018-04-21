@@ -1,5 +1,6 @@
 ﻿using Game_Engine.Entities;
 using Microsoft.Xna.Framework;
+
 namespace Game_Engine.Components
 {
    public class CameraComponent : Component
@@ -12,9 +13,9 @@ namespace Game_Engine.Components
         public Matrix ProjectionMatrix { get; set; }
         public float FieldOfView { get; set; }
         public float AspectRatio { get; set; }
-
-        public CameraComponent(Entity id, Vector3 position, float aspectRatio) : base(id)
-        {
+        public bool FollowPlayer { get; set; }
+		
+        public CameraComponent(Entity id, Vector3 position, float aspectRatio, bool followPlayer) : base(id){
             WorldMatrix = new Matrix();
             ViewMatrix = new Matrix();
             ProjectionMatrix = new Matrix();
@@ -22,6 +23,7 @@ namespace Game_Engine.Components
             Target = Vector3.Zero;
             Position = position;
             AspectRatio = aspectRatio;
+            FollowPlayer = followPlayer;
         }
     }
 }

@@ -4,17 +4,22 @@ using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
-
 namespace Game_Engine.Systems
 {
     public class PhysicsSystem : IUpdateableSystem
     {
-        private ComponentManager componentManager = ComponentManager.Instance;
+        ComponentManager componentManager = ComponentManager.Instance;
 
         public void Update(GameTime gameTime)
         {
             CheckCollision();
             UpdatePositions();
+            var gravityComponents = ComponentManager.Instance.GetComponentPairDictionary<GravityComponent>();
+            foreach (var gravityComponent in gravityComponents)
+            {
+                var gravity = gravityComponent.Value as GravityComponent;
+                var velocity = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponent.Key);
+            }
         }
 
         /*
@@ -31,13 +36,13 @@ namespace Game_Engine.Systems
                 ModelComponent modelComponent = componentManager.GetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
                 BoundingSphereComponent boundingSphereComponent = componentManager.GetComponentOfEntity<BoundingSphereComponent>(velocityComponentPair.Key);
 
-                transformationComponent.position += velocityComponent.Velocity;
+                transformationComponent.Position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
 
                 if(modelComponent != null)
                 {
-                    modelComponent.Model.Bones[0].Transform *= translation;
+                    modelComponent.World *= translation;
                 }
                 if(boundingSphereComponent != null)
                 {
@@ -57,7 +62,7 @@ namespace Game_Engine.Systems
         public void CheckCollision()
         {
             Dictionary<Entity, Component> boundingSphereComponents = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
-            bool found = false;
+            bool found = false; //Temp debug flag
 
             foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponents.Values)
             {
@@ -66,14 +71,14 @@ namespace Game_Engine.Systems
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
                     {
-                        found = true;
-                        Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                        found = true; //Temp debug flag
+                        //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
                 }
             }
-            if(!found)
+            if(!found) //Temp debug check
             {
-                Console.WriteLine("No BoundingSphereComponents intersect");
+                //Console.WriteLine("No BoundingSphereComponents intersect");
             }
         }
     }

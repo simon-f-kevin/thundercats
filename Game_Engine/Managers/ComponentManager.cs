@@ -48,8 +48,7 @@ namespace Game_Engine.Managers
             {
                 return compPairs;
             }
-            return new Dictionary<Entity, Component>();
-        }
+            return new Dictionary<Entity, Component>();        }
 
         /*
          * Returns component of type T attached to given Entity in the provided Dictionary, or null if not found.

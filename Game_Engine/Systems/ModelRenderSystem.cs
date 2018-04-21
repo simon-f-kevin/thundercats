@@ -36,16 +36,14 @@ namespace Game_Engine.Systems
             foreach(var modelComponentPair in modelComponentPairs)
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
-                var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelComponentPair.Key);
+                model.BoneTransformations[0] = model.World;
 
-                Matrix[] boneTransformations = new Matrix[model.Model.Bones.Count];
-                model.Model.CopyAbsoluteBoneTransformsTo(boneTransformations);
-
-                foreach(ModelMesh modelMesh in model.Model.Meshes)
+                foreach(var modelMesh in model.Model.Meshes)
                 {
+
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
-                        effect.World = boneTransformations[modelMesh.ParentBone.Index];
+                        effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
