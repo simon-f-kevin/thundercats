@@ -14,12 +14,6 @@ namespace Game_Engine.Systems
         {
             CheckCollision();
             UpdatePositions();
-            var gravityComponents = ComponentManager.Instance.GetComponentPairDictionary<GravityComponent>();
-            foreach (var gravityComponent in gravityComponents)
-            {
-                var gravity = gravityComponent.Value as GravityComponent;
-                var velocity = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponent.Key);
-            }
         }
 
         /*
@@ -50,6 +44,7 @@ namespace Game_Engine.Systems
                 }
                 // Placeholder friction
                 velocityComponent.Velocity.X *= 0.5f;
+                velocityComponent.Velocity.Y *= 0.5f;
                 velocityComponent.Velocity.Z *= 0.5f;
             }
         }

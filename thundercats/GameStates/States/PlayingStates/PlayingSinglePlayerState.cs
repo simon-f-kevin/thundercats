@@ -57,14 +57,13 @@ namespace thundercats.GameStates.States.PlayingStates
             };
             CameraComponent cameraComponent = new CameraComponent(blob, new Vector3(0, 0, -10), viewport.AspectRatio, false);
             ComponentManager.Instance.AddComponentToEntity(blob, uiComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, cameraComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
-
+            ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, playerComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, gamePadComponent);
         }*/
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
