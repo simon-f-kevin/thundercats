@@ -12,16 +12,17 @@ namespace Game_Engine.Systems
 {
     public class PhysicsSystem : IUpdateableSystem
     {
-        KeyboardState newState = Keyboard.GetState();
-        public void Update(GameTime gameTime)
+        public async void Update(GameTime gameTime)
         {
-            var gravityComponents = ComponentManager.Instance.GetComponentDictionary<GravityComponent>();
-            foreach (var gravityComponent in gravityComponents)
-            {
-                var gravity = gravityComponent.Value as GravityComponent;
-                var velocity = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponent.Key);
+            await Task.Run(() => RunGravity());
+        }
 
-                velocity.Velocity.Y -= 0.5f;
+        private void RunGravity()
+        {
+            var velocityComponents = ComponentManager.Instance.GetComponentDictionary<VelocityComponent>();
+            foreach (var velocityComponentKeyValuePair in velocityComponents)
+            {
+                if (velocityComponentKeyValuePair.Value is VelocityComponent velocityComponent) velocityComponent.Velocity.Y -= 0.5f;
             }
         }
     }

@@ -11,7 +11,8 @@ namespace Game_Engine.Managers
      */
     public class ComponentManager
     {
-        private Dictionary<Type, Dictionary<Entity, Component>> _components;
+        private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> _components;
+        
 
         private static ComponentManager instance;
 
@@ -19,7 +20,7 @@ namespace Game_Engine.Managers
 
         private ComponentManager()
         {
-            _components = new Dictionary<Type, Dictionary<Entity, Component>>();
+            _components = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
         }
 
         /* Properties */
@@ -41,21 +42,22 @@ namespace Game_Engine.Managers
         /*
          * Returns the nestled Dictionary of all Components of the given type, with their attached Entities as keys.
          */
-        public Dictionary<Entity, Component> GetComponentDictionary<T>() where T : Component
+        public ConcurrentDictionary<Entity, Component> GetComponentDictionary<T>() where T : Component
         {
-            Dictionary<Entity, Component> compDictionary;
+            ConcurrentDictionary<Entity, Component> compDictionary;
             if(_components.TryGetValue(typeof(T), out compDictionary))
             {
                 return compDictionary;
             }
-            
-            return new Dictionary<Entity, Component>();
+            compDictionary = new ConcurrentDictionary<Entity, Component>();
+            _components.TryAdd(typeof(T), compDictionary);
+            return compDictionary;
         }
 
         /*
          * Returns component of type T attached to given Entity in the provided Dictionary, or null if not found.
          */
-        public T GetComponentFromDict<T>(Entity entity, Dictionary<Entity, Component> dictionary) where T : Component
+        public T GetComponentFromDict<T>(Entity entity, ConcurrentDictionary<Entity, Component> dictionary) where T : Component
         {
             Component outValue;
             if(dictionary.TryGetValue(entity, out outValue))
@@ -72,13 +74,13 @@ namespace Game_Engine.Managers
          */
         public void AddComponentToEntity(Entity entity, Component component)
         {
-            Dictionary<Entity, Component> tempDict;
+            ConcurrentDictionary<Entity, Component> tempDict;
 
             /* Check if any nested dictionary for the component type exists, if not create a new one. */
             if(!_components.TryGetValue(component.GetType(), out tempDict))
             {
-                tempDict = new Dictionary<Entity, Component>();
-                _components.Add(component.GetType(), tempDict);
+                tempDict = new ConcurrentDictionary<Entity, Component>();
+                _components.TryAdd(component.GetType(), tempDict);
             }
 
             /* Check that the exact component instance does not already exist in the dictionary, if it does throw an error. */
@@ -98,7 +100,7 @@ namespace Game_Engine.Managers
          */
         public T GetComponentOfEntity<T>(Entity entity) where T : Component
         {
-            Dictionary<Entity, Component> tempDict;
+            ConcurrentDictionary<Entity, Component> tempDict;
             if(_components.TryGetValue(typeof(T), out tempDict))
             {
                 Component component;
@@ -115,13 +117,14 @@ namespace Game_Engine.Managers
          */
         public bool RemoveComponentFromEntity<T>(Entity entity) where T : Component
         {
-            Dictionary<Entity, Component> tempDict;
+            Component componentValue;
+            ConcurrentDictionary<Entity, Component> tempDict;
             if(_components.TryGetValue(typeof(T), out tempDict))
             {
                 Component comp;
                 if(tempDict.TryGetValue(entity, out comp))
                 {
-                    _components[typeof(T)].Remove(entity);
+                    _components[typeof(T)].TryRemove(entity,out componentValue);
                     return true;
                 }
             }

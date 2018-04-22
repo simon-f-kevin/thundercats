@@ -62,6 +62,14 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
 
+            ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, playerComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob1, gravityComponent);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
