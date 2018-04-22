@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
@@ -21,9 +22,9 @@ namespace Game_Engine.Systems
          */
         public void UpdatePositions()
         {
-            Dictionary<Entity, Component> velocityComponents = componentManager.GetComponentPairDictionary<VelocityComponent>();
+            Dictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
 
-            foreach(var velocityComponentPair in velocityComponents)
+            Parallel.ForEach(velocityComponentPairs, velocityComponentPair =>
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.GetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
@@ -46,7 +47,7 @@ namespace Game_Engine.Systems
                 velocityComponent.Velocity.X *= 0.5f;
                 velocityComponent.Velocity.Y *= 0.5f;
                 velocityComponent.Velocity.Z *= 0.5f;
-            }
+            });
         }
 
         /*
@@ -56,12 +57,14 @@ namespace Game_Engine.Systems
          */
         public void CheckCollision()
         {
-            Dictionary<Entity, Component> boundingSphereComponents = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
+            Dictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponents.Values)
+            Parallel.ForEach(boundingSphereComponentPairs, boundingSphereComponentPair =>
             {
-                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponents.Values)
+                BoundingSphereComponent sourceBoundingSphereComponent = boundingSphereComponentPair.Value as BoundingSphereComponent;
+
+                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
                 {
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
@@ -70,7 +73,7 @@ namespace Game_Engine.Systems
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
                 }
-            }
+            });
             if(!found) //Temp debug check
             {
                 //Console.WriteLine("No BoundingSphereComponents intersect");

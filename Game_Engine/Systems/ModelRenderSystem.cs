@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
@@ -14,7 +15,10 @@ namespace Game_Engine.Systems
         
         public void Draw(GameTime gameTime)
         {
+            DateTime oldTime = DateTime.Now;
             DrawModels(gameTime);
+            DateTime newTime = DateTime.Now;
+            Console.WriteLine((newTime - oldTime).Milliseconds);
             //DrawGameWorld();
         }
 
@@ -33,7 +37,7 @@ namespace Game_Engine.Systems
             }
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
 
-            foreach(var modelComponentPair in modelComponentPairs)
+            Parallel.ForEach(modelComponentPairs, modelComponentPair =>
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
                 model.BoneTransformations[0] = model.World;
@@ -50,7 +54,7 @@ namespace Game_Engine.Systems
                         modelMesh.Draw();
                     }
                 }
-            }
+            });
         }
 
         private void DrawGameWorld()
