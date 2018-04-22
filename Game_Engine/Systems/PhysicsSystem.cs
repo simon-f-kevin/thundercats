@@ -17,12 +17,18 @@ namespace Game_Engine.Systems
             await Task.Run(() => RunGravity());
         }
 
+        /// <summary>
+        /// Applies gravity to all entities with a gravity-component and velocity-component. 
+        /// If they have a velocity-compoent, but no gravity-component no gravity is applied. 
+        /// </summary>
         private void RunGravity()
         {
-            var velocityComponents = ComponentManager.Instance.GetComponentDictionary<VelocityComponent>();
-            foreach (var velocityComponentKeyValuePair in velocityComponents)
+            var gravityComponents = ComponentManager.Instance.GetComponentDictionary<GravityComponent>();
+            foreach (var gravityComponentKeyValuePair in gravityComponents)
             {
-                if (velocityComponentKeyValuePair.Value is VelocityComponent velocityComponent) velocityComponent.Velocity.Y -= 0.5f;
+                if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
+                var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
+                velocityComponent.Velocity.Y -= 0.5f;
             }
         }
     }
