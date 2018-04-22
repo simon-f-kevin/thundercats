@@ -14,12 +14,6 @@ namespace Game_Engine.Systems
         {
             CheckCollision();
             UpdatePositions();
-            var gravityComponents = ComponentManager.Instance.GetComponentPairDictionary<GravityComponent>();
-            foreach (var gravityComponent in gravityComponents)
-            {
-                var gravity = gravityComponent.Value as GravityComponent;
-                var velocity = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponent.Key);
-            }
         }
 
         /*
@@ -27,9 +21,9 @@ namespace Game_Engine.Systems
          */
         public void UpdatePositions()
         {
-            Dictionary<Entity, Component> velocityComponents = componentManager.GetComponentPairDictionary<VelocityComponent>();
+            Dictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
 
-            foreach(var velocityComponentPair in velocityComponents)
+            foreach(var velocityComponentPair in velocityComponentPairs)
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.GetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
@@ -61,12 +55,12 @@ namespace Game_Engine.Systems
          */
         public void CheckCollision()
         {
-            Dictionary<Entity, Component> boundingSphereComponents = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
+            Dictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponents.Values)
+            foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponentPairs.Values)
             {
-                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponents.Values)
+                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
                 {
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
