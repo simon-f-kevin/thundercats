@@ -22,15 +22,25 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Initialize()
         {
             uiFactory = new UiFactory(viewport);
-
+            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100), new Vector3(0, 0, -10), viewport.AspectRatio, false);
             // Creating Static ui stuff.
-            uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
-            uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
-            uiFactory.CreateEntity(new Vector2(20, 150), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
-            CreateBlob();
+            //uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
+            //uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
+            //uiFactory.CreateEntity(new Vector2(20, 150), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
+            //CreateBlob();
             
+            /* Below is a temporary object you can use to test collision. (rendering both this and the player seems to result in weird scaling issues but that is a separate issue)
+            Entity player = EntityFactory.NewEntity();
+            ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>("Models/Blob"));
+            TransformComponent transformComponent = new TransformComponent(player, new Vector3(600, viewport.Height * 0.45f, 100));
+            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+
+            ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);*/
         }
-        public void CreateBlob()
+
+        /*public void CreateBlob()
         {
             Entity blob = EntityFactory.NewEntity();
             ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("Models/Blob"));
@@ -46,14 +56,8 @@ namespace thundercats.GameStates.States.PlayingStates
                 Text = "hejsan"
 
             };
-            CameraComponent cameraComponent = new CameraComponent(blob)
-            {
-                AspectRatio = viewport.AspectRatio,
-                FieldOfView = MathHelper.PiOver2,
-                Position = new Vector3(0, 0, -10),
-                Target = Vector3.Zero,
-                FollowPlayer = true
-            };
+            CameraComponent cameraComponent = new CameraComponent(blob, new Vector3(0, 0, -10), viewport.AspectRatio, false);
+
             ComponentManager.Instance.AddComponentToEntity(blob, uiComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
@@ -64,6 +68,7 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, gravityComponent);
 
+        }*/
             //ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
             //ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
             //ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);

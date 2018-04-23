@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\BoundingSphereComponent.cs" />
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\GamepadComponent.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="Systems\ModelRenderSystem.cs" />
     <Compile Include="Systems\IDrawableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
-    <Compile Include="Systems\MovementSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
   </ItemGroup>

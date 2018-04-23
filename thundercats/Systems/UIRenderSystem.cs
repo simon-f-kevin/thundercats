@@ -22,7 +22,7 @@ namespace thundercats.Systems
 
         public void Draw(GameTime gameTime)
         {
-            var components = ComponentManager.Instance.GetComponentDictionary<UIComponent>();
+            var components = ComponentManager.Instance.GetComponentPairDictionary<UIComponent>();
 
             sb.Begin();
             components.Values.ToList().ForEach(c => DrawUI(c as UIComponent));

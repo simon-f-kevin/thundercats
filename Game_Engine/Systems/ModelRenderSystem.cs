@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Game_Engine.Components;
+using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,19 +18,29 @@ namespace Game_Engine.Systems
             //DrawGameWorld();
         }
 
+        /*
+         * Draws all Models in ModelComponents.
+         * Requires a CameraComponent to exist on some Entity.
+         */
         private void DrawModels(GameTime gameTime)
         {
-            var models = ComponentManager.Instance.GetComponentDictionary<ModelComponent>();
+            Dictionary<Entity, Component> modelComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<ModelComponent>();
+            Dictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
 
-            foreach(var modelKeyValuePair in models)
+            if(cameraComponentPairs.Count == 0)
             {
-                ModelComponent model = modelKeyValuePair.Value as ModelComponent;
-                var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
+                return;
+            }
+            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
 
-                var cameraComponent = ComponentManager.Instance.GetComponentOfEntity<CameraComponent>(modelKeyValuePair.Key);
+            foreach(var modelComponentPair in modelComponentPairs)
+            {
+                ModelComponent model = modelComponentPair.Value as ModelComponent;
                 model.BoneTransformations[0] = model.World;
-                foreach (var modelMesh in model.Model.Meshes)
+
+                foreach(var modelMesh in model.Model.Meshes)
                 {
+
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
