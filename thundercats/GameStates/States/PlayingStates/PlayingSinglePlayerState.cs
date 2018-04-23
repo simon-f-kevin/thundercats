@@ -3,6 +3,7 @@ using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Linq;
 
 namespace thundercats.GameStates.States.PlayingStates
@@ -34,7 +35,7 @@ namespace thundercats.GameStates.States.PlayingStates
             GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
             TextureComponent textureComponent = new TextureComponent(blob)
             {
-                Texture = CreateTexture(gameManager.game.GraphicsDevice, 1, 1, pixel => Color.Gold)
+                Texture = CreateTexture(Color.Gold)
             };
             CameraComponent cameraComponent = new CameraComponent(blob)
             {
@@ -54,6 +55,11 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, textureComponent);
 
+        }
+
+        private Texture2D CreateTexture(Color color)
+        {
+            return CreateTexture(gameManager.game.GraphicsDevice, 1, 1, pixel => color);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
