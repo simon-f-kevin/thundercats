@@ -35,7 +35,7 @@ namespace thundercats.GameStates.States.PlayingStates
             GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
             TextureComponent textureComponent = new TextureComponent(blob)
             {
-                Texture = CreateTexture(Color.Gold)
+                Texture = AssetManager.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice)
             };
             CameraComponent cameraComponent = new CameraComponent(blob)
             {
@@ -57,11 +57,6 @@ namespace thundercats.GameStates.States.PlayingStates
 
         }
 
-        private Texture2D CreateTexture(Color color)
-        {
-            return CreateTexture(gameManager.game.GraphicsDevice, 1, 1, pixel => color);
-        }
-
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SystemManager.Instance.Draw(gameTime);
@@ -72,23 +67,6 @@ namespace thundercats.GameStates.States.PlayingStates
             SystemManager.Instance.Update(gameTime);
         }
 
-        private Texture2D CreateTexture(GraphicsDevice device, int width, int height, System.Func<int, Color> paint)
-        {
-            //initialize a texture
-            Texture2D texture = new Texture2D(device, width, height);
 
-            //the array holds the color for each pixel in the texture
-            Color[] data = new Color[width * height];
-            for (int pixel = 0; pixel < data.Count(); pixel++)
-            {
-                //the function applies the color according to the specified pixel
-                data[pixel] = paint(pixel);
-            }
-
-            //set the color
-            texture.SetData(data);
-
-            return texture;
-        }
     }
 }
