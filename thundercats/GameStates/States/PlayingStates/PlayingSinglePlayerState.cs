@@ -39,6 +39,7 @@ namespace thundercats.GameStates.States.PlayingStates
             PlayerComponent playerComponent = new PlayerComponent(blob);
             KeyboardComponent keyboardComponent = new KeyboardComponent(blob);
             GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
+            GravityComponent gravityComponent = new GravityComponent(blob);
             UIComponent uiComponent = new UIComponent(blob) {
                 Position = new Vector2(viewport.TitleSafeArea.X+10, viewport.TitleSafeArea.Y+10),
                 SpriteFont = AssetManager.Instance.GetContent<SpriteFont>("menu"),
@@ -61,15 +62,16 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, gravityComponent);
 
-            ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, gamePadComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob1, gravityComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, playerComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, keyboardComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, gamePadComponent);
+            //ComponentManager.Instance.AddComponentToEntity(blob1, gravityComponent);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

@@ -26,7 +26,7 @@ namespace Game_Engine.Systems
             var gravityComponents = ComponentManager.Instance.GetComponentDictionary<GravityComponent>();
             foreach (var gravityComponentKeyValuePair in gravityComponents)
             {
-                if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
+                //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
                 var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
                 velocityComponent.Velocity.Y -= 0.5f;
             }

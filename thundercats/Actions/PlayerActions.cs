@@ -62,7 +62,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void PlayerJumpSpeed(VelocityComponent velocityComponent)
         {
-            if (velocityComponent.Velocity.Y > -_playerJumpSpeed)
+            if (velocityComponent.Velocity.Y < -_playerJumpSpeed)
             {
                velocityComponent.Velocity.Y += _playerJumpSpeed; 
             }

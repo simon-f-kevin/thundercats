@@ -49,7 +49,7 @@ namespace thundercats
         protected override void Initialize()
         {
             //thread1 = new ThreadStart();
-            thread2 = Thread.CurrentThread;
+            //thread2 = Thread.CurrentThread;
            
 
             modelRenderSystem = new ModelRenderSystem();
