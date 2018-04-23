@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Game_Engine.Components;
 using Game_Engine.Entities;
@@ -85,7 +86,7 @@ namespace Game_Engine.Systems
         /// </summary>
         private void RunGravity()
         {
-            var gravityComponents = ComponentManager.Instance.GetComponentDictionary<GravityComponent>();
+            var gravityComponents = ComponentManager.Instance.GetComponentPairDictionary<GravityComponent>();
             foreach (var gravityComponentKeyValuePair in gravityComponents)
             {
                 //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;

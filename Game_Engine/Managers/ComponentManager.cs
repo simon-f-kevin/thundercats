@@ -45,10 +45,10 @@ namespace Game_Engine.Managers
          * Returns the nestled Dictionary of all Components of the given type, with their attached Entities as keys, or an emtpy dictionary if not found.
          */
 
-        public ConcurrentDictionary<Entity, Component> GetComponentDictionary<T>() where T : Component
+        public ConcurrentDictionary<Entity, Component> GetComponentPairDictionary<T>() where T : Component
         {
-            ConcurrentDictionary<Entity, Component> compDictionary;
-            if(componentPairsAndTypes.TryGetValue(typeof(T), out compDictionary))
+            ConcurrentDictionary<Entity, Component> compPairs;
+            if(componentPairsAndTypes.TryGetValue(typeof(T), out compPairs))
             {
                 return compPairs;
             }
@@ -84,7 +84,7 @@ namespace Game_Engine.Managers
             if(!componentPairsAndTypes.TryGetValue(component.GetType(), out tempDict))
             {
                 tempDict = new ConcurrentDictionary<Entity, Component>();
-                componentPairsAndTypes.Add(component.GetType(), tempDict);
+                componentPairsAndTypes.TryAdd(component.GetType(), tempDict);
 
             }
 
