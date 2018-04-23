@@ -15,9 +15,11 @@ namespace Game_Engine.Components
         //projection
 
 
-        public Vector3 position;
-        public Vector3 target;
+        //public Vector3 position;
+        //public Vector3 target;
         /*Properties*/
+        public Vector3 Position { get; set; }
+        public Vector3 Target { get; set; }
         public Matrix WorldMatrix { get; set; }
         public Matrix ViewMatrix { get; set; }
         public Matrix ProjectionMatrix { get; set; }

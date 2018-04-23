@@ -23,7 +23,7 @@ namespace Game_Engine.Systems
                 cameraComponent = cameraKeyValuePair.Value as CameraComponent;
                 if (cameraComponent == null) continue;
                 cameraComponent.ViewMatrix =
-                    Matrix.CreateLookAt(cameraComponent.position, cameraComponent.target, Vector3.Up);
+                    Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
                 cameraComponent.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(cameraComponent.FieldOfView,
                     cameraComponent.AspectRatio, 1f, 1000f);
                 if (cameraComponent.FollowPlayer) FollowPlayer(cameraKeyValuePair.Key);
@@ -38,12 +38,12 @@ namespace Game_Engine.Systems
         {
             ModelComponent modelComponent = ComponentManager.Instance.GetComponentOfEntity<ModelComponent>(cameraEntity);
 
-            cameraComponent.position = modelComponent.World.Translation + (modelComponent.World.Backward * 30f) + (modelComponent.World.Up * 20f);
-            cameraComponent.target = modelComponent.World.Translation + (modelComponent.World.Forward * 20f);
-            Console.WriteLine(cameraComponent.position.ToString()); //For debugging
+            cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Backward * 30f) + (modelComponent.World.Up * 20f);
+            cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Forward * 20f);
+            Console.WriteLine(cameraComponent.Position.ToString()); //For debugging
 
 
-            cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.position, cameraComponent.target, Vector3.Up);
+            cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
 
         }
     }

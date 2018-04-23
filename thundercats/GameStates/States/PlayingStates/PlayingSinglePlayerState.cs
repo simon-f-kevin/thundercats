@@ -50,8 +50,8 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 AspectRatio = viewport.AspectRatio,
                 FieldOfView = MathHelper.PiOver2,
-                position = new Vector3(0, 0, -10),
-                target = Vector3.Zero,
+                Position = new Vector3(0, 0, -10),
+                Target = Vector3.Zero,
                 FollowPlayer = true
             };
             ComponentManager.Instance.AddComponentToEntity(blob, uiComponent);
