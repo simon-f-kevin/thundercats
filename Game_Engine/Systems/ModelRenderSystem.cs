@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,15 +11,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game_Engine.Systems
 {
+    /*
+    * System to handle all rendering of all 3D models.
+    * ModelRenderSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
+    */
     public class ModelRenderSystem : IDrawableSystem
     {
         
         public void Draw(GameTime gameTime)
         {
-            DateTime oldTime = DateTime.Now;
             DrawModels(gameTime);
-            DateTime newTime = DateTime.Now;
-            Console.WriteLine((newTime - oldTime).Milliseconds);
             //DrawGameWorld();
         }
 
@@ -28,8 +30,8 @@ namespace Game_Engine.Systems
          */
         private void DrawModels(GameTime gameTime)
         {
-            Dictionary<Entity, Component> modelComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<ModelComponent>();
-            Dictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
+            ConcurrentDictionary<Entity, Component> modelComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<ModelComponent>();
+            ConcurrentDictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
 
             if(cameraComponentPairs.Count == 0)
             {

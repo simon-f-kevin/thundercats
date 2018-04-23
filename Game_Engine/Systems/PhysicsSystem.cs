@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Game_Engine.Components;
@@ -7,6 +8,10 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 namespace Game_Engine.Systems
 {
+    /*
+     * System to handle all physics updates including 3D transformations based on velocity, friction, and collision.
+     * PhysicsSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
+     */
     public class PhysicsSystem : IUpdateableSystem
     {
         ComponentManager componentManager = ComponentManager.Instance;
@@ -22,7 +27,7 @@ namespace Game_Engine.Systems
          */
         public void UpdatePositions()
         {
-            Dictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
+            ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
 
             Parallel.ForEach(velocityComponentPairs, velocityComponentPair =>
             {
@@ -57,7 +62,7 @@ namespace Game_Engine.Systems
          */
         public void CheckCollision()
         {
-            Dictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
+            ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
             Parallel.ForEach(boundingSphereComponentPairs, boundingSphereComponentPair =>
