@@ -16,19 +16,21 @@ namespace Game_Engine.Systems
 
         public void Update(GameTime gameTime)
         {
-            var cameras = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
+            var cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
 
-            foreach (var cameraKeyValuePair in cameras)
+            foreach (var cameraComponentPair in cameraComponentPairs)
             {
-                cameraComponent = cameraKeyValuePair.Value as CameraComponent;
+                cameraComponent = cameraComponentPair.Value as CameraComponent;
                 if (cameraComponent == null){
                     continue;
                 }
                 cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
-                cameraComponent.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(cameraComponent.FieldOfView, cameraComponent.AspectRatio, 1f, 1000f);
+                cameraComponent.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(
+                  cameraComponent.FieldOfView, cameraComponent.AspectRatio, 1f, 1000f);
                 if (cameraComponent.FollowPlayer){
-                    FollowPlayer(cameraKeyValuePair.Key);
+                    FollowPlayer(cameraComponentPair.Key);
                 }
+
             }
 
         }

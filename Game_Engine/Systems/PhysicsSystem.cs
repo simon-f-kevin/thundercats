@@ -8,10 +8,12 @@ namespace Game_Engine.Systems
 {
     public class PhysicsSystem : IUpdateableSystem
     {
+ 
         ComponentManager componentManager = ComponentManager.Instance;
 
         public void Update(GameTime gameTime)
         {
+            RunGravity();
             CheckCollision();
             UpdatePositions();
         }
@@ -21,7 +23,7 @@ namespace Game_Engine.Systems
          */
         public void UpdatePositions()
         {
-            Dictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
+            ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
 
             foreach(var velocityComponentPair in velocityComponentPairs)
             {
@@ -55,7 +57,7 @@ namespace Game_Engine.Systems
          */
         public void CheckCollision()
         {
-            Dictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
+            ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
             foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponentPairs.Values)
@@ -73,6 +75,22 @@ namespace Game_Engine.Systems
             if(!found) //Temp debug check
             {
                 //Console.WriteLine("No BoundingSphereComponents intersect");
+            }
+        }
+
+
+        /// <summary>
+        /// Applies gravity to all entities with a gravity-component and velocity-component. 
+        /// If they have a velocity-compoent, but no gravity-component no gravity is applied. 
+        /// </summary>
+        private void RunGravity()
+        {
+            var gravityComponents = ComponentManager.Instance.GetComponentDictionary<GravityComponent>();
+            foreach (var gravityComponentKeyValuePair in gravityComponents)
+            {
+                //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
+                var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
+                velocityComponent.Velocity.Y -= 0.5f;
             }
         }
     }

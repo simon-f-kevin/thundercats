@@ -11,7 +11,9 @@ namespace Game_Engine.Managers
      */
     public class ComponentManager
     {
-        private Dictionary<Type, Dictionary<Entity, Component>> componentPairsAndTypes;
+
+        private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> componentPairsAndTypes;
+        
 
         private static ComponentManager instance;
 
@@ -19,7 +21,8 @@ namespace Game_Engine.Managers
 
         private ComponentManager()
         {
-            componentPairsAndTypes = new Dictionary<Type, Dictionary<Entity, Component>>();
+
+            componentPairsAndTypes = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
         }
 
         /* Properties */
@@ -41,19 +44,24 @@ namespace Game_Engine.Managers
         /*
          * Returns the nestled Dictionary of all Components of the given type, with their attached Entities as keys, or an emtpy dictionary if not found.
          */
-        public Dictionary<Entity, Component> GetComponentPairDictionary<T>() where T : Component
+
+        public ConcurrentDictionary<Entity, Component> GetComponentDictionary<T>() where T : Component
         {
-            Dictionary<Entity, Component> compPairs;
-            if(componentPairsAndTypes.TryGetValue(typeof(T), out compPairs))
+            ConcurrentDictionary<Entity, Component> compDictionary;
+            if(componentPairsAndTypes.TryGetValue(typeof(T), out compDictionary))
             {
                 return compPairs;
             }
-            return new Dictionary<Entity, Component>();        }
+            return new ConcurrentDictionary<Entity, Component>();        
+        }
+
+        
+
 
         /*
          * Returns component of type T attached to given Entity in the provided Dictionary, or null if not found.
          */
-        public T GetComponentFromDict<T>(Entity entity, Dictionary<Entity, Component> dictionary) where T : Component
+        public T GetComponentFromDict<T>(Entity entity, ConcurrentDictionary<Entity, Component> dictionary) where T : Component
         {
             Component outValue;
             if(dictionary.TryGetValue(entity, out outValue))
@@ -70,13 +78,14 @@ namespace Game_Engine.Managers
          */
         public void AddComponentToEntity(Entity entity, Component component)
         {
-            Dictionary<Entity, Component> tempDict;
+            ConcurrentDictionary<Entity, Component> tempDict;
 
             /* Check if any nested dictionary for the component type exists, if not create a new one. */
             if(!componentPairsAndTypes.TryGetValue(component.GetType(), out tempDict))
             {
-                tempDict = new Dictionary<Entity, Component>();
+                tempDict = new ConcurrentDictionary<Entity, Component>();
                 componentPairsAndTypes.Add(component.GetType(), tempDict);
+
             }
 
             /* Check that the exact component instance does not already exist in the dictionary, if it does throw an error. */
@@ -96,8 +105,9 @@ namespace Game_Engine.Managers
          */
         public T GetComponentOfEntity<T>(Entity entity) where T : Component
         {
-            Dictionary<Entity, Component> tempDict;
+            ConcurrentDictionary<Entity, Component> tempDict;
             if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
+
             {
                 Component component;
                 if(tempDict.TryGetValue(entity, out component))
@@ -113,13 +123,15 @@ namespace Game_Engine.Managers
          */
         public bool RemoveComponentFromEntity<T>(Entity entity) where T : Component
         {
-            Dictionary<Entity, Component> tempDict;
+
+            ConcurrentDictionary<Entity, Component> tempDict;
             if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component comp;
                 if(tempDict.TryGetValue(entity, out comp))
                 {
-                    componentPairsAndTypes[typeof(T)].Remove(entity);
+
+                    componentPairsAndTypes[typeof(T)].TryRemove(entity,out comp);
                     return true;
                 }
             }

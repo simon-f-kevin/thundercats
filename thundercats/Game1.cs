@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Threading;
 using thundercats.GameStates;
 using thundercats.Systems;
 
@@ -46,6 +47,10 @@ namespace thundercats
         /// </summary>
         protected override void Initialize()
         {
+            //thread1 = new ThreadStart();
+            //thread2 = Thread.CurrentThread;
+           
+
             modelRenderSystem = new ModelRenderSystem();
             physicsSystem = new PhysicsSystem();
             playerInputSystem = new PlayerInputSystem();
