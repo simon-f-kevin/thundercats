@@ -52,6 +52,7 @@ namespace thundercats
            
 
             modelRenderSystem = new ModelRenderSystem();
+            modelRenderSystem.graphicsDevice = GraphicsDevice;
             physicsSystem = new PhysicsSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
@@ -81,6 +82,8 @@ namespace thundercats
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
+
+
 
             gameManager = new GameManager(this);
 

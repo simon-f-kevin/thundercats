@@ -4,6 +4,8 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using thundercats.Factory;
+using System;
+using System.Linq;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -18,7 +20,6 @@ namespace thundercats.GameStates.States.PlayingStates
             this.gameManager = gameManager;
             viewport = gameManager.game.GraphicsDevice.Viewport;
         }
-
 
         public void Initialize()
         {

@@ -12,7 +12,11 @@ namespace Game_Engine.Systems
 {
     public class ModelRenderSystem : IDrawableSystem
     {
-        
+        public GraphicsDevice graphicsDevice { get; set; }
+        public ModelRenderSystem()
+        {
+
+        }
         public void Draw(GameTime gameTime)
         {
             DrawModels(gameTime);
@@ -30,9 +34,14 @@ namespace Game_Engine.Systems
 
             if(cameraComponentPairs.Count == 0)
             {
+ 
                 return;
             }
+            ModelComponent model = modelKeyValuePair.Value as ModelComponent;
+            var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
+            var textureComponent = ComponentManager.Instance.GetComponentOfEntity<TextureComponent>(modelKeyValuePair.Key);
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+
 
             foreach(var modelComponentPair in modelComponentPairs)
             {
@@ -48,6 +57,14 @@ namespace Game_Engine.Systems
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
+                        effect.Texture = textureComponent.Texture;
+                        effect.TextureEnabled = true;
+                        //foreach(EffectPass ep in effect.CurrentTechnique.Passes)
+                        //{
+                        //    ep.Apply();
+                        //    graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
+                        //}
+
                         modelMesh.Draw();
                     }
                 }
