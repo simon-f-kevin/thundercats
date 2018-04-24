@@ -21,7 +21,7 @@ namespace thundercats.Systems
          */
         public void Update(GameTime gameTime)
         {
-            ConcurrentDictionary<Entity, Component> playerComponents = componentManager.GetComponentPairDictionary<PlayerComponent>();
+            ConcurrentDictionary<Entity, Component> playerComponents = componentManager.GetConcurrentDictionary<PlayerComponent>();
 
 
             foreach(Entity playerEntity in playerComponents.Keys)
@@ -35,9 +35,9 @@ namespace thundercats.Systems
          */
         public void ParsePlayerInput(GameTime gameTime, Entity playerEntity)
         {
-            VelocityComponent velocityComponent = componentManager.GetComponentOfEntity<VelocityComponent>(playerEntity);
-            KeyboardComponent keyboardComponent = componentManager.GetComponentOfEntity<KeyboardComponent>(playerEntity);
-            GamePadComponent gamePadComponent = componentManager.GetComponentOfEntity<GamePadComponent>(playerEntity);
+            VelocityComponent velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(playerEntity);
+            KeyboardComponent keyboardComponent = componentManager.ConcurrentGetComponentOfEntity<KeyboardComponent>(playerEntity);
+            GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
             
 
             /* Keyboard actions */

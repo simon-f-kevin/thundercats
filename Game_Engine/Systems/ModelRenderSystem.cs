@@ -29,28 +29,25 @@ namespace Game_Engine.Systems
          */
         private void DrawModels(GameTime gameTime)
         {
-            ConcurrentDictionary<Entity, Component> modelComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<ModelComponent>();
-            ConcurrentDictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
+            ConcurrentDictionary<Entity, Component> modelComponents = ComponentManager.Instance.GetConcurrentDictionary<ModelComponent>();
+            ConcurrentDictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetConcurrentDictionary<CameraComponent>();
 
-            if(cameraComponentPairs.Count == 0)
+            if (cameraComponentPairs.Count == 0)
             {
- 
                 return;
             }
-            ModelComponent model = modelKeyValuePair.Value as ModelComponent;
-            var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(modelKeyValuePair.Key);
-            var textureComponent = ComponentManager.Instance.GetComponentOfEntity<TextureComponent>(modelKeyValuePair.Key);
+            
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+            
 
-
-            foreach(var modelComponentPair in modelComponentPairs)
+            foreach (var modelComponentPair in modelComponents)
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
+                TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
                 model.BoneTransformations[0] = model.World;
 
                 foreach(var modelMesh in model.Model.Meshes)
                 {
-
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];

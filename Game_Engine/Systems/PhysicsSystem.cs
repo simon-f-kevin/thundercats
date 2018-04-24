@@ -16,22 +16,22 @@ namespace Game_Engine.Systems
         {
             RunGravity();
             CheckCollision();
-            UpdatePositions();
+            UpdatePositionsOfModels();
         }
 
-        /*
-         * Updates TransformComponents, ModelComponents, and BoundingSphereComponents with the velocities of any attached VelocityComponent.
-         */
-        public void UpdatePositions()
+
+        /// <summary>
+        /// Updates TransformComponents, ModelComponents, and BoundingSphereComponents with the velocities of any attached VelocityComponent.
+        /// </summary>
+        private void UpdatePositionsOfModels()
         {
-            ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetComponentPairDictionary<VelocityComponent>();
+            ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetConcurrentDictionary<VelocityComponent>();
 
             foreach(var velocityComponentPair in velocityComponentPairs)
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
-                TransformComponent transformationComponent = componentManager.GetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
-                ModelComponent modelComponent = componentManager.GetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
-                BoundingSphereComponent boundingSphereComponent = componentManager.GetComponentOfEntity<BoundingSphereComponent>(velocityComponentPair.Key);
+                TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
+                ModelComponent modelComponent = componentManager.ConcurrentGetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
 
                 transformationComponent.Position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
@@ -41,24 +41,21 @@ namespace Game_Engine.Systems
                 {
                     modelComponent.World *= translation;
                 }
-                if(boundingSphereComponent != null)
-                {
-                    boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
-                }
-                // Placeholder friction
-                velocityComponent.Velocity.X *= 0.5f;
-                velocityComponent.Velocity.Z *= 0.5f;
+
+                UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
+                UpdateFriction(velocityComponent);
             }
         }
 
-        /*
-         * Checks intersections for all BoundingSphereComponents.
-         * BoundingSphereComponents that equal themselves are ignored.
-         * Currently only identifies collision, taking action based on collision is TODO.
-         */
-        public void CheckCollision()
+       
+
+       /// <summary>
+       /// Checks intersections for all BoundingSphereComponents.
+       /// Currently only identifies collision, taking action based on collision is TODO.
+       /// </summary>
+        private void CheckCollision()
         {
-            ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
+            ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
             foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponentPairs.Values)
@@ -82,17 +79,44 @@ namespace Game_Engine.Systems
 
         /// <summary>
         /// Applies gravity to all entities with a gravity-component and velocity-component. 
-        /// If they have a velocity-compoent, but no gravity-component no gravity is applied. 
+        /// If they have a velocity-component, but no gravity-component no gravity is applied. 
         /// </summary>
         private void RunGravity()
         {
-            var gravityComponents = ComponentManager.Instance.GetComponentPairDictionary<GravityComponent>();
+            var gravityComponents = ComponentManager.Instance.GetConcurrentDictionary<GravityComponent>();
             foreach (var gravityComponentKeyValuePair in gravityComponents)
             {
                 //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
-                var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
+                var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
                 velocityComponent.Velocity.Y -= 0.5f;
             }
+        }
+
+        /// <summary>
+        /// Updates the positions of bounding spheres of models
+        /// BoundingSphereComponents that equal themselves are ignored.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="translation"></param>
+        private void UpdatePositionsOfBoundingSpheres(Entity key, Matrix translation)
+        {
+            BoundingSphereComponent boundingSphereComponent = componentManager.ConcurrentGetComponentOfEntity<BoundingSphereComponent>(key);
+
+            if (boundingSphereComponent != null)
+            {
+                boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
+            }
+        }
+
+        /// <summary>
+        /// Updates the friction.
+        /// </summary>
+        /// <param name="velocityComponent"></param>
+        private void UpdateFriction(VelocityComponent velocityComponent)
+        {
+            // Placeholder friction
+            velocityComponent.Velocity.X *= 0.5f;
+            velocityComponent.Velocity.Z *= 0.5f;
         }
     }
 }
