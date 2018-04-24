@@ -4,6 +4,7 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using thundercats.GameStates;
 
 namespace thundercats
 {
@@ -34,7 +35,7 @@ namespace thundercats
             return player;
         }
 
-        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer)
+        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
             Entity player = EntityFactory.NewEntity();
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
@@ -45,6 +46,10 @@ namespace thundercats
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
+            TextureComponent textureComponent = new TextureComponent(player)
+            {
+                Texture = texture
+            };
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
@@ -54,6 +59,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
             return player;
         }

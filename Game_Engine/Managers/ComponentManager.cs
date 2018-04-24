@@ -22,7 +22,7 @@ namespace Game_Engine.Managers
 
         private ComponentManager()
         {
-
+            componentPairsAndTypes = new Dictionary<Type, Dictionary<Entity, Component>>();
             componentPairsAndTypesConcurrent = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
         }
 
@@ -99,8 +99,11 @@ namespace Game_Engine.Managers
             if(!componentPairsAndTypesConcurrent.TryGetValue(component.GetType(), out tempDictConcurrent))
             {
                 tempDictConcurrent = new ConcurrentDictionary<Entity, Component>();
-                tempDict = new Dictionary<Entity, Component>();
                 componentPairsAndTypesConcurrent.TryAdd(component.GetType(), tempDictConcurrent);
+            }
+            if(!componentPairsAndTypes.TryGetValue(component.GetType(), out tempDict))
+            {
+                tempDict = new Dictionary<Entity, Component>();
                 componentPairsAndTypes.Add(component.GetType(), tempDict);
             }
 
