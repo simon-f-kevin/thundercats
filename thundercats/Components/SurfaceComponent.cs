@@ -10,9 +10,10 @@ namespace thundercats.Components
 {
     public class SurfaceComponent : Component
     {
-        enum Surface{Is, vatten, gjutja};
+        public enum Surface{Ice = -20, Standard = 0, Mud = 80};
         public SurfaceComponent(Entity id) : base(id)
         {
+
         }
     }
 }
