@@ -77,7 +77,7 @@ namespace thundercats
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            uiSystem.Initialize(spriteBatch);
+            uiSystem.Initialize(spriteBatch, this);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
@@ -112,7 +112,45 @@ namespace thundercats
 
             gameManager.Update(gameTime);
             // TODO: Add your update logic here
+            if (Keyboard.GetState().IsKeyDown(Keys.D1))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.CullMode = CullMode.None;
+                rasterizerState.FillMode = GraphicsDevice.RasterizerState.FillMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.D2))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.CullMode = CullMode.CullClockwiseFace;
+                rasterizerState.FillMode = GraphicsDevice.RasterizerState.FillMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
+                rasterizerState.FillMode = GraphicsDevice.RasterizerState.FillMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D4))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.FillMode = FillMode.WireFrame;
+                rasterizerState.CullMode = GraphicsDevice.RasterizerState.CullMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D5))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.FillMode = FillMode.Solid;
+                rasterizerState.CullMode = GraphicsDevice.RasterizerState.CullMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
             base.Update(gameTime);
         }
 
@@ -123,7 +161,7 @@ namespace thundercats
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
