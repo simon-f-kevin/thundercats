@@ -43,7 +43,7 @@ namespace Game_Engine.Systems
                 }
 
                 UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
-                UpdateFriction(velocityComponent);
+                UpdateFriction(velocityComponentPair.Key);
             }
         }
 
@@ -112,8 +112,10 @@ namespace Game_Engine.Systems
         /// Updates the friction.
         /// </summary>
         /// <param name="velocityComponent"></param>
-        private void UpdateFriction(VelocityComponent velocityComponent, FrictionComponent frictionComponent)
+        private void UpdateFriction(Entity key)
         {
+            var velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
+            var frictionComponent = componentManager.ConcurrentGetComponentOfEntity<FrictionComponent>(key);
             // Placeholder friction
             velocityComponent.Velocity.X *= frictionComponent.Friction;
             velocityComponent.Velocity.Z *= frictionComponent.Friction;
