@@ -11,6 +11,7 @@ namespace thundercats.Components
     public class AiComponent : Component
     {
         public enum AiState {Losing,Winning,Even};
+        public enum AiMove {Left = -1,Run = 0,Right = 1};
         public AiComponent(Entity id) : base(id)
         {
 
