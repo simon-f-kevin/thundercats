@@ -17,8 +17,6 @@ namespace thundercats.Systems
     public class SurfaceSystem : IUpdateableSystem
     {
 
-        // SurfaceComponent hej = new SurfaceComponent(player);
-
         public SurfaceSystem()
         {
         }
