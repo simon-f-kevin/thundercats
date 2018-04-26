@@ -27,12 +27,13 @@ namespace thundercats.GameStates.States.PlayingStates
             GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100),
                 new Vector3(0, 0, -10),viewport.AspectRatio, false,
                 AssetManager.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+            GameEntityFactory.NewPlayer("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100), AssetManager.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));
             // Creating Static ui stuff.
             //uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //uiFactory.CreateEntity(new Vector2(20, 150), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //CreateBlob();
-            
+
             /* Below is a temporary object you can use to test collision. (rendering both this and the player seems to result in weird scaling issues but that is a separate issue)
             Entity player = EntityFactory.NewEntity();
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>("Models/Blob"));
@@ -42,48 +43,10 @@ namespace thundercats.GameStates.States.PlayingStates
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);*/
+
+            GenerateMap();
         }
 
-
-
-        /*public void CreateBlob()
-        {
-            Entity blob = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>("Models/Blob"));
-            TransformComponent transformComponent = new TransformComponent(blob, new Vector3(650, viewport.Height * 0.45f, 150));
-            VelocityComponent velocityComponent = new VelocityComponent(blob);
-            PlayerComponent playerComponent = new PlayerComponent(blob);
-            KeyboardComponent keyboardComponent = new KeyboardComponent(blob);
-            GamePadComponent gamePadComponent = new GamePadComponent(blob, 0);
-            GravityComponent gravityComponent = new GravityComponent(blob);
-            UIComponent uiComponent = new UIComponent(blob) {
-                Position = new Vector2(viewport.TitleSafeArea.X+10, viewport.TitleSafeArea.Y+10),
-                SpriteFont = AssetManager.Instance.GetContent<SpriteFont>("menu"),
-                Text = "hejsan"
-
-            };
-            CameraComponent cameraComponent = new CameraComponent(blob, new Vector3(0, 0, -10), viewport.AspectRatio, false);
-
-            ComponentManager.Instance.AddComponentToEntity(blob, uiComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, cameraComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, gamePadComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, gravityComponent);
-
-        }*/
-        //ComponentManager.Instance.AddComponentToEntity(blob1, cameraComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, modelComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, transformComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, velocityComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, playerComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, keyboardComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, gamePadComponent);
-        //ComponentManager.Instance.AddComponentToEntity(blob1, gravityComponent);
-    
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -93,6 +56,11 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Update(GameTime gameTime)
         {
             SystemManager.Instance.Update(gameTime);
+        }
+
+        private void GenerateMap()
+        {
+            //throw new NotImplementedException();
         }
     }
 }
