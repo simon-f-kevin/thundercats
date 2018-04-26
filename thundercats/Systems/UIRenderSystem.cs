@@ -29,6 +29,7 @@ namespace thundercats.Systems
             sb.Begin();
             components.Values.ToList().ForEach(c => DrawUI(c as UIComponent));
             sb.End();
+            //Resets the graphics device to normal 3D-mode after spritebatch changes it.
             game.GraphicsDevice.BlendState = BlendState.Opaque;
             game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             game.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
