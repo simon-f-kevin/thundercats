@@ -41,9 +41,9 @@ namespace thundercats.Systems
                     var surfaceTest = ComponentManager.Instance.GetComponentOfEntity<SurfaceComponent>(surface.Key);
                     if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphere.BoundingSphere))
                     {
-                        
+
                         // Change player velocity with surface values
-                        //playerFrictionConstant.Friction = SurfaceEnum.surface 
+                        playerFrictionConstant.Friction = (float)surfaceTest.SurfaceType;
 
                         // Continue to the next player
                         break;

@@ -11,9 +11,10 @@ namespace thundercats.Components
     public class SurfaceComponent : Component
     {
         public enum Surface { Fast = -20, Standard = 0, Slow = 80 };
-        public SurfaceComponent(Entity id) : base(id)
+        public Surface SurfaceType {get; set;}
+        public SurfaceComponent(Entity id, Surface surfaceType) : base(id)
         {
-
+            SurfaceType = surfaceType;
         }
     }
 }
