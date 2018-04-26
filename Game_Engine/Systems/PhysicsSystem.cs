@@ -112,11 +112,11 @@ namespace Game_Engine.Systems
         /// Updates the friction.
         /// </summary>
         /// <param name="velocityComponent"></param>
-        private void UpdateFriction(VelocityComponent velocityComponent)
+        private void UpdateFriction(VelocityComponent velocityComponent, FrictionComponent frictionComponent)
         {
             // Placeholder friction
-            velocityComponent.Velocity.X *= 0.5f;
-            velocityComponent.Velocity.Z *= 0.5f;
+            velocityComponent.Velocity.X *= frictionComponent.Friction;
+            velocityComponent.Velocity.Z *= frictionComponent.Friction;
         }
     }
 }

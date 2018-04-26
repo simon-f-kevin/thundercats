@@ -32,16 +32,18 @@ namespace thundercats.Systems
             foreach (var player in playerKeyValuePair)
             {
                 var playerBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(player.Key);
+                var playerFrictionConstant = ComponentManager.Instance.GetComponentOfEntity<FrictionComponent>(player.Key);
                 // find a more effective way instead of comparing all surfaces if level is big.
                 foreach (var surface in surfaceKeyValuePair)
                 {
                     // Check if it collides with this surface
                     var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(surface.Key);
-
+                    var surfaceTest = ComponentManager.Instance.GetComponentOfEntity<SurfaceComponent>(surface.Key);
                     if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphere.BoundingSphere))
                     {
+                        
                         // Change player velocity with surface values
-
+                        //playerFrictionConstant.Friction = SurfaceEnum.surface 
 
                         // Continue to the next player
                         break;
