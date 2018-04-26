@@ -59,7 +59,7 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
            
-            SystemManager.Instance.AddToDrawables(uiSystem);
+            //SystemManager.Instance.AddToDrawables(uiSystem);
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
@@ -112,7 +112,45 @@ namespace thundercats
 
             gameManager.Update(gameTime);
             // TODO: Add your update logic here
+            if (Keyboard.GetState().IsKeyDown(Keys.D1))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.CullMode = CullMode.None;
+                rasterizerState.FillMode = GraphicsDevice.RasterizerState.FillMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
 
+            if (Keyboard.GetState().IsKeyDown(Keys.D2))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.CullMode = CullMode.CullClockwiseFace;
+                rasterizerState.FillMode = GraphicsDevice.RasterizerState.FillMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
+                rasterizerState.FillMode = GraphicsDevice.RasterizerState.FillMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D4))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.FillMode = FillMode.WireFrame;
+                rasterizerState.CullMode = GraphicsDevice.RasterizerState.CullMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D5))
+            {
+                RasterizerState rasterizerState = new RasterizerState();
+                rasterizerState.FillMode = FillMode.Solid;
+                rasterizerState.CullMode = GraphicsDevice.RasterizerState.CullMode;
+                GraphicsDevice.RasterizerState = rasterizerState;
+            }
             base.Update(gameTime);
         }
 
