@@ -68,6 +68,7 @@ namespace Game_Engine.Systems
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
                     {
+                        CollisionManager.Instance.AddCollisionPair(sourceBoundingSphereComponent, targetBoundingSphereComponent);
                         found = true; //Temp debug flag
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }

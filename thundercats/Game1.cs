@@ -26,6 +26,7 @@ namespace thundercats
         PlayerInputSystem playerInputSystem;
         CameraSystem cameraSystem;
         UIRenderSystem uiSystem;
+        CollisionHandlingSystem collisionHandlingSystem;
 
         public Game1()
         {
@@ -57,13 +58,15 @@ namespace thundercats
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
-           
+            collisionHandlingSystem = new CollisionHandlingSystem();
+
             SystemManager.Instance.AddToDrawables(uiSystem);
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
+            SystemManager.Instance.AddToUpdateables(collisionHandlingSystem);
 
             base.Initialize();
         }

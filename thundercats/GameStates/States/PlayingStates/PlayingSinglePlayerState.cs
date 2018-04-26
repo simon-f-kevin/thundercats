@@ -29,8 +29,8 @@ namespace thundercats.GameStates.States.PlayingStates
             //uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //uiFactory.CreateEntity(new Vector2(20, 150), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //CreateBlob();
-            
-            /* Below is a temporary object you can use to test collision. (rendering both this and the player seems to result in weird scaling issues but that is a separate issue)
+
+            //Below is a temporary object you can use to test collision
             Entity player = EntityFactory.NewEntity();
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>("Models/Blob"));
             TransformComponent transformComponent = new TransformComponent(player, new Vector3(600, viewport.Height * 0.45f, 100));
@@ -38,7 +38,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);*/
+            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
         }
 
 

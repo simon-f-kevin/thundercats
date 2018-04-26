@@ -13,7 +13,6 @@ namespace Game_Engine.Managers
     {
 
         private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> componentPairsAndTypes;
-        
 
         private static ComponentManager instance;
 
