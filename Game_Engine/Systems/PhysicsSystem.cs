@@ -123,8 +123,12 @@ namespace Game_Engine.Systems
             var velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
             var frictionComponent = componentManager.ConcurrentGetComponentOfEntity<FrictionComponent>(key);
             // Placeholder friction
-            velocityComponent.Velocity.X *= frictionComponent.Friction;
-            velocityComponent.Velocity.Z *= frictionComponent.Friction;
+            if(frictionComponent != null)
+            {
+                velocityComponent.Velocity.X *= frictionComponent.Friction;
+                velocityComponent.Velocity.Z *= frictionComponent.Friction;
+            }
+
         }
     }
 }
