@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
@@ -10,6 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game_Engine.Systems
 {
+    /*
+    * System to handle all rendering of all 3D models.
+    * ModelRenderSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
+    */
     public class ModelRenderSystem : IDrawableSystem
     {
         public GraphicsDevice graphicsDevice { get; set; }
@@ -41,6 +46,8 @@ namespace Game_Engine.Systems
             
 
             foreach (var modelComponentPair in modelComponents)
+
+            Parallel.ForEach(modelComponents, modelComponentPair =>
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
                 TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
@@ -62,7 +69,7 @@ namespace Game_Engine.Systems
                         modelMesh.Draw();
                     }
                 }
-            }
+            });
         }
 
         private void DrawGameWorld()

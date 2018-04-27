@@ -8,13 +8,13 @@ namespace Game_Engine.Managers
 {
     /*
      * Provides methods for adding/removing/retrieving all components in the game.
+     * Component manager is made thread safe by the use of concurrent dictionaries.
      */
     public class ComponentManager
     {
 
         private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> componentPairsAndTypesConcurrent;
         private Dictionary<Type, Dictionary<Entity, Component>> componentPairsAndTypes;
-        
 
         private static ComponentManager instance;
 
@@ -103,8 +103,8 @@ namespace Game_Engine.Managers
             }
             if(!componentPairsAndTypes.TryGetValue(component.GetType(), out tempDict))
             {
-                tempDict = new Dictionary<Entity, Component>();
-                componentPairsAndTypes.Add(component.GetType(), tempDict);
+                tempDict = new ConcurrentDictionary<Entity, Component>();
+                componentPairsAndTypes.TryAdd(component.GetType(), tempDict);
             }
 
             /* Check that the exact component instance does not already exist in the dictionary, if it does throw an error. */
@@ -147,7 +147,7 @@ namespace Game_Engine.Managers
 
         public T GetComponentOfEntity<T>(Entity entity) where T : Component
         {
-            Dictionary<Entity, Component> tempDict;
+            ConcurrentDictionary<Entity, Component> tempDict;
             if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component component;
