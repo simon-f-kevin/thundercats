@@ -17,7 +17,11 @@ namespace Game_Engine.Systems
     */
     public class ModelRenderSystem : IDrawableSystem
     {
-        
+        public GraphicsDevice graphicsDevice { get; set; }
+        public ModelRenderSystem()
+        {
+
+        }
         public void Draw(GameTime gameTime)
         {
             DrawModels(gameTime);
@@ -30,29 +34,38 @@ namespace Game_Engine.Systems
          */
         private void DrawModels(GameTime gameTime)
         {
-            ConcurrentDictionary<Entity, Component> modelComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<ModelComponent>();
-            ConcurrentDictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
+            ConcurrentDictionary<Entity, Component> modelComponents = ComponentManager.Instance.GetConcurrentDictionary<ModelComponent>();
+            ConcurrentDictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetConcurrentDictionary<CameraComponent>();
 
-            if(cameraComponentPairs.Count == 0)
+            if (cameraComponentPairs.Count == 0)
             {
                 return;
             }
+            
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+            
 
-            Parallel.ForEach(modelComponentPairs, modelComponentPair =>
+            foreach (var modelComponentPair in modelComponents)
+
+            Parallel.ForEach(modelComponents, modelComponentPair =>
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
+                TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
                 model.BoneTransformations[0] = model.World;
 
                 foreach(var modelMesh in model.Model.Meshes)
                 {
-
                     foreach(BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
+                        effect.LightingEnabled = true;
+                        effect.Texture = textureComponent.Texture;
+                        effect.TextureEnabled = true;
+                       
+
                         modelMesh.Draw();
                     }
                 }
