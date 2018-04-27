@@ -4,6 +4,7 @@ using Game_Engine.Managers;
 using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using thundercats.Actions;
 
@@ -20,7 +21,7 @@ namespace thundercats.Systems
          */
         public void Update(GameTime gameTime)
         {
-            Dictionary<Entity, Component> playerComponents = componentManager.GetComponentDictionary<PlayerComponent>();
+            ConcurrentDictionary<Entity, Component> playerComponents = componentManager.GetComponentDictionary<PlayerComponent>();
 
             foreach(Entity playerEntity in playerComponents.Keys)
             {
