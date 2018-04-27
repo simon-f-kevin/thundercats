@@ -43,23 +43,31 @@ namespace thundercats.GameStates.States.MenuStates
             String txtSingleplayer = "Singelplayer";
             String txtExit = "Quit";
 
-            //sb.Draw(null, viewport.Bounds, Color.White);
-            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtSingleplayer, new Vector2(600, viewport.Height * 0.45f), Color.White);
-            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtMultiplayer, new Vector2(600, viewport.Height * 0.55f), Color.White);
-            sb.DrawString(AssetManager.Instance.GetContent<SpriteFont>("menu"), txtExit, new Vector2(600, viewport.Height * 0.65f), Color.White);
+            SpriteFont font = AssetManager.Instance.GetContent<SpriteFont>("menu");
+
+            Texture2D arrow = AssetManager.Instance.GetContent<Texture2D>("2DTextures/option-marker");
+
+            Vector2 positionSinglePlayer = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtSingleplayer).X * 0.5f), viewport.Height * 0.55f);
+            Vector2 positionMultiPlayer = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtMultiplayer).X * 0.5f), viewport.Height * 0.65f);
+            Vector2 positionExit = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtExit).X * 0.5f), viewport.Height * 0.75f);
+
+            sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/bg-menu"), viewport.Bounds, Color.White);
+            sb.DrawString(font, txtSingleplayer, positionSinglePlayer, Color.White);
+            sb.DrawString(font, txtMultiplayer, positionMultiPlayer , Color.White);
+            sb.DrawString(font, txtExit, positionExit, Color.White);
 
             // draws a sprite next to current pos
 
             switch (currentPosition)
             {
                 case OptionsState.Singleplayer:
-                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.40f), Color.White);
+                    sb.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionSinglePlayer.Y - (font.MeasureString(txtSingleplayer).Y * 0.5f)), Color.White);
                     break;
                 case OptionsState.Multiplayer:
-                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.50f), Color.White);
+                    sb.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionMultiPlayer.Y - (font.MeasureString(txtMultiplayer).Y * 0.5f)), Color.White);
                     break;
                 case OptionsState.Exit:
-                    sb.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"), new Vector2(250, viewport.Height * 0.60f), Color.White);
+                    sb.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionExit.Y - (font.MeasureString(txtExit).Y * 0.5f)), Color.White);
                     break;
             }
         }

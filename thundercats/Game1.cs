@@ -80,7 +80,8 @@ namespace thundercats
             uiSystem.Initialize(spriteBatch, this);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
-            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
 
