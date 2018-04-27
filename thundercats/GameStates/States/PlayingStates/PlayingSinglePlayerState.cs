@@ -54,7 +54,7 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("nick");
+            worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
             var world = GenerateWorld(2, 2);
             int distanceBetweenBlocksX = 100;
             int distanceBetweenBlocksZ = 80;
@@ -63,7 +63,9 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int z = 0; z < world.GetLength(1); z++)
                 {
-                    GameEntityFactory.NewBlock(new Vector2((x * distanceBetweenBlocksX), (z * distanceBetweenBlocksZ)), AssetManager.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+                    if(world[x,z] == 1) GameEntityFactory.NewBlock(new Vector2((x * distanceBetweenBlocksX), (z * distanceBetweenBlocksZ)), 
+                        AssetManager.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+
                     iter++; //for debugging
                 }
             }
