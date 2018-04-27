@@ -52,11 +52,11 @@ namespace Game_Engine.Managers
         {
             if (!contentDictionary.ContainsKey(typeof(Texture2D)))
             {
-                contentDictionary.Add(typeof(Texture2D), new Dictionary<string, object>());
+                contentDictionary.TryAdd(typeof(Texture2D), new ConcurrentDictionary<string, object>());
             }
             if (!contentDictionary[typeof(Texture2D)].ContainsKey(filthyPeasantSpellingColor.ToString()))
             {
-                contentDictionary[typeof(Texture2D)].Add(filthyPeasantSpellingColor.ToString(), CreateTexture(graphicsDevice, 1, 1, pixel => filthyPeasantSpellingColor));
+                contentDictionary[typeof(Texture2D)].TryAdd(filthyPeasantSpellingColor.ToString(), CreateTexture(graphicsDevice, 1, 1, pixel => filthyPeasantSpellingColor));
             }
             return contentDictionary[typeof(Texture2D)][filthyPeasantSpellingColor.ToString()] as Texture2D;
 
