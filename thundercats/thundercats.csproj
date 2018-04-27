@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Actions\PlayerActions.cs" />
+    <Compile Include="Components\AiComponent.cs" />
     <Compile Include="Components\SurfaceComponent.cs" />
     <Compile Include="Factory\Uifactory.cs" />
     <Compile Include="Factory\WorldGenerator.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="GameStates\States\MenuStates\SinglePlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\AiSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\SurfaceSystem.cs" />
     <Compile Include="Systems\UIRenderSystem.cs" />
