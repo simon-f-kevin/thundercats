@@ -48,10 +48,20 @@ namespace Game_Engine.Managers
             return contentDictionary[typeof(T)][contentName] as T;
         }
 
-        public static Texture2D CreateTexture(Color color, GraphicsDevice graphicsDevice)
+        public Texture2D CreateTexture(Color filthyPeasantSpellingColor, GraphicsDevice graphicsDevice)
         {
-            return CreateTexture(graphicsDevice, 1, 1, pixel => color);
+            if (!contentDictionary.ContainsKey(typeof(Texture2D)))
+            {
+                contentDictionary.TryAdd(typeof(Texture2D), new ConcurrentDictionary<string, object>());
+            }
+            if (!contentDictionary[typeof(Texture2D)].ContainsKey(filthyPeasantSpellingColor.ToString()))
+            {
+                contentDictionary[typeof(Texture2D)].TryAdd(filthyPeasantSpellingColor.ToString(), CreateTexture(graphicsDevice, 1, 1, pixel => filthyPeasantSpellingColor));
+            }
+            return contentDictionary[typeof(Texture2D)][filthyPeasantSpellingColor.ToString()] as Texture2D;
+
         }
+
         private static Texture2D CreateTexture(GraphicsDevice device, int width, int height, System.Func<int, Color> paint)
         {
             //initialize a texture
