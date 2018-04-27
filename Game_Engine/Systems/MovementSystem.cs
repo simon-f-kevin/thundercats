@@ -20,11 +20,11 @@ namespace Game_Engine.Systems
                 var transformationComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
                 var modelComponent = ComponentManager.Instance.GetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
 
-                transformationComponent.Position += velocityComponent.Velocity;
+                transformationComponent.Position.New = velocityComponent.Velocity.Old;
                 if (modelComponent != null)
                 {
                     //UpdateModel(modelComponent, transformation, velocity);
-                    modelComponent.World *= Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z) * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
+                    modelComponent.World *= Matrix.CreateTranslation(velocityComponent.Velocity.Old.X, velocityComponent.Velocity.Old.Y, velocityComponent.Velocity.Old.Z) * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.Old.X, velocityComponent.Velocity.Old.Y, velocityComponent.Velocity.Old.Z);
                 }
                 Console.WriteLine(transformationComponent.Position.ToString());
             }
