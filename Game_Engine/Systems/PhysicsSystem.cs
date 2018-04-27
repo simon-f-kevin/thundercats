@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 namespace Game_Engine.Systems
 {
+    /*
+     * System to handle all physics updates including 3D transformations based on velocity, friction, and collision.
+     * PhysicsSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
+     */
     public class PhysicsSystem : IUpdateableSystem
     {
  
@@ -27,7 +32,7 @@ namespace Game_Engine.Systems
         {
             ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetConcurrentDictionary<VelocityComponent>();
 
-            foreach(var velocityComponentPair in velocityComponentPairs)
+            Parallel.ForEach(velocityComponentPairs, velocityComponentPair =>
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
@@ -37,14 +42,14 @@ namespace Game_Engine.Systems
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
 
-                if(modelComponent != null)
+                if (modelComponent != null)
                 {
                     modelComponent.World *= translation;
                 }
 
                 UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
                 UpdateFriction(velocityComponentPair.Key);
-            }
+            });
         }
 
        
@@ -58,9 +63,10 @@ namespace Game_Engine.Systems
             ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponentPairs.Values)
+            Parallel.ForEach(boundingSphereComponentPairs, boundingSphereComponentPair =>
             {
-                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
+                var sourceBoundingSphereComponent = boundingSphereComponentPair.Value as BoundingSphereComponent;
+                foreach (BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
                 {
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
@@ -69,7 +75,7 @@ namespace Game_Engine.Systems
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
                 }
-            }
+            });
             if(!found) //Temp debug check
             {
                 //Console.WriteLine("No BoundingSphereComponents intersect");
