@@ -69,6 +69,7 @@ namespace thundercats
             Entity block = EntityFactory.NewEntity();
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: 0, z: positionValues.Y));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
+            modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block)
             {
                 Texture = Texture

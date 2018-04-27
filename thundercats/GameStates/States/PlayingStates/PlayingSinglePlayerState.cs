@@ -26,7 +26,7 @@ namespace thundercats.GameStates.States.PlayingStates
         {
             uiFactory = new UiFactory(viewport);
             GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100),
-                new Vector3(0, -50, -100),viewport.AspectRatio, false,
+                new Vector3(0, 0, -50),viewport.AspectRatio, true,
                 AssetManager.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             // Creating Static ui stuff.
             //uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
@@ -34,32 +34,36 @@ namespace thundercats.GameStates.States.PlayingStates
             //uiFactory.CreateEntity(new Vector2(20, 150), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //CreateBlob();
 
-            /* Below is a temporary object you can use to test collision. (rendering both this and the player seems to result in weird scaling issues but that is a separate issue)
-            Entity player = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>("Models/Blob"));
-            TransformComponent transformComponent = new TransformComponent(player, new Vector3(600, viewport.Height * 0.45f, 100));
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
-
-            ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);*/
-
             InitWorld();
 
         }
+       
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            SystemManager.Instance.Draw(gameTime);
+        }
 
+        public void Update(GameTime gameTime)
+        {
+            SystemManager.Instance.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Initiates the gameworld by generating a world matrix.
+        /// Creates blocks and places them on the positions in the world matrix. 
+        /// </summary>
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("nick");
             var world = GenerateWorld(2, 2);
-            int blockDepth = 20;
-            int blockWidth = 20;
+            int distanceBetweenBlocksX = 100;
+            int distanceBetweenBlocksZ = 80;
             int iter = 0;
-            for (int i = 0; i < world.GetLength(0); i++)
+            for (int x = 0; x < world.GetLength(0); x++)
             {
-                for (int j = 0; j < world.GetLength(1); j++)
+                for (int z = 0; z < world.GetLength(1); z++)
                 {
-                    GameEntityFactory.NewBlock(new Vector2((i * blockDepth), (j * blockWidth)), AssetManager.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+                    GameEntityFactory.NewBlock(new Vector2((x * distanceBetweenBlocksX), (z * distanceBetweenBlocksZ)), AssetManager.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
                     iter++; //for debugging
                 }
             }
@@ -72,14 +76,18 @@ namespace thundercats.GameStates.States.PlayingStates
             return world;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        private void TestCollisionEntity()
         {
-            SystemManager.Instance.Draw(gameTime);
+            //Below is a temporary object you can use to test collision. (rendering both this and the player seems to result in weird scaling issues but that is a separate issue)
+            Entity player = EntityFactory.NewEntity();
+            ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>("Models/Blob"));
+            TransformComponent transformComponent = new TransformComponent(player, new Vector3(600, viewport.Height * 0.45f, 100));
+            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+
+            ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
         }
 
-        public void Update(GameTime gameTime)
-        {
-            SystemManager.Instance.Update(gameTime);
-        }
     }
 }

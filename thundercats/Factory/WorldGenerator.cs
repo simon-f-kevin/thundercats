@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace thundercats.Factory
 {
+    /// <summary>
+    /// WorldGenerator contains methods for generating an empty worldmatrix
+    /// and populating the matrix 
+    /// </summary>
     public class WorldGenerator
     {
         private string seed;
@@ -54,11 +58,11 @@ namespace thundercats.Factory
                 ModelComponent modelComponent = ComponentManager.Instance.GetComponentOfEntity<ModelComponent>(entity);
                 TransformComponent transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(entity);
 
-                
-                Matrix translation = Matrix.CreateTranslation(transformComponent.Position)
-                        * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(transformComponent.Position);
 
-                modelComponent.World *= translation;
+                Matrix translation = Matrix.CreateTranslation(transformComponent.Position);
+
+                modelComponent.World = translation;
+                //Console.WriteLine(modelComponent.World.Translation);
             }
         }
     }
