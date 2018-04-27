@@ -38,6 +38,7 @@ namespace Game_Engine.Systems
             }
             
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+            
 
             foreach (var modelComponentPair in modelComponents)
             {
@@ -53,8 +54,10 @@ namespace Game_Engine.Systems
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
+                        effect.LightingEnabled = true;
                         effect.Texture = textureComponent.Texture;
                         effect.TextureEnabled = true;
+                       
 
                         modelMesh.Draw();
                     }

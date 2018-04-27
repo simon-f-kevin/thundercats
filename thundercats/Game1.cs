@@ -77,7 +77,7 @@ namespace thundercats
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            uiSystem.Initialize(spriteBatch);
+            uiSystem.Initialize(spriteBatch, this);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/arrow");
@@ -161,7 +161,7 @@ namespace thundercats
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
