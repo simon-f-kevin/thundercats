@@ -27,7 +27,7 @@ namespace thundercats.GameStates.States.PlayingStates
             uiFactory = new UiFactory(viewport);
             GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100),
                 new Vector3(0, 0, -50),viewport.AspectRatio, true,
-                AssetManager.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+                AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             // Creating Static ui stuff.
             //uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
@@ -64,7 +64,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 for (int z = 0; z < world.GetLength(1); z++)
                 {
                     if(world[x,z] == 1) GameEntityFactory.NewBlock(new Vector2((x * distanceBetweenBlocksX), (z * distanceBetweenBlocksZ)), 
-                        AssetManager.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
 
                     iter++; //for debugging
                 }
