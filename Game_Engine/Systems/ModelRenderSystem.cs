@@ -43,19 +43,16 @@ namespace Game_Engine.Systems
             }
             
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
-            
 
-            foreach (var modelComponentPair in modelComponents)
-
-            Parallel.ForEach(modelComponents, modelComponentPair =>
+            foreach(var modelComponentPair in modelComponents)
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
                 TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
                 model.BoneTransformations[0] = model.World;
 
-                foreach(var modelMesh in model.Model.Meshes)
+                foreach (var modelMesh in model.Model.Meshes)
                 {
-                    foreach(BasicEffect effect in modelMesh.Effects)
+                    foreach (BasicEffect effect in modelMesh.Effects)
                     {
                         effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
                         effect.View = cameraComponent.ViewMatrix;
@@ -64,12 +61,32 @@ namespace Game_Engine.Systems
                         effect.LightingEnabled = true;
                         effect.Texture = textureComponent.Texture;
                         effect.TextureEnabled = true;
-                       
 
                         modelMesh.Draw();
                     }
                 }
-            });
+            }
+            //Parallel.ForEach(modelComponents, modelComponentPair =>
+            //{
+            //    ModelComponent model = modelComponentPair.Value as ModelComponent;
+            //    TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
+            //    model.BoneTransformations[0] = model.World;
+
+            //    foreach(var modelMesh in model.Model.Meshes)
+            //    {
+            //        foreach(BasicEffect effect in modelMesh.Effects)
+            //        {
+            //            effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
+            //            effect.View = cameraComponent.ViewMatrix;
+            //            effect.Projection = cameraComponent.ProjectionMatrix;
+            //            effect.EnableDefaultLighting();
+            //            effect.LightingEnabled = true;
+            //            effect.Texture = textureComponent.Texture;
+            //            effect.TextureEnabled = true
+            //            modelMesh.Draw();
+            //        }
+            //    }
+            //});
         }
 
         private void DrawGameWorld()

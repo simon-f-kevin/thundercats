@@ -103,8 +103,8 @@ namespace Game_Engine.Managers
             }
             if(!componentPairsAndTypes.TryGetValue(component.GetType(), out tempDict))
             {
-                tempDict = new ConcurrentDictionary<Entity, Component>();
-                componentPairsAndTypes.TryAdd(component.GetType(), tempDict);
+                tempDict = new Dictionary<Entity, Component>();
+                componentPairsAndTypes.Add(component.GetType(), tempDict);
             }
 
             /* Check that the exact component instance does not already exist in the dictionary, if it does throw an error. */
@@ -145,13 +145,14 @@ namespace Game_Engine.Managers
             return null;
         }
 
+       
         public T GetComponentOfEntity<T>(Entity entity) where T : Component
         {
-            ConcurrentDictionary<Entity, Component> tempDict;
-            if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
+            Dictionary<Entity, Component> tempDict;
+            if (componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component component;
-                if(tempDict.TryGetValue(entity, out component))
+                if (tempDict.TryGetValue(entity, out component))
                 {
                     return (T)component;
                 }

@@ -42,14 +42,14 @@ namespace Game_Engine.Systems
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
 
-                if(modelComponent != null)
+                if (modelComponent != null)
                 {
                     modelComponent.World *= translation;
                 }
 
                 UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
                 UpdateFriction(velocityComponentPair.Key);
-            }
+            });
         }
 
        
@@ -65,7 +65,8 @@ namespace Game_Engine.Systems
 
             Parallel.ForEach(boundingSphereComponentPairs, boundingSphereComponentPair =>
             {
-                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
+                var sourceBoundingSphereComponent = boundingSphereComponentPair.Value as BoundingSphereComponent;
+                foreach (BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
                 {
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
