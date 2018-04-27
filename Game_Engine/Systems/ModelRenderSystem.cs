@@ -38,7 +38,6 @@ namespace Game_Engine.Systems
             }
             
             CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
-            
 
             foreach (var modelComponentPair in modelComponents)
             {
@@ -56,11 +55,6 @@ namespace Game_Engine.Systems
                         effect.EnableDefaultLighting();
                         effect.Texture = textureComponent.Texture;
                         effect.TextureEnabled = true;
-                        //foreach(EffectPass ep in effect.CurrentTechnique.Passes)
-                        //{
-                        //    ep.Apply();
-                        //    graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
-                        //}
 
                         modelMesh.Draw();
                     }
