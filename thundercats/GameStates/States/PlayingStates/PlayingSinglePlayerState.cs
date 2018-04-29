@@ -40,6 +40,9 @@ namespace thundercats.GameStates.States.PlayingStates
        
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+            spriteBatch.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/stars"), viewport.TitleSafeArea, Color.White);
+            spriteBatch.End();
             SystemManager.Instance.Draw(gameTime);
         }
 

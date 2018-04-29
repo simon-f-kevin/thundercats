@@ -30,7 +30,7 @@ namespace thundercats
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferWidth = 1000;
             graphics.PreferredBackBufferHeight = 600;
             //graphics.PreferMultiSampling = false;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
@@ -82,6 +82,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
 
