@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using thundercats.Actions;
 
 namespace thundercats.Systems
 {
@@ -27,6 +28,7 @@ namespace thundercats.Systems
             }
         }
 
+        /* Runs collision actions based on entity type of the source component pair. */
         private void ResolveCollision(Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
@@ -36,42 +38,44 @@ namespace thundercats.Systems
             {
                 case "local_player":
                     UpdateSourceCollider(sourceEntity, targetEntity);
-                    //Console.WriteLine("local_player collision at sides: " + collisionSides.Item1 + " " + collisionSides.Item2 + " " + collisionSides.Item3);
                     break;
                 case "default":
                     break;
             }       
 		}
 
+        /*
+         * Move the source entity away from the target which it has collided with.
+         * TODO: Adjustment velocity is currently static and should be adjusted to be relative to how close the spheres are at each axis.
+         */
         private void UpdateSourceCollider(Entity sourceEntity, Entity targetEntity)
         {
             BoundingSphereComponent sourceBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(sourceEntity);
             BoundingSphereComponent targetBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(targetEntity);
-            VelocityComponent sourceVelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(sourceEntity);
 
             if(sourceBoundingSphereComponent.BoundingSphere.Center.X < targetBoundingSphereComponent.BoundingSphere.Center.X)
             {
-                sourceVelocityComponent.Velocity.X -= 0.1f;
+                CollisionActions.AccelerateColliderRightwards(sourceEntity);
             }
             else
             {
-                sourceVelocityComponent.Velocity.X += 0.1f;
+                CollisionActions.AccelerateColliderLeftwards(sourceEntity);
             }
             if(sourceBoundingSphereComponent.BoundingSphere.Center.Y < targetBoundingSphereComponent.BoundingSphere.Center.Y)
             {
-                //sourceVelocityComponent.Velocity.Y -= 0.1f;
+                CollisionActions.AccelerateColliderDownwards(sourceEntity);
             }
             else
             {
-                //sourceVelocityComponent.Velocity.Y += 0.1f;
+                CollisionActions.AccelerateColliderUpwards(sourceEntity);
             }
             if(sourceBoundingSphereComponent.BoundingSphere.Center.Z < targetBoundingSphereComponent.BoundingSphere.Center.Z)
             {
-                sourceVelocityComponent.Velocity.Z -= 0.1f;
+                CollisionActions.AccelerateColliderBackwards(sourceEntity);
             }
             else
             {
-                sourceVelocityComponent.Velocity.Z += 0.1f;
+                CollisionActions.AccelerateColliderForwards(sourceEntity);
             }
         }
     }
