@@ -34,6 +34,12 @@ namespace Game_Engine.Systems
          */
         private void DrawModels(GameTime gameTime)
         {
+            //Undoes any changes from using the spritebatch
+            graphicsDevice.BlendState = BlendState.Opaque;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
+            graphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
+
             ConcurrentDictionary<Entity, Component> modelComponents = ComponentManager.Instance.GetConcurrentDictionary<ModelComponent>();
             ConcurrentDictionary<Entity, Component> cameraComponentPairs = ComponentManager.Instance.GetConcurrentDictionary<CameraComponent>();
 
