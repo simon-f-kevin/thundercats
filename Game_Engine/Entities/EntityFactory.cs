@@ -13,6 +13,11 @@ namespace Game_Engine.Entities
             return new Entity();
         }
 
+        public static Entity NewEntity(string typeName)
+        {
+            return new Entity(typeName);
+        }
+
         /* Adds all given components to a new Entity. */
         public static Entity NewEntityWithComponents(List<Component> components)
         {

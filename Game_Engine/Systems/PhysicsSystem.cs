@@ -41,8 +41,8 @@ namespace Game_Engine.Systems
                 transformationComponent.Position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
-
-                if (modelComponent != null)
+                
+                if(modelComponent != null)
                 {
                     modelComponent.World *= translation;
                 }
@@ -63,14 +63,21 @@ namespace Game_Engine.Systems
             ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            Parallel.ForEach(boundingSphereComponentPairs, boundingSphereComponentPair =>
+            Parallel.ForEach(boundingSphereComponentPairs, sourceBoundingSphereComponentPair =>
             {
-                var sourceBoundingSphereComponent = boundingSphereComponentPair.Value as BoundingSphereComponent;
-                foreach (BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
+                Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
+                var sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundingSphereComponent;
+
+                foreach (var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
                 {
+
+                    Entity targetEntity = targetBoundingSphereComponentPair.Key;
+                    BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundingSphereComponent;
+
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
                     {
+                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         found = true; //Temp debug flag
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
@@ -129,6 +136,23 @@ namespace Game_Engine.Systems
                 velocityComponent.Velocity.Z *= frictionComponent.Friction;
             }
 
+        }
+
+        /*
+         * Translates a model component to be at the same world position as a transform component.
+         */
+        public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
+        {
+            modelComponent.World = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+        }
+
+        /*
+         * Translates a bounding sphere component to be at the same world position as a transform component.
+         */
+        public static void SetInitialBoundingSpherePos(BoundingSphereComponent boundingSphereComponent, TransformComponent transformComponent)
+        {
+            Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
         }
     }
 }

@@ -65,9 +65,11 @@ namespace Game_Engine.Systems
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
                         effect.LightingEnabled = true;
-                        effect.Texture = textureComponent.Texture;
-                        effect.TextureEnabled = true;
-
+                        if(textureComponent != null)
+                        {
+                            effect.Texture = textureComponent.Texture;
+                            effect.TextureEnabled = true;
+                        }
                         modelMesh.Draw();
                     }
                 }
