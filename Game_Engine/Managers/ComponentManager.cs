@@ -20,7 +20,6 @@ namespace Game_Engine.Managers
 
         private ComponentManager()
         {
-
             componentPairsAndTypes = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
         }
 
@@ -53,9 +52,6 @@ namespace Game_Engine.Managers
             }
             return new ConcurrentDictionary<Entity, Component>();        
         }
-
-        
-
 
         /*
          * Returns component of type T attached to given Entity in the provided Dictionary, or null if not found.

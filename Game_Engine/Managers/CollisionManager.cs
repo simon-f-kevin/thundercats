@@ -7,13 +7,13 @@ namespace Game_Engine.Managers
 {
     public class CollisionManager
     {
-        public ConcurrentQueue<Tuple<Component, Component>> CurrentCollisionPairs {get;}
+        public Queue<Tuple<Entity, Entity>> CurrentCollisionPairs {get;}
 
         private static CollisionManager instance;
 
         private CollisionManager()
         {
-            CurrentCollisionPairs = new ConcurrentQueue<Tuple<Component, Component>>();
+            CurrentCollisionPairs = new Queue<Tuple<Entity, Entity>>();
         }
 
         public static CollisionManager Instance
@@ -27,15 +27,14 @@ namespace Game_Engine.Managers
             }
         }
 
-        public void AddCollisionPair(Component sourceComponent, Component targetComponent)
+        public void AddCollisionPair(Entity source, Entity target)
         {
-            CurrentCollisionPairs.Enqueue(new Tuple<Component, Component>(sourceComponent, targetComponent));
+            CurrentCollisionPairs.Enqueue(new Tuple<Entity, Entity>(source, target));
         }
 
-        public void RemoveCollisionPair()
+        public Component RemoveCollisionPair()
         {
-            Tuple<Component, Component> tempCollisionPair;
-            CurrentCollisionPairs.TryDequeue(out tempCollisionPair);
+            return CollisionPairs.Dequeue();
         }
     }
 }

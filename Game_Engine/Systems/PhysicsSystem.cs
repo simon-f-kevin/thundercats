@@ -61,14 +61,20 @@ namespace Game_Engine.Systems
             ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetComponentPairDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponentPairs.Values)
+            foreach(var sourceBoundingSphereComponentPair in boundingSphereComponentPairs)
             {
-                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
+                Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
+                BoundingSphereComponent sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundningSphereComponent;
+
+                foreach(var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
                 {
+                    Entity targetEntity = targetBoundingSphereComponentPair.Key;
+                    BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundningSphereComponent;
+
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
                     {
-                        CollisionManager.Instance.AddCollisionPair(sourceBoundingSphereComponent, targetBoundingSphereComponent);
+                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         found = true; //Temp debug flag
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
