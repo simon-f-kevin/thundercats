@@ -12,8 +12,9 @@ namespace Game_Engine.Components
     {
         public Texture2D Texture { get; set; }
 
-        public TextureComponent(Entity id) : base(id)
+        public TextureComponent(Entity id, Texture2D texture) : base(id)
         {
+            Texture = texture;
         }
     }
 }

@@ -24,7 +24,10 @@ namespace thundercats.Systems
             for(int i = 0; i < collisionPairs.Count; i++)
             {
                 currentCollisionPair = collisionManager.RemoveCollisionPair();
-                ResolveCollision(currentCollisionPair);
+                if(currentCollisionPair != null)
+                {
+                    ResolveCollision(currentCollisionPair);
+                }
             }
         }
 

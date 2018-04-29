@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using thundercats.Factory;
 using System;
 using System.Linq;
+using Game_Engine.Systems;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -13,7 +14,6 @@ namespace thundercats.GameStates.States.PlayingStates
     {
         private GameManager gameManager;
         private Viewport viewport;
-        private UiFactory uiFactory;
         private WorldGenerator worldGenerator;
 
         public PlayingSinglePlayerState(GameManager gameManager)
@@ -23,13 +23,11 @@ namespace thundercats.GameStates.States.PlayingStates
         }
 
         public void Initialize()
-        {
-            uiFactory = new UiFactory(viewport);
-            
-            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100),
+        {   
+            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, 100),
                 new Vector3(0, 0, -50), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-            TestCollisionEntity();
+            GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));
             InitWorld();
         }
        
@@ -61,7 +59,7 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int z = 0; z < world.GetLength(1); z++)
                 {
-                    if(world[x,z] == 1) GameEntityFactory.NewBlock(new Vector2((x * distanceBetweenBlocksX), (z * distanceBetweenBlocksZ)), 
+                    if(world[x,z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)), 
                         AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
 
                     iter++; //for debugging
@@ -75,19 +73,5 @@ namespace thundercats.GameStates.States.PlayingStates
             var world = worldGenerator.GenerateWorld(nLanes, nRows);
             return world;
         }
-
-        private void TestCollisionEntity()
-        {
-            //Below is a temporary object you can use to test collision. (rendering both this and the player seems to result in weird scaling issues but that is a separate issue)
-            Entity player = EntityFactory.NewEntity();
-            ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>("Models/Blob"));
-            TransformComponent transformComponent = new TransformComponent(player, new Vector3(600, viewport.Height * 0.45f, 100));
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
-
-            ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
-        }
-
     }
 }

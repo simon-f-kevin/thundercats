@@ -165,13 +165,13 @@ namespace Game_Engine.Managers
         public bool RemoveComponentFromEntity<T>(Entity entity) where T : Component
         {
 
-            ConcurrentDictionary<Entity, Component> tempDict;
-            if(componentPairsAndTypesConcurrent.TryGetValue(typeof(T), out tempDict))
+            Dictionary<Entity, Component> tempDict;
+            if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component comp;
                 if(tempDict.TryGetValue(entity, out comp))
                 {
-
+                    componentPairsAndTypes[typeof(T)].Remove(entity);
                     componentPairsAndTypesConcurrent[typeof(T)].TryRemove(entity,out comp);
                     return true;
                 }

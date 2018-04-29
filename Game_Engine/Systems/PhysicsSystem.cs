@@ -63,11 +63,14 @@ namespace Game_Engine.Systems
             ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            Parallel.ForEach(boundingSphereComponentPairs, boundingSphereComponentPair =>
+            Parallel.ForEach(boundingSphereComponentPairs, sourceBoundingSphereComponentPair =>
             {
-                var sourceBoundingSphereComponent = boundingSphereComponentPair.Value as BoundingSphereComponent;
-                foreach (BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
+                Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
+                var sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundingSphereComponent;
+
+                foreach (var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
                 {
+
                     Entity targetEntity = targetBoundingSphereComponentPair.Key;
                     BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundingSphereComponent;
 
@@ -133,6 +136,23 @@ namespace Game_Engine.Systems
                 velocityComponent.Velocity.Z *= frictionComponent.Friction;
             }
 
+        }
+
+        /*
+         * Translates a model component to be at the same world position as a transform component.
+         */
+        public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
+        {
+            modelComponent.World = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+        }
+
+        /*
+         * Translates a bounding sphere component to be at the same world position as a transform component.
+         */
+        public static void SetInitialBoundingSpherePos(BoundingSphereComponent boundingSphereComponent, TransformComponent transformComponent)
+        {
+            Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
         }
     }
 }
