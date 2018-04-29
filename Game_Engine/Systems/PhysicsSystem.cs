@@ -36,7 +36,7 @@ namespace Game_Engine.Systems
                 transformationComponent.Position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
-
+                
                 if(modelComponent != null)
                 {
                     modelComponent.World *= translation;

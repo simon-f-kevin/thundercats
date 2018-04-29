@@ -22,78 +22,57 @@ namespace thundercats.Systems
 
             for(int i = 0; i < collisionPairs.Count; i++)
             {
-                currentCollisionPair = collisionManager.RemoveCollisionPair();	
+                currentCollisionPair = collisionManager.RemoveCollisionPair();
+                ResolveCollision(currentCollisionPair);
             }
         }
 
-        private void ResolveCollision(Tuple<Entity, Entity> collisionPair){
+        private void ResolveCollision(Tuple<Entity, Entity> collisionPair)
+        {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
-            TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
-            TransformComponent targetTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(targetEntity);
-            Tuple<String, String, String> collisionSides = FindCollisionSides(sourceTransformComponent, targetTransformComponent);
 
             switch(sourceEntity.EntityTypeName)
             {
                 case "local_player":
-                    Console.WriteLine("local_player collision at sides: " + collisionSides.Item1 + " " + collisionSides.Item2 + " " + collisionSides.Item3);
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    //Console.WriteLine("local_player collision at sides: " + collisionSides.Item1 + " " + collisionSides.Item2 + " " + collisionSides.Item3);
                     break;
                 case "default":
                     break;
             }       
 		}
 
-		private Tuple<String, String, String> FindCollisionSides(TransformComponent sourceTransformComponent, TransformComponent targetTransformComponent)
+        private void UpdateSourceCollider(Entity sourceEntity, Entity targetEntity)
         {
-            //float xDiff = sourceTransformComponent.Posision.X - targetTransformComponent.Position.X
-            //float yDiff = sourceTransformComponent.Posision.Y - targetTransformComponent.Position.Y
-            //float zDiff = sourceTransformComponent.Posision.Z - targetTransformComponent.Position.Z
+            BoundingSphereComponent sourceBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(sourceEntity);
+            BoundingSphereComponent targetBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(targetEntity);
+            VelocityComponent sourceVelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(sourceEntity);
 
-            //float maxCoord = Math.Max(xDiff, Math.Max(yDiff, zDiff));
-
-            String horizontalDir, verticalDir, depthDir;
-
-            if(sourceTransformComponent.Position.X < targetTransformComponent.Position.X){
-                horizontalDir = "left";
+            if(sourceBoundingSphereComponent.BoundingSphere.Center.X < targetBoundingSphereComponent.BoundingSphere.Center.X)
+            {
+                sourceVelocityComponent.Velocity.X -= 0.1f;
             }
             else
             {
-                horizontalDir = "right";
+                sourceVelocityComponent.Velocity.X += 0.1f;
             }
-            if(sourceTransformComponent.Position.Y < targetTransformComponent.Position.Y){
-                verticalDir = "down";
+            if(sourceBoundingSphereComponent.BoundingSphere.Center.Y < targetBoundingSphereComponent.BoundingSphere.Center.Y)
+            {
+                //sourceVelocityComponent.Velocity.Y -= 0.1f;
             }
             else
             {
-                verticalDir = "up";
+                //sourceVelocityComponent.Velocity.Y += 0.1f;
             }
-            if(sourceTransformComponent.Position.Z < targetTransformComponent.Position.Z){
-                depthDir = "back";
+            if(sourceBoundingSphereComponent.BoundingSphere.Center.Z < targetBoundingSphereComponent.BoundingSphere.Center.Z)
+            {
+                sourceVelocityComponent.Velocity.Z -= 0.1f;
             }
             else
             {
-                depthDir = "forward";
+                sourceVelocityComponent.Velocity.Z += 0.1f;
             }
-            Tuple<String, String, String> sides = new Tuple<string, string, string>(horizontalDir, verticalDir, depthDir);
-            return sides;
         }
-
-        private void UpdateSourceCollider(TransformComponent sourceTransformComponent, TransformComponent targetTransformComponent, Tuple<String, String, String> sides){
-            if(sides.Item1 == "left"){
-            }
-            else
-            {
-            }
-            if(sides.Item2 == "left"){
-            }
-            else
-            {
-            }
-            if(sides.Item3 == "back"){
-            }
-            else
-            {
-            }
-		}
     }
 }

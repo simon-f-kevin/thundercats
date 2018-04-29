@@ -23,7 +23,7 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Initialize()
         {
             uiFactory = new UiFactory(viewport);
-            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100), new Vector3(0, 0, -10), viewport.AspectRatio, false);
+            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(600, viewport.Height * 0.45f, 100), new Vector3(0, 0, -10), viewport.AspectRatio, true);
             // Creating Static ui stuff.
             //uiFactory.CreateEntity(new Vector2(20, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
             //uiFactory.CreateEntity(new Vector2(150, 20), AssetManager.Instance.GetContent<Texture2D>("2DTextures/arrow"));
