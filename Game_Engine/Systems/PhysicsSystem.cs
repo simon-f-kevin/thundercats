@@ -64,12 +64,12 @@ namespace Game_Engine.Systems
             foreach(var sourceBoundingSphereComponentPair in boundingSphereComponentPairs)
             {
                 Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
-                BoundingSphereComponent sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundningSphereComponent;
+                BoundingSphereComponent sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundingSphereComponent;
 
                 foreach(var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
                 {
                     Entity targetEntity = targetBoundingSphereComponentPair.Key;
-                    BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundningSphereComponent;
+                    BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundingSphereComponent;
 
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))

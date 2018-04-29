@@ -2,6 +2,7 @@
 using Game_Engine.Entities;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Game_Engine.Managers
 {
@@ -32,9 +33,9 @@ namespace Game_Engine.Managers
             CurrentCollisionPairs.Enqueue(new Tuple<Entity, Entity>(source, target));
         }
 
-        public Component RemoveCollisionPair()
+        public Tuple<Entity, Entity> RemoveCollisionPair()
         {
-            return CollisionPairs.Dequeue();
+            return CurrentCollisionPairs.Dequeue();
         }
     }
 }
