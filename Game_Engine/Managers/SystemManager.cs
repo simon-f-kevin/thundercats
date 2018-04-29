@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Game_Engine.Managers
 {
+    /*
+     * Maintains all current Update and Draw systems.
+     * Note that the queues are not thread safe meaning that only one thread should write to them at any one time.
+     * This limitation is considered acceptable as systems should be added at game initialization and are normally registered throughout the rest of runtime.
+     */
     public class SystemManager
     {
         private static SystemManager _instance;

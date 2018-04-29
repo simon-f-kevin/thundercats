@@ -8,25 +8,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using thundercats.GameStates;
 
 namespace thundercats.Systems
 {
     public class UIRenderSystem : IDrawableSystem
     {
         private SpriteBatch sb;
+        private Game game;
 
-        public void Initialize(SpriteBatch spritebatch)
+        public void Initialize(SpriteBatch spritebatch, Game game)
         {
             this.sb = spritebatch;
+            this.game = game;
         }
 
         public void Draw(GameTime gameTime)
         {
-            var components = ComponentManager.Instance.GetComponentPairDictionary<UIComponent>();
-
+            var components = ComponentManager.Instance.GetConcurrentDictionary<UIComponent>();
             sb.Begin();
             components.Values.ToList().ForEach(c => DrawUI(c as UIComponent));
             sb.End();
+            //Resets the graphics device to normal 3D-mode after spritebatch changes it.
+            game.GraphicsDevice.BlendState = BlendState.Opaque;
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            game.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
         private void DrawUI(UIComponent c)

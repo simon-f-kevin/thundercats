@@ -16,7 +16,7 @@ namespace Game_Engine.Systems
 
         public void Update(GameTime gameTime)
         {
-            var cameraComponentPairs = ComponentManager.Instance.GetComponentPairDictionary<CameraComponent>();
+            var cameraComponentPairs = ComponentManager.Instance.GetConcurrentDictionary<CameraComponent>();
 
             foreach (var cameraComponentPair in cameraComponentPairs)
             {
@@ -40,12 +40,11 @@ namespace Game_Engine.Systems
         /// </summary>
         private void FollowPlayer(Entity cameraEntity)
         {
-            ModelComponent modelComponent = ComponentManager.Instance.GetComponentOfEntity<ModelComponent>(cameraEntity);
-
-            cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Backward * 30f) + (modelComponent.World.Up * 20f);
-            cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Forward * 20f);
+            ModelComponent modelComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<ModelComponent>(cameraEntity);
+            
+            cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Forward * 30f) + (modelComponent.World.Up * 20f);
+            cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Backward * 20f);
             //Console.WriteLine(cameraComponent.Position.ToString()); //For debugging
-
 
             cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
 
