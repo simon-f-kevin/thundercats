@@ -12,7 +12,7 @@ namespace Game_Engine.Systems
 {
     public class PhysicsSystem : IUpdateableSystem
     {
-        public void Update(GameTime gameTime)
+        public async void Update(GameTime gameTime)
         {
             RunGravity();
         }
@@ -28,8 +28,7 @@ namespace Game_Engine.Systems
             {
                 //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
                 var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
-
-                velocityComponent.Velocity.New -= velocityComponent.Velocity.Old + new Vector3(0, 0.5f, 0);
+                 velocityComponent.Velocity.Y -= 0.5f;
             }
         }
     }

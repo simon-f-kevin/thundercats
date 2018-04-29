@@ -3,6 +3,7 @@ using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Threading.Tasks;
 using thundercats.Factory;
 
 namespace thundercats.GameStates.States.PlayingStates
@@ -82,6 +83,20 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Update(GameTime gameTime)
         {
             SystemManager.Instance.Update(gameTime);
+        }
+
+        public void ExecuteDrawUpdate(GameTime gameTime, SpriteBatch sb)
+        {
+            Parallel.Invoke(() =>
+            {
+                Draw(gameTime, sb);
+            },
+
+            () =>
+            {
+                Update(gameTime);
+            }
+            );
         }
     }
 }

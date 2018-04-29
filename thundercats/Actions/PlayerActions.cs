@@ -1,16 +1,15 @@
 ﻿
 using Game_Engine.Components;
-using Microsoft.Xna.Framework;
 
 namespace thundercats.Actions
 {
     static class PlayerActions
     {
-        private static Vector3 _playerForwardAcceleration = new Vector3(0,0,0.5f);
-        private static Vector3 _playerStrafeAcceleration = new Vector3(0.25f,0,0);
+        private static float _playerForwardAcceleration = 0.5f;
+        private static float _playerStrafeAcceleration = 0.25f;
         private static float _playerMaxRunningSpeed = 0.50f;
         private static float _playerMaxStrafeSpeed = 0.25f;
-        private static Vector3 _playerJumpSpeed = new Vector3(0,5f,0);
+        private static float _playerJumpSpeed = 5f;
         
         /// <summary>
         /// Accelerates the player forward until it reaches maximum running speed
@@ -18,9 +17,9 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerForwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Old.Z < _playerMaxRunningSpeed)
+            if(velocityComponent.Velocity.Z < _playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.New += velocityComponent.Velocity.Old + _playerForwardAcceleration;
+                velocityComponent.Velocity.Z += _playerForwardAcceleration;
             }
         }
         /// <summary>
@@ -29,9 +28,9 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerBackwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Old.Z > -_playerMaxRunningSpeed)
+            if(velocityComponent.Velocity.Z > -_playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.New -= velocityComponent.Velocity.Old +_playerForwardAcceleration;
+                velocityComponent.Velocity.Z -= _playerForwardAcceleration;
             }
         }
         /// <summary>
@@ -40,9 +39,9 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerLeftwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Old.X < _playerMaxStrafeSpeed)
+            if(velocityComponent.Velocity.X < _playerMaxStrafeSpeed)
             {
-                velocityComponent.Velocity.New += velocityComponent.Velocity.Old + _playerStrafeAcceleration;
+                velocityComponent.Velocity.X += _playerStrafeAcceleration;
             }
         }
         /// <summary>
@@ -51,9 +50,9 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerRightwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Old.X > -_playerMaxStrafeSpeed)
+            if(velocityComponent.Velocity.X > -_playerMaxStrafeSpeed)
             {
-                velocityComponent.Velocity.New -= _playerStrafeAcceleration;
+                velocityComponent.Velocity.X -= _playerStrafeAcceleration;
             }
         }
 
@@ -63,9 +62,9 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void PlayerJumpSpeed(VelocityComponent velocityComponent)
         {
-            if (velocityComponent.Velocity.Old.Y < -_playerJumpSpeed.Y)
+            if (velocityComponent.Velocity.Y < -_playerJumpSpeed)
             {
-               velocityComponent.Velocity.New += velocityComponent.Velocity.Old +_playerJumpSpeed; 
+               velocityComponent.Velocity.Y += _playerJumpSpeed; 
             }
 
 

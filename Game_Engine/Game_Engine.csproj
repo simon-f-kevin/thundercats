@@ -54,9 +54,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Managers\AssetManager.cs" />
-    <Compile Include="Managers\State.cs" />
     <Compile Include="Managers\SystemManager.cs" />
-    <Compile Include="Managers\UpdateDrawStateManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Managers\ComponentManager.cs" />

@@ -27,7 +27,7 @@ namespace thundercats
         CameraSystem cameraSystem;
         PhysicsSystem physicsSystem;
         UIRenderSystem uiSystem;
-        UpdateDrawStateManager updateDrawStateManager = UpdateDrawStateManager.Instance;
+      
 
         public Game1()
         {
@@ -67,6 +67,7 @@ namespace thundercats
             SystemManager.Instance.AddToUpdateables(movementSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
+           
 
             base.Initialize();
         }
@@ -110,12 +111,11 @@ namespace thundercats
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-           
-            gameManager.Update(gameTime);
             // TODO: Add your update logic here
-
+           // gameManager.PararellExecution(gameTime, spriteBatch);
+           
             base.Update(gameTime);
-           updateDrawStateManager.EndUpdateNewFrame();
+          
         }
 
         /// <summary>
@@ -124,10 +124,10 @@ namespace thundercats
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-           updateDrawStateManager.BeginDrawNewFrame();
-
-            gameManager.Draw(gameTime, spriteBatch);
+            GraphicsDevice.Clear(Color.White);
+            gameManager.PararellExecution(gameTime, spriteBatch);
+            //gameManager.Draw(gameTime, spriteBatch);
+            // gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

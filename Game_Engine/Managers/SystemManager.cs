@@ -14,8 +14,8 @@ namespace Game_Engine.Managers
         private static SystemManager _instance;
         public Queue<IUpdateableSystem> UpdateableSystems { get; set; }
         public Queue<IDrawableSystem> DrawableSystems { get; set; }
-       // public UpdateDrawStateManager updateDrawStateManager { get; set; }
-        //public State<UpdateDrawStateManager> updateDrawStateManager;
+       
+         
         private SystemManager()
         {
             UpdateableSystems = new Queue<IUpdateableSystem>();
@@ -73,8 +73,7 @@ namespace Game_Engine.Managers
         }
 
         public void Update(GameTime gameTime)
-        {
-            
+        {   
             int size = UpdateableSystems.Count;
             for (int i = 0; i < size; i++)
             {
@@ -88,7 +87,6 @@ namespace Game_Engine.Managers
         public void Draw(GameTime gameTime)
         {
             int size = DrawableSystems.Count;
-           
 
             for (int i = 0; i < size; i++)
             {
