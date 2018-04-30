@@ -56,7 +56,7 @@ namespace thundercats
         public static Entity NewBlock(Vector3 positionValues, Texture2D texture)
         {
             Entity block = EntityFactory.NewEntity();
-            TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Y));
+            TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);

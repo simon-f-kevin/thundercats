@@ -44,7 +44,7 @@ namespace Game_Engine.Systems
             
             cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Forward * 30f) + (modelComponent.World.Up * 20f);
             cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Backward * 20f);
-            Console.WriteLine(cameraComponent.Position.ToString()); //For debugging
+            //Console.WriteLine(cameraComponent.Position.ToString()); //For debugging
 
             cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
 

@@ -25,7 +25,7 @@ namespace thundercats.Factory
 
         internal int[,] GenerateWorld(int nLanes, int nRows)
         {
-            world = new int[nRows, nLanes];
+            world = new int[nLanes, nRows];
 
             PopulateWorld(world);
 

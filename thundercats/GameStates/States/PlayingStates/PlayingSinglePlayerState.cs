@@ -51,15 +51,15 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
-            var world = GenerateWorld(2, 2);
+            var world = GenerateWorld(2, 5);
             int distanceBetweenBlocksX = 100;
-            int distanceBetweenBlocksZ = 80;
+            int distanceBetweenBlocksZ = 50;
             int iter = 0;
             for (int x = 0; x < world.GetLength(0); x++)
             {
                 for (int z = 0; z < world.GetLength(1); z++)
                 {
-                    if(world[x,z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)), 
+                    if (world[x, z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)), 
                         AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
 
                     iter++; //for debugging
