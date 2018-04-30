@@ -41,7 +41,7 @@ namespace thundercats.Systems
                     if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphereComponent.BoundingSphere))
                     {
                         // Shouldn't it be players velocity we change rather?
-                        playerFrictionComponent.Friction = surface.SpeedPenalty;
+                        playerFrictionComponent.Friction = (float)surface.SurfaceType;
 
                         // Continue to the next player
                         break;
