@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -65,6 +66,12 @@ namespace thundercats.GameStates
         {
             gameStates[CurrentGameState].Update(gameTime);
 
+        }
+        public void ParallelExecution(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            Parallel.Invoke(
+                () => Draw(gameTime, spriteBatch),
+                () => Update(gameTime));
         }
     }
 }

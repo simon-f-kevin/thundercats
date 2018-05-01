@@ -11,12 +11,12 @@ namespace Game_Engine.Components
 
         public TransformComponent(Entity id) : base(id)
         {
-            position = new Vector3(0, 0, 0);
+            Position = new Vector3(0, 0, 0);
         }
 
         public TransformComponent(Entity id, Vector3 pos) : base(id)
         {
-            position = pos;
+            Position = pos;
         }
     }
 }
