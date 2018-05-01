@@ -8,11 +8,13 @@ namespace Game_Engine.Managers
 {
     /*
      * Provides methods for adding/removing/retrieving all components in the game.
+     * Component manager is made thread safe by the use of concurrent dictionaries.
      */
     public class ComponentManager
     {
-        private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> _components;
-        
+
+        private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> componentPairsAndTypesConcurrent;
+        private Dictionary<Type, Dictionary<Entity, Component>> componentPairsAndTypes;
 
         private static ComponentManager instance;
 
@@ -20,7 +22,8 @@ namespace Game_Engine.Managers
 
         private ComponentManager()
         {
-            _components = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
+            componentPairsAndTypes = new Dictionary<Type, Dictionary<Entity, Component>>();
+            componentPairsAndTypesConcurrent = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
         }
 
         /* Properties */
@@ -40,18 +43,32 @@ namespace Game_Engine.Managers
         /* Methods */
 
         /*
-         * Returns the nestled Dictionary of all Components of the given type, with their attached Entities as keys.
+         * Returns the nestled Dictionary of all Components of the given type, with their attached Entities as keys, or an emtpy dictionary if not found.
          */
-        public ConcurrentDictionary<Entity, Component> GetComponentDictionary<T>() where T : Component
+
+        public ConcurrentDictionary<Entity, Component> GetConcurrentDictionary<T>() where T : Component
         {
-            ConcurrentDictionary<Entity, Component> compDictionary;
-            if(_components.TryGetValue(typeof(T), out compDictionary))
+            ConcurrentDictionary<Entity, Component> compPairs;
+            if(componentPairsAndTypesConcurrent.TryGetValue(typeof(T), out compPairs))
             {
-                return compDictionary;
+                return compPairs;
             }
-            compDictionary = new ConcurrentDictionary<Entity, Component>();
-            _components.TryAdd(typeof(T), compDictionary);
-            return compDictionary;
+            return new ConcurrentDictionary<Entity, Component>();        
+        }
+
+        /// <summary>
+        /// Returns a regular dictionary for when we do not want a concurrent dictionary
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Dictionary<Entity, Component> GetDictionary<T>() where T: Component
+        {
+            Dictionary<Entity, Component> compPairs;
+            if(componentPairsAndTypes.TryGetValue(typeof(T), out compPairs))
+            {
+                return compPairs;
+            }
+            return new Dictionary<Entity, Component>();
         }
 
         /*
@@ -74,37 +91,67 @@ namespace Game_Engine.Managers
          */
         public void AddComponentToEntity(Entity entity, Component component)
         {
-            ConcurrentDictionary<Entity, Component> tempDict;
+            ConcurrentDictionary<Entity, Component> tempDictConcurrent;
+            Dictionary<Entity, Component> tempDict;
 
             /* Check if any nested dictionary for the component type exists, if not create a new one. */
-            if(!_components.TryGetValue(component.GetType(), out tempDict))
+            if(!componentPairsAndTypesConcurrent.TryGetValue(component.GetType(), out tempDictConcurrent))
             {
-                tempDict = new ConcurrentDictionary<Entity, Component>();
-                _components.TryAdd(component.GetType(), tempDict);
+                tempDictConcurrent = new ConcurrentDictionary<Entity, Component>();
+                componentPairsAndTypesConcurrent.TryAdd(component.GetType(), tempDictConcurrent);
+            }
+            if(!componentPairsAndTypes.TryGetValue(component.GetType(), out tempDict))
+            {
+                tempDict = new Dictionary<Entity, Component>();
+                componentPairsAndTypes.Add(component.GetType(), tempDict);
             }
 
             /* Check that the exact component instance does not already exist in the dictionary, if it does throw an error. */
-            foreach(Component tempComponent in _components[component.GetType()].Values)
+            foreach(Component tempComponent in componentPairsAndTypesConcurrent[component.GetType()].Values)
             {
                 if(tempComponent.ComponentId.CompareTo(component.ComponentId) == 0)
                 {
                     throw new Exception("Error: Attempted to add duplicate Component: " + component.ComponentId.ToString());
                 }
             }
+
+            foreach(Component tempComponent in componentPairsAndTypes[component.GetType()].Values)
+            {
+                if(tempComponent.ComponentId.CompareTo(component.ComponentId)== 0)
+                {
+                    throw new Exception("Error: Attempted to add duplicate Component: " + component.ComponentId.ToString());
+                }
+            }
             /* Add the component to the entity. */
-            _components[component.GetType()][entity] = component;
+            componentPairsAndTypesConcurrent[component.GetType()][entity] = component;
+            componentPairsAndTypes[component.GetType()][entity] = component;
         }
 
         /*
          * Returns the Component of type T connected to the Entity, or null if not found.
          */
-        public T GetComponentOfEntity<T>(Entity entity) where T : Component
+        public T ConcurrentGetComponentOfEntity<T>(Entity entity) where T : Component
         {
             ConcurrentDictionary<Entity, Component> tempDict;
-            if(_components.TryGetValue(typeof(T), out tempDict))
+            if(componentPairsAndTypesConcurrent.TryGetValue(typeof(T), out tempDict))
             {
                 Component component;
                 if(tempDict.TryGetValue(entity, out component))
+                {
+                    return (T)component;
+                }
+            }
+            return null;
+        }
+
+       
+        public T GetComponentOfEntity<T>(Entity entity) where T : Component
+        {
+            Dictionary<Entity, Component> tempDict;
+            if (componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
+            {
+                Component component;
+                if (tempDict.TryGetValue(entity, out component))
                 {
                     return (T)component;
                 }
@@ -117,14 +164,15 @@ namespace Game_Engine.Managers
          */
         public bool RemoveComponentFromEntity<T>(Entity entity) where T : Component
         {
-            Component componentValue;
-            ConcurrentDictionary<Entity, Component> tempDict;
-            if(_components.TryGetValue(typeof(T), out tempDict))
+
+            Dictionary<Entity, Component> tempDict;
+            if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component comp;
                 if(tempDict.TryGetValue(entity, out comp))
                 {
-                    _components[typeof(T)].TryRemove(entity,out componentValue);
+                    componentPairsAndTypes[typeof(T)].Remove(entity);
+                    componentPairsAndTypesConcurrent[typeof(T)].TryRemove(entity,out comp);
                     return true;
                 }
             }

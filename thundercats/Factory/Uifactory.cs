@@ -11,15 +11,10 @@ using System.Threading.Tasks;
 
 namespace thundercats.Factory
 {
-    public class UiFactory
+    public static class UiFactory
     {
-        private Viewport viewport;
-        public UiFactory(Viewport viewport)
-        {
-            this.viewport = viewport;
-        }
 
-        public void CreateEntity(Vector2 position, Texture2D texture = null, string text = null)
+        public static void CreateUiEntity(Vector2 position, Viewport viewport, Texture2D texture = null, string text = null)
         {
             Entity entityKey = EntityFactory.NewEntity();
 

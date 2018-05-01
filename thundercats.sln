@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "thundercats", "thundercats\thundercats.csproj", "{7C598EAD-98CD-4220-B3FC-0839B5C85A5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game Engine", "Game_Engine\Game_Engine.csproj", "{C1CF017E-819C-4EB5-A687-7E9FBEB20894}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game_Engine", "Game_Engine\Game_Engine.csproj", "{C1CF017E-819C-4EB5-A687-7E9FBEB20894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
