@@ -1,20 +1,18 @@
-﻿using Game_Engine.Components;
-using Game_Engine.Entities;
+﻿using Game_Engine.Entities;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace Game_Engine.Managers
 {
     public class CollisionManager
     {
-        public Queue<Tuple<Entity, Entity>> CurrentCollisionPairs {get;}
+        public ConcurrentQueue<Tuple<Entity, Entity>> CurrentCollisionPairs {get;}
 
         private static CollisionManager instance;
 
         private CollisionManager()
         {
-            CurrentCollisionPairs = new Queue<Tuple<Entity, Entity>>();
+            CurrentCollisionPairs = new ConcurrentQueue<Tuple<Entity, Entity>>();
         }
 
         public static CollisionManager Instance
@@ -35,7 +33,9 @@ namespace Game_Engine.Managers
 
         public Tuple<Entity, Entity> RemoveCollisionPair()
         {
-            return CurrentCollisionPairs.Dequeue();
+            Tuple<Entity, Entity> result;
+            CurrentCollisionPairs.TryDequeue(out result);
+            return result;
         }
     }
 }

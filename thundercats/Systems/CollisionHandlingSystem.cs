@@ -4,7 +4,7 @@ using Game_Engine.Managers;
 using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using thundercats.Actions;
 
 namespace thundercats.Systems
@@ -18,7 +18,7 @@ namespace thundercats.Systems
         */
         public void Update(GameTime gameTime)
         {
-            Queue<Tuple<Entity, Entity>> collisionPairs = collisionManager.CurrentCollisionPairs;
+            ConcurrentQueue<Tuple<Entity, Entity>> collisionPairs = collisionManager.CurrentCollisionPairs;
             Tuple<Entity, Entity> currentCollisionPair;
 
             for(int i = 0; i < collisionPairs.Count; i++)
