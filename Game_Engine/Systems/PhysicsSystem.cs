@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 namespace Game_Engine.Systems
 {
+    /*
+     * System to handle all physics updates including 3D transformations based on velocity, friction, and collision.
+     * PhysicsSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
+     */
     public class PhysicsSystem : IUpdateableSystem
     {
  
@@ -27,7 +32,7 @@ namespace Game_Engine.Systems
         {
             ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetConcurrentDictionary<VelocityComponent>();
 
-            foreach(var velocityComponentPair in velocityComponentPairs)
+            Parallel.ForEach(velocityComponentPairs, velocityComponentPair =>
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
@@ -36,7 +41,7 @@ namespace Game_Engine.Systems
                 transformationComponent.Position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
-
+                
                 if(modelComponent != null)
                 {
                     modelComponent.World *= translation;
@@ -44,7 +49,7 @@ namespace Game_Engine.Systems
 
                 UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
                 UpdateFriction(velocityComponentPair.Key);
-            }
+            });
         }
 
        
@@ -58,18 +63,26 @@ namespace Game_Engine.Systems
             ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<BoundingSphereComponent>();
             bool found = false; //Temp debug flag
 
-            foreach(BoundingSphereComponent sourceBoundingSphereComponent in boundingSphereComponentPairs.Values)
+            Parallel.ForEach(boundingSphereComponentPairs, sourceBoundingSphereComponentPair =>
             {
-                foreach(BoundingSphereComponent targetBoundingSphereComponent in boundingSphereComponentPairs.Values)
+                Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
+                var sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundingSphereComponent;
+
+                foreach (var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
                 {
+
+                    Entity targetEntity = targetBoundingSphereComponentPair.Key;
+                    BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundingSphereComponent;
+
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
                         sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
                     {
+                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         found = true; //Temp debug flag
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
                 }
-            }
+            });
             if(!found) //Temp debug check
             {
                 //Console.WriteLine("No BoundingSphereComponents intersect");
@@ -117,8 +130,29 @@ namespace Game_Engine.Systems
             var velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
             var frictionComponent = componentManager.ConcurrentGetComponentOfEntity<FrictionComponent>(key);
             // Placeholder friction
-            velocityComponent.Velocity.X *= frictionComponent.Friction;
-            velocityComponent.Velocity.Z *= frictionComponent.Friction;
+            if(frictionComponent != null)
+            {
+                velocityComponent.Velocity.X *= frictionComponent.Friction;
+                velocityComponent.Velocity.Z *= frictionComponent.Friction;
+            }
+
+        }
+
+        /*
+         * Translates a model component to be at the same world position as a transform component.
+         */
+        public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
+        {
+            modelComponent.World = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+        }
+
+        /*
+         * Translates a bounding sphere component to be at the same world position as a transform component.
+         */
+        public static void SetInitialBoundingSpherePos(BoundingSphereComponent boundingSphereComponent, TransformComponent transformComponent)
+        {
+            Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
         }
     }
 }

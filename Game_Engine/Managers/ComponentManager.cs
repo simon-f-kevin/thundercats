@@ -8,13 +8,13 @@ namespace Game_Engine.Managers
 {
     /*
      * Provides methods for adding/removing/retrieving all components in the game.
+     * Component manager is made thread safe by the use of concurrent dictionaries.
      */
     public class ComponentManager
     {
 
         private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> componentPairsAndTypesConcurrent;
         private Dictionary<Type, Dictionary<Entity, Component>> componentPairsAndTypes;
-        
 
         private static ComponentManager instance;
 
@@ -70,7 +70,6 @@ namespace Game_Engine.Managers
             }
             return new Dictionary<Entity, Component>();
         }
-
 
         /*
          * Returns component of type T attached to given Entity in the provided Dictionary, or null if not found.
@@ -145,13 +144,14 @@ namespace Game_Engine.Managers
             return null;
         }
 
+       
         public T GetComponentOfEntity<T>(Entity entity) where T : Component
         {
             Dictionary<Entity, Component> tempDict;
-            if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
+            if (componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component component;
-                if(tempDict.TryGetValue(entity, out component))
+                if (tempDict.TryGetValue(entity, out component))
                 {
                     return (T)component;
                 }
@@ -165,13 +165,13 @@ namespace Game_Engine.Managers
         public bool RemoveComponentFromEntity<T>(Entity entity) where T : Component
         {
 
-            ConcurrentDictionary<Entity, Component> tempDict;
-            if(componentPairsAndTypesConcurrent.TryGetValue(typeof(T), out tempDict))
+            Dictionary<Entity, Component> tempDict;
+            if(componentPairsAndTypes.TryGetValue(typeof(T), out tempDict))
             {
                 Component comp;
                 if(tempDict.TryGetValue(entity, out comp))
                 {
-
+                    componentPairsAndTypes[typeof(T)].Remove(entity);
                     componentPairsAndTypesConcurrent[typeof(T)].TryRemove(entity,out comp);
                     return true;
                 }

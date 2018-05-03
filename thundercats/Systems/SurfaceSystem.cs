@@ -20,10 +20,7 @@ namespace thundercats.Systems
         public SurfaceSystem()
         {
         }
-        /*      TODO 
-         * Collision should be handled in a CollisionSystem
-         *    and send a flag, bool what so ever and send it to this system 
-         */
+
         public void Update(GameTime gameTime)
         {
             var surfaceKeyValuePair = ComponentManager.Instance.GetConcurrentDictionary<SurfaceComponent>();
@@ -35,16 +32,16 @@ namespace thundercats.Systems
                 var playerBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(player.Key);
                 var playerFrictionComponent = ComponentManager.Instance.GetComponentOfEntity<FrictionComponent>(player.Key);
                 // find a more effective way instead of comparing all surfaces if level is big.
-                foreach (var surface in surfaceKeyValuePair)
+                foreach (var surfaceComponent in surfaceKeyValuePair)
                 {
                     // Check if it collides with this surface
-                    var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(surface.Key);
-                    var surfaceTest = ComponentManager.Instance.GetComponentOfEntity<SurfaceComponent>(surface.Key);
+                    var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(surfaceComponent.Key);
+                    var surface = surfaceComponent.Value as SurfaceComponent;
+
                     if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphereComponent.BoundingSphere))
                     {
-
-                        // Change player velocity with surface values
-                        playerFrictionComponent.Friction = (float)surfaceTest.SurfaceType;
+                        // Shouldn't it be players velocity we change rather?
+                        playerFrictionComponent.Friction = (float)surface.SurfaceType;
 
                         // Continue to the next player
                         break;
