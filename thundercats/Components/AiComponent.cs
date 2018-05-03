@@ -12,9 +12,10 @@ namespace thundercats.Components
     {
         public enum AiState { Losing, Winning, Even };
         public enum AiMove {Left,Run,Right};
+        public AiState CurrentState { get; set; }
         public AiComponent(Entity id) : base(id)
         {
-
+            CurrentState = AiState.Even;
         }
     }
 }

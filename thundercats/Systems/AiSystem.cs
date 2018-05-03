@@ -23,8 +23,8 @@ namespace thundercats.Systems
 
 
         }
-        public int AiGameState(Entity AiKey, Entity PlayerKey) {
-            int state = 0;
+        public void AiGameState(Entity AiKey, Entity PlayerKey) {
+            int targetValue = 0;
             //Ai values
             var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
             var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(AiKey);
@@ -33,20 +33,26 @@ namespace thundercats.Systems
 
             if (aiTransformComponent.Position.Z < playerTransformComponent.Position.Z)
             {
-                //losing
+                aiComponent.CurrentState = AiComponent.AiState.Losing;
+                //if we r losing we want to get(2,3,4?) from next row? 
+                //random random int(1,5)?
+                CheckNextRow(AiKey, targetValue);
 
             }
             else if (aiTransformComponent.Position.Z > playerTransformComponent.Position.Z)
             {
-                //Winning
+                aiComponent.CurrentState = AiComponent.AiState.Winning;
+                //if we r winning we want to avoid 0, we dont care about anything else, same for Even?
+                CheckNextRow(AiKey, targetValue);
 
             }
             else {
-                //Even
+                aiComponent.CurrentState = AiComponent.AiState.Even;
+                CheckNextRow(AiKey, targetValue);
             }
-            return state;
+           
         }
-        public void CheckNextRow(/*ArrayOfMap,*/ Entity key) {
+        public void CheckNextRow(/*ArrayOfMap,*/ Entity key, int targetValue) {
 
            var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
            var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
