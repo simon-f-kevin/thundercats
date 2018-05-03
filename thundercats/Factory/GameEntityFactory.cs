@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using thundercats.GameStates;
 
 namespace thundercats
@@ -63,7 +64,7 @@ namespace thundercats
 
             var radius = modelComponent.Model.Meshes[0].BoundingSphere.Radius;
             var center = modelComponent.Model.Meshes[0].BoundingSphere.Center;
-            CollisionComponent boundingSphereComponent = new BoundingBoxComponent(block, new BoundingBox(new Vector3(center.X - radius, center.Y - radius, center.Z - radius), new Vector3(center.X + radius, center.Y + radius, center.Z + radius)));
+            CollisionComponent boundingSphereComponent = new BoundingBoxComponent(block, CreateBoundingBox(modelComponent.Model));
             
             BlockComponent blockComponent = new BlockComponent(block);
 
@@ -93,6 +94,58 @@ namespace thundercats
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
             PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+        }
+
+
+        private static BoundingBox CreateBoundingBox(Model model)
+        {
+            Matrix[] boneTransforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+
+            BoundingBox result = new BoundingBox();
+            foreach (ModelMesh mesh in model.Meshes)
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
+                    if (meshPartBoundingBox != null)
+                        result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
+                }
+            return result;
+        }
+
+        private static BoundingBox? GetBoundingBox(ModelMeshPart meshPart, Matrix transform)
+        {
+            if (meshPart.VertexBuffer == null)
+                return null;
+
+            Vector3[] positions = VertexElementExtractor.GetVertexElement(meshPart, VertexElementUsage.Position);
+            if (positions == null)
+                return null;
+
+            Vector3[] transformedPositions = new Vector3[positions.Length];
+            Vector3.Transform(positions, ref transform, transformedPositions);
+
+            return BoundingBox.CreateFromPoints(transformedPositions);
+        }
+        public static class VertexElementExtractor
+        {
+            public static Vector3[] GetVertexElement(ModelMeshPart meshPart, VertexElementUsage usage)
+            {
+                VertexDeclaration vd = meshPart.VertexBuffer.VertexDeclaration;
+                VertexElement[] elements = vd.GetVertexElements();
+
+                Func<VertexElement, bool> elementPredicate = ve => ve.VertexElementUsage == usage && ve.VertexElementFormat == VertexElementFormat.Vector3;
+                if (!elements.Any(elementPredicate))
+                    return null;
+
+                VertexElement element = elements.First(elementPredicate);
+
+                Vector3[] vertexData = new Vector3[meshPart.NumVertices];
+                meshPart.VertexBuffer.GetData((meshPart.VertexOffset * vd.VertexStride) + element.Offset,
+                    vertexData, 0, vertexData.Length, vd.VertexStride);
+
+                return vertexData;
+            }
         }
     }
 }

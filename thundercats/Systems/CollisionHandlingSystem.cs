@@ -56,7 +56,7 @@ namespace thundercats.Systems
             CollisionComponent sourceBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
     
-            if(sourceBoundingSphereComponent.Center.X < targetBoundingSphereComponent.Center.X)
+            if(sourceBoundingSphereComponent.Center.X <= targetBoundingSphereComponent.Center.X)
             {
                 CollisionActions.AccelerateColliderRightwards(sourceEntity);
             }
@@ -65,7 +65,7 @@ namespace thundercats.Systems
             {
                 CollisionActions.AccelerateColliderLeftwards(sourceEntity);
             }
-            if(sourceBoundingSphereComponent.Center.Y < targetBoundingSphereComponent.Center.Y)
+            if(sourceBoundingSphereComponent.Center.Y <= targetBoundingSphereComponent.Center.Y)
             {
                 CollisionActions.AccelerateColliderDownwards(sourceEntity);
             }
@@ -74,7 +74,7 @@ namespace thundercats.Systems
             {
                 CollisionActions.AccelerateColliderUpwards(sourceEntity);
             }
-            if(sourceBoundingSphereComponent.Center.Z < targetBoundingSphereComponent.Center.Z)
+            if(sourceBoundingSphereComponent.Center.Z <= targetBoundingSphereComponent.Center.Z)
             {
                 CollisionActions.AccelerateColliderBackwards(sourceEntity);
             }
