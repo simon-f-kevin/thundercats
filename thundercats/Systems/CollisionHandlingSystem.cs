@@ -53,30 +53,33 @@ namespace thundercats.Systems
          */
         private void UpdateSourceCollider(Entity sourceEntity, Entity targetEntity)
         {
-            BoundingSphereComponent sourceBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(sourceEntity);
-            BoundingSphereComponent targetBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(targetEntity);
-
-            if(sourceBoundingSphereComponent.BoundingSphere.Center.X < targetBoundingSphereComponent.BoundingSphere.Center.X)
+            CollisionComponent sourceBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
+            CollisionComponent targetBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
+    
+            if(sourceBoundingSphereComponent.Center.X < targetBoundingSphereComponent.Center.X)
             {
                 CollisionActions.AccelerateColliderRightwards(sourceEntity);
             }
-            else
+            else if (sourceBoundingSphereComponent.Center.X > targetBoundingSphereComponent.Center.X)
+
             {
                 CollisionActions.AccelerateColliderLeftwards(sourceEntity);
             }
-            if(sourceBoundingSphereComponent.BoundingSphere.Center.Y < targetBoundingSphereComponent.BoundingSphere.Center.Y)
+            if(sourceBoundingSphereComponent.Center.Y < targetBoundingSphereComponent.Center.Y)
             {
                 CollisionActions.AccelerateColliderDownwards(sourceEntity);
             }
-            else
+            else if (sourceBoundingSphereComponent.Center.Y > targetBoundingSphereComponent.Center.Y)
+
             {
                 CollisionActions.AccelerateColliderUpwards(sourceEntity);
             }
-            if(sourceBoundingSphereComponent.BoundingSphere.Center.Z < targetBoundingSphereComponent.BoundingSphere.Center.Z)
+            if(sourceBoundingSphereComponent.Center.Z < targetBoundingSphereComponent.Center.Z)
             {
                 CollisionActions.AccelerateColliderBackwards(sourceEntity);
             }
-            else
+            else if (sourceBoundingSphereComponent.Center.Z > targetBoundingSphereComponent.Center.Z)
+
             {
                 CollisionActions.AccelerateColliderForwards(sourceEntity);
             }

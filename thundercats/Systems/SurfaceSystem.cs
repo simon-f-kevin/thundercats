@@ -29,16 +29,16 @@ namespace thundercats.Systems
             // Collision should be handled somewhere else? Else just get a flag if collided
             foreach (var player in playerKeyValuePair)
             {
-                var playerBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(player.Key);
+                var playerBoundingSphereComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(player.Key);
                 var playerFrictionComponent = ComponentManager.Instance.GetComponentOfEntity<FrictionComponent>(player.Key);
                 // find a more effective way instead of comparing all surfaces if level is big.
                 foreach (var surfaceComponent in surfaceKeyValuePair)
                 {
                     // Check if it collides with this surface
-                    var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<BoundingSphereComponent>(surfaceComponent.Key);
+                    var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(surfaceComponent.Key);
                     var surface = surfaceComponent.Value as SurfaceComponent;
 
-                    if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphereComponent.BoundingSphere))
+                    if (surfaceBoundingSphere.GetVolume().Intersects(playerBoundingSphereComponent.GetVolume()))
                     {
                         // Shouldn't it be players velocity we change rather?
                         playerFrictionComponent.Friction = (float)surface.SurfaceType;

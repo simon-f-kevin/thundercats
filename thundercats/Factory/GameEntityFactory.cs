@@ -20,7 +20,7 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
@@ -30,7 +30,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
@@ -60,17 +60,21 @@ namespace thundercats
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(block, modelComponent.Model.Meshes[0].BoundingSphere);
+
+            var radius = modelComponent.Model.Meshes[0].BoundingSphere.Radius;
+            var center = modelComponent.Model.Meshes[0].BoundingSphere.Center;
+            CollisionComponent boundingSphereComponent = new BoundingBoxComponent(block, new BoundingBox(new Vector3(center.X - radius, center.Y - radius, center.Z - radius), new Vector3(center.X + radius, center.Y + radius, center.Z + radius)));
+            
             BlockComponent blockComponent = new BlockComponent(block);
 
             ComponentManager.Instance.AddComponentToEntity(block, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(block, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(block, textureComponent);
-            ComponentManager.Instance.AddComponentToEntity(block, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(block, boundingSphereComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(block, blockComponent);
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+            PhysicsSystem.SetInitialBoundingBox(boundingSphereComponent, transformComponent);
 
             return block;
         }
@@ -81,11 +85,11 @@ namespace thundercats
             Entity blob = EntityFactory.NewEntity();
             ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>(model));
             TransformComponent transformComponent = new TransformComponent(blob, transformPos);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(blob, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent boundingSphereComponent = new BoundingSphereComponent(blob, modelComponent.Model.Meshes[0].BoundingSphere);
 
             ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, boundingSphereComponent, typeof(CollisionComponent));
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
             PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
