@@ -36,7 +36,6 @@ namespace thundercats.Systems
             {
                 aiComponent.CurrentState = AiComponent.AiState.Losing;
                 //if we r losing we want to get(2,3,4?) from next row? 
-                //random random int(1,5)?
                 targetValue = random.Next(2,4);
                 CheckNextRow(AiKey, targetValue);
 
@@ -91,20 +90,6 @@ namespace thundercats.Systems
                     if (i == 2) aiComponent.CurrentMove = AiComponent.AiMove.Right;
                 }
             }
-            //for (int i=0; i< nextRow.Length; i++) {
-            //    if (nextRow[i] > 0) {
-            //        tempVal = nextRow[i];
-            //    }
-            //    if (targetValue == nextRow[i]) {
-            //        if (i == 0) aiComponent.CurrentMove = AiComponent.AiMove.Left;
-            //        if (i == 1) aiComponent.CurrentMove = AiComponent.AiMove.Run;
-            //        if (i == 2) aiComponent.CurrentMove = AiComponent.AiMove.Right;
-            //        //return nextRow[i] 
-            //        break; 
-            //    }
-            //    }
- 
-            //return move
         }
         public void Update(GameTime gameTime)
         {
