@@ -10,7 +10,7 @@ namespace Game_Engine.Components
 {
     public abstract class CollisionComponent : Component
     {
-        protected dynamic BoundingShape { get; set; }
+        public dynamic BoundingShape { get; protected set; }
 
         public abstract Vector3 Center { get; }
 
@@ -26,12 +26,7 @@ namespace Game_Engine.Components
         /// <returns></returns>
         public bool Intersects(CollisionComponent collisionComponent)
         {
-            return GetVolume().Intersects(collisionComponent.GetVolume());
-        }
-
-        public dynamic GetVolume()
-        {
-            return BoundingShape;
+            return BoundingShape.Intersects(collisionComponent.BoundingShape);
         }
 
         public void SetVolume(dynamic shape)

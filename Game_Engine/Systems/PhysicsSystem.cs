@@ -78,7 +78,7 @@ namespace Game_Engine.Systems
                     CollisionComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as CollisionComponent;
 
                     if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
-                        sourceBoundingSphereComponent.GetVolume().Intersects(targetBoundingSphereComponent.GetVolume()))
+                        sourceBoundingSphereComponent.BoundingShape.Intersects(targetBoundingSphereComponent.BoundingShape))
                     {
                         CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         found = true; //Temp debug flag
@@ -157,8 +157,8 @@ namespace Game_Engine.Systems
 
             if (boundingSphereComponent != null)
             {
-                var b = boundingSphereComponent.GetVolume();
-                b = boundingSphereComponent.GetVolume().Transform(translation);
+                var b = boundingSphereComponent.BoundingShape;
+                b = boundingSphereComponent.BoundingShape.Transform(translation);
                 boundingSphereComponent.SetVolume(b);
             }
         }
@@ -194,8 +194,8 @@ namespace Game_Engine.Systems
         public static void SetInitialBoundingSpherePos(CollisionComponent boundingSphereComponent, TransformComponent transformComponent)
         {
             Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-            var b = boundingSphereComponent.GetVolume();
-            b = boundingSphereComponent.GetVolume().Transform(translation);
+            var b = boundingSphereComponent.BoundingShape;
+            b = boundingSphereComponent.BoundingShape.Transform(translation);
             boundingSphereComponent.SetVolume(b);
             //var e = boundingSphereComponent.Center;
 
@@ -203,7 +203,7 @@ namespace Game_Engine.Systems
 
         public static void SetInitialBoundingBox(CollisionComponent boundingBoxComponent, TransformComponent transformComponent)
         {
-            var b = boundingBoxComponent.GetVolume();
+            var b = boundingBoxComponent.BoundingShape;
             var lengthX = (b.Max.X - b.Min.X) /2;
             var lengthY = (b.Max.Y - b.Min.Y) /2;
             var lengthZ = (b.Max.Z - b.Min.Z) /2;
