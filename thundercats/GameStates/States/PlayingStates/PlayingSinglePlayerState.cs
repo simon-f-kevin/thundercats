@@ -4,6 +4,7 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using thundercats.Factory;
+
 using System;
 using System.Linq;
 using Game_Engine.Systems;
@@ -14,8 +15,10 @@ namespace thundercats.GameStates.States.PlayingStates
     {
         private GameManager gameManager;
         private Viewport viewport;
+        //private static UpdateDrawStateManager updateDrawState; // Singelton
         private WorldGenerator worldGenerator;
 
+        
         public PlayingSinglePlayerState(GameManager gameManager)
         {
             this.gameManager = gameManager;
@@ -33,6 +36,7 @@ namespace thundercats.GameStates.States.PlayingStates
        
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+           UpdateDrawStateManager.Instance.BeginDrawNewFrame();
             spriteBatch.Begin();
             spriteBatch.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/stars"), viewport.TitleSafeArea, Color.White);
             spriteBatch.End();
@@ -42,6 +46,7 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Update(GameTime gameTime)
         {
             SystemManager.Instance.Update(gameTime);
+           UpdateDrawStateManager.Instance.EndUpdateNewFrame();
         }
 
         /// <summary>

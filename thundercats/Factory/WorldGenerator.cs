@@ -61,7 +61,7 @@ namespace thundercats.Factory
 
                 Matrix translation = Matrix.CreateTranslation(transformComponent.Position);
 
-                modelComponent.World = translation;
+                modelComponent.World.New = modelComponent.World.Current + translation;
                 //Console.WriteLine(modelComponent.World.Translation);
             }
         }

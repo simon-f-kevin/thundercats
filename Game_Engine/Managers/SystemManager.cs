@@ -88,6 +88,7 @@ namespace Game_Engine.Managers
 
         public void Draw(GameTime gameTime)
         {
+            
             int size = DrawableSystems.Count;
             for (int i = 0; i < size; i++)
             {

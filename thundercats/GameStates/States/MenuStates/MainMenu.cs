@@ -104,6 +104,7 @@ namespace thundercats.GameStates.States.MenuStates
                     controls.ContinueButton(GameManager.GameState.Quit);
                     break;
             }
+           
         }
     }
 }

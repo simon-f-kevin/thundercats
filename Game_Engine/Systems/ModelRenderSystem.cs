@@ -54,7 +54,7 @@ namespace Game_Engine.Systems
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
                 TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
-                model.BoneTransformations[0] = model.World;
+                model.BoneTransformations[0] = model.World.Draw;
 
                 foreach (var modelMesh in model.Model.Meshes)
                 {
@@ -96,7 +96,6 @@ namespace Game_Engine.Systems
             //    }
             //});
         }
-
         private void DrawGameWorld()
         {
             throw new NotImplementedException();
