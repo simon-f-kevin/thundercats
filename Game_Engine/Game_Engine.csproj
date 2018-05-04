@@ -73,8 +73,5 @@
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,22 +11,18 @@ namespace Game_Engine.Components
     public abstract class CollisionComponent : Component
     {
         private dynamic boundingShape;
-
         public dynamic BoundingShape
         {
-            get
-            {
+            get {
                 return boundingShape;
             }
-            set
-            {
+            set {
                 if (boundingShape == null || value.GetType() == boundingShape.GetType())
                 {
                     boundingShape = value;
                 }
-                else
-                {
-                    throw new Exception("Must be the same bounding shape type as it was when created.");
+                else {
+                    throw new Exception("Must be the same volume type as the initial volume");
                 }
             }
         }
