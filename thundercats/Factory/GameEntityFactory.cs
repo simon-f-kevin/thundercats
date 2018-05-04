@@ -15,9 +15,17 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
-        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
         {
-            Entity player = EntityFactory.NewEntity("local_player");
+            Entity player;
+            if (name == null)
+            {
+                player = EntityFactory.NewEntity("remote_player");
+            }
+            else
+            {
+                player = EntityFactory.NewEntity(name);
+            }
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
@@ -46,9 +54,8 @@ namespace thundercats
 
         public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
-            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture);
+            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "local_player");
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
-
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
 
             return player;

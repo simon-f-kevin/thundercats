@@ -41,16 +41,28 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case "local_player":
-                    if(targetEntity.EntityTypeName == "Goal")
-                    {
-                        Debug.WriteLine("A winner is you");
-                    }
-                    else UpdateSourceCollider(sourceEntity, targetEntity);
+                    PlayerCollision(collisionPair);
                     break;
                 case "default":
                     break;
             }       
 		}
+
+        private void PlayerCollision(Tuple<Entity, Entity> collisionPair)
+        {
+            Entity sourceEntity = collisionPair.Item1;
+            Entity targetEntity = collisionPair.Item2;
+
+            switch (targetEntity.EntityTypeName)
+            {
+                case "Goal":
+                    Debug.WriteLine("A winner is you");
+                    break;
+                case "default":
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+            }
+        }
 
         /*
          * Move the source entity away from the target which it has collided with.
