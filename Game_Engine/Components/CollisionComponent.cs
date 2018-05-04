@@ -13,11 +13,18 @@ namespace Game_Engine.Components
         private dynamic boundingShape;
         public dynamic BoundingShape
         {
-            get { return boundingShape; }
+            get {
+                return boundingShape;
+            }
             set {
                 if (boundingShape == null || value.GetType() == boundingShape.GetType())
+                {
                     boundingShape = value;
-                else throw new Exception("Must be the same volume type as the initial volume"); }
+                }
+                else {
+                    throw new Exception("Must be the same volume type as the initial volume");
+                }
+            }
         }
 
         public abstract Vector3 Center { get; }

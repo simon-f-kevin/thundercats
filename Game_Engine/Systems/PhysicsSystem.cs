@@ -29,7 +29,7 @@ namespace Game_Engine.Systems
 
 
         /// <summary>
-        /// Updates TransformComponents, ModelComponents, and BoundingSphereComponents with the velocities of any attached VelocityComponent.
+        /// Updates TransformComponents, ModelComponents, and CollisionComponents with the velocities of any attached VelocityComponent.
         /// </summary>
         private void UpdatePositionsOfModels()
         {
@@ -63,22 +63,22 @@ namespace Game_Engine.Systems
        /// </summary>
         private void CheckCollision()
         {
-            ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
+            ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
             bool found = false; //Temp debug flag
 
-            Parallel.ForEach(boundingSphereComponentPairs, sourceBoundingSphereComponentPair =>
+            Parallel.ForEach(collisionComponentPairs, sourceCollisionComponentPair =>
             {
-                Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
-                var sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as CollisionComponent;
+                Entity sourceEntity = sourceCollisionComponentPair.Key;
+                var sourceCollisionComponent = sourceCollisionComponentPair.Value as CollisionComponent;
 
-                foreach (var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
+                foreach (var targetCollisionComponentPair in collisionComponentPairs)
                 {
 
-                    Entity targetEntity = targetBoundingSphereComponentPair.Key;
-                    CollisionComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as CollisionComponent;
+                    Entity targetEntity = targetCollisionComponentPair.Key;
+                    CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
 
-                    if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
-                        sourceBoundingSphereComponent.BoundingShape.Intersects(targetBoundingSphereComponent.BoundingShape))
+                    if(sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
+                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
                     {
                         CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         found = true; //Temp debug flag
@@ -153,13 +153,13 @@ namespace Game_Engine.Systems
         /// <param name="translation"></param>
         private void UpdatePositionsOfBoundingSpheres(Entity key, Matrix translation)
         {
-            CollisionComponent boundingSphereComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(key);
+            CollisionComponent collisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(key);
 
-            if (boundingSphereComponent != null)
+            if (collisionComponent != null)
             {
-                var b = boundingSphereComponent.BoundingShape;
-                b = boundingSphereComponent.BoundingShape.Transform(translation);
-                boundingSphereComponent.BoundingShape = b;
+                var boundingSphere = collisionComponent.BoundingShape;
+                boundingSphere = collisionComponent.BoundingShape.Transform(translation);
+                collisionComponent.BoundingShape = boundingSphere;
             }
         }
 
@@ -190,28 +190,24 @@ namespace Game_Engine.Systems
         /*
          * Translates a bounding sphere component to be at the same world position as a transform component.
          */
-        public static void SetInitialBoundingSpherePos(CollisionComponent boundingSphereComponent, TransformComponent transformComponent)
+        public static void SetInitialBoundingSpherePos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
             Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-            var b = boundingSphereComponent.BoundingShape;
-            b = boundingSphereComponent.BoundingShape.Transform(translation);
-            boundingSphereComponent.BoundingShape = b;
-            //var e = boundingSphereComponent.Center;
-
+            var boundingSphere = collisionComponent.BoundingShape;
+            boundingSphere = collisionComponent.BoundingShape.Transform(translation);
+            collisionComponent.BoundingShape = boundingSphere;
         }
 
-        public static void SetInitialBoundingBox(CollisionComponent boundingBoxComponent, TransformComponent transformComponent)
+        public static void SetInitialBoundingBox(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
-            var b = boundingBoxComponent.BoundingShape;
-            var lengthX = (b.Max.X - b.Min.X) /2;
-            var lengthY = (b.Max.Y - b.Min.Y) /2;
-            var lengthZ = (b.Max.Z - b.Min.Z) /2;
-
+            var boundingBox = collisionComponent.BoundingShape;
+            var lengthX = (boundingBox.Max.X - boundingBox.Min.X) /2;
+            var lengthY = (boundingBox.Max.Y - boundingBox.Min.Y) /2;
+            var lengthZ = (boundingBox.Max.Z - boundingBox.Min.Z) /2;
 
             var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
             var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
-            boundingBoxComponent.BoundingShape = new BoundingBox(min, max);
-            //boundingBoxComponent.UpdateCenter();
+            collisionComponent.BoundingShape = new BoundingBox(min, max);
         }
     }
 }

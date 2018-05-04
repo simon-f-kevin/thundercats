@@ -21,7 +21,7 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            CollisionComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
@@ -31,7 +31,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent, typeof(CollisionComponent));
+            ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
@@ -39,7 +39,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+            PhysicsSystem.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }
@@ -61,21 +61,18 @@ namespace thundercats
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
-
-            var radius = modelComponent.Model.Meshes[0].BoundingSphere.Radius;
-            var center = modelComponent.Model.Meshes[0].BoundingSphere.Center;
-            CollisionComponent boundingSphereComponent = new BoundingBoxComponent(block, CreateBoundingBox(modelComponent.Model));
+            CollisionComponent collisionComponent = new BoundingBoxComponent(block, CreateBoundingBox(modelComponent.Model));
             
             BlockComponent blockComponent = new BlockComponent(block);
 
             ComponentManager.Instance.AddComponentToEntity(block, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(block, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(block, textureComponent);
-            ComponentManager.Instance.AddComponentToEntity(block, boundingSphereComponent, typeof(CollisionComponent));
+            ComponentManager.Instance.AddComponentToEntity(block, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(block, blockComponent);
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingBox(boundingSphereComponent, transformComponent);
+            PhysicsSystem.SetInitialBoundingBox(collisionComponent, transformComponent);
 
             return block;
         }
