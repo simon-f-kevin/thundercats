@@ -42,8 +42,8 @@ namespace Game_Engine.Systems
         {
             ModelComponent modelComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<ModelComponent>(cameraEntity);
             
-            cameraComponent.Position = modelComponent.World.Current.Translation + (modelComponent.World.Current.Forward * 30f) + (modelComponent.World.Current.Up * 20f);
-            cameraComponent.Target = modelComponent.World.Current.Translation + (modelComponent.World.Current.Backward * 20f);
+            cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Forward * 30f) + (modelComponent.World.Up * 20f);
+            cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Backward * 20f);
             //Console.WriteLine(cameraComponent.Position.ToString()); //For debugging
 
             cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);

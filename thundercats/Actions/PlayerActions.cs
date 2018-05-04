@@ -1,11 +1,11 @@
 ﻿
 using Game_Engine.Components;
-using Microsoft.Xna.Framework;
 
 namespace thundercats.Actions
 {
     static class PlayerActions
     {
+ 
         private static float playerForwardAcceleration = 0.25f;
         private static float playerStrafeAcceleration = 0.1f;
         private static float playerMaxRunningSpeed = 0.25f;
@@ -21,7 +21,7 @@ namespace thundercats.Actions
         {
             if(velocityComponent.Velocity.Z < playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.Z +=  playerForwardAcceleration;
+                velocityComponent.Velocity.Z += playerForwardAcceleration;
             }
         }
         /// <summary>
@@ -68,6 +68,9 @@ namespace thundercats.Actions
             {
                velocityComponent.Velocity.Y += _playerJumpSpeed; 
             }
+
+
+           
         }
     }
 }

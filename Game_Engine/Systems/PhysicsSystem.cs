@@ -47,7 +47,7 @@ namespace Game_Engine.Systems
                 
                 if(modelComponent != null)
                 {
-                    modelComponent.World.New *= modelComponent.World.Current + translation;
+                    modelComponent.World *= translation;
                 }
 
                 UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
@@ -174,13 +174,10 @@ namespace Game_Engine.Systems
             // Placeholder friction
             if(frictionComponent != null)
             {
-                var tempFriction = new Vector3(0, 0, 0);
-                tempFriction.X = frictionComponent.Friction;
-                tempFriction.Z = frictionComponent.Friction;
-
                 velocityComponent.Velocity.X *= frictionComponent.Friction;
                 velocityComponent.Velocity.Z *= frictionComponent.Friction;
             }
+
         }
 
         /*
@@ -188,7 +185,7 @@ namespace Game_Engine.Systems
          */
         public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
         {
-            modelComponent.World.New = modelComponent.World.Draw + Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            modelComponent.World = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
         }
 
         /*

@@ -1,6 +1,5 @@
 ﻿using Game_Engine.Entities;
 using Microsoft.Xna.Framework;
-using Game_Engine.Managers;
 
 namespace Game_Engine.Components
 {
@@ -12,7 +11,7 @@ namespace Game_Engine.Components
 
         public TransformComponent(Entity id) : base(id)
         {
-            Position = Vector3.Zero;
+            Position = new Vector3(0, 0, 0);
         }
 
         public TransformComponent(Entity id, Vector3 pos) : base(id)

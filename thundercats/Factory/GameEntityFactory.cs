@@ -59,7 +59,7 @@ namespace thundercats
             Entity block = EntityFactory.NewEntity();
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
-            modelComponent.World.New = modelComponent.World.Current + Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
+            modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
             CollisionComponent collisionComponent = new BoundingBoxComponent(block, CreateBoundingBox(modelComponent.Model));
             

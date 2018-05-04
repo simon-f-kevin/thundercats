@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Game_Engine.Entities;
-using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 
 namespace Game_Engine.Components
