@@ -1,15 +1,17 @@
 ﻿using Game_Engine.Entities;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace Game_Engine.Components
 {
-    public class BoundingSphereComponent : Component
+    public class BoundingSphereComponent : CollisionComponent
     {
-        public BoundingSphere BoundingSphere {get; set;}
-
-        public BoundingSphereComponent(Entity id, BoundingSphere boundingSphere) : base(id)
+        public BoundingSphereComponent(Entity id, BoundingSphere sphere) : base(id)
         {
-            BoundingSphere = boundingSphere;
+            this.BoundingShape = sphere;
         }
+
+        public override Vector3 Center => ((BoundingSphere)base.BoundingShape).Center;
     }
 }

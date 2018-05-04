@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using thundercats.GameStates;
 
 namespace thundercats
@@ -20,7 +21,7 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
@@ -30,7 +31,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
@@ -38,7 +39,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+            PhysicsSystem.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }
@@ -60,17 +61,18 @@ namespace thundercats
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(block, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent collisionComponent = new BoundingBoxComponent(block, CreateBoundingBox(modelComponent.Model));
+            
             BlockComponent blockComponent = new BlockComponent(block);
 
             ComponentManager.Instance.AddComponentToEntity(block, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(block, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(block, textureComponent);
-            ComponentManager.Instance.AddComponentToEntity(block, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(block, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(block, blockComponent);
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+            PhysicsSystem.SetInitialBoundingBox(collisionComponent, transformComponent);
 
             return block;
         }
@@ -81,14 +83,66 @@ namespace thundercats
             Entity blob = EntityFactory.NewEntity();
             ModelComponent modelComponent = new ModelComponent(blob, AssetManager.Instance.GetContent<Model>(model));
             TransformComponent transformComponent = new TransformComponent(blob, transformPos);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(blob, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent boundingSphereComponent = new BoundingSphereComponent(blob, modelComponent.Model.Meshes[0].BoundingSphere);
 
             ComponentManager.Instance.AddComponentToEntity(blob, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
-            ComponentManager.Instance.AddComponentToEntity(blob, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(blob, boundingSphereComponent, typeof(CollisionComponent));
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
             PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+        }
+
+
+        private static BoundingBox CreateBoundingBox(Model model)
+        {
+            Matrix[] boneTransforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
+
+            BoundingBox result = new BoundingBox();
+            foreach (ModelMesh mesh in model.Meshes)
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
+                    if (meshPartBoundingBox != null)
+                        result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
+                }
+            return result;
+        }
+
+        private static BoundingBox? GetBoundingBox(ModelMeshPart meshPart, Matrix transform)
+        {
+            if (meshPart.VertexBuffer == null)
+                return null;
+
+            Vector3[] positions = VertexElementExtractor.GetVertexElement(meshPart, VertexElementUsage.Position);
+            if (positions == null)
+                return null;
+
+            Vector3[] transformedPositions = new Vector3[positions.Length];
+            Vector3.Transform(positions, ref transform, transformedPositions);
+
+            return BoundingBox.CreateFromPoints(transformedPositions);
+        }
+        public static class VertexElementExtractor
+        {
+            public static Vector3[] GetVertexElement(ModelMeshPart meshPart, VertexElementUsage usage)
+            {
+                VertexDeclaration vd = meshPart.VertexBuffer.VertexDeclaration;
+                VertexElement[] elements = vd.GetVertexElements();
+
+                Func<VertexElement, bool> elementPredicate = ve => ve.VertexElementUsage == usage && ve.VertexElementFormat == VertexElementFormat.Vector3;
+                if (!elements.Any(elementPredicate))
+                    return null;
+
+                VertexElement element = elements.First(elementPredicate);
+
+                Vector3[] vertexData = new Vector3[meshPart.NumVertices];
+                meshPart.VertexBuffer.GetData((meshPart.VertexOffset * vd.VertexStride) + element.Offset,
+                    vertexData, 0, vertexData.Length, vd.VertexStride);
+
+                return vertexData;
+            }
         }
     }
 }
