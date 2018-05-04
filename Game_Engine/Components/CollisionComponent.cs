@@ -10,7 +10,15 @@ namespace Game_Engine.Components
 {
     public abstract class CollisionComponent : Component
     {
-        public dynamic BoundingShape { get; protected set; }
+        private dynamic boundingShape;
+        public dynamic BoundingShape
+        {
+            get { return boundingShape; }
+            set {
+                if (boundingShape == null || value.GetType() == boundingShape.GetType())
+                    boundingShape = value;
+                else throw new Exception("Must be the same volume type as the initial volume"); }
+        }
 
         public abstract Vector3 Center { get; }
 
@@ -18,23 +26,6 @@ namespace Game_Engine.Components
         {
         }
 
-        /// <summary>
-        /// Makes it easy to check intersections with different boundingvolumes that have 
-        /// the underlying intersects method.
-        /// </summary>
-        /// <param name="collisionComponent"></param>
-        /// <returns></returns>
-        public bool Intersects(CollisionComponent collisionComponent)
-        {
-            return BoundingShape.Intersects(collisionComponent.BoundingShape);
-        }
 
-        public void SetVolume(dynamic shape)
-        {
-            // Must be the same type as the initial shape so we don't get any errors
-            if (shape.GetType() == this.BoundingShape.GetType())
-                this.BoundingShape = shape;
-            else throw new Exception("Must be the same volume type as the initial volume");
-        }
     }
 }

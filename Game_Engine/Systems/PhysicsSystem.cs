@@ -159,7 +159,7 @@ namespace Game_Engine.Systems
             {
                 var b = boundingSphereComponent.BoundingShape;
                 b = boundingSphereComponent.BoundingShape.Transform(translation);
-                boundingSphereComponent.SetVolume(b);
+                boundingSphereComponent.BoundingShape = b;
             }
         }
 
@@ -177,7 +177,6 @@ namespace Game_Engine.Systems
                 velocityComponent.Velocity.X *= frictionComponent.Friction;
                 velocityComponent.Velocity.Z *= frictionComponent.Friction;
             }
-
         }
 
         /*
@@ -196,7 +195,7 @@ namespace Game_Engine.Systems
             Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
             var b = boundingSphereComponent.BoundingShape;
             b = boundingSphereComponent.BoundingShape.Transform(translation);
-            boundingSphereComponent.SetVolume(b);
+            boundingSphereComponent.BoundingShape = b;
             //var e = boundingSphereComponent.Center;
 
         }
@@ -211,11 +210,8 @@ namespace Game_Engine.Systems
 
             var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
             var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
-            boundingBoxComponent.SetVolume(new BoundingBox(min, max));
+            boundingBoxComponent.BoundingShape = new BoundingBox(min, max);
             //boundingBoxComponent.UpdateCenter();
-
-
-
         }
     }
 }
