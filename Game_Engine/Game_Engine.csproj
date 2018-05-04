@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BlockComponent.cs" />
+    <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BoundingSphereComponent.cs" />
     <Compile Include="Components\CameraComponent.cs" />
+    <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\FrictionComponent.cs" />
     <Compile Include="Components\GamepadComponent.cs" />
@@ -72,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

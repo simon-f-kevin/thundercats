@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
 namespace Game_Engine.Systems
 {
     /*
@@ -19,14 +22,14 @@ namespace Game_Engine.Systems
 
         public void Update(GameTime gameTime)
         {
-            RunGravity();
+           //  RunGravity();
             CheckCollision();
             UpdatePositionsOfModels();
         }
 
 
         /// <summary>
-        /// Updates TransformComponents, ModelComponents, and BoundingSphereComponents with the velocities of any attached VelocityComponent.
+        /// Updates TransformComponents, ModelComponents, and CollisionComponents with the velocities of any attached VelocityComponent.
         /// </summary>
         private void UpdatePositionsOfModels()
         {
@@ -60,22 +63,22 @@ namespace Game_Engine.Systems
        /// </summary>
         private void CheckCollision()
         {
-            ConcurrentDictionary<Entity, Component> boundingSphereComponentPairs = componentManager.GetConcurrentDictionary<BoundingSphereComponent>();
+            ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
             bool found = false; //Temp debug flag
 
-            Parallel.ForEach(boundingSphereComponentPairs, sourceBoundingSphereComponentPair =>
+            Parallel.ForEach(collisionComponentPairs, sourceCollisionComponentPair =>
             {
-                Entity sourceEntity = sourceBoundingSphereComponentPair.Key;
-                var sourceBoundingSphereComponent = sourceBoundingSphereComponentPair.Value as BoundingSphereComponent;
+                Entity sourceEntity = sourceCollisionComponentPair.Key;
+                var sourceCollisionComponent = sourceCollisionComponentPair.Value as CollisionComponent;
 
-                foreach (var targetBoundingSphereComponentPair in boundingSphereComponentPairs)
+                foreach (var targetCollisionComponentPair in collisionComponentPairs)
                 {
 
-                    Entity targetEntity = targetBoundingSphereComponentPair.Key;
-                    BoundingSphereComponent targetBoundingSphereComponent = targetBoundingSphereComponentPair.Value as BoundingSphereComponent;
+                    Entity targetEntity = targetCollisionComponentPair.Key;
+                    CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
 
-                    if(sourceBoundingSphereComponent.ComponentId != targetBoundingSphereComponent.ComponentId &&
-                        sourceBoundingSphereComponent.BoundingSphere.Intersects(targetBoundingSphereComponent.BoundingSphere))
+                    if(sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
+                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
                     {
                         CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         found = true; //Temp debug flag
@@ -94,15 +97,52 @@ namespace Game_Engine.Systems
         /// Applies gravity to all entities with a gravity-component and velocity-component. 
         /// If they have a velocity-component, but no gravity-component no gravity is applied. 
         /// </summary>
-        private void RunGravity()
+        private void RunGravity(GameTime gameTime)
         {
-            var gravityComponents = ComponentManager.Instance.GetConcurrentDictionary<GravityComponent>();
-            foreach (var gravityComponentKeyValuePair in gravityComponents)
-            {
-                //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
-                var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
-                velocityComponent.Velocity.Y -= 0.5f;
-            }
+            //var gravityComponents = ComponentManager.Instance.GetConcurrentDictionary<GravityComponent>();
+            //foreach (var gravityComponentKeyValuePair in gravityComponents)
+            //{
+            //    //if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
+            //    var gravityComponent = gravityComponentKeyValuePair.Value as GravityComponent;
+            //    var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
+            //    var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(gravityComponentKeyValuePair.Key);
+            //    var collisionComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<BoundingSphereComponent>(gravityComponentKeyValuePair.Key);
+
+            //    //temp
+            //    KeyboardState state = Keyboard.GetState();
+
+            //    // jumps
+            //    if (state.IsKeyDown(Keys.Space) && gravityComponent.IsFalling == false)
+            //    {
+            //        transformComponent.Position = new Vector3(transformComponent.Position.X, transformComponent.Position.Y - 10, transformComponent.Position.Z);
+            //        velocityComponent.Velocity.Y = -5;
+            //        gravityComponent.IsFalling = true;
+
+            //    }
+            //    // falls
+            //    if (gravityComponent.IsFalling == true)
+            //    {
+            //        //velocityComponent.Velocity.Y = +1;
+            //        //acceleration = force(time, position) / mass;
+            //        //time += timestep;
+            //        //position += timestep * velocity;
+            //        //velocity += timestep * acceleration;
+
+            //        var dt = gameTime.ElapsedGameTime.Milliseconds;
+            //        var acceleration = 9.8f / gravityComponent.Mass;
+            //        velocityComponent.Velocity.Y += acceleration * dt;
+            //        transformComponent.Position.Y += velocityComponent.Velocity.Y * dt;
+            //    }
+            //    // if entity has collided with another object
+            //    if (transformComponent.Position.Y >= gravityComponent.MinJump) // if y value collides with another object?
+            //        gravityComponent.IsFalling = false;
+
+            //    // if is not falling then we do not move vertically
+            //    if (gravityComponent.IsFalling == false)
+            //        velocityComponent.Velocity.Y = 0;
+
+              //  Console.WriteLine("Player pos: " + transformComponent.Position.ToString()); //For debugging
+           // }
         }
 
         /// <summary>
@@ -113,11 +153,13 @@ namespace Game_Engine.Systems
         /// <param name="translation"></param>
         private void UpdatePositionsOfBoundingSpheres(Entity key, Matrix translation)
         {
-            BoundingSphereComponent boundingSphereComponent = componentManager.ConcurrentGetComponentOfEntity<BoundingSphereComponent>(key);
+            CollisionComponent collisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(key);
 
-            if (boundingSphereComponent != null)
+            if (collisionComponent != null)
             {
-                boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
+                var boundingSphere = collisionComponent.BoundingShape;
+                boundingSphere = collisionComponent.BoundingShape.Transform(translation);
+                collisionComponent.BoundingShape = boundingSphere;
             }
         }
 
@@ -152,10 +194,24 @@ namespace Game_Engine.Systems
         /*
          * Translates a bounding sphere component to be at the same world position as a transform component.
          */
-        public static void SetInitialBoundingSpherePos(BoundingSphereComponent boundingSphereComponent, TransformComponent transformComponent)
+        public static void SetInitialBoundingSpherePos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
             Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-            boundingSphereComponent.BoundingSphere = boundingSphereComponent.BoundingSphere.Transform(translation);
+            var boundingSphere = collisionComponent.BoundingShape;
+            boundingSphere = collisionComponent.BoundingShape.Transform(translation);
+            collisionComponent.BoundingShape = boundingSphere;
+        }
+
+        public static void SetInitialBoundingBox(CollisionComponent collisionComponent, TransformComponent transformComponent)
+        {
+            var boundingBox = collisionComponent.BoundingShape;
+            var lengthX = (boundingBox.Max.X - boundingBox.Min.X) /2;
+            var lengthY = (boundingBox.Max.Y - boundingBox.Min.Y) /2;
+            var lengthZ = (boundingBox.Max.Z - boundingBox.Min.Z) /2;
+
+            var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
+            var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
+            collisionComponent.BoundingShape = new BoundingBox(min, max);
         }
     }
 }
