@@ -95,7 +95,7 @@ namespace thundercats.GameStates.States.MenuStates
             switch (currentPosition)
             {
                 case OptionsState.Singleplayer:
-                    controls.ContinueButton(GameManager.GameState.SinglePlayer);
+                    controls.ContinueButton(GameManager.GameState.PlayingSinglePlayer);
                     break;
                 case OptionsState.Multiplayer:
                     controls.ContinueButton(GameManager.GameState.MultiPlayer);

@@ -106,7 +106,7 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
                 {
                     gameManager.PreviousGameState = gameManager.CurrentGameState;
-                    gameManager.CurrentGameState = GameManager.GameState.PlayingSinglePlayer;
+                    gameManager.CurrentGameState = state;
                     clicked = true;
                 }
                 gameManager.OldGamepadState = gamePadState;

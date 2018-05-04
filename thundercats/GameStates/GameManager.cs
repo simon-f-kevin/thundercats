@@ -40,6 +40,8 @@ namespace thundercats.GameStates
             Credits,
             Paused,
             PlayingSinglePlayer,
+            MultiplayerStartServer,
+            MultiplayerConnectServer,
         };
 
         public GameManager(Game game)
@@ -49,10 +51,11 @@ namespace thundercats.GameStates
             gameStates = new Dictionary<GameState, IState>();
             gameStates.Add(GameState.MainMenu, new MainMenu(this));
             gameStates.Add(GameState.SinglePlayer, new SinglePlayer(this));
-            gameStates.Add(GameState.MultiPlayer, new MultiplayerMenu(this));
+            gameStates.Add(GameState.MultiPlayer, new MultiplayerMainMenu(this));
             gameStates.Add(GameState.Paused, new PausedMenu(this));
             gameStates.Add(GameState.Credits, new Credits(this));
             gameStates.Add(GameState.PlayingSinglePlayer, new PlayingSinglePlayerState(this));
+            gameStates.Add(GameState.MultiplayerStartServer, new MultiplayerStartServerMenu(this));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)
