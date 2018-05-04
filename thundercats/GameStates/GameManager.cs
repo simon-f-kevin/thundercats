@@ -67,11 +67,6 @@ namespace thundercats.GameStates
             gameStates[CurrentGameState].Update(gameTime);
 
         }
-        public void ParallelExecution(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            Parallel.Invoke(
-                () => Draw(gameTime, spriteBatch),
-                () => Update(gameTime));
-        }
+       
     }
 }

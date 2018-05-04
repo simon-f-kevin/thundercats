@@ -115,7 +115,7 @@ namespace thundercats
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            //gameManager.Update(gameTime);
+            gameManager.Update(gameTime);
             // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
             {
@@ -167,8 +167,7 @@ namespace thundercats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-             //gameManager.Draw(gameTime, spriteBatch);
-            gameManager.ParallelExecution(gameTime, spriteBatch);
+             gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
