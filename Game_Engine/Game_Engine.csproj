@@ -49,6 +49,7 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\FrictionComponent.cs" />
     <Compile Include="Components\GamepadComponent.cs" />
+    <Compile Include="Components\GoalComponent.cs" />
     <Compile Include="Components\GravityComponent.cs" />
     <Compile Include="Components\KeyBoardComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />

@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using thundercats.Actions;
 
 namespace thundercats.Systems
@@ -40,7 +41,11 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case "local_player":
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    if(targetEntity.EntityTypeName == "Goal")
+                    {
+                        Debug.WriteLine("A winner is you");
+                    }
+                    else UpdateSourceCollider(sourceEntity, targetEntity);
                     break;
                 case "default":
                     break;

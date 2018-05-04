@@ -54,9 +54,25 @@ namespace thundercats
             return player;
         }
 
-        public static Entity NewBlock(Vector3 positionValues, Texture2D texture)
+        public static Entity NewGoalBlock(Vector3 positionValues, Texture2D texture)
         {
-            Entity block = EntityFactory.NewEntity();
+            Entity player = NewBlock(positionValues, texture, "Goal");
+            GoalComponent goalComponent = new GoalComponent(player);
+            ComponentManager.Instance.AddComponentToEntity(player, goalComponent);
+            return player;
+        }
+
+        public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string name = null)
+        {
+            Entity block;
+            if (name == null)
+            {
+                block = EntityFactory.NewEntity();
+            }
+            else
+            {
+                block = EntityFactory.NewEntity(name);
+            }
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
