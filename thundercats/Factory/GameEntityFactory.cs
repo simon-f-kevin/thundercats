@@ -38,8 +38,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
-            PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
+            TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }
@@ -71,8 +71,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(block, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(block, blockComponent);
 
-            PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingBox(collisionComponent, transformComponent);
+            TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            TransformHelper.SetInitialBoundingBoxPos(collisionComponent, transformComponent);
 
             return block;
         }
@@ -89,8 +89,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(blob, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(blob, boundingSphereComponent, typeof(CollisionComponent));
 
-            PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+            TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            TransformHelper.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
         }
 
 
