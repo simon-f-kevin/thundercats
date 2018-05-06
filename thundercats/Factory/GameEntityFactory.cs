@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using thundercats.GameStates;
 
@@ -61,7 +62,7 @@ namespace thundercats
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
-            CollisionComponent collisionComponent = new BoundingBoxComponent(block, CreateBoundingBox(modelComponent.Model));
+            CollisionComponent collisionComponent = new BoundingBoxComponent(block, EntityFactory.CreateBoundingBox(modelComponent.Model));
             
             BlockComponent blockComponent = new BlockComponent(block);
 
@@ -73,6 +74,7 @@ namespace thundercats
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingBoxPos(collisionComponent, transformComponent);
+            EntityFactory.AddBoundingBoxChildren((BoundingBoxComponent)collisionComponent);
 
             return block;
         }
@@ -91,58 +93,6 @@ namespace thundercats
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
-        }
-
-
-        private static BoundingBox CreateBoundingBox(Model model)
-        {
-            Matrix[] boneTransforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(boneTransforms);
-
-            BoundingBox result = new BoundingBox();
-            foreach (ModelMesh mesh in model.Meshes)
-                foreach (ModelMeshPart meshPart in mesh.MeshParts)
-                {
-                    BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
-                    if (meshPartBoundingBox != null)
-                        result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
-                }
-            return result;
-        }
-
-        private static BoundingBox? GetBoundingBox(ModelMeshPart meshPart, Matrix transform)
-        {
-            if (meshPart.VertexBuffer == null)
-                return null;
-
-            Vector3[] positions = VertexElementExtractor.GetVertexElement(meshPart, VertexElementUsage.Position);
-            if (positions == null)
-                return null;
-
-            Vector3[] transformedPositions = new Vector3[positions.Length];
-            Vector3.Transform(positions, ref transform, transformedPositions);
-
-            return BoundingBox.CreateFromPoints(transformedPositions);
-        }
-        public static class VertexElementExtractor
-        {
-            public static Vector3[] GetVertexElement(ModelMeshPart meshPart, VertexElementUsage usage)
-            {
-                VertexDeclaration vd = meshPart.VertexBuffer.VertexDeclaration;
-                VertexElement[] elements = vd.GetVertexElements();
-
-                Func<VertexElement, bool> elementPredicate = ve => ve.VertexElementUsage == usage && ve.VertexElementFormat == VertexElementFormat.Vector3;
-                if (!elements.Any(elementPredicate))
-                    return null;
-
-                VertexElement element = elements.First(elementPredicate);
-
-                Vector3[] vertexData = new Vector3[meshPart.NumVertices];
-                meshPart.VertexBuffer.GetData((meshPart.VertexOffset * vd.VertexStride) + element.Offset,
-                    vertexData, 0, vertexData.Length, vd.VertexStride);
-
-                return vertexData;
-            }
         }
     }
 }
