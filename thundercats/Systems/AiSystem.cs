@@ -31,7 +31,7 @@ namespace thundercats.Systems
             var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(AiKey);
             //Player values
             var playerTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(PlayerKey);
-
+            // we need +10 because we need a bufferZone to not change state like everysecond if players are close to eachother
             if (aiTransformComponent.Position.Z < (playerTransformComponent.Position.Z + 10))
             {
                 aiComponent.CurrentState = AiComponent.AiState.Losing;
@@ -66,6 +66,8 @@ namespace thundercats.Systems
             }
            
         }
+        //not 100% sure of how to get the array of Map in to this method (how to represent it in a nice way, and can we get the Exact position in array
+        // with only the AI position? isent this a problem? cuz the position isent same as Array[3][2]??? 
         public void CheckNextRow(/*ArrayOfMap,*/ Entity key, int targetValue) {
             int tempVal = 0;
            var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);

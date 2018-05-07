@@ -46,15 +46,17 @@ namespace thundercats.Systems
             if (aiComponent != null && velocityComponent !=) {
                 if (aiComponent.CurrentMove == AiComponent.AiMove.Left)
                 {
-                    //jump left
+                    PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    PlayerActions.PlayerJumpSpeed(velocityComponent);
                 }
                 if (aiComponent.CurrentMove == AiComponent.AiMove.Run)
                 {
-                    //do nothing? stay in same "lane"
+                    PlayerActions.AcceleratePlayerForwards(velocityComponent);
                 }
                 if (aiComponent.CurrentMove == AiComponent.AiMove.Right)
                 {
-                    //jump right
+                    PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    PlayerActions.PlayerJumpSpeed(velocityComponent);
                 }
             }
             /* Keyboard actions */
