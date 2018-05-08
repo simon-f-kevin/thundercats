@@ -5,19 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using thundercats.GameStates;
 
 namespace thundercats.Components
 {
     public class AiComponent : Component
     {
-        public enum AiState { Losing, Winning};
+        public AiStateManager aiStateManager;
         public enum AiMove {Left,Run,Right};
-        public AiState CurrentState { get; set; }
         public AiMove CurrentMove { get; set; }
         public AiComponent(Entity id) : base(id)
         {
             CurrentMove = AiMove.Run;
-            CurrentState = AiState.Winning;
+            aiStateManager = new AiStateManager();
         }
     }
 }

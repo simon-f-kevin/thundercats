@@ -71,6 +71,7 @@
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\SurfaceSystem.cs" />
     <Compile Include="Systems\UIRenderSystem.cs" />
+    <Compile Include="System\Instance.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

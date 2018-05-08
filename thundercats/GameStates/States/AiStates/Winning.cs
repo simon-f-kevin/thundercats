@@ -21,7 +21,8 @@ namespace thundercats.GameStates.States.AiStates
         }
         public void Update(GameTime gameTime)
         {
-            SystemManager.Instance.Update(gameTime);
+            //jag vill väl bara uppdatera AiSystem? så kör allt i AI?
+            aiSystem.CheckNextRow(/*fuckit*/,TargetValue);
            // aiSystem.CheckNextRow(,TargetValue);
             
             throw new NotImplementedException();

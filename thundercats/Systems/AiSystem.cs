@@ -20,6 +20,7 @@ namespace thundercats.Systems
          * if! losing! the AI should check after powerups! 
          * in Nextrow we need to evaluate where to go!
          */
+        AiStateManager stateTest;
         public AiSystem() {
 
 
@@ -35,7 +36,7 @@ namespace thundercats.Systems
             // we need +10 because we need a bufferZone to not change state like everysecond if players are close to eachother
             if (aiTransformComponent.Position.Z < (playerTransformComponent.Position.Z + 10))
             {
-                aiComponent.CurrentState = AiComponent.AiState.Losing;
+                aiComponent.aiStateManager._currentAiState = AiStateManager.AiState.Losing;
                 //if we r losing we want to get(2,3,4?) from next row? 
                 targetValue = random.Next(2,4);
                 CheckNextRow(AiKey, targetValue);
@@ -43,7 +44,9 @@ namespace thundercats.Systems
             }
             else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 5))
             {
-                aiComponent.CurrentState = AiComponent.AiState.Winning;
+
+                aiComponent.aiStateManager._currentAiState = AiStateManager.AiState.Winning;
+               
                 //if we r winning we want to avoid 0, we dont care about anything else, maybe have a random? that gives a 50% chance of getting killed? 
                 //IDEA: if(aiTransformComponent.Position.Z > 200) targetValue = random.Next(0,2) if targetValue == 1 || targetValue == 2 then targetValue = 1)
                 if (aiTransformComponent.Position.Z > 200)
@@ -75,7 +78,6 @@ namespace thundercats.Systems
            var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
 
 
-            
             int[] nextRow;
             nextRow = new int[3];
             //nextRow = ArrayMap[AiTransformComponent.Position+1];

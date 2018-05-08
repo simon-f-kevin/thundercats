@@ -10,15 +10,15 @@ namespace thundercats.GameStates
 {
     public class AiStateManager
     {
-        private Dictionary<AiState, IAiState> aiStates;
+        public Dictionary<AiState, IAiState> aiStates;
 
-        private AiState _currentAiState = AiState.Winning;
+        public AiState _currentAiState = AiState.Winning;
         public enum AiState {
             Winning,
             Losing
         };
 
-        public void AiManager() {
+        public AiStateManager() {
 
             aiStates = new Dictionary<AiState, IAiState>();
             aiStates.Add(AiState.Winning, new Winning(this));
