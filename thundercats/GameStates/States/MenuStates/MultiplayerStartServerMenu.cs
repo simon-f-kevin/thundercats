@@ -8,6 +8,7 @@ using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Helpers;
 using Game_Engine.Managers;
+using Game_Engine.Managers.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

@@ -56,10 +56,10 @@ namespace thundercats.GameStates
             gameStates.Add(GameState.MultiPlayer, new MultiplayerMainMenu(this));
             gameStates.Add(GameState.Paused, new PausedMenu(this));
             gameStates.Add(GameState.Credits, new Credits(this));
-            gameStates.Add(GameState.PlayingSinglePlayer, new PlayingSinglePlayerState(this));
+            gameStates.Add(GameState.PlayingSinglePlayer, new PlayingLocalGame(this));
             gameStates.Add(GameState.MultiplayerStartServer, new MultiplayerStartServerMenu(this));
             gameStates.Add(GameState.MultiplayerConnectServer, new MultiplayerConnectMenu(this));
-            gameStates.Add(GameState.MultiplayerPlaying, new MultiplayerPlayingState(this));
+            gameStates.Add(GameState.MultiplayerPlaying, new PlayingMultiplayerGame(this));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)

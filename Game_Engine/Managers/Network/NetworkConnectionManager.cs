@@ -8,7 +8,7 @@ using Lidgren.Network;
 using Game_Engine.Components;
 using Game_Engine.Helpers;
 
-namespace Game_Engine.Managers
+namespace Game_Engine.Managers.Network
 {
     public class NetworkConnectionManager
     {
@@ -18,9 +18,10 @@ namespace Game_Engine.Managers
 
         private NetworkConnectionComponent networkConnectionComponent;
 
-        private NetServer Server;
+        private NetServer server;
 
-        private NetClient Client;
+        private NetClient client;
+
 
         public NetworkConnectionManager(NetworkHelper.ConnectionType type)
         {
@@ -41,7 +42,7 @@ namespace Game_Engine.Managers
         public void StartServer()
         {
             ServerName = networkConnectionComponent.Hostname;
-            Server.Start();
+            server.Start();
         }
 
         /// <summary>
@@ -53,23 +54,42 @@ namespace Game_Engine.Managers
             /*
              * Server?.Shutdown("bye!");
              */
-            if (Server != null)
+            if (server != null)
             {
-                Server.Shutdown("bye!");
+                server.Shutdown("bye!");
             }
         }
 
+        /// <summary>
+        /// Returns the server if it is running
+        /// </summary>
+        /// <returns></returns>
+        public NetServer GetServer()
+        {
+            if(server.Status == NetPeerStatus.Running) return server;
+            return null;
+        }
+
+        public NetOutgoingMessage SendOutgoingMessage()
+        {
+            return null;
+        }
+
+        public void RecieveIncomingMessage()
+        {
+
+        }
 
         private void InitConnectionManagerAsServer()
         {
             InitConnectionManager();
-            Server = new NetServer(netPeerConfiguration);
+            server = new NetServer(netPeerConfiguration);
         }
 
         private void InitConnectionManagerAsClient()
         {
             InitConnectionManager();
-            Client = new NetClient(netPeerConfiguration);
+            client = new NetClient(netPeerConfiguration);
         }
 
         private void InitConnectionManager()

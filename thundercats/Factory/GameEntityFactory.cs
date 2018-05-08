@@ -32,8 +32,6 @@ namespace thundercats
             VelocityComponent velocityComponent = new VelocityComponent(player);
             CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
-            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
-            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
 
@@ -42,8 +40,6 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
@@ -53,12 +49,24 @@ namespace thundercats
             return player;
         }
 
-        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
+        public static Entity NewLocalPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
             Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "local_player");
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
-            ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
+            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
+            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
 
+            ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+
+            return player;
+        }
+
+        public static Entity NewAiPlayer(String model, int gamePadIndex, Texture2D texture, Vector3 transformPos)
+        {
+            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "ai_player");
+            //here be ai components in the future
             return player;
         }
 

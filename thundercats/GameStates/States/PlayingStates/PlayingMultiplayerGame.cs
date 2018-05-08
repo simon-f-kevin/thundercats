@@ -4,34 +4,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Game_Engine.Managers;
+using Game_Engine.Managers.Network;
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using thundercats.Factory;
+using thundercats.Systems;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
-    public class MultiplayerPlayingState : IPlaying
+    public class PlayingMultiplayerGame : IPlaying
     {
         private GameManager gameManager;
         private Viewport viewport;
         private WorldGenerator worldGenerator;
+        private NetworkConnectionManager connectionManager;
 
-        public MultiplayerPlayingState(GameManager gameManager)
+        public PlayingMultiplayerGame(GameManager gameManager, NetworkConnectionManager connectionManager)
         {
             this.gameManager = gameManager;
             viewport = this.gameManager.game.GraphicsDevice.Viewport;
-
+            this.connectionManager = connectionManager;
         }
 
         public void Initialize()
         {
-            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
+            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
                  new Vector3(0, 0, -150), viewport.AspectRatio, true,
                  AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 1, new Vector3(10, viewport.Height * 0.45f, -110),
-                 new Vector3(0, 0, -150), viewport.AspectRatio, false,
-                 AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
+            GameEntityFactory.NewPlayer("Models/Blob", 0, new Vector3(30, viewport.Height * 0.45f, -100),
+                AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
 
+            NetworkSystem networkSystem = new NetworkSystem(connectionManager.GetServer());
+            SystemManager.Instance.AddToUpdateables(networkSystem);
+            
             InitWorld();
         }
 

@@ -10,13 +10,13 @@ using Game_Engine.Systems;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
-    public class PlayingSinglePlayerState : IPlaying
+    public class PlayingLocalGame : IPlaying
     {
         private GameManager gameManager;
         private Viewport viewport;
         private WorldGenerator worldGenerator;
 
-        public PlayingSinglePlayerState(GameManager gameManager)
+        public PlayingLocalGame(GameManager gameManager)
         {
             this.gameManager = gameManager;
             viewport = gameManager.game.GraphicsDevice.Viewport;
@@ -24,7 +24,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
+            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
                 new Vector3(0, 0, -150), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));

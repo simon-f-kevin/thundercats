@@ -68,7 +68,8 @@
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\CollisionManager.cs" />
-    <Compile Include="Managers\NetworkConnectionManager.cs" />
+    <Compile Include="Managers\Network\NetworkConnectionManager.cs" />
+    <Compile Include="Managers\Network\NetworkPlayingManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
     <Compile Include="Managers\TransformHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,8 +83,6 @@
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

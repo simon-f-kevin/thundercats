@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Managers;
+using Game_Engine.Managers.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -66,6 +67,12 @@ namespace thundercats.GameStates.States.MenuStates
                 return currentPosition;
             }
 
+        /// <summary>
+        /// This is done to check for clicked button, we don not want to initialize the server without the button being clicked. 
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
         internal bool StartServerButton(NetworkConnectionManager manager, PlayerIndex player = 0)
         {
             // Get the newest state

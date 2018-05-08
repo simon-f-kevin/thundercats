@@ -47,7 +47,7 @@ namespace Game_Engine.Systems
                 return;
             }
             
-            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value; //get the cameracomponent for the local player
 
             foreach(var modelComponentPair in modelComponents)
             {
