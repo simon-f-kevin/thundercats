@@ -39,28 +39,19 @@ namespace Game_Engine.Systems
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
-                ModelComponent modelComponent = componentManager.ConcurrentGetComponentOfEntity<ModelComponent>(velocityComponentPair.Key);
 
-                transformationComponent.Position += velocityComponent.Velocity;
                 Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
-                
-                if(modelComponent != null)
-                {
-                    modelComponent.World *= translation;
-                }
 
-                UpdatePositionsOfBoundingSpheres(velocityComponentPair.Key, translation);
+                TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);
                 UpdateFriction(velocityComponentPair.Key);
             });
         }
 
-       
-
-       /// <summary>
-       /// Checks intersections for all BoundingSphereComponents.
-       /// Currently only identifies collision, taking action based on collision is TODO.
-       /// </summary>
+        /// <summary>
+        /// Checks intersections for all BoundingSphereComponents.
+        /// Currently only identifies collision, taking action based on collision is TODO.
+        /// </summary>
         private void CheckCollision()
         {
             ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
@@ -146,24 +137,6 @@ namespace Game_Engine.Systems
         }
 
         /// <summary>
-        /// Updates the positions of bounding spheres of models
-        /// BoundingSphereComponents that equal themselves are ignored.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="translation"></param>
-        private void UpdatePositionsOfBoundingSpheres(Entity key, Matrix translation)
-        {
-            CollisionComponent collisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(key);
-
-            if (collisionComponent != null)
-            {
-                var boundingSphere = collisionComponent.BoundingShape;
-                boundingSphere = collisionComponent.BoundingShape.Transform(translation);
-                collisionComponent.BoundingShape = boundingSphere;
-            }
-        }
-
-        /// <summary>
         /// Updates the friction.
         /// </summary>
         /// <param name="velocityComponent"></param>
@@ -178,37 +151,6 @@ namespace Game_Engine.Systems
                 velocityComponent.Velocity.Z *= frictionComponent.Friction;
             }
 
-        }
-
-        /*
-         * Translates a model component to be at the same world position as a transform component.
-         */
-        public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
-        {
-            modelComponent.World = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-        }
-
-        /*
-         * Translates a bounding sphere component to be at the same world position as a transform component.
-         */
-        public static void SetInitialBoundingSpherePos(CollisionComponent collisionComponent, TransformComponent transformComponent)
-        {
-            Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-            var boundingSphere = collisionComponent.BoundingShape;
-            boundingSphere = collisionComponent.BoundingShape.Transform(translation);
-            collisionComponent.BoundingShape = boundingSphere;
-        }
-
-        public static void SetInitialBoundingBox(CollisionComponent collisionComponent, TransformComponent transformComponent)
-        {
-            var boundingBox = collisionComponent.BoundingShape;
-            var lengthX = (boundingBox.Max.X - boundingBox.Min.X) /2;
-            var lengthY = (boundingBox.Max.Y - boundingBox.Min.Y) /2;
-            var lengthZ = (boundingBox.Max.Z - boundingBox.Min.Z) /2;
-
-            var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
-            var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
-            collisionComponent.BoundingShape = new BoundingBox(min, max);
         }
     }
 }

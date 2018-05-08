@@ -15,6 +15,11 @@ namespace Game_Engine.Components
             this.BoundingShape = box;
         }
 
-        public override Vector3 Center { get => (((BoundingBox)base.BoundingShape).Max - ((BoundingBox)base.BoundingShape).Min) / 2; }
+        public override List<BoundingBox> Children{ get; set; }
+
+        public override Vector3 Center
+        {
+            get => ((BoundingBox)base.BoundingShape).Min + ((((BoundingBox)base.BoundingShape).Max - ((BoundingBox)base.BoundingShape).Min) / 2);
+        }
     }
 }

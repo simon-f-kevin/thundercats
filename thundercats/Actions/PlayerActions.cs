@@ -1,15 +1,16 @@
 ﻿
 using Game_Engine.Components;
+using System;
 
 namespace thundercats.Actions
 {
     static class PlayerActions
     {
  
-        private static float playerForwardAcceleration = 0.25f;
+        private static float playerForwardAcceleration = 0.1f;
         private static float playerStrafeAcceleration = 0.1f;
-        private static float playerMaxRunningSpeed = 0.25f;
-        private static float playerMaxStrafeSpeed = 0.25f;
+        private static float playerMaxRunningSpeed = 0.5f;
+        private static float playerMaxStrafeSpeed = 0.5f;
         private static float _playerJumpSpeed = 0.5f;
 
         
