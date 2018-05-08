@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using thundercats.Systems;
+using thundercats.Actions;
+using Game_Engine.Components;
 
 namespace thundercats.GameStates.States.AiStates
 {
@@ -34,7 +36,7 @@ namespace thundercats.GameStates.States.AiStates
             SystemManager.Instance.Update(gameTime);
 
             CalculateMove();
-            aiSystem.CheckNextRow(/*FUUCK*/,TargetValue);
+         //   aiSystem.CheckNextRow(/*FUUCK*/,TargetValue);
         }
 
         private void CalculateMove()
@@ -51,9 +53,24 @@ namespace thundercats.GameStates.States.AiStates
             MakeMove(currentBlock, nextBlock);
         }
 
-        private void MakeMove(Vector3 currentBlock, Vector3 nextBlock)
+        private void MakeMove(/*Entity entity,*/Vector3 currentBlock, Vector3 nextBlock)
         {
-            throw new NotImplementedException();
+         //  var VelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
+            if (currentBlock.X > nextBlock.X) {
+                //jump left
+                //PlayerActions.AcceleratePlayerLeftWards(VelocityComponent);
+                //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+            }
+            if (currentBlock.X < nextBlock.X)
+            {
+                //jump Right
+                //PlayerActions.AcceleratePlayerRightwards(VelocityComponent);
+                //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+            }
+            else {
+                //Continue run
+                //PlayerActions.AcceleratePlayerForwards(VelocityComponent);
+            }
         }
 
         private Vector3 GetNextRowBlock(Point decision)
