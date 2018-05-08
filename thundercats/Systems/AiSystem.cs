@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using thundercats.Components;
+using thundercats.GameStates;
 
 namespace thundercats.Systems
 {
@@ -19,35 +20,107 @@ namespace thundercats.Systems
          * if! losing! the AI should check after powerups! 
          * in Nextrow we need to evaluate where to go!
          */
-        public void CheckNextRow(/*ArrayOfMap,*/ Entity key) {
-           var AiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
-           var AiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
+        public AiSystem() {
+
+
+        }
+        public void AiGameState(Entity AiKey, Entity PlayerKey) {
+            int targetValue = 0;
+            Random random = new Random();
+            //Ai values
+            var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
+            var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(AiKey);
+            //Player values
+            var playerTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(PlayerKey);
+            // we need +10 because we need a bufferZone to not change state like everysecond if players are close to eachother
+            if (aiTransformComponent.Position.Z < (playerTransformComponent.Position.Z + 10))
+            {
+                aiComponent.CurrentState = AiComponent.AiState.Losing;
+                //if we r losing we want to get(2,3,4?) from next row? 
+                targetValue = random.Next(2,4);
+                CheckNextRow(AiKey, targetValue);
+
+            }
+            else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 5))
+            {
+                aiComponent.CurrentState = AiComponent.AiState.Winning;
+                //if we r winning we want to avoid 0, we dont care about anything else, maybe have a random? that gives a 50% chance of getting killed? 
+                //IDEA: if(aiTransformComponent.Position.Z > 200) targetValue = random.Next(0,2) if targetValue == 1 || targetValue == 2 then targetValue = 1)
+                if (aiTransformComponent.Position.Z > 200)
+                {
+                    targetValue = random.Next(0, 100);
+                    if (targetValue > 30)
+                    {
+                        targetValue = 1;
+                    }
+                    else
+                    {
+                        targetValue = 0;
+                    }
+                }
+                else
+                {
+                    targetValue = 1;
+                }
+                CheckNextRow(AiKey, targetValue);
+
+            }
+           
+        }
+        //not 100% sure of how to get the array of Map in to this method (how to represent it in a nice way, and can we get the Exact position in array
+        // with only the AI position? isent this a problem? cuz the position isent same as Array[3][2]??? 
+        public void CheckNextRow(/*ArrayOfMap,*/ Entity key, int targetValue) {
+            int tempVal = 0;
+           var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
+           var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
+
+
             
             int[] nextRow;
             nextRow = new int[3];
             //nextRow = ArrayMap[AiTransformComponent.Position+1];
-            for(int i=0; i< nextRow.Length; i++) {
-                /*if(AiState == losing)
-                 *  move == 1  (1 is bad)?
-                 * 
-                 * 
-                 * 
-                 */
-                switch (nextRow[i]) {
-                    case 0:
-                        //lane is clear this is option NR1 if WinningState
-                        break;
-                    case 1:
-                        // 1 is obstacle
-                        break;
+            if (nextRow.Contains<int>(targetValue))
+            {
+                tempVal = targetValue;
+            }
+            else if(nextRow.Contains<int>(1))
+            {
+                tempVal = 1;
+            }
+            for (int i = 0; i < nextRow.Length; i++) {
+                if (nextRow[i] == tempVal)
+                {
+                    if (i == 0) aiComponent.CurrentMove = AiComponent.AiMove.Left;
+                    if (i == 1) aiComponent.CurrentMove = AiComponent.AiMove.Run;
+                    if (i == 2) aiComponent.CurrentMove = AiComponent.AiMove.Right;
+                    MakeMove(key,aiComponent);
                 }
-                 
-                }
-            //return move
+            }
         }
         public void Update(GameTime gameTime)
         {
             throw new NotImplementedException();
+        }
+        private void MakeMove(Entity aiEntity, AiComponent aiComponent) {
+
+            if (aiComponent != null)
+            {
+                if (aiComponent.CurrentMove == AiComponent.AiMove.Left)
+                {
+                    //PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    //PlayerActions.PlayerJumpSpeed(velocityComponent);
+                }
+                if (aiComponent.CurrentMove == AiComponent.AiMove.Run)
+                {
+                    //PlayerActions.AcceleratePlayerForwards(velocityComponent);
+                }
+                if (aiComponent.CurrentMove == AiComponent.AiMove.Right)
+                {
+                    //PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    //PlayerActions.PlayerJumpSpeed(velocityComponent);
+                }
+            }
+
         }
     }
 }
