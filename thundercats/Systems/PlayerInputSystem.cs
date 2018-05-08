@@ -28,7 +28,6 @@ namespace thundercats.Systems
             foreach (Entity playerEntity in playerComponents.Keys)
             {
                 ParsePlayerInput(gameTime, playerEntity);
-               // ParseAiInput(gameTime, playerEntity);
             }
         }
 
@@ -41,24 +40,7 @@ namespace thundercats.Systems
             VelocityComponent velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(playerEntity);
             KeyboardComponent keyboardComponent = componentManager.ConcurrentGetComponentOfEntity<KeyboardComponent>(playerEntity);
             GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
-            AiComponent aiComponent = componentManager.ConcurrentGetComponentOfEntity<AiComponent>(playerEntity);
 
-            if (aiComponent != null && velocityComponent !=) {
-                if (aiComponent.CurrentMove == AiComponent.AiMove.Left)
-                {
-                    PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
-                    PlayerActions.PlayerJumpSpeed(velocityComponent);
-                }
-                if (aiComponent.CurrentMove == AiComponent.AiMove.Run)
-                {
-                    PlayerActions.AcceleratePlayerForwards(velocityComponent);
-                }
-                if (aiComponent.CurrentMove == AiComponent.AiMove.Right)
-                {
-                    PlayerActions.AcceleratePlayerRightwards(velocityComponent);
-                    PlayerActions.PlayerJumpSpeed(velocityComponent);
-                }
-            }
             /* Keyboard actions */
             if (keyboardComponent != null && velocityComponent != null)
             {

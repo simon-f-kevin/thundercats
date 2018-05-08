@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using thundercats.Components;
+using thundercats.GameStates;
 
 namespace thundercats.Systems
 {
@@ -72,6 +73,8 @@ namespace thundercats.Systems
             int tempVal = 0;
            var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
            var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
+
+
             
             int[] nextRow;
             nextRow = new int[3];
@@ -90,12 +93,34 @@ namespace thundercats.Systems
                     if (i == 0) aiComponent.CurrentMove = AiComponent.AiMove.Left;
                     if (i == 1) aiComponent.CurrentMove = AiComponent.AiMove.Run;
                     if (i == 2) aiComponent.CurrentMove = AiComponent.AiMove.Right;
+                    MakeMove(key,aiComponent);
                 }
             }
         }
         public void Update(GameTime gameTime)
         {
             throw new NotImplementedException();
+        }
+        private void MakeMove(Entity aiEntity, AiComponent aiComponent) {
+
+            if (aiComponent != null)
+            {
+                if (aiComponent.CurrentMove == AiComponent.AiMove.Left)
+                {
+                    //PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    //PlayerActions.PlayerJumpSpeed(velocityComponent);
+                }
+                if (aiComponent.CurrentMove == AiComponent.AiMove.Run)
+                {
+                    //PlayerActions.AcceleratePlayerForwards(velocityComponent);
+                }
+                if (aiComponent.CurrentMove == AiComponent.AiMove.Right)
+                {
+                    //PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    //PlayerActions.PlayerJumpSpeed(velocityComponent);
+                }
+            }
+
         }
     }
 }
