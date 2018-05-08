@@ -2,53 +2,53 @@
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace thundercats.Actions
 {
     static class CollisionActions
     {
 
-        public static void AccelerateColliderForwards(Entity entity)
+        public static void AccelerateColliderForwards(Entity entity, float zDiff)
         {
+            
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Z += 0.1f;
+                //velocityComponent.Velocity.Z += 0.25f;
+                velocityComponent.Velocity.Z += (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
             }
         }
 
-        public static void AccelerateColliderBackwards(Entity entity)
+        public static void AccelerateColliderBackwards(Entity entity, float zDiff)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Z -= 0.1f;
+                velocityComponent.Velocity.Z -= (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
             }
         }
 
-        public static void AccelerateColliderLeftwards(Entity entity)
+        public static void AccelerateColliderLeftwards(Entity entity, float xDiff)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.X += 0.1f;
+                //velocityComponent.Velocity.X += 0.25f;
+                velocityComponent.Velocity.X += (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
             }
         }
 
-        public static void AccelerateColliderRightwards(Entity entity)
+        public static void AccelerateColliderRightwards(Entity entity, float xDiff)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.X -= 0.1f;
+                //velocityComponent.Velocity.X -= 0.25f;
+                velocityComponent.Velocity.X -= (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
             }
         }
 

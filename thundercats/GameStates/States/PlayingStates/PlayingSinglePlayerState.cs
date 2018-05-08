@@ -24,10 +24,10 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, 100),
-                new Vector3(0, 0, -50), viewport.AspectRatio, true,
+            GameEntityFactory.NewPlayerWithCamera("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
+                new Vector3(0, 0, -150), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-            GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));
+            //GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));
             InitWorld();
         }
        

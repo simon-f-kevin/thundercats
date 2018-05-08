@@ -167,7 +167,7 @@ namespace thundercats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            gameManager.Draw(gameTime, spriteBatch);
+             gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
