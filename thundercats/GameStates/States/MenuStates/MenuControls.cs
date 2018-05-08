@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game_Engine.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,25 @@ namespace thundercats.GameStates.States.MenuStates
                 return currentPosition;
             }
 
-            public int MoveOptionPositionHorizontally(int currentPosition, PlayerIndex player = 0)
+        internal bool StartServerButton(NetworkConnectionManager manager, PlayerIndex player = 0)
+        {
+            // Get the newest state
+            KeyboardState keyboardState = Keyboard.GetState();
+            GamePadState gamePadState = GamePad.GetState(player);
+            bool clicked = false;
+
+            if (gamePadState.Buttons.A == ButtonState.Pressed && gameManager.OldGamepadState.IsButtonUp(Buttons.A)
+                    || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
+            {
+                manager.StartServer();
+                clicked = true;
+            }
+            gameManager.OldGamepadState = gamePadState;
+            gameManager.OldKeyboardState = keyboardState;
+            return clicked;
+        }
+
+        public int MoveOptionPositionHorizontally(int currentPosition, PlayerIndex player = 0)
             {
                 // Get the newest state
                 KeyboardState newState = Keyboard.GetState();

@@ -41,6 +41,7 @@ namespace thundercats.GameStates
             Credits,
             Paused,
             PlayingSinglePlayer,
+            MultiplayerPlaying,
             MultiplayerStartServer,
             MultiplayerConnectServer,
         };
@@ -57,6 +58,8 @@ namespace thundercats.GameStates
             gameStates.Add(GameState.Credits, new Credits(this));
             gameStates.Add(GameState.PlayingSinglePlayer, new PlayingSinglePlayerState(this));
             gameStates.Add(GameState.MultiplayerStartServer, new MultiplayerStartServerMenu(this));
+            gameStates.Add(GameState.MultiplayerConnectServer, new MultiplayerConnectMenu(this));
+            gameStates.Add(GameState.MultiplayerPlaying, new MultiplayerPlayingState(this));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)

@@ -56,10 +56,12 @@
     <Compile Include="GameStates\States\MenuStates\MenuControls.cs" />
     <Compile Include="GameStates\States\MenuStates\Credits.cs" />
     <Compile Include="GameStates\States\MenuStates\MainMenu.cs" />
+    <Compile Include="GameStates\States\MenuStates\MultiplayerConnectMenu.cs" />
     <Compile Include="GameStates\States\MenuStates\MultiplayerMainMenu.cs" />
     <Compile Include="GameStates\States\MenuStates\MultiplayerStartServerMenu.cs" />
     <Compile Include="GameStates\States\MenuStates\PausedMenu.cs" />
     <Compile Include="GameStates\States\PlayingStates\IPlaying.cs" />
+    <Compile Include="GameStates\States\PlayingStates\MultiplayerPlayingState.cs" />
     <Compile Include="GameStates\States\PlayingStates\PlayingSinglePlayerState.cs" />
     <Compile Include="GameStates\States\MenuStates\SinglePlayer.cs" />
     <Compile Include="Program.cs" />

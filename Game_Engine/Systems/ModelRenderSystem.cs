@@ -25,7 +25,6 @@ namespace Game_Engine.Systems
         public void Draw(GameTime gameTime)
         {
             DrawModels(gameTime);
-            //DrawGameWorld();
         }
 
         /*
@@ -95,11 +94,6 @@ namespace Game_Engine.Systems
             //        }
             //    }
             //});
-        }
-
-        private void DrawGameWorld()
-        {
-            throw new NotImplementedException();
         }
     }
 }
