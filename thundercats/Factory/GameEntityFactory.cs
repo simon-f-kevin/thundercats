@@ -16,9 +16,17 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
-        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
         {
-            Entity player = EntityFactory.NewEntity("local_player");
+            Entity player;
+            if (name == null)
+            {
+                player = EntityFactory.NewEntity("remote_player");
+            }
+            else
+            {
+                player = EntityFactory.NewEntity(name);
+            }
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
@@ -47,17 +55,32 @@ namespace thundercats
 
         public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
-            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture);
+            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "local_player");
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
-
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
 
             return player;
         }
 
-        public static Entity NewBlock(Vector3 positionValues, Texture2D texture)
+        public static Entity NewGoalBlock(Vector3 positionValues, Texture2D texture)
         {
-            Entity block = EntityFactory.NewEntity();
+            Entity player = NewBlock(positionValues, texture, "Goal");
+            GoalComponent goalComponent = new GoalComponent(player);
+            ComponentManager.Instance.AddComponentToEntity(player, goalComponent);
+            return player;
+        }
+
+        public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string name = null)
+        {
+            Entity block;
+            if (name == null)
+            {
+                block = EntityFactory.NewEntity();
+            }
+            else
+            {
+                block = EntityFactory.NewEntity(name);
+            }
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);

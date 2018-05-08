@@ -51,7 +51,7 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
-            var world = GenerateWorld(2, 5);
+            var world = GenerateWorld(3, 5);
             int distanceBetweenBlocksX = 100;
             int distanceBetweenBlocksZ = 50;
             int iter = 0;
@@ -59,9 +59,16 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int z = 0; z < world.GetLength(1); z++)
                 {
-                    if (world[x, z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)), 
-                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
-
+                    if (z == world.GetLength(1) - 1)
+                    {
+                        GameEntityFactory.NewGoalBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)),
+AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));
+                    }
+                    else if (world[x, z] == 1)
+                    {
+                        GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)),
+AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+                    }
                     iter++; //for debugging
                 }
             }
