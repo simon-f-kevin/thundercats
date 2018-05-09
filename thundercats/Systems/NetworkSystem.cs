@@ -1,4 +1,5 @@
-﻿using Game_Engine.Systems;
+﻿using Game_Engine.Helpers;
+using Game_Engine.Systems;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using System;
@@ -35,7 +36,7 @@ namespace thundercats.Systems
                     case NetIncomingMessageType.DiscoveryRequest:
                         // Create a response and write some example data to it
                         NetOutgoingMessage response = peer.CreateMessage();
-                        response.Write(peer.Configuration.LocalAddress.ToString());
+                        response.Write(NetworkHelper.GetCurrentHostname());
 
                         // Send the response to the sender of the request
                         peer.SendDiscoveryResponse(response, message.SenderEndPoint);
