@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game_Engine.Components;
+using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
+using thundercats.Components;
+using thundercats.Service;
 using thundercats.Systems;
 
 namespace thundercats.GameStates.States.AiStates
@@ -17,23 +22,18 @@ namespace thundercats.GameStates.States.AiStates
 
         private int TargetValue { get; set; }
 
-        private int[,] WorldMatrix { get; set; }
+        private int[,] WorldMatrix = GameService.Instance().GameWorld;
 
         private Random random;
 
-        public Winning(AiStateManager aiStateManager)
+        public Winning()
         {
-            this.aiStateManager = aiStateManager;
             random = new Random();
             TargetValue = random.Next(2, 4);
         }
-        public void Evaluate()
-        {
-
-        }
         public void Update(GameTime gameTime)
         {
-            SystemManager.Instance.Update(gameTime);
+            //SystemManager.Instance.Update(gameTime);
 
             CalculateMove();
             //aiSystem.CheckNextRow(/*FUUCK*/ TargetValue);
@@ -41,15 +41,20 @@ namespace thundercats.GameStates.States.AiStates
 
         private void CalculateMove()
         {
-            // Player pos row should be updated depending on real position. (transformComponent)
-            Point playerPosRow = new Point(1, 4); // what row player should be on in matrix
-            int[] nextMatrixRow = GetRow(WorldMatrix, playerPosRow.X); // get next row in front of player
+            ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
+            foreach (var aiComponent in aiComponents.Keys)
+            {
+                VelocityComponent velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(aiComponent);
+                TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(aiComponent);
+                // Player pos row should be updated depending on real position. (transformComponent)
+                Point playerPosRow = new Point((int)transformComponent.Position.X, (int)transformComponent.Position.Z); // what row player should be on in matrix
+                int[] nextMatrixRow = GetRow(WorldMatrix, playerPosRow.X); // get next row in front of player
 
-            var currentBlock = GetCurrentBlock(playerPosRow);
-            Point decision = ChooseBlock(nextMatrixRow, playerPosRow.X);
-            var nextBlock = GetNextRowBlock(decision);
-            // Check What decision to do
-
+                var currentBlock = GetCurrentBlock(playerPosRow);
+                Point decision = ChooseBlock(nextMatrixRow, playerPosRow.X);
+                var nextBlock = GetNextRowBlock(decision);
+                // Check What decision to do
+            }
             MakeMove(currentBlock, nextBlock);
         }
 
@@ -89,7 +94,7 @@ namespace thundercats.GameStates.States.AiStates
 
         private int[] GetRow(int[,] worldMatrix, int row)
         {
-            // should return row
+            // should return row in the worldMatrix
             return new int[] { worldMatrix[row + 1, 0], worldMatrix[row + 1, 1], worldMatrix[row + 1, 2] };
         }
 
@@ -100,8 +105,10 @@ namespace thundercats.GameStates.States.AiStates
             for (int i = 0; i < row.Length; i++)
             {
                 // Logic should be here to choose column/block
-                if (row[i] != 0) return new Point(RowIndex, i); // this should be the only thing we need to do? cuz we just want to survive
-               
+                if (row[i] != 0)/* this should be the only thing we need to do? cuz we just want to survive*/ {
+                    currentChoice = i;
+                    break;
+                } 
             }
             return new Point(RowIndex, currentChoice);
             // Index of the next block the ai is moving to;

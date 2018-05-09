@@ -66,6 +66,7 @@
     <Compile Include="GameStates\States\MenuStates\SinglePlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\GameService.cs" />
     <Compile Include="Systems\CollisionHandlingSystem.cs" />
     <Compile Include="Systems\AiSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />

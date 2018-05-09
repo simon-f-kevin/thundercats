@@ -8,32 +8,25 @@ using Microsoft.Xna.Framework;
 using thundercats.Systems;
 using thundercats.Actions;
 using Game_Engine.Components;
+using thundercats.Service;
 
 namespace thundercats.GameStates.States.AiStates
 {
     public class Losing : IAiState
     {
-        private AiStateManager aiStateManager;
-
-        private AiSystem aiSystem;
-
         private int TargetValue { get; set; }
 
-        private int[,] WorldMatrix { get; set;  }
+        private int[,] worldMatrix = GameService.Instance().GameWorld;
 
         private Random random;
 
-        public Losing(AiStateManager aiStateManager) {
-            this.aiStateManager = aiStateManager;
+        public Losing() {
             random = new Random();
             TargetValue = random.Next(2, 4);
         }
-        public void Evaluate() {
-
-        }
         public void Update(GameTime gameTime)
         {
-            SystemManager.Instance.Update(gameTime);
+            //SystemManager.Instance.Update(gameTime);
 
             CalculateMove();
          //   aiSystem.CheckNextRow(/*FUUCK*/,TargetValue);
@@ -43,7 +36,7 @@ namespace thundercats.GameStates.States.AiStates
         {
             // Player pos row should be updated depending on real position. (transformComponent)
             Point playerPosRow = new Point(1,4); // what row player should be on in matrix
-            int[] nextMatrixRow = GetRow(WorldMatrix, playerPosRow.X); // get next row in front of player
+            int[] nextMatrixRow = GetRow(worldMatrix, playerPosRow.X); // get next row in front of player
 
             var currentBlock = GetCurrentBlock(playerPosRow);
             Point decision = ChooseBlock(nextMatrixRow , playerPosRow.X);
@@ -99,7 +92,23 @@ namespace thundercats.GameStates.States.AiStates
             for (int i = 0; i < row.Length; i++)
             {
                 // Logic should be here to choose column/block
-                if (row[i] == 1) return new Point(RowIndex, i);
+                if (row[i] == 1) currentChoice = i; // return new Point(RowIndex, i); 
+                /*skulle kunna ha if( [i] == 1 || [i] != 0)??för att få en block o gå till,sen kollar vi specifikt värde */
+                if (row[i] == 2)
+                {
+                    currentChoice = i;
+                    break;
+                }
+                if (row[i] == 3)
+                {
+                    currentChoice = i;
+                    break;
+                }
+                if (row[i] == 4)
+                {
+                    currentChoice = i;
+                    break;
+                }
             }
             return new Point(RowIndex, currentChoice);
             // Index of the next block the ai is moving to;

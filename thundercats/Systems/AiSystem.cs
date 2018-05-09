@@ -4,12 +4,14 @@ using Game_Engine.Managers;
 using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using thundercats.Components;
 using thundercats.GameStates;
+using thundercats.GameStates.States.AiStates;
 
 namespace thundercats.Systems
 {
@@ -20,13 +22,20 @@ namespace thundercats.Systems
          * if! losing! the AI should check after powerups! 
          * in Nextrow we need to evaluate where to go!
          */
-        AiStateManager stateTest;
+       
+        private object componentManager;
+        protected GameTime gameTime;
+        public enum AiState {
+            Winning,
+            Losing
+        };
+        public Dictionary<AiState, IAiState> aiStates;
         public AiSystem() {
-
-
+            aiStates = new Dictionary<AiState, IAiState>();
+            aiStates.Add(AiState.Winning, new Winning());
+            aiStates.Add(AiState.Losing, new Losing());
         }
         public void AiGameState(Entity AiKey, Entity PlayerKey) {
-            int targetValue = 0;
             Random random = new Random();
             //Ai values
             var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
@@ -36,39 +45,15 @@ namespace thundercats.Systems
             // we need +10 because we need a bufferZone to not change state like everysecond if players are close to eachother
             if (aiTransformComponent.Position.Z < (playerTransformComponent.Position.Z + 10))
             {
-                aiComponent.aiStateManager._currentAiState = AiStateManager.AiState.Losing;
-                //if we r losing we want to get(2,3,4?) from next row? 
-                targetValue = random.Next(2,4);
-                CheckNextRow(AiKey, targetValue);
-
+                aiComponent.CurrentState = AiState.Losing;
             }
             else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 5))
             {
-
-                aiComponent.aiStateManager._currentAiState = AiStateManager.AiState.Winning;
-               
-                //if we r winning we want to avoid 0, we dont care about anything else, maybe have a random? that gives a 50% chance of getting killed? 
-                //IDEA: if(aiTransformComponent.Position.Z > 200) targetValue = random.Next(0,2) if targetValue == 1 || targetValue == 2 then targetValue = 1)
-                if (aiTransformComponent.Position.Z > 200)
-                {
-                    targetValue = random.Next(0, 100);
-                    if (targetValue > 30)
-                    {
-                        targetValue = 1;
-                    }
-                    else
-                    {
-                        targetValue = 0;
-                    }
-                }
-                else
-                {
-                    targetValue = 1;
-                }
-                CheckNextRow(AiKey, targetValue);
-
+                aiComponent.CurrentState = AiState.Winning;
+   
             }
-           
+            aiStates[aiComponent.CurrentState].Update(gameTime);
+
         }
         //not 100% sure of how to get the array of Map in to this method (how to represent it in a nice way, and can we get the Exact position in array
         // with only the AI position? isent this a problem? cuz the position isent same as Array[3][2]??? 
@@ -101,10 +86,17 @@ namespace thundercats.Systems
         }
         public void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            ConcurrentDictionary<Entity, Component> playerComponents = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
+            ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
+            
+            foreach (var aiComponent in aiComponents.Keys)
+            {
+                foreach (var playerComponent in playerComponents.Keys) {
+                    AiGameState(aiComponent, playerComponent);
+                }
+            }
         }
         private void MakeMove(Entity aiEntity, AiComponent aiComponent) {
-
             if (aiComponent != null)
             {
                 if (aiComponent.CurrentMove == AiComponent.AiMove.Left)

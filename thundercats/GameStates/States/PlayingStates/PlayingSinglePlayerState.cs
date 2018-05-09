@@ -7,6 +7,7 @@ using thundercats.Factory;
 using System;
 using System.Linq;
 using Game_Engine.Systems;
+using thundercats.Service;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -14,7 +15,8 @@ namespace thundercats.GameStates.States.PlayingStates
     {
         private GameManager gameManager;
         private Viewport viewport;
-        private WorldGenerator worldGenerator;
+        public WorldGenerator worldGenerator;
+        public int[,] world;
 
         public PlayingSinglePlayerState(GameManager gameManager)
         {
@@ -28,7 +30,10 @@ namespace thundercats.GameStates.States.PlayingStates
                 new Vector3(0, 0, -50), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));
+            GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, 100),
+                AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             InitWorld();
+            GameService.Instance().GameWorld = world;
         }
        
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -51,7 +56,7 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
-            var world = GenerateWorld(2, 5);
+            world = GenerateWorld(2, 5);
             int distanceBetweenBlocksX = 100;
             int distanceBetweenBlocksZ = 50;
             int iter = 0;

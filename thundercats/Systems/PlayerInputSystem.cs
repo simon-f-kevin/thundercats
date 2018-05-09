@@ -23,7 +23,6 @@ namespace thundercats.Systems
         public void Update(GameTime gameTime)
         {
             ConcurrentDictionary<Entity, Component> playerComponents = componentManager.GetConcurrentDictionary<PlayerComponent>();
-            //we need to create this for a AIEntity
 
             foreach (Entity playerEntity in playerComponents.Keys)
             {
