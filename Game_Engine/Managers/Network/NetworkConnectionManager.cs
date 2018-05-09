@@ -70,26 +70,45 @@ namespace Game_Engine.Managers.Network
             return null;
         }
 
-        public NetOutgoingMessage SendOutgoingMessage()
+        public void ClientSearch()
         {
-            return null;
+            client.Start();
+            // Emit a discovery signal
+            client.DiscoverLocalPeers(netPeerConfiguration.Port);
+           
+            NetIncomingMessage inc;
+            while ((inc = client.ReadMessage()) != null)
+            {
+                switch (inc.MessageType)
+                {
+                    case NetIncomingMessageType.DiscoveryResponse:
+                        var endpoint = inc.SenderEndPoint;
+                        var name = inc.ReadString();
+                        Console.WriteLine("Found server at " + endpoint + " name: " + name);
+                        SetServerName(name);
+                        break;
+                }
+            }
+            
         }
 
-        public void RecieveIncomingMessage()
+        private void SetServerName(string name)
         {
-
+            ServerName = name;
         }
 
         private void InitConnectionManagerAsServer()
         {
             InitConnectionManager();
             server = new NetServer(netPeerConfiguration);
+            netPeerConfiguration.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
         }
 
         private void InitConnectionManagerAsClient()
         {
             InitConnectionManager();
             client = new NetClient(netPeerConfiguration);
+            netPeerConfiguration.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
         }
 
         private void InitConnectionManager()

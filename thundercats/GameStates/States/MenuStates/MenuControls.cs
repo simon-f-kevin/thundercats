@@ -91,6 +91,30 @@ namespace thundercats.GameStates.States.MenuStates
             return clicked;
         }
 
+        /// <summary>
+        /// This is done to check for clicked button, we don not want to initialize the server without the button being clicked. 
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        internal bool SearchForServerButton(NetworkConnectionManager manager, PlayerIndex player = 0)
+        {
+            // Get the newest state
+            KeyboardState keyboardState = Keyboard.GetState();
+            GamePadState gamePadState = GamePad.GetState(player);
+            bool clicked = false;
+
+            if (gamePadState.Buttons.A == ButtonState.Pressed && gameManager.OldGamepadState.IsButtonUp(Buttons.A)
+                    || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
+            {
+                manager.ClientSearch();
+                clicked = true;
+            }
+            gameManager.OldGamepadState = gamePadState;
+            gameManager.OldKeyboardState = keyboardState;
+            return clicked;
+        }
+
         public int MoveOptionPositionHorizontally(int currentPosition, PlayerIndex player = 0)
             {
                 // Get the newest state

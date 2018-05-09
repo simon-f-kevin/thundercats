@@ -33,7 +33,15 @@ namespace thundercats.Systems
                 switch (message.MessageType)
                 {
                     case NetIncomingMessageType.DiscoveryRequest:
-                        peer.SendDiscoveryResponse(null, message.SenderEndPoint);
+                        // Create a response and write some example data to it
+                        NetOutgoingMessage response = peer.CreateMessage();
+                        response.Write("My server name");
+
+                        // Send the response to the sender of the request
+                        peer.SendDiscoveryResponse(response, message.SenderEndPoint);
+                        break;
+                    case NetIncomingMessageType.DiscoveryResponse:
+                        Console.WriteLine("Found server at " + message.SenderEndPoint + " name: " + message.ReadString());
                         break;
                     case NetIncomingMessageType.Data:
                         // handle custom messages
