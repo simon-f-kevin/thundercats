@@ -63,6 +63,7 @@ namespace thundercats.GameStates
             gameStates.Add(GameState.MultiplayerStartServer, new MultiplayerStartServerMenu(this));
             gameStates.Add(GameState.MultiplayerConnectServer, new MultiplayerConnectMenu(this));
             gameStates.Add(GameState.MultiplayerPlaying, new PlayingMultiplayerGame(this));
+            gameStates.Add(GameState.Quit, new QuitMenu(this));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)
