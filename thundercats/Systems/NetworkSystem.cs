@@ -15,17 +15,20 @@ namespace thundercats.Systems
     public class NetworkSystem : IUpdateableSystem
     {
         private NetPeer peer;
+        private Queue<NetIncomingMessage> messageQueue;
 
         public NetworkSystem(NetPeer peer)
         {
             this.peer = peer;
+            messageQueue = new Queue<NetIncomingMessage>();
         }
 
         public void Update(GameTime gameTime)
         {
             double nextSendUpdates = NetTime.Now;
-            NetIncomingMessage message;
-            while ((message = peer.ReadMessage()) != null)
+            var listOfIncomingMessages = new List<NetIncomingMessage>();
+            var nMessages = peer.ReadMessages(listOfIncomingMessages);
+            foreach (var message in listOfIncomingMessages)
             {
                 switch (message.MessageType)
                 {
@@ -81,13 +84,13 @@ namespace thundercats.Systems
                     // Yes, it's time to send position updates
 
                     // for each player...
-                    foreach (NetConnection player in server.Connections)
+                    foreach (NetConnection player in peer.Connections)
                     {
                         // ... send information about every other player (actually including self)
-                        foreach (NetConnection otherPlayer in server.Connections)
+                        foreach (NetConnection otherPlayer in peer.Connections)
                         {
                             // send position update about 'otherPlayer' to 'player'
-                            NetOutgoingMessage om = server.CreateMessage();
+                            NetOutgoingMessage om = peer.CreateMessage();
 
                             // write who this position is for
                             om.Write(otherPlayer.RemoteUniqueIdentifier);
@@ -100,7 +103,7 @@ namespace thundercats.Systems
                             om.Write(pos[1]);
 
                             // send message
-                            server.SendMessage(om, player, NetDeliveryMethod.Unreliable);
+                            peer.SendMessage(om, player, NetDeliveryMethod.Unreliable);
                         }
                     }
 

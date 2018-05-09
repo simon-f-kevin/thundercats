@@ -48,6 +48,7 @@ namespace thundercats.GameStates.States.MenuStates
             networkConnectionComponent.Port = NetworkHelper.GetPort();
             ComponentManager.Instance.AddComponentToEntity(network, networkConnectionComponent);
             networkConnectionManager = new NetworkConnectionManager(NetworkHelper.ConnectionType.Host);
+            gameManager.NetworkConnectionManager = networkConnectionManager;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

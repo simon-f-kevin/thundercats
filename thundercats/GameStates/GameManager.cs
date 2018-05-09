@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Game_Engine.Managers.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -30,6 +31,8 @@ namespace thundercats.GameStates
                 gameStates[_currentGameState].Initialize();
             }
         }
+
+        protected internal NetworkConnectionManager NetworkConnectionManager { get; set; }
 
         // Game states
         public enum GameState

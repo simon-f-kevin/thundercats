@@ -20,15 +20,15 @@ namespace thundercats.GameStates.States.PlayingStates
         private WorldGenerator worldGenerator;
         private NetworkConnectionManager connectionManager;
 
-        public PlayingMultiplayerGame(GameManager gameManager, NetworkConnectionManager connectionManager)
+        public PlayingMultiplayerGame(GameManager gameManager)
         {
             this.gameManager = gameManager;
             viewport = this.gameManager.game.GraphicsDevice.Viewport;
-            this.connectionManager = connectionManager;
         }
 
         public void Initialize()
         {
+            this.connectionManager = gameManager.NetworkConnectionManager;
             GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
                  new Vector3(0, 0, -150), viewport.AspectRatio, true,
                  AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
