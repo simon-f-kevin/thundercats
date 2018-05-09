@@ -16,13 +16,10 @@ namespace thundercats.GameStates.States.AiStates
 {
     public class Winning : IAiState
     {
-        private AiStateManager aiStateManager;
-
-        private AiSystem aiSystem;
 
         private int TargetValue { get; set; }
 
-        private int[,] WorldMatrix = GameService.Instance().GameWorld;
+        private int[,] worldMatrix;
 
         private Random random;
 
@@ -30,6 +27,7 @@ namespace thundercats.GameStates.States.AiStates
         {
             random = new Random();
             TargetValue = random.Next(2, 4);
+            worldMatrix = GameService.Instance().GameWorld;
         }
         public void Update(GameTime gameTime)
         {
@@ -44,18 +42,24 @@ namespace thundercats.GameStates.States.AiStates
             ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
             foreach (var aiComponent in aiComponents.Keys)
             {
+                int[] nextMatrixRow = new int[0];
+                //we maybe need velocity when we make the move?
                 VelocityComponent velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(aiComponent);
                 TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(aiComponent);
                 // Player pos row should be updated depending on real position. (transformComponent)
                 Point playerPosRow = new Point((int)transformComponent.Position.X, (int)transformComponent.Position.Z); // what row player should be on in matrix
-                int[] nextMatrixRow = GetRow(WorldMatrix, playerPosRow.X); // get next row in front of player
+                if (worldMatrix != null)
+                {
+                    nextMatrixRow = GetRow(worldMatrix, playerPosRow.X); // get next row in front of player
+                }
 
                 var currentBlock = GetCurrentBlock(playerPosRow);
                 Point decision = ChooseBlock(nextMatrixRow, playerPosRow.X);
                 var nextBlock = GetNextRowBlock(decision);
                 // Check What decision to do
+                MakeMove(currentBlock, nextBlock);
             }
-            MakeMove(currentBlock, nextBlock);
+           
         }
 
         private void MakeMove(Vector3 currentBlock, Vector3 nextBlock)

@@ -9,6 +9,9 @@ using thundercats.Systems;
 using thundercats.Actions;
 using Game_Engine.Components;
 using thundercats.Service;
+using Game_Engine.Entities;
+using System.Collections.Concurrent;
+using thundercats.Components;
 
 namespace thundercats.GameStates.States.AiStates
 {
@@ -16,34 +19,44 @@ namespace thundercats.GameStates.States.AiStates
     {
         private int TargetValue { get; set; }
 
-        private int[,] worldMatrix = GameService.Instance().GameWorld;
+        private int[,] worldMatrix;
 
         private Random random;
 
         public Losing() {
             random = new Random();
             TargetValue = random.Next(2, 4);
+            worldMatrix = GameService.Instance().GameWorld;
         }
         public void Update(GameTime gameTime)
         {
             //SystemManager.Instance.Update(gameTime);
 
-            CalculateMove();
-         //   aiSystem.CheckNextRow(/*FUUCK*/,TargetValue);
+           // CalculateMove();
         }
 
         private void CalculateMove()
         {
-            // Player pos row should be updated depending on real position. (transformComponent)
-            Point playerPosRow = new Point(1,4); // what row player should be on in matrix
-            int[] nextMatrixRow = GetRow(worldMatrix, playerPosRow.X); // get next row in front of player
+            ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
+            foreach (var aiComponent in aiComponents.Keys)
+            {
+                int[] nextMatrixRow = new int[0];
+                //we maybe need velocity when we make the move?
+                VelocityComponent velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(aiComponent);
+                TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(aiComponent);
+                // Player pos row should be updated depending on real position. (transformComponent)
+                Point playerPosRow = new Point((int)transformComponent.Position.X, (int)transformComponent.Position.Z); // what row player should be on in matrix
+                if (worldMatrix != null)
+                {
+                   nextMatrixRow = GetRow(worldMatrix, playerPosRow.X); // get next row in front of player
+                }
 
-            var currentBlock = GetCurrentBlock(playerPosRow);
-            Point decision = ChooseBlock(nextMatrixRow , playerPosRow.X);
-            var nextBlock = GetNextRowBlock(decision);
-            // Check What decision to do
-
-            MakeMove(currentBlock, nextBlock);
+                var currentBlock = GetCurrentBlock(playerPosRow);
+                Point decision = ChooseBlock(nextMatrixRow, playerPosRow.X);
+                var nextBlock = GetNextRowBlock(decision);
+                // Check What decision to do
+                MakeMove(currentBlock, nextBlock);
+            }
         }
 
         private void MakeMove(/*Entity entity,*/Vector3 currentBlock, Vector3 nextBlock)
