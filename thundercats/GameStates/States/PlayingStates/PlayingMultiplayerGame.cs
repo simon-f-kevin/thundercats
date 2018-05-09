@@ -35,8 +35,6 @@ namespace thundercats.GameStates.States.PlayingStates
             GameEntityFactory.NewPlayer("Models/Blob", 0, new Vector3(30, viewport.Height * 0.45f, -100),
                 AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
 
-            NetworkSystem networkSystem = new NetworkSystem(connectionManager.GetServer());
-            SystemManager.Instance.AddToUpdateables(networkSystem);
             
             InitWorld();
         }

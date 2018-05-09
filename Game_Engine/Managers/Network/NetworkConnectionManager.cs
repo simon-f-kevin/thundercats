@@ -73,28 +73,35 @@ namespace Game_Engine.Managers.Network
         public void ClientSearch()
         {
             client.Start();
+            //client.Connect("10.10.255.51", netPeerConfiguration.Port);
+            //client.WaitMessage(500);
             // Emit a discovery signal
             client.DiscoverLocalPeers(netPeerConfiguration.Port);
-           
-            NetIncomingMessage inc;
-            while ((inc = client.ReadMessage()) != null)
+
+
+            while (true)
             {
+                NetIncomingMessage inc = client.ReadMessage();
+                inc = client.WaitMessage(500);
+                if (inc == null) break;
                 switch (inc.MessageType)
                 {
                     case NetIncomingMessageType.DiscoveryResponse:
                         var endpoint = inc.SenderEndPoint;
                         var name = inc.ReadString();
                         Console.WriteLine("Found server at " + endpoint + " name: " + name);
-                        SetServerName(name);
+                        ServerName = name;
+                        break;
+                    case NetIncomingMessageType.DiscoveryRequest:
+                        NetOutgoingMessage response = client.CreateMessage();
+                        response.Write("My server name");
+
+                        // Send the response to the sender of the request
+                        client.SendDiscoveryResponse(response, inc.SenderEndPoint);
                         break;
                 }
             }
-            
-        }
 
-        private void SetServerName(string name)
-        {
-            ServerName = name;
         }
 
         private void InitConnectionManagerAsServer()
@@ -117,7 +124,7 @@ namespace Game_Engine.Managers.Network
                 .FirstOrDefault().Value as NetworkConnectionComponent;
             if (networkConnectionComponent == null) return;
             netPeerConfiguration =
-                new NetPeerConfiguration(networkConnectionComponent.Hostname) {Port = networkConnectionComponent.Port};
+                new NetPeerConfiguration("thundercats") {Port = networkConnectionComponent.Port};
 
         }
 

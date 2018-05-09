@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using thundercats.Systems;
 
 namespace thundercats.GameStates.States.MenuStates
 {
@@ -84,6 +85,8 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
             {
                 manager.StartServer();
+                NetworkSystem networkSystem = new NetworkSystem(manager.GetServer());
+                SystemManager.Instance.AddToUpdateables(networkSystem);
                 clicked = true;
             }
             gameManager.OldGamepadState = gamePadState;
