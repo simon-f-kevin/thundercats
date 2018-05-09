@@ -56,12 +56,13 @@ namespace thundercats.GameStates.States.AiStates
         private void MakeMove(/*Entity entity,*/Vector3 currentBlock, Vector3 nextBlock)
         {
          //  var VelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
-            if (currentBlock.X > nextBlock.X) {
+            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
+            {
                 //jump left
                 //PlayerActions.AcceleratePlayerLeftWards(VelocityComponent);
                 //PlayerActions.PlayerJumpSpeed(VelocityComponent);
             }
-            if (currentBlock.X < nextBlock.X)
+            if (currentBlock.X < nextBlock.X)//if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
                 //jump Right
                 //PlayerActions.AcceleratePlayerRightwards(VelocityComponent);
