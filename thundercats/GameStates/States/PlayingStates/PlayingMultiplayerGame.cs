@@ -26,16 +26,31 @@ namespace thundercats.GameStates.States.PlayingStates
             viewport = this.gameManager.game.GraphicsDevice.Viewport;
         }
 
+        /// <summary>
+        /// The host is always the red player and always on the left side
+        /// </summary>
         public void Initialize()
         {
             this.connectionManager = gameManager.NetworkConnectionManager;
-            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
-                 new Vector3(0, 0, -150), viewport.AspectRatio, true,
-                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-            GameEntityFactory.NewPlayer("Models/Blob", 0, new Vector3(30, viewport.Height * 0.45f, -100),
-                AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
+            var HostPosition = new Vector3(0, viewport.Height * 0.45f, 0);
+            var ClientPosition = new Vector3(100, viewport.Height * 0.45f, 0);
+            if (connectionManager.IsHost)
+            {
 
-            
+                GameEntityFactory.NewLocalHostPlayer("Models/Blob", 0, HostPosition,
+                    new Vector3(0, 0, -150), viewport.AspectRatio, true,
+                    AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+
+                GameEntityFactory.NewRemotePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
+            }
+            else
+            {
+                GameEntityFactory.NewLocalClientPlayer("Models/Blob", 0, ClientPosition,
+                    new Vector3(0, 0, -150), viewport.AspectRatio, true,
+                    AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
+
+                GameEntityFactory.NewRemoteHostPlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+            }
             InitWorld();
         }
 

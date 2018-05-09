@@ -14,6 +14,8 @@ namespace Game_Engine.Managers.Network
     {
         public string ServerName = "";
 
+        public bool IsHost;
+
         private NetPeerConfiguration netPeerConfiguration;
 
         private NetworkConnectionComponent networkConnectionComponent;
@@ -28,11 +30,13 @@ namespace Game_Engine.Managers.Network
             if (type == NetworkHelper.ConnectionType.Host)
             {
                 InitConnectionManagerAsServer();
+                IsHost = true;
             }
 
             if (type == NetworkHelper.ConnectionType.Client)
             {
                 InitConnectionManagerAsClient();
+                IsHost = false;
             }
         }
 
@@ -73,8 +77,7 @@ namespace Game_Engine.Managers.Network
         public void ClientSearch()
         {
             client.Start();
-            //client.Connect("10.10.255.51", netPeerConfiguration.Port);
-            //client.WaitMessage(500);
+
             // Emit a discovery signal
             client.DiscoverLocalPeers(netPeerConfiguration.Port);
 

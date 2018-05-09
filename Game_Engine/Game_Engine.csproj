@@ -58,6 +58,7 @@
     <Compile Include="Components\KeyBoardComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NetworkConnectionComponent.cs" />
+    <Compile Include="Components\NetworkInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\CollisionManager.cs" />
     <Compile Include="Managers\Network\NetworkConnectionManager.cs" />
-    <Compile Include="Managers\Network\NetworkPlayingManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
     <Compile Include="Managers\TransformHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

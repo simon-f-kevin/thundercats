@@ -1,13 +1,9 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
-using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using thundercats.GameStates;
 
 namespace thundercats
 {
@@ -16,7 +12,7 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
-        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
+        public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
         {
             Entity player;
             if (name == null)
@@ -48,24 +44,113 @@ namespace thundercats
 
             return player;
         }
-
+        /// <summary>
+        /// A Player without network component
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="transformPos"></param>
+        /// <param name="cameraPos"></param>
+        /// <param name="cameraAspectRatio"></param>
+        /// <param name="followPlayer"></param>
+        /// <param name="texture"></param>
+        /// <returns></returns>
         public static Entity NewLocalPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
-            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "local_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "local_player");
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
-
+            
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            
 
             return player;
         }
 
+        /// <summary>
+        /// The host player in a multiplayer game vs human opponent
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="transformPos"></param>
+        /// <param name="cameraPos"></param>
+        /// <param name="cameraAspectRatio"></param>
+        /// <param name="followPlayer"></param>
+        /// <param name="texture"></param>
+        /// <returns></returns>
+        public static Entity NewLocalHostPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
+        {
+            Entity player = NewLocalPlayer(model, gamePadIndex, transformPos, cameraPos, cameraAspectRatio, followPlayer, texture);
+            NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
+            ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            return player;
+        }
+
+        /// <summary>
+        /// The client player in a multiplayer game vs human opponent
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="transformPos"></param>
+        /// <param name="cameraPos"></param>
+        /// <param name="cameraAspectRatio"></param>
+        /// <param name="followPlayer"></param>
+        /// <param name="texture"></param>
+        /// <returns></returns>
+        public static Entity NewLocalClientPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
+        {
+            Entity player = NewLocalPlayer(model, gamePadIndex, transformPos, cameraPos, cameraAspectRatio, followPlayer, texture);
+            NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
+            ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            return player;
+        }
+
+        /// <summary>
+        /// Human opponent in multiplayer game that is not the host
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="texture"></param>
+        /// <param name="transformPos"></param>
+        /// <returns></returns>
+        public static Entity NewRemotePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        {
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "remote_player");
+            NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
+            ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            return player;
+        }
+
+        /// <summary>
+        /// Human opponent in multiplayer game that is  the host
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="texture"></param>
+        /// <param name="transformPos"></param>
+        /// <returns></returns>
+        public static Entity NewRemoteHostPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        {
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "remote_player");
+            NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
+            ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            return player;
+        }
+
+        /// <summary>
+        /// Opponent in singleplayer game
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="texture"></param>
+        /// <param name="transformPos"></param>
+        /// <returns></returns>
         public static Entity NewAiPlayer(String model, int gamePadIndex, Texture2D texture, Vector3 transformPos)
         {
-            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "ai_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "ai_player");
             //here be ai components in the future
             return player;
         }
