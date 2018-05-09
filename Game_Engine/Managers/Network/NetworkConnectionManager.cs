@@ -87,7 +87,10 @@ namespace Game_Engine.Managers.Network
                 NetIncomingMessage inc = client.ReadMessage();
                 inc = client.WaitMessage(500);
                 if (inc == null) break;
-                if (client.Connections.Count > 0) break;
+                if (client.Connections.Count > 0)
+                {
+                    break;
+                }
                 switch (inc.MessageType)
                 {
                     case NetIncomingMessageType.DiscoveryResponse:
@@ -97,13 +100,6 @@ namespace Game_Engine.Managers.Network
                         ServerName = name;
                         client.Connect(inc.SenderEndPoint.Address.ToString(), inc.SenderEndPoint.Port);
                         break;
-                    //case NetIncomingMessageType.DiscoveryRequest:
-                    //    NetOutgoingMessage response = client.CreateMessage();
-                    //    response.Write("My server name");
-
-                    //    // Send the response to the sender of the request
-                    //    client.SendDiscoveryResponse(response, inc.SenderEndPoint);
-                    //    break;
                 }
             }
 

@@ -59,18 +59,28 @@ namespace thundercats.Systems
                     case NetIncomingMessageType.StatusChanged:
                         // handle connection status messages
                         NetConnectionStatus status = (NetConnectionStatus)message.ReadByte();
-                        if (status == NetConnectionStatus.Connected)
+                        if (status == NetConnectionStatus.RespondedConnect)
                         {
                             //
                             // A new player just connected!
                             //
-                            Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " connected!");
+                            Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " responded to connection!");
 
                             // randomize his position and store in connection tag
                             message.SenderConnection.Tag = new int[] {
                                     NetRandom.Instance.Next(10, 100),
                                     NetRandom.Instance.Next(10, 100)
                                 };
+                        }
+                        if (status == NetConnectionStatus.Connected)
+                        {
+                            //
+                            // A new player just connected!
+                            //
+                            Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " connected, yay!");
+
+                            // randomize his position and store in connection tag
+                           
                         }
 
                         break;
