@@ -35,8 +35,8 @@ namespace thundercats.Systems
 
             localPlayerEntity = GetPlayer(GameEntityFactory.LOCAL_PLAYER);
 
-            NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
-            ComponentManager.Instance.AddComponentToEntity(remotePlayerEntity, networkInputComponent);
+            //NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
+            //ComponentManager.Instance.AddComponentToEntity(remotePlayerEntity, networkInputComponent);
 
         }
 

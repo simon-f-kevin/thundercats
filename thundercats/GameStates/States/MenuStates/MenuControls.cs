@@ -85,9 +85,9 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
             {
                 manager.StartServer();
-                NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetPeer());
-                networkSystem.InitRemotePlayer();
-                SystemManager.Instance.AddToUpdateables(networkSystem);
+                //NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetPeer());
+                //networkSystem.InitRemotePlayer();
+                //SystemManager.Instance.AddToUpdateables(networkSystem);
                 clicked = true;
             }
             gameManager.OldGamepadState = gamePadState;
@@ -112,9 +112,7 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
             {
                 manager.ClientSearch();
-                NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetPeer());
-                networkSystem.InitRemotePlayer();
-                SystemManager.Instance.AddToUpdateables(networkSystem);
+                
                 clicked = true;
             }
             gameManager.OldGamepadState = gamePadState;

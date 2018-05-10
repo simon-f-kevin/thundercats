@@ -51,6 +51,11 @@ namespace thundercats.GameStates.States.PlayingStates
 
                 GameEntityFactory.NewRemoteHostPlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             }
+
+            NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
+            networkSystem.InitRemotePlayer();
+            SystemManager.Instance.AddToUpdateables(networkSystem);
+
             NetworkInputSystem networkInputSystem = new NetworkInputSystem();
             SystemManager.Instance.AddToUpdateables(networkInputSystem);
             InitWorld();
