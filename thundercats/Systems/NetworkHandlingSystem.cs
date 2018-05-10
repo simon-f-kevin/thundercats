@@ -57,7 +57,15 @@ namespace thundercats.Systems
                         if(remotePlayerEntity != null)
                         {
                             NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
-                            var data = message.Data;
+                            networkInputComponent.MoveForward = message.ReadBoolean();
+                            networkInputComponent.MoveLeft = message.ReadBoolean();
+                            networkInputComponent.MoveRight = message.ReadBoolean();
+                            networkInputComponent.Jump = message.ReadBoolean();
+                            //for debugging
+                            //Console.WriteLine(networkInputComponent.MoveForward.ToString() + "forward");
+                            //Console.WriteLine(networkInputComponent.MoveLeft.ToString() + "left");
+                            //Console.WriteLine(networkInputComponent.MoveRight.ToString() + "right");
+                            //Console.WriteLine(networkInputComponent.Jump.ToString() + "jump");
                         }
                         break;
 
