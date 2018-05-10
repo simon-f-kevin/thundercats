@@ -45,7 +45,6 @@ namespace thundercats.Systems
                         // Create a response and write some example data to it
                         NetOutgoingMessage response = peer.CreateMessage();
                         response.Write(NetworkHelper.GetCurrentHostname());
-
                         // Send the response to the sender of the request
                         peer.SendDiscoveryResponse(response, message.SenderEndPoint);
                         break;
@@ -53,14 +52,13 @@ namespace thundercats.Systems
                         Console.WriteLine("Found server at " + message.SenderEndPoint + " name: " + message.ReadString());
                         break;
                     case NetIncomingMessageType.Data:
-
+                        Console.WriteLine("Incoming game-data");
                         //Recieves data and puts it in the networkInputComponent for the remote player entity
                         if(remotePlayerEntity != null)
                         {
                             NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
                             var data = message.Data;
                         }
-                        
                         break;
 
                     case NetIncomingMessageType.StatusChanged:
@@ -104,15 +102,21 @@ namespace thundercats.Systems
 
                         //sends networkInputComponents' data over the network to the host/client
                         var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(localPlayerEntity);
-                        om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
-                                Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
+                        om.Write(networkInputComponent.MoveForward);
+                        om.Write(networkInputComponent.MoveLeft);
+                        om.Write(networkInputComponent.MoveRight);
+                        om.Write(networkInputComponent.Jump);
+                        //om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
+                        //        Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
                         peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
+                        Console.WriteLine(om.ToString());
                     }
                 }
 
                 nextSendUpdates += (1.0 / 30.0);
             }
-            Console.WriteLine(nMessages + " incoming messages!");
+            if(nMessages > 0) Console.WriteLine(nMessages + " incoming messages!");
+
             //Console.WriteLine(message.MessageType.ToString());
         }
 
