@@ -5,6 +5,7 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using thundercats.Actions;
 
 namespace thundercats.Systems
@@ -40,12 +41,28 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case "local_player":
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    PlayerCollision(collisionPair);
                     break;
                 case "default":
                     break;
             }       
 		}
+
+        private void PlayerCollision(Tuple<Entity, Entity> collisionPair)
+        {
+            Entity sourceEntity = collisionPair.Item1;
+            Entity targetEntity = collisionPair.Item2;
+
+            switch (targetEntity.EntityTypeName)
+            {
+                case "Goal":
+                    Debug.WriteLine("A winner is you");
+                    break;
+                case "default":
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+            }
+        }
 
         /*
          * Move the source entity away from the target which it has collided with.
