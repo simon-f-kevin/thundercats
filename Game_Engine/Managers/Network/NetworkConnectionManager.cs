@@ -68,9 +68,10 @@ namespace Game_Engine.Managers.Network
         /// Returns the server if it is running
         /// </summary>
         /// <returns></returns>
-        public NetServer GetServer()
+        public NetServer GetPeer()
         {
             if(server.Status == NetPeerStatus.Running) return server;
+            if (client.Status == NetPeerStatus.Running) return client;
             return null;
         }
         /// <summary>

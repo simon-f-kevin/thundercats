@@ -109,7 +109,7 @@ namespace thundercats.Systems
                         //om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
                         //        Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
                         peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
-                        Console.WriteLine(om.ToString());
+                        Console.WriteLine(om.Data[0].ToString());
                     }
                 }
 
