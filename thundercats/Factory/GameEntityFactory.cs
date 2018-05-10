@@ -12,9 +12,9 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
-        public static string REMOTE_PLAYER = "remote_player";
-        public static string LOCAL_PLAYER = "local_player";
-        public static string AI_PLAYER = "ai_player";
+        public const string REMOTE_PLAYER = "remote_player";
+        public const string LOCAL_PLAYER = "local_player";
+        public const string AI_PLAYER = "ai_player";
 
         public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
         {

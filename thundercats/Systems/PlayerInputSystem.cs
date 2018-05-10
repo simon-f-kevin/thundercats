@@ -54,8 +54,10 @@ namespace thundercats.Systems
                 {
                     //This shouldn't be possible?
                     PlayerActions.AcceleratePlayerBackwards(velocityComponent);
+                    networkInputComponent.MoveBackward = true;
+
                 }
-                if(state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
+                if (state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
                     networkInputComponent.MoveLeft = true;

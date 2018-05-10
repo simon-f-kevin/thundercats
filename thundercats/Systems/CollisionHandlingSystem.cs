@@ -40,7 +40,13 @@ namespace thundercats.Systems
 
             switch(sourceEntity.EntityTypeName)
             {
-                case "local_player":
+                case GameEntityFactory.REMOTE_PLAYER:
+                    PlayerCollision(collisionPair);
+                    break;
+                case GameEntityFactory.LOCAL_PLAYER:
+                    PlayerCollision(collisionPair);
+                    break;
+                case GameEntityFactory.AI_PLAYER:
                     PlayerCollision(collisionPair);
                     break;
                 case "default":
