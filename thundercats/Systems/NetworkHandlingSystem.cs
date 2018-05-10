@@ -29,15 +29,13 @@ namespace thundercats.Systems
 
         public void Update(GameTime gameTime)
         {
-            Entity remotePlayerEntity = null;
+            Entity remotePlayerEntity = GetPlayer(GameEntityFactory.REMOTE_PLAYER);
+            Entity localPlayerEntity = GetPlayer(GameEntityFactory.LOCAL_PLAYER);
+
             double nextSendUpdates = NetTime.Now;
             var listOfIncomingMessages = new List<NetIncomingMessage>();
             var nMessages = peer.ReadMessages(listOfIncomingMessages);
-            var playerEntities = ComponentManager.Instance.GetDictionary<PlayerComponent>().Keys;
-            foreach (var player in playerEntities)
-            {
-                if (player.EntityTypeName.Equals(GameEntityFactory.REMOTE_PLAYER)) remotePlayerEntity = player;
-            }
+            
             foreach (var message in listOfIncomingMessages)
             {
                 //RECIEVE DATA
@@ -104,13 +102,29 @@ namespace thundercats.Systems
                             NetOutgoingMessage om = peer.CreateMessage();
 
                             //sends networkInputComponents' data over the network to the host/client
+                            var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(localPlayerEntity);
+                            om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
+                                Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
                             peer.SendMessage(om, player, NetDeliveryMethod.Unreliable);
                         }
                     }
 
                     nextSendUpdates += (1.0 / 30.0);
                 }
+                Console.WriteLine(nMessages + " incoming messages!");
+                //Console.WriteLine(message.MessageType.ToString());
             }
+        }
+
+        private Entity GetPlayer(string playertype)
+        {
+            Entity result = null;
+            var playerEntities = ComponentManager.Instance.GetDictionary<PlayerComponent>().Keys;
+            foreach (var player in playerEntities)
+            {
+                if (player.EntityTypeName.Equals(playertype)) result = player;
+            }
+            return result;
         }
     }
 }
