@@ -31,7 +31,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));
             GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, 100),
-                AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+                AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
             InitWorld();
             GameService.Instance().GameWorld = world;
         }
@@ -56,8 +56,8 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
-            world = GenerateWorld(2, 5);
-            int distanceBetweenBlocksX = 100;
+            world = GenerateWorld(3, 5);
+            int distanceBetweenBlocksX = -100;
             int distanceBetweenBlocksZ = 50;
             int iter = 0;
             for (int x = 0; x < world.GetLength(0); x++)

@@ -22,7 +22,7 @@ namespace thundercats.GameStates.States.AiStates
         private int[,] worldMatrix;
 
         private Random random;
-
+       public int[] nextMatrixRow = new int[0];
         public Winning()
         {
             random = new Random();
@@ -41,14 +41,17 @@ namespace thundercats.GameStates.States.AiStates
             ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
             foreach (var aiComponent in aiComponents.Keys)
             {
-                int[] nextMatrixRow = new int[0];
+        
                 //we maybe need velocity when we make the move?
                 VelocityComponent velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(aiComponent);
                 TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(aiComponent);
                 // Player pos row should be updated depending on real position. (transformComponent)
                 Point playerPosRow = new Point((int)transformComponent.Position.X, (int)transformComponent.Position.Z); // what row player should be on in matrix
+                if (playerPosRow.X > 2) playerPosRow.X = 1;
                 nextMatrixRow = GetRow(worldMatrix, playerPosRow.X); // get next row in front of player
 
+                Console.WriteLine(playerPosRow.X.ToString());
+                //Console.WriteLine(nextMatrixRow[0] +" ");
                 var currentBlock = GetCurrentBlock(playerPosRow);
                 Point decision = ChooseBlock(nextMatrixRow, playerPosRow.X);
                 var nextBlock = GetNextRowBlock(decision);
@@ -82,19 +85,20 @@ namespace thundercats.GameStates.States.AiStates
 
         private Vector3 GetNextRowBlock(Point decision)
         {
-            // return next block dimensions
+            // return next block dimensions //get its X and Z coordinates Middle X is needed and atleast min Z
             return default(Vector3);
         }
 
         private Vector3 GetCurrentBlock(Point playerPosRow)
         {
-            // return current block dimensions
+            // return current block dimensions //get its X and Z coordinates Middle X is needed and atleast min Z
             return default(Vector3);
         }
 
         private int[] GetRow(int[,] worldMatrix, int row)
         {
             // should return row in the worldMatrix
+            //WE GET EXCEPTION INDEX OUTOF RANGE HERE!!!!!!
             return new int[] { worldMatrix[row + 1, 0], worldMatrix[row + 1, 1], worldMatrix[row + 1, 2] };
         }
 

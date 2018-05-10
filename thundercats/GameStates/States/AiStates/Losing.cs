@@ -46,8 +46,10 @@ namespace thundercats.GameStates.States.AiStates
                 TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(aiComponent);
                 // Player pos row should be updated depending on real position. (transformComponent)
                 Point playerPosRow = new Point((int)transformComponent.Position.X, (int)transformComponent.Position.Z); // what row player should be on in matrix
+                if (playerPosRow.X > 2) playerPosRow.X = 1;
                 nextMatrixRow = GetRow(worldMatrix, playerPosRow.X); // get next row in front of player
-
+                Console.WriteLine(playerPosRow.X.ToString());
+               // Console.WriteLine(nextMatrixRow[0] + " ");
                 var currentBlock = GetCurrentBlock(playerPosRow);
                 Point decision = ChooseBlock(nextMatrixRow, playerPosRow.X);
                 var nextBlock = GetNextRowBlock(decision);
