@@ -20,6 +20,8 @@ namespace thundercats.Systems
     {
         private NetPeer peer;
         private Queue<NetIncomingMessage> messageQueue;
+        Entity remotePlayerEntity;
+        Entity localPlayerEntity;
 
         public NetworkHandlingSystem(NetPeer peer)
         {
@@ -27,11 +29,19 @@ namespace thundercats.Systems
             messageQueue = new Queue<NetIncomingMessage>();
         }
 
+        public void InitRemotePlayer()
+        {
+            remotePlayerEntity = GetPlayer(GameEntityFactory.REMOTE_PLAYER);
+
+            localPlayerEntity = GetPlayer(GameEntityFactory.LOCAL_PLAYER);
+
+            NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
+            ComponentManager.Instance.AddComponentToEntity(remotePlayerEntity, networkInputComponent);
+
+        }
+
         public void Update(GameTime gameTime)
         {
-            Entity remotePlayerEntity = GetPlayer(GameEntityFactory.REMOTE_PLAYER);
-            Entity localPlayerEntity = GetPlayer(GameEntityFactory.LOCAL_PLAYER);
-
             double nextSendUpdates = NetTime.Now;
             var listOfIncomingMessages = new List<NetIncomingMessage>();
             var nMessages = peer.ReadMessages(listOfIncomingMessages);
@@ -56,7 +66,7 @@ namespace thundercats.Systems
                         //Recieves data and puts it in the networkInputComponent for the remote player entity
                         if(remotePlayerEntity != null)
                         {
-                            NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
+                            var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(remotePlayerEntity);
                             networkInputComponent.MoveForward = message.ReadBoolean();
                             networkInputComponent.MoveLeft = message.ReadBoolean();
                             networkInputComponent.MoveRight = message.ReadBoolean();
@@ -66,6 +76,7 @@ namespace thundercats.Systems
                             //Console.WriteLine(networkInputComponent.MoveLeft.ToString() + "left");
                             //Console.WriteLine(networkInputComponent.MoveRight.ToString() + "right");
                             //Console.WriteLine(networkInputComponent.Jump.ToString() + "jump");
+
                         }
                         break;
 

@@ -86,6 +86,7 @@ namespace thundercats.GameStates.States.MenuStates
             {
                 manager.StartServer();
                 NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetPeer());
+                networkSystem.InitRemotePlayer();
                 SystemManager.Instance.AddToUpdateables(networkSystem);
                 clicked = true;
             }
@@ -112,6 +113,7 @@ namespace thundercats.GameStates.States.MenuStates
             {
                 manager.ClientSearch();
                 NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetPeer());
+                networkSystem.InitRemotePlayer();
                 SystemManager.Instance.AddToUpdateables(networkSystem);
                 clicked = true;
             }
