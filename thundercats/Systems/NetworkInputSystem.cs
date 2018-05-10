@@ -19,13 +19,10 @@ namespace thundercats.Systems
         {
             ConcurrentDictionary<Entity, Component> networkInputComponents = ComponentManager.Instance.GetConcurrentDictionary<NetworkInputComponent>();
 
-
             foreach (Entity playerEntity in networkInputComponents.Keys)
             {
                 ParseNetworkInput(gameTime, playerEntity);
             }
-            
-
         }
 
         /// <summary>

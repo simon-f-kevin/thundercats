@@ -52,9 +52,9 @@ namespace thundercats.Systems
                 }
                 if(state.IsKeyDown(Keys.Down) && !state.IsKeyDown(Keys.Up))
                 {
+                    //This shouldn't be possible?
                     PlayerActions.AcceleratePlayerBackwards(velocityComponent);
                 }
-
                 if(state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
@@ -65,13 +65,11 @@ namespace thundercats.Systems
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
                     networkInputComponent.MoveRight = true;
                 }
-
                 if (state.IsKeyDown(Keys.Space))
                 {
                     PlayerActions.PlayerJumpSpeed(velocityComponent);
                     networkInputComponent.Jump = true;
                 }
-
             }
 
             /* Gamepad actions */

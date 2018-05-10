@@ -12,12 +12,16 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
+        public static string REMOTE_PLAYER = "remote_player";
+        public static string LOCAL_PLAYER = "local_player";
+        public static string AI_PLAYER = "ai_player";
+
         public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
         {
             Entity player;
             if (name == null)
             {
-                player = EntityFactory.NewEntity("remote_player");
+                player = EntityFactory.NewEntity(REMOTE_PLAYER);
             }
             else
             {
@@ -57,7 +61,7 @@ namespace thundercats
         /// <returns></returns>
         public static Entity NewLocalPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
-            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "local_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, LOCAL_PLAYER);
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
@@ -118,7 +122,7 @@ namespace thundercats
         /// <returns></returns>
         public static Entity NewRemotePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
-            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "remote_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, REMOTE_PLAYER);
             NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
             ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
             return player;
@@ -134,7 +138,7 @@ namespace thundercats
         /// <returns></returns>
         public static Entity NewRemoteHostPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
-            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "remote_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, LOCAL_PLAYER);
             NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
             ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
             return player;
@@ -150,7 +154,7 @@ namespace thundercats
         /// <returns></returns>
         public static Entity NewAiPlayer(String model, int gamePadIndex, Texture2D texture, Vector3 transformPos)
         {
-            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, "ai_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, AI_PLAYER);
             //here be ai components in the future
             return player;
         }

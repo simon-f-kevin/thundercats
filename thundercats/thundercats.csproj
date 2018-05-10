@@ -70,7 +70,7 @@
     <Compile Include="Systems\CollisionHandlingSystem.cs" />
     <Compile Include="Systems\AiSystem.cs" />
     <Compile Include="Systems\NetworkInputSystem.cs" />
-    <Compile Include="Systems\NetworkSystem.cs" />
+    <Compile Include="Systems\NetworkHandlingSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\SurfaceSystem.cs" />
     <Compile Include="Systems\UIRenderSystem.cs" />

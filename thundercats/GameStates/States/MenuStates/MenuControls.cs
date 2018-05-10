@@ -85,7 +85,7 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
             {
                 manager.StartServer();
-                NetworkSystem networkSystem = new NetworkSystem(manager.GetServer());
+                NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetServer());
                 SystemManager.Instance.AddToUpdateables(networkSystem);
                 clicked = true;
             }

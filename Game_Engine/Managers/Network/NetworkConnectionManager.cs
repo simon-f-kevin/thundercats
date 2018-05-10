@@ -73,14 +73,14 @@ namespace Game_Engine.Managers.Network
             if(server.Status == NetPeerStatus.Running) return server;
             return null;
         }
-
+        /// <summary>
+        /// This method starts the client and searches for a server in the LAN
+        /// </summary>
         public void ClientSearch()
         {
             client.Start();
 
-            // Emit a discovery signal
             client.DiscoverLocalPeers(netPeerConfiguration.Port);
-
 
             while (true)
             {

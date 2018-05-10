@@ -1,4 +1,7 @@
-﻿using Game_Engine.Helpers;
+﻿using Game_Engine.Components;
+using Game_Engine.Entities;
+using Game_Engine.Helpers;
+using Game_Engine.Managers;
 using Game_Engine.Systems;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
@@ -13,12 +16,12 @@ namespace thundercats.Systems
     /// <summary>
     /// This system handles incoming and outgoing network messages
     /// </summary>
-    public class NetworkSystem : IUpdateableSystem
+    public class NetworkHandlingSystem : IUpdateableSystem
     {
         private NetPeer peer;
         private Queue<NetIncomingMessage> messageQueue;
 
-        public NetworkSystem(NetPeer peer)
+        public NetworkHandlingSystem(NetPeer peer)
         {
             this.peer = peer;
             messageQueue = new Queue<NetIncomingMessage>();
@@ -26,11 +29,18 @@ namespace thundercats.Systems
 
         public void Update(GameTime gameTime)
         {
+            Entity remotePlayerEntity = null;
             double nextSendUpdates = NetTime.Now;
             var listOfIncomingMessages = new List<NetIncomingMessage>();
             var nMessages = peer.ReadMessages(listOfIncomingMessages);
+            var playerEntities = ComponentManager.Instance.GetDictionary<PlayerComponent>().Keys;
+            foreach (var player in playerEntities)
+            {
+                if (player.EntityTypeName.Equals(GameEntityFactory.REMOTE_PLAYER)) remotePlayerEntity = player;
+            }
             foreach (var message in listOfIncomingMessages)
             {
+                //RECIEVE DATA
                 switch (message.MessageType)
                 {
                     case NetIncomingMessageType.DiscoveryRequest:
@@ -45,15 +55,14 @@ namespace thundercats.Systems
                         Console.WriteLine("Found server at " + message.SenderEndPoint + " name: " + message.ReadString());
                         break;
                     case NetIncomingMessageType.Data:
-                        // handle custom messages
-                        int xinput = message.ReadInt32();
-                        int yinput = message.ReadInt32();
 
-                        int[] pos = message.SenderConnection.Tag as int[];
-
-                        // fancy movement logic goes here; we just append input to position
-                        pos[0] += xinput;
-                        pos[1] += yinput;
+                        //Recieves data and puts it in the networkInputComponent for the remote player entity
+                        if(remotePlayerEntity != null)
+                        {
+                            NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
+                            var data = message.Data;
+                        }
+                        
                         break;
 
                     case NetIncomingMessageType.StatusChanged:
@@ -61,26 +70,11 @@ namespace thundercats.Systems
                         NetConnectionStatus status = (NetConnectionStatus)message.ReadByte();
                         if (status == NetConnectionStatus.RespondedConnect)
                         {
-                            //
-                            // A new player just connected!
-                            //
                             Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " responded to connection!");
-
-                            // randomize his position and store in connection tag
-                            message.SenderConnection.Tag = new int[] {
-                                    NetRandom.Instance.Next(10, 100),
-                                    NetRandom.Instance.Next(10, 100)
-                                };
                         }
                         if (status == NetConnectionStatus.Connected)
                         {
-                            //
-                            // A new player just connected!
-                            //
                             Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " connected, yay!");
-
-                            // randomize his position and store in connection tag
-                           
                         }
 
                         break;
@@ -97,36 +91,23 @@ namespace thundercats.Systems
                             + message.MessageType);
                         break;
                 }
+                   /********************************************************************************************************/
+                  /*********************************************SEND DATA**************************************************/
+                 /********************************************************************************************************/
                 double now = NetTime.Now;
                 if (now > nextSendUpdates)
                 {
-                    // Yes, it's time to send position updates
-
-                    // for each player...
                     foreach (NetConnection player in peer.Connections)
                     {
-                        // ... send information about every other player (actually including self)
                         foreach (NetConnection otherPlayer in peer.Connections)
                         {
-                            // send position update about 'otherPlayer' to 'player'
                             NetOutgoingMessage om = peer.CreateMessage();
 
-                            // write who this position is for
-                            om.Write(otherPlayer.RemoteUniqueIdentifier);
-
-                            if (otherPlayer.Tag == null)
-                                otherPlayer.Tag = new int[2];
-
-                            int[] pos = otherPlayer.Tag as int[];
-                            om.Write(pos[0]);
-                            om.Write(pos[1]);
-
-                            // send message
+                            //sends networkInputComponents' data over the network to the host/client
                             peer.SendMessage(om, player, NetDeliveryMethod.Unreliable);
                         }
                     }
 
-                    // schedule next update
                     nextSendUpdates += (1.0 / 30.0);
                 }
             }
