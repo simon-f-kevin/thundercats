@@ -91,6 +91,9 @@ namespace thundercats.GameStates.States.AiStates
 
         private Vector3 GetCurrentBlock(Point playerPosRow)
         {
+            //Get ID from Collision to get the CurrentBlock ID 
+            //I collisionhandling ska vi markera vilket block vi är på och då behöve
+            //ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<BlockComponent>();
             // return current block dimensions //get its X and Z coordinates Middle X is needed and atleast min Z
             return default(Vector3);
         }
