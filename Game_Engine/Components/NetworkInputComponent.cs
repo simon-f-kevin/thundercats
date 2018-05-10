@@ -14,6 +14,7 @@ namespace Game_Engine.Components
         public bool MoveRight { get; set; } = false;
         public bool Jump { get; set; } = false;
         public bool MoveForward { get; set; } = false;
+        public bool MoveBackward { get; set; } = false;
 
         public NetworkInputComponent(Entity id) : base(id)
         {
@@ -25,6 +26,7 @@ namespace Game_Engine.Components
             MoveRight = false;
             Jump = false;
             MoveForward = false;
+            MoveBackward = false;
         }
     }
 }

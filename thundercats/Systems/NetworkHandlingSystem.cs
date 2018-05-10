@@ -71,6 +71,7 @@ namespace thundercats.Systems
                             networkInputComponent.MoveLeft = message.ReadBoolean();
                             networkInputComponent.MoveRight = message.ReadBoolean();
                             networkInputComponent.Jump = message.ReadBoolean();
+                            networkInputComponent.MoveBackward = message.ReadBoolean();
                             //for debugging
                             //Console.WriteLine(networkInputComponent.MoveForward.ToString() + "forward");
                             //Console.WriteLine(networkInputComponent.MoveLeft.ToString() + "left");
@@ -125,6 +126,7 @@ namespace thundercats.Systems
                         om.Write(networkInputComponent.MoveLeft);
                         om.Write(networkInputComponent.MoveRight);
                         om.Write(networkInputComponent.Jump);
+                        om.Write(networkInputComponent.MoveBackward);
                         //om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
                         //        Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
                         peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
