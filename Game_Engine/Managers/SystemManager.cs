@@ -24,7 +24,9 @@ namespace Game_Engine.Managers
             UpdateableSystems = new Queue<IUpdateableSystem>();
             DrawableSystems = new Queue<IDrawableSystem>();
         }
-
+        public T GetUpdateableSystem<T>(){
+         throw new NotImplementedException();
+        }
         public static SystemManager Instance
         {
             get
@@ -45,6 +47,7 @@ namespace Game_Engine.Managers
                 UpdateableSystems.Enqueue(list[i]);
             }
         }
+
         public void AddToDrawables(params IDrawableSystem[] list)
         {
             for (int i = 0; i < list.Length; i++)
@@ -85,7 +88,6 @@ namespace Game_Engine.Managers
                 UpdateableSystems.Enqueue(system);
             }
         }
-
         public void Draw(GameTime gameTime)
         {
             int size = DrawableSystems.Count;
