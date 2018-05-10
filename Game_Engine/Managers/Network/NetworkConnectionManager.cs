@@ -70,8 +70,8 @@ namespace Game_Engine.Managers.Network
         /// <returns></returns>
         public NetPeer GetPeer()
         {
-            if(server.Status == NetPeerStatus.Running) return server;
-            if (client.Status == NetPeerStatus.Running) return client;
+            if(server != null && server.Status == NetPeerStatus.Running) return server;
+            if (client != null && client.Status == NetPeerStatus.Running) return client;
             return null;
         }
         /// <summary>
