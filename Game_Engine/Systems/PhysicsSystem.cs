@@ -24,14 +24,14 @@ namespace Game_Engine.Systems
         {
            //  RunGravity();
             CheckCollision();
-            UpdatePositionsOfModels();
+            UpdatePositionsOfModels(gameTime);
         }
 
 
         /// <summary>
         /// Updates TransformComponents, ModelComponents, and CollisionComponents with the velocities of any attached VelocityComponent.
         /// </summary>
-        private void UpdatePositionsOfModels()
+        private void UpdatePositionsOfModels(GameTime gameTime)
         {
             ConcurrentDictionary<Entity, Component> velocityComponentPairs = componentManager.GetConcurrentDictionary<VelocityComponent>();
 
@@ -40,7 +40,7 @@ namespace Game_Engine.Systems
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
 
-                Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
+                Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X * (float)gameTime.ElapsedGameTime.TotalSeconds, velocityComponent.Velocity.Y * (float)gameTime.ElapsedGameTime.TotalSeconds, velocityComponent.Velocity.Z * (float)gameTime.ElapsedGameTime.TotalSeconds)
                         * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
 
                 TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);

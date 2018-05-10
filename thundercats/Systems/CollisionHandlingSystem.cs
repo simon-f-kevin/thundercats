@@ -27,13 +27,13 @@ namespace thundercats.Systems
                 currentCollisionPair = collisionManager.RemoveCollisionPair();
                 if(currentCollisionPair != null)
                 {
-                    ResolveCollision(currentCollisionPair);
+                    ResolveCollision(gameTime, currentCollisionPair);
                 }
             }
         }
 
         /* Runs collision actions based on entity type of the source component pair. */
-        private void ResolveCollision(Tuple<Entity, Entity> collisionPair)
+        private void ResolveCollision(GameTime gameTime, Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -41,14 +41,14 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case "local_player":
-                    PlayerCollision(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 case "default":
                     break;
             }       
 		}
 
-        private void PlayerCollision(Tuple<Entity, Entity> collisionPair)
+        private void PlayerCollision(GameTime gameTime, Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -59,7 +59,7 @@ namespace thundercats.Systems
                     Debug.WriteLine("A winner is you");
                     break;
                 case "default":
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    UpdateSourceCollider(gameTime, sourceEntity, targetEntity);
                     break;
             }
         }
@@ -68,37 +68,34 @@ namespace thundercats.Systems
          * Move the source entity away from the target which it has collided with.
          * TODO: Adjustment velocity is currently static and should be adjusted to be relative to how close the bounding volumes are at each axis.
          */
-        private void UpdateSourceCollider(Entity sourceEntity, Entity targetEntity)
+        private void UpdateSourceCollider(GameTime gameTime, Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
-            float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
-            float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
-            //float diffY = sourceCollisionComponent.Center.Y - targetCollisionComponent.Center.Y;
 
             if(sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             {
-                CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
+                CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
+                CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
             }
             if(sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             {
-                CollisionActions.AccelerateColliderDownwards(sourceEntity);
+                CollisionActions.AccelerateColliderDownwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderUpwards(sourceEntity);
+                CollisionActions.AccelerateColliderUpwards(gameTime, sourceEntity);
             }
             if(sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             {
-                CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
+                CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
+                CollisionActions.AccelerateColliderForwards(gameTime, sourceEntity);
             }
         }
     }
