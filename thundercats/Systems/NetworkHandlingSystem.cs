@@ -89,31 +89,31 @@ namespace thundercats.Systems
                             + message.MessageType);
                         break;
                 }
-                   /********************************************************************************************************/
-                  /*********************************************SEND DATA**************************************************/
-                 /********************************************************************************************************/
-                double now = NetTime.Now;
-                if (now > nextSendUpdates)
-                {
-                    foreach (NetConnection player in peer.Connections)
-                    {
-                        foreach (NetConnection otherPlayer in peer.Connections)
-                        {
-                            NetOutgoingMessage om = peer.CreateMessage();
-
-                            //sends networkInputComponents' data over the network to the host/client
-                            var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(localPlayerEntity);
-                            om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
-                                Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
-                            peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
-                        }
-                    }
-
-                    nextSendUpdates += (1.0 / 30.0);
-                }
-                Console.WriteLine(nMessages + " incoming messages!");
-                //Console.WriteLine(message.MessageType.ToString());
             }
+            /********************************************************************************************************/
+            /*********************************************SEND DATA**************************************************/
+            /********************************************************************************************************/
+            double now = NetTime.Now;
+            if (now > nextSendUpdates)
+            {
+                foreach (NetConnection player in peer.Connections)
+                {
+                    foreach (NetConnection otherPlayer in peer.Connections)
+                    {
+                        NetOutgoingMessage om = peer.CreateMessage();
+
+                        //sends networkInputComponents' data over the network to the host/client
+                        var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(localPlayerEntity);
+                        om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
+                                Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
+                        peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
+                    }
+                }
+
+                nextSendUpdates += (1.0 / 30.0);
+            }
+            Console.WriteLine(nMessages + " incoming messages!");
+            //Console.WriteLine(message.MessageType.ToString());
         }
 
         private Entity GetPlayer(string playertype)

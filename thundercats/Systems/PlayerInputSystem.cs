@@ -39,7 +39,7 @@ namespace thundercats.Systems
             KeyboardComponent keyboardComponent = componentManager.ConcurrentGetComponentOfEntity<KeyboardComponent>(playerEntity);
             GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
             NetworkInputComponent networkInputComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<NetworkInputComponent>(playerEntity);
-
+            networkInputComponent.Reset();
             /* Keyboard actions */
             if (keyboardComponent != null && velocityComponent != null)
             {

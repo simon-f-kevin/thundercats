@@ -18,5 +18,13 @@ namespace Game_Engine.Components
         public NetworkInputComponent(Entity id) : base(id)
         {
         }
+
+        public void Reset()
+        {
+            MoveLeft = false;
+            MoveRight = false;
+            Jump = false;
+            MoveForward = false;
+        }
     }
 }
