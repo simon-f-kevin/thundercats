@@ -138,7 +138,7 @@ namespace thundercats
         /// <returns></returns>
         public static Entity NewRemoteHostPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
-            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, LOCAL_PLAYER);
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, REMOTE_PLAYER);
             NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
             ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
             return player;
