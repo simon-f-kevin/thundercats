@@ -31,7 +31,8 @@ namespace thundercats.GameStates.States.AiStates
         public void Update(GameTime gameTime)
         {
 
-          CalculateMove();
+            worldMatrix = GameService.Instance().GameWorld;
+            CalculateMove();
         }
 
         private void CalculateMove()
