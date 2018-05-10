@@ -21,7 +21,10 @@ namespace thundercats.Systems
 
             foreach (Entity playerEntity in networkInputComponents.Keys)
             {
-                ParseNetworkInput(gameTime, playerEntity);
+                if (playerEntity.EntityTypeName.Equals(GameEntityFactory.REMOTE_PLAYER))
+                {
+                    ParseNetworkInput(gameTime, playerEntity);
+                }
             }
         }
 

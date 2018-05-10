@@ -105,7 +105,7 @@ namespace thundercats.Systems
                             var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(localPlayerEntity);
                             om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
                                 Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
-                            peer.SendMessage(om, player, NetDeliveryMethod.Unreliable);
+                            peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
                         }
                     }
 
