@@ -56,8 +56,8 @@ namespace thundercats.GameStates.States.PlayingStates
             networkSystem.InitRemotePlayer();
             SystemManager.Instance.AddToUpdateables(networkSystem);
 
-            NetworkInputSystem networkInputSystem = new NetworkInputSystem();
-            SystemManager.Instance.AddToUpdateables(networkInputSystem);
+            //NetworkInputSystem networkInputSystem = new NetworkInputSystem();
+            //SystemManager.Instance.AddToUpdateables(networkInputSystem);
             InitWorld();
         }
 

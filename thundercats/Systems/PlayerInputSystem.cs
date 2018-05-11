@@ -38,8 +38,7 @@ namespace thundercats.Systems
             VelocityComponent velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(playerEntity);
             KeyboardComponent keyboardComponent = componentManager.ConcurrentGetComponentOfEntity<KeyboardComponent>(playerEntity);
             GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
-            NetworkInputComponent networkInputComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<NetworkInputComponent>(playerEntity);
-            networkInputComponent.Reset();
+            
 
             /* Keyboard actions */
             if (keyboardComponent != null && velocityComponent != null)
@@ -49,29 +48,29 @@ namespace thundercats.Systems
                 if(state.IsKeyDown(Keys.Up) && !state.IsKeyDown(Keys.Down))
                 {
                     PlayerActions.AcceleratePlayerForwards(velocityComponent);
-                    networkInputComponent.MoveForward = true;
+                    
                 }
                 if(state.IsKeyDown(Keys.Down) && !state.IsKeyDown(Keys.Up))
                 {
                     //This shouldn't be possible?
                     PlayerActions.AcceleratePlayerBackwards(velocityComponent);
-                    networkInputComponent.MoveBackward = true;
+                    
 
                 }
                 if (state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
-                    networkInputComponent.MoveLeft = true;
+                    
                 }
                 if(state.IsKeyDown(Keys.Right) && !state.IsKeyDown(Keys.Left))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
-                    networkInputComponent.MoveRight = true;
+                    
                 }
                 if (state.IsKeyDown(Keys.Space))
                 {
                     PlayerActions.PlayerJumpSpeed(velocityComponent);
-                    networkInputComponent.Jump = true;
+                    
                 }
             }
 
@@ -83,7 +82,7 @@ namespace thundercats.Systems
                 if(state.IsButtonDown(Buttons.A) && !state.IsButtonDown(Buttons.B))
                 {
                     PlayerActions.AcceleratePlayerForwards(velocityComponent);
-                    networkInputComponent.MoveForward = true;
+                    
                 }
                 if(state.IsButtonDown(Buttons.B) && !state.IsButtonDown(Buttons.A))
                 {
@@ -93,18 +92,18 @@ namespace thundercats.Systems
                 if(state.IsButtonDown(Buttons.LeftThumbstickLeft) && !state.IsButtonDown(Buttons.LeftThumbstickRight))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
-                    networkInputComponent.MoveLeft = true;
+                    
                 }
                 if(state.IsButtonDown(Buttons.LeftThumbstickRight) && !state.IsButtonDown(Buttons.LeftThumbstickLeft))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
-                    networkInputComponent.MoveRight = true;
+                    
                 }
 
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
                     PlayerActions.PlayerJumpSpeed(velocityComponent);
-                    networkInputComponent.Jump = true;
+                    
                 }
             }
         }
