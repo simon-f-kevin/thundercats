@@ -39,8 +39,10 @@ namespace Game_Engine.Helpers
             var hostname = Dns.GetHostName();
             IPHostEntry ipEntry = Dns.GetHostEntry(hostname);
             IPAddress[] addr = ipEntry.AddressList;
+            var ipv4s = Array.Find<IPAddress>(addr, a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
 
-            return addr[addr.Length-1].ToString(); //This is the Ipv4-address
+            return ipv4s.ToString(); //This is the Ipv4-address
         }
     }
 }
+    
