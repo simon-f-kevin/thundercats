@@ -88,8 +88,7 @@ namespace thundercats
         public static Entity NewLocalHostPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
             Entity player = NewLocalPlayer(model, gamePadIndex, transformPos, cameraPos, cameraAspectRatio, followPlayer, texture);
-            //NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
-            //ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            
             return player;
         }
 
@@ -107,8 +106,7 @@ namespace thundercats
         public static Entity NewLocalClientPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
             Entity player = NewLocalPlayer(model, gamePadIndex, transformPos, cameraPos, cameraAspectRatio, followPlayer, texture);
-            //NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
-            //ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            
             return player;
         }
 
@@ -123,8 +121,7 @@ namespace thundercats
         public static Entity NewRemotePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
             Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, REMOTE_PLAYER);
-            //NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
-            //ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            
             return player;
         }
 
@@ -139,8 +136,7 @@ namespace thundercats
         public static Entity NewRemoteHostPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
             Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, REMOTE_PLAYER);
-            //NetworkInputComponent networkInputComponent = new NetworkInputComponent(player);
-            //ComponentManager.Instance.AddComponentToEntity(player, networkInputComponent);
+            
             return player;
         }
 
