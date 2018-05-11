@@ -12,6 +12,7 @@ using thundercats.Service;
 using Game_Engine.Entities;
 using System.Collections.Concurrent;
 using thundercats.Components;
+using System.Diagnostics;
 
 namespace thundercats.GameStates.States.AiStates
 {
@@ -94,9 +95,18 @@ namespace thundercats.GameStates.States.AiStates
         private int[] GetRow(int[,] worldMatrix, int row)
         {
             // should return row
+            for (int j = 0; j < worldMatrix.GetLength(1); j++)
+            {
+                for (int i = 0; i < worldMatrix.GetLength(0); i++)
+                {
+                    Debug.Write(worldMatrix[i, j]);
+                }
+            }
+            var worldRow = new int[] { worldMatrix[0, row + 1], worldMatrix[1, row + 1], worldMatrix[2, row + 1] };
+            Debug.WriteLine($"row: {worldRow}");
 
             //WE GET EXCEPTION INDEX OUTOF RANGE HERE!!!!!!
-            return new int[] { worldMatrix[row + 1, 0], worldMatrix[row + 1, 1], worldMatrix[row + 1, 2] };
+            return worldRow;
         }
 
         private Point ChooseBlock(int[] row , int RowIndex)
