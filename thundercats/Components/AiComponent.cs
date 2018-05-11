@@ -1,5 +1,6 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Entities;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace thundercats.Components
     public class AiComponent : Component
     {
         public AiState CurrentState { get; set; }
-        public enum AiMove {Left,Run,Right};
-        public AiMove CurrentMove { get; set; }
+        public Point MatrixPosition { get; set; }
+            
         public AiComponent(Entity id) : base(id)
         {
             CurrentState = AiState.Winning;

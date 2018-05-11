@@ -17,6 +17,7 @@ namespace thundercats.GameStates.States.PlayingStates
         private Viewport viewport;
         public WorldGenerator worldGenerator;
         public int[,] world;
+        public Entity[,] worldEntity;
 
         public PlayingSinglePlayerState(GameManager gameManager)
         {
@@ -57,19 +58,27 @@ namespace thundercats.GameStates.States.PlayingStates
         {
             worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
             world = GenerateWorld(3, 5);
+            worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
             int distanceBetweenBlocksX = -100;
             int distanceBetweenBlocksZ = 50;
             int iter = 0;
-            for (int x = 0; x < world.GetLength(0); x++)
+            for (int column = 0; column < world.GetLength(0); column++)
             {
-                for (int z = 0; z < world.GetLength(1); z++)
+                for (int row = 0; row < world.GetLength(1); row++)
                 {
-                    if (world[x, z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)), 
+                    if (world[column, row] == 1)
+                    {
+                        
+                        Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (viewport.Height * 0.45f), (row * distanceBetweenBlocksZ)),
                         AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
 
+                        worldEntity[column, row] = Block;
+                        
+                    }
                     iter++; //for debugging
                 }
             }
+            GameService.Instance().EntityGameWorld = worldEntity;
             worldGenerator.MoveBlocks();
         }
 
