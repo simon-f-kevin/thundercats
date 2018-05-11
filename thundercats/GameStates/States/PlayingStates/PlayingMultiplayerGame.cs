@@ -53,7 +53,7 @@ namespace thundercats.GameStates.States.PlayingStates
             }
 
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
-            networkSystem.InitRemotePlayer();
+            networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
 
             //NetworkInputSystem networkInputSystem = new NetworkInputSystem();

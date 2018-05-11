@@ -66,6 +66,7 @@
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
+    <Compile Include="Helpers\EntityHelper.cs" />
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\CollisionManager.cs" />
