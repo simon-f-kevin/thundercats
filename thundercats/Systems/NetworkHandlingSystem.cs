@@ -61,13 +61,13 @@ namespace thundercats.Systems
                         {
                             var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(remotePlayerEntity);
                             var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(remotePlayerEntity);
-                            var xpos = message.ReadFloat();
-                            var ypos = message.ReadFloat();
-                            var zpos = message.ReadFloat();
+                            //var xpos = message.ReadFloat();
+                            //var ypos = message.ReadFloat();
+                            //var zpos = message.ReadFloat();
                             var velx = message.ReadFloat();
                             var vely = message.ReadFloat();
                             var velz = message.ReadFloat();
-                            transformComponent.Position = new Vector3(xpos, ypos, zpos);
+                            //transformComponent.Position = new Vector3(xpos, ypos, zpos);
                             velocityComponent.Velocity = new Vector3(velx, vely, velz);
 
                         }
@@ -117,9 +117,9 @@ namespace thundercats.Systems
 
                         var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
                         var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
-                        om.Write(transformComponent.Position.X);
-                        om.Write(transformComponent.Position.Y);
-                        om.Write(transformComponent.Position.Z);
+                        //om.Write(transformComponent.Position.X);
+                        //om.Write(transformComponent.Position.Y);
+                        //om.Write(transformComponent.Position.Z);
                         om.Write(velocityComponent.Velocity.X);
                         om.Write(velocityComponent.Velocity.Y);
                         om.Write(velocityComponent.Velocity.Z);
