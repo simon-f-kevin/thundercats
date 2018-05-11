@@ -34,7 +34,7 @@ namespace Game_Engine.Helpers
         /// Returns the Ipv4-address of the current PC in the current LAN
         /// </summary>
         /// <returns></returns>
-        public static string GetCurrentHostname()
+        public static string GetCurrentIPAddress()
         {
             var hostname = Dns.GetHostName();
             IPHostEntry ipEntry = Dns.GetHostEntry(hostname);

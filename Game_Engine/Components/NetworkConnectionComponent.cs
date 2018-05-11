@@ -9,7 +9,7 @@ namespace Game_Engine.Components
 {
     public class NetworkConnectionComponent : Component
     {
-        public string Hostname { get; set; }
+        public string IPAddress { get; set; }
 
         public int Port { get; set; }
 

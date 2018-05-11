@@ -45,7 +45,7 @@ namespace Game_Engine.Managers.Network
         /// </summary>
         public void StartServer()
         {
-            ServerName = networkConnectionComponent.Hostname;
+            ServerName = networkConnectionComponent.IPAddress;
             server.Start();
         }
 

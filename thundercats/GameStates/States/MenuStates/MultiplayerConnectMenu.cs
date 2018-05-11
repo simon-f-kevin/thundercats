@@ -43,7 +43,7 @@ namespace thundercats.GameStates.States.MenuStates
         {
             var network = EntityFactory.NewEntity();
             NetworkConnectionComponent networkConnectionComponent = new NetworkConnectionComponent(network);
-            networkConnectionComponent.Hostname = NetworkHelper.GetCurrentHostname();
+            networkConnectionComponent.IPAddress = NetworkHelper.GetCurrentIPAddress();
             networkConnectionComponent.Port = NetworkHelper.GetPort();
             ComponentManager.Instance.AddComponentToEntity(network, networkConnectionComponent);
             networkConnectionManager = new NetworkConnectionManager(NetworkHelper.ConnectionType.Client);

@@ -54,7 +54,7 @@ namespace thundercats.Systems
                     case NetIncomingMessageType.DiscoveryRequest:
                         // Create a response and write some example data to it
                         NetOutgoingMessage response = peer.CreateMessage();
-                        response.Write(NetworkHelper.GetCurrentHostname());
+                        response.Write(NetworkHelper.GetCurrentIPAddress());
                         // Send the response to the sender of the request
                         peer.SendDiscoveryResponse(response, message.SenderEndPoint);
                         break;
