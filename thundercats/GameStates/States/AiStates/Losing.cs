@@ -94,6 +94,8 @@ namespace thundercats.GameStates.States.AiStates
         private int[] GetRow(int[,] worldMatrix, int row)
         {
             // should return row
+
+            //WE GET EXCEPTION INDEX OUTOF RANGE HERE!!!!!!
             return new int[] { worldMatrix[row + 1, 0], worldMatrix[row + 1, 1], worldMatrix[row + 1, 2] };
         }
 
