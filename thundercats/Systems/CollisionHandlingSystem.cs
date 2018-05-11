@@ -49,7 +49,7 @@ namespace thundercats.Systems
                 case GameEntityFactory.AI_PLAYER:
                     PlayerCollision(collisionPair);
                     break;
-                case "default":
+                default:
                     break;
             }       
 		}
@@ -64,7 +64,13 @@ namespace thundercats.Systems
                 case "Goal":
                     Debug.WriteLine("A winner is you");
                     break;
-                case "default":
+                case "block":
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+                case GameEntityFactory.REMOTE_PLAYER:
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+                case GameEntityFactory.LOCAL_PLAYER:
                     UpdateSourceCollider(sourceEntity, targetEntity);
                     break;
             }

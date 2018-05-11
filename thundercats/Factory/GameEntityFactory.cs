@@ -16,17 +16,9 @@ namespace thundercats
         public const string LOCAL_PLAYER = "local_player";
         public const string AI_PLAYER = "ai_player";
 
-        public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
+        public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, String typeName)
         {
-            Entity player;
-            if (name == null)
-            {
-                player = EntityFactory.NewEntity(REMOTE_PLAYER);
-            }
-            else
-            {
-                player = EntityFactory.NewEntity(name);
-            }
+            Entity player = EntityFactory.NewEntity(typeName);
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
@@ -167,17 +159,10 @@ namespace thundercats
             return player;
         }
 
-        public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string name = null)
+        public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string typeName)
         {
-            Entity block;
-            if (name == null)
-            {
-                block = EntityFactory.NewEntity();
-            }
-            else
-            {
-                block = EntityFactory.NewEntity(name);
-            }
+            Entity block = EntityFactory.NewEntity(typeName);
+            
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
