@@ -18,49 +18,15 @@ namespace thundercats.GameStates.States.AiStates
 {
     public class Losing : AiState, IAiState
     {
-
-        private Random random;
-
-        public Losing()
+        public Losing() : base(new Random()) { }
+        public void Update(GameTime gameTime, Point matrixPosition, Vector3 Position)
         {
-            random = new Random();
-            TargetValue = random.Next(2, 4);
-            worldMatrix = GameService.Instance().GameWorld;
-        }
-        public void Update(GameTime gameTime)
-        {
-
             worldMatrix = GameService.Instance().GameWorld;
             worldEntityMatrix = GameService.Instance().EntityGameWorld;
-            CalculateMove();
+            ExecuteState(matrixPosition, Position);
         }
 
-        private void CalculateMove()
-        {
-            ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
-            foreach (var aiComponent in aiComponents)
-            {
-                var ai = aiComponent.Value as AiComponent;
-                //we maybe need velocity when we make the move?
-                var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(aiComponent.Key);
-                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(aiComponent.Key);
-
-                // We need the players current matrix row position to determine the next move
-                // the ai should do in the real world:
-                var playerCellPosition = ai.MatrixPosition;
-                var nextMatrixRow = GetRow(worldMatrix, playerCellPosition.Y);
-
-                // Then we need the real values of the next block (destination) and the players real position
-                // to make the move to the next block:
-                var currentBlock = GetBlock(playerCellPosition);
-                Point decision = ChooseBlock(nextMatrixRow, playerCellPosition.Y + 1);
-                Vector3 destinationBlock = GetBlock(decision);
-                // Check What decision to do
-                MakeMove(currentBlock, destinationBlock, transformComponent);
-            }
-        }
-
-        private Point ChooseBlock(int[] row, int RowIndex)
+        protected override Point ChooseBlock(int[] row, int RowIndex)
         {
             int currentChoice = 0;
             // Choose the right block on that row

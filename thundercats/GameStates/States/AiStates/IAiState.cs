@@ -10,6 +10,6 @@ namespace thundercats.GameStates.States.AiStates
    public interface IAiState 
     {
 
-        void Update(GameTime gameTime);
+        void Update(GameTime gameTime, Point matrixPosition, Vector3 position);
     }
 }

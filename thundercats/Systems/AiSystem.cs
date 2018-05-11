@@ -23,8 +23,8 @@ namespace thundercats.Systems
          * in Nextrow we need to evaluate where to go!
          */
        
-        private object componentManager;
-        protected GameTime gameTime;
+      
+        //protected GameTime gameTime;
         public enum AiState {
             Winning,
             Losing
@@ -35,7 +35,7 @@ namespace thundercats.Systems
             aiStates.Add(AiState.Winning, new Winning());
             aiStates.Add(AiState.Losing, new Losing());
         }
-        private void AiGameState(Entity AiKey, Entity PlayerKey) {
+        private void AiGameState(Entity AiKey, Entity PlayerKey, GameTime gameTime) {
             Random random = new Random();
             //Ai values
             var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
@@ -52,7 +52,7 @@ namespace thundercats.Systems
                 aiComponent.CurrentState = AiState.Winning;
    
             }
-            aiStates[aiComponent.CurrentState].Update(gameTime);
+            aiStates[aiComponent.CurrentState].Update(gameTime,aiComponent.MatrixPosition, aiTransformComponent.Position);
 
         }
 
@@ -64,7 +64,7 @@ namespace thundercats.Systems
             foreach (var aiComponent in aiComponents.Keys)
             {
                 foreach (var playerComponent in playerComponents.Keys) {
-                    AiGameState(aiComponent, playerComponent);
+                    AiGameState(aiComponent, playerComponent,gameTime);
                 }
             }
         }
