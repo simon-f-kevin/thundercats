@@ -1,5 +1,6 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Entities;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace Game_Engine.Components
         public bool Jump { get; set; } = false;
         public bool MoveForward { get; set; } = false;
         public bool MoveBackward { get; set; } = false;
+
+        ////experimental
+        //public Vector3 Position { get; set; }
+        //public float Velocity { get; set; }
 
         public NetworkInputComponent(Entity id) : base(id)
         {

@@ -37,6 +37,7 @@ namespace thundercats.Systems
         {
             NetworkInputComponent networkInputComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<NetworkInputComponent>(playerEntity);
             VelocityComponent velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(playerEntity);
+            TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(playerEntity);
 
             if (networkInputComponent.MoveForward) PlayerActions.AcceleratePlayerForwards(velocityComponent);
             if (networkInputComponent.MoveLeft) PlayerActions.AcceleratePlayerLeftwards(velocityComponent);

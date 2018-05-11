@@ -40,6 +40,7 @@ namespace thundercats.Systems
             GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
             NetworkInputComponent networkInputComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<NetworkInputComponent>(playerEntity);
             networkInputComponent.Reset();
+
             /* Keyboard actions */
             if (keyboardComponent != null && velocityComponent != null)
             {
