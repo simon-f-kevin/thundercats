@@ -37,19 +37,19 @@ namespace thundercats.GameStates.States.PlayingStates
             if (connectionManager.IsHost)
             {
 
-                GameEntityFactory.NewLocalHostPlayer("Models/Blob", 0, HostPosition,
+                GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
 
-                GameEntityFactory.NewRemotePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
+                GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
             else
             {
-                GameEntityFactory.NewLocalClientPlayer("Models/Blob", 0, ClientPosition,
+                GameEntityFactory.NewLocalPlayer("Models/Blob", 0, ClientPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
 
-                GameEntityFactory.NewRemoteHostPlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+                GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
 
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
@@ -89,11 +89,8 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int z = 0; z < world.GetLength(1); z++)
                 {
-                    if (world[x, z] == 1)
-                    {
-                        GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)),
-     AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), "block");
-                    }
+                    if (world[x, z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)),
+                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice),"block");
 
                     iter++; //for debugging
                 }
