@@ -19,25 +19,18 @@ namespace thundercats.Systems
     public class NetworkHandlingSystem : IUpdateableSystem
     {
         private NetPeer peer;
-        private Queue<NetIncomingMessage> messageQueue;
         Entity remotePlayerEntity;
         Entity localPlayerEntity;
 
         public NetworkHandlingSystem(NetPeer peer)
         {
             this.peer = peer;
-            messageQueue = new Queue<NetIncomingMessage>();
         }
 
-        public void InitRemotePlayer()
+        public void InitPlayers()
         {
-            remotePlayerEntity = GetPlayer(GameEntityFactory.REMOTE_PLAYER);
-
-            localPlayerEntity = GetPlayer(GameEntityFactory.LOCAL_PLAYER);
-
-            //NetworkInputComponent networkInputComponent = new NetworkInputComponent(remotePlayerEntity);
-            //ComponentManager.Instance.AddComponentToEntity(remotePlayerEntity, networkInputComponent);
-
+            remotePlayerEntity = EntityHelper.GetPlayer(GameEntityFactory.REMOTE_PLAYER);
+            localPlayerEntity = EntityHelper.GetPlayer(GameEntityFactory.LOCAL_PLAYER);
         }
 
         public void Update(GameTime gameTime)
@@ -66,7 +59,6 @@ namespace thundercats.Systems
                         //Recieves data and puts it in the networkInputComponent for the remote player entity
                         if(remotePlayerEntity != null)
                         {
-                            //var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(remotePlayerEntity);
                             var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(remotePlayerEntity);
                             var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(remotePlayerEntity);
                             var xpos = message.ReadFloat();
@@ -77,17 +69,6 @@ namespace thundercats.Systems
                             var velz = message.ReadFloat();
                             transformComponent.Position = new Vector3(xpos, ypos, zpos);
                             velocityComponent.Velocity = new Vector3(velx, vely, velz);
-
-                            //networkInputComponent.MoveForward = message.ReadBoolean();
-                            //networkInputComponent.MoveLeft = message.ReadBoolean();
-                            //networkInputComponent.MoveRight = message.ReadBoolean();
-                            //networkInputComponent.Jump = message.ReadBoolean();
-                            //networkInputComponent.MoveBackward = message.ReadBoolean();
-                            //for debugging
-                            //Console.WriteLine(networkInputComponent.MoveForward.ToString() + "forward");
-                            //Console.WriteLine(networkInputComponent.MoveLeft.ToString() + "left");
-                            //Console.WriteLine(networkInputComponent.MoveRight.ToString() + "right");
-                            //Console.WriteLine(networkInputComponent.Jump.ToString() + "jump");
 
                         }
                         break;
@@ -132,7 +113,7 @@ namespace thundercats.Systems
                         Diagnostics();
                         NetOutgoingMessage om = peer.CreateMessage();
 
-                        //sends networkInputComponents' data over the network to the host/client
+                        //sends data over the network to the host/client
 
                         var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
                         var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
@@ -143,15 +124,7 @@ namespace thundercats.Systems
                         om.Write(velocityComponent.Velocity.Y);
                         om.Write(velocityComponent.Velocity.Z);
 
-                        //var networkInputComponent = ComponentManager.Instance.GetComponentOfEntity<NetworkInputComponent>(localPlayerEntity);
-                        //om.Write(networkInputComponent.MoveForward);
-                        //om.Write(networkInputComponent.MoveLeft);
-                        //om.Write(networkInputComponent.MoveRight);
-                        //om.Write(networkInputComponent.Jump);
-                        //om.Write(networkInputComponent.MoveBackward);
-                        //om.Data = new byte[] {Convert.ToByte(networkInputComponent.MoveForward), Convert.ToByte(networkInputComponent.MoveLeft),
-                        //        Convert.ToByte(networkInputComponent.MoveRight), Convert.ToByte(networkInputComponent.Jump) };
-                        peer.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered);
+                        peer.SendMessage(om, player, NetDeliveryMethod.UnreliableSequenced);
                         Console.WriteLine(om.Data[0].ToString());
                     }
                 }
@@ -168,15 +141,6 @@ namespace thundercats.Systems
             //do preformance measurement here
         }
 
-        private Entity GetPlayer(string playertype)
-        {
-            Entity result = null;
-            var playerEntities = ComponentManager.Instance.GetDictionary<PlayerComponent>().Keys;
-            foreach (var player in playerEntities)
-            {
-                if (player.EntityTypeName.Equals(playertype)) result = player;
-            }
-            return result;
-        }
+        
     }
 }
