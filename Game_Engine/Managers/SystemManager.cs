@@ -24,9 +24,6 @@ namespace Game_Engine.Managers
             UpdateableSystems = new Queue<IUpdateableSystem>();
             DrawableSystems = new Queue<IDrawableSystem>();
         }
-        public T GetUpdateableSystem<T>(){
-         throw new NotImplementedException();
-        }
         public static SystemManager Instance
         {
             get
