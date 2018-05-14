@@ -32,6 +32,9 @@ namespace Game_Engine.Managers
             }
         }
 
+        /// <summary>
+        /// Starts the audio manager and plays the songs in the queue
+        /// </summary>
         public void StartAudioManager()
         {
             currentSongPlaying = songQueue.Dequeue();
@@ -41,11 +44,19 @@ namespace Game_Engine.Managers
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
         }
 
+        /// <summary>
+        /// Plays a sound effect or song once
+        /// </summary>
+        /// <param name="name"></param>
         public void PlaySound(string name)
         {
-            if(soundDictionary.TryGetValue(name, out var song)) MediaPlayer.Play(song);
+            if(soundDictionary.TryGetValue(name, out var sound)) MediaPlayer.Play(sound);
         }
 
+        /// <summary>
+        /// Pauses the music
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Pause(GameTime gameTime)
         {
             if (Math.Abs(gameTime.TotalGameTime.TotalSeconds - lastTotalSeconds) > 0.5)
@@ -61,6 +72,9 @@ namespace Game_Engine.Managers
             }
         }
 
+        /// <summary>
+        /// Resumes from paused state
+        /// </summary>
         public void Resume()
         {
             MediaPlayer.Resume();
@@ -81,7 +95,7 @@ namespace Game_Engine.Managers
         }
 
         /// <summary>
-        /// Enqueues songs to be played as music
+        /// Enqueues songs to be played on repeat
         /// </summary>
         /// <param name="names"></param>
         public void EnqueueSongs(params string[] names)
