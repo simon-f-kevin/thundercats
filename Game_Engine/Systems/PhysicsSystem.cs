@@ -76,7 +76,7 @@ namespace Game_Engine.Systems
                         found = true; //Temp debug flag
                         //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
-                }
+                } 
             });
             if (!found) //Temp debug check
             {
