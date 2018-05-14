@@ -93,6 +93,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Sounds\Chatwheel_disastah.wav" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

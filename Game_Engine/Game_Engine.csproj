@@ -69,6 +69,7 @@
     <Compile Include="Helpers\EntityHelper.cs" />
     <Compile Include="Helpers\NetworkHelper.cs" />
     <Compile Include="Managers\AssetManager.cs" />
+    <Compile Include="Managers\AudioManager.cs" />
     <Compile Include="Managers\CollisionManager.cs" />
     <Compile Include="Managers\Network\NetworkConnectionManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />

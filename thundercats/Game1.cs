@@ -1,4 +1,5 @@
-﻿using Game_Engine.Components;
+﻿using System;
+using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Game_Engine.Systems;
@@ -6,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
 
@@ -44,7 +46,7 @@ namespace thundercats
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
+        /// related content.  Calling base.StartAudioManager will enumerate through any components
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
@@ -83,13 +85,13 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
             uiSystem.Initialize(spriteBatch, this);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
-            AssetManager.Instance.AddContent<Model>(Content,"Models/block2");
+            //AssetManager.Instance.AddContent<Model>(Content,"Models/block2");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
-
+            AudioManager.Instance.AddNewAudio("disaster", Content.Load<Song>(@"Sounds\Chatwheel_disastah"));
 
             gameManager = new GameManager(this);
 

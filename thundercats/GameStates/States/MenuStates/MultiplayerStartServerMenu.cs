@@ -89,7 +89,7 @@ namespace thundercats.GameStates.States.MenuStates
 
         private void StartServerDisplay(SpriteBatch spriteBatch)
         {
-            string txtStartServer = "Initialize a new server";
+            string txtStartServer = "StartAudioManager a new server";
             string txtServerName = ServerName;
             string txtStartGame = "Play Multiplayer";
             string txtExit = "Quit";
