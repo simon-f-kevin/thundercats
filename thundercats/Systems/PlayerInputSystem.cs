@@ -39,6 +39,7 @@ namespace thundercats.Systems
             VelocityComponent velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(playerEntity);
             KeyboardComponent keyboardComponent = componentManager.ConcurrentGetComponentOfEntity<KeyboardComponent>(playerEntity);
             GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
+            GravityComponent gravityComponent = componentManager.ConcurrentGetComponentOfEntity<GravityComponent>(playerEntity);
 
             /* Keyboard actions */
             if (keyboardComponent != null && velocityComponent != null)
@@ -67,7 +68,7 @@ namespace thundercats.Systems
                 }
                 if (state.IsKeyDown(Keys.Space))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent);
+                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent);
                 }
             }
 
@@ -94,7 +95,7 @@ namespace thundercats.Systems
                 }
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent); 
+                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent); 
                 }
             }
         }

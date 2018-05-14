@@ -85,6 +85,7 @@ namespace thundercats.Systems
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
             GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
+            TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
             float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
             float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
             //float diffY = sourceCollisionComponent.Center.Y - targetCollisionComponent.Center.Y;
@@ -106,6 +107,8 @@ namespace thundercats.Systems
             {
                 sourceGravityComponent.IsFalling = false;
                 CollisionActions.AccelerateColliderUpwards(sourceEntity);
+
+                sourceTransformComponent.Position.Y += 0.6f;
             }
             //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             //{

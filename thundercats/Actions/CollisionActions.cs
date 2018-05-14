@@ -56,7 +56,9 @@ namespace thundercats.Actions
         public static void AccelerateColliderUpwards(Entity entity)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
+            GravityComponent gravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(entity);
 
+           // if(gravityComponent.IsFalling)
             if(velocityComponent != null)
             {
                 velocityComponent.Velocity.Y = 0f; //Disabled until smoother adjustment is implemented

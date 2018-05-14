@@ -1,5 +1,6 @@
 ﻿
 using Game_Engine.Components;
+using Game_Engine.Managers;
 using System;
 
 namespace thundercats.Actions
@@ -63,10 +64,12 @@ namespace thundercats.Actions
         /// Accelerates the player upward in a jumping motion until it reaches the maximum jumping speed
         /// </summary>
         /// <param name="velocityComponent"></param>
-        public static void PlayerJumpSpeed(VelocityComponent velocityComponent)
+        public static void PlayerJumpSpeed(VelocityComponent velocityComponent, GravityComponent gravity)
         {
+            gravity.IsFalling = true;
             if (velocityComponent.Velocity.Y < _playerJumpSpeed)
             {
+              // gravity.IsFalling = true;
                velocityComponent.Velocity.Y += _playerJumpSpeed;
             }
 
