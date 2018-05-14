@@ -84,35 +84,37 @@ namespace thundercats.Systems
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
+            GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
             float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
             float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
             //float diffY = sourceCollisionComponent.Center.Y - targetCollisionComponent.Center.Y;
 
 
-            if(sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
-            {
-                CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
-            }
-            else
-            {
-                CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
-            }
-            if(sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
+            //if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
+            //{
+            //    CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
+            //}
+            //else
+            //{
+            //    CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
+            //}
+            if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             {
                 CollisionActions.AccelerateColliderDownwards(sourceEntity);
             }
             else
             {
+                sourceGravityComponent.IsFalling = false;
                 CollisionActions.AccelerateColliderUpwards(sourceEntity);
             }
-            if(sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
-            {
-                CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
-            }
-            else
-            {
-                CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
-            }
+            //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
+            //{
+            //    CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
+            //}
+            //else
+            //{
+            //    CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
+            //}
         }
     }
 }

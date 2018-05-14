@@ -55,20 +55,18 @@ namespace thundercats
 
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
-            physicsSystem = new PhysicsSystem();
+         //   physicsSystem = new PhysicsSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
             aiSystem = new AiSystem();
-           
-            //SystemManager.Instance.AddToDrawables(uiSystem);
+
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
-            SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(collisionHandlingSystem);
             SystemManager.Instance.AddToUpdateables(aiSystem);
 
@@ -85,7 +83,7 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
             uiSystem.Initialize(spriteBatch, this);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
-            AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
+            AssetManager.Instance.AddContent<Model>(Content,"Models/block2");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");

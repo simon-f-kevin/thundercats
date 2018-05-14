@@ -27,7 +27,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, -100),
+            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.55f, 35),
                 new Vector3(0, 0, -150), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             

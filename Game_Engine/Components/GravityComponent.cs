@@ -21,7 +21,7 @@ namespace Game_Engine.Components
         /// for a potential game mode.
         /// </summary>
         public float Gravity { get; set; } = 9.82f;
-        public float Mass { get; internal set; }
+        public float Mass { get; internal set; } = 10f;
 
         public GravityComponent(Entity id) : base(id)
         {

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using thundercats.Actions;
 using thundercats.Components;
 
 namespace thundercats.GameStates.States.AiStates
@@ -53,11 +54,13 @@ namespace thundercats.GameStates.States.AiStates
             if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {
                 //jump left
+                //AiActions.MoveAiLeftwards();
                 //PlayerActions.AcceleratePlayerLeftWards(VelocityComponent);
                 //PlayerActions.PlayerJumpSpeed(VelocityComponent);
             }
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
+            //    AiActions.MoveAiLeftwards();
                 //jump Right
                 //PlayerActions.AcceleratePlayerRightwards(VelocityComponent);
                 //PlayerActions.PlayerJumpSpeed(VelocityComponent);

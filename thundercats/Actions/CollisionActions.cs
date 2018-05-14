@@ -2,6 +2,7 @@
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using System;
+using System.Diagnostics;
 
 namespace thundercats.Actions
 {
@@ -58,7 +59,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.Y += 0.1f; //Disabled until smoother adjustment is implemented
+                velocityComponent.Velocity.Y = 0f; //Disabled until smoother adjustment is implemented
+                Debug.WriteLine("collision: "+ velocityComponent.Velocity.Y);
             }
         }
 

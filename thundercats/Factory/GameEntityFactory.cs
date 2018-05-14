@@ -31,6 +31,7 @@ namespace thundercats
             PlayerComponent playerComponent = new PlayerComponent(player);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
+            GravityComponent gravityComponent = new GravityComponent(player);
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
@@ -39,6 +40,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
@@ -113,7 +115,7 @@ namespace thundercats
             Entity block = EntityFactory.NewEntity(typeName);
             
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
-            ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
+            ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/block2"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
             CollisionComponent collisionComponent = new BoundingBoxComponent(block, EntityFactory.CreateBoundingBox(modelComponent.Model));
