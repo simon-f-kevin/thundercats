@@ -9,11 +9,11 @@ namespace Game_Engine.Components
     {
         public BoundingSphereComponent(Entity id, BoundingSphere sphere) : base(id)
         {
-            this.BoundingShape = sphere;
+            this.BoundingSphere = sphere;
         }
 
         public override List<BoundingBox> Children { get; set; }
 
-        public override Vector3 Center => ((BoundingSphere)base.BoundingShape).Center;
+        public override Vector3 Center => ((BoundingSphere)base.BoundingSphere).Center;
     }
 }

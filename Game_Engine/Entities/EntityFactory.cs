@@ -54,7 +54,7 @@ namespace Game_Engine.Entities
         /* Adds four bounding boxes to the bounding hierarchy, each taking up a quadrant of the original bounding box. */
         public static void AddBoundingBoxChildren(BoundingBoxComponent boxComponent)
         {
-            BoundingBox box = (BoundingBox)boxComponent.BoundingShape;
+            BoundingBox box = (BoundingBox)boxComponent.BoundingBox;
             Vector3[] corners = box.GetCorners();
 
             //May need some adjustments. Atm the min is the lowest X value of each corner. Might cause problems?

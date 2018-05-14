@@ -69,12 +69,50 @@ namespace Game_Engine.Systems
                     Entity targetEntity = targetCollisionComponentPair.Key;
                     CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
 
-                    if(sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
-                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
-                    {
-                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
-                        found = true; //Temp debug flag
-                        //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                    if(sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId)
+                    { 
+                        if(sourceCollisionComponent.BoundingBox != null)
+                        {
+                            if(targetCollisionComponent.BoundingBox != null)
+                            {
+                                if (sourceCollisionComponent.BoundingBox.Intersects(targetCollisionComponent.BoundingBox))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                                    found = true; //Temp debug flag
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                            else if (targetCollisionComponent.BoundingSphere != null)
+                            {
+                                if (sourceCollisionComponent.BoundingBox.Intersects(targetCollisionComponent.BoundingSphere))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                                    found = true; //Temp debug flag
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                        }
+                        else if (sourceCollisionComponent.BoundingSphere != null)
+                        {
+                            if (targetCollisionComponent.BoundingBox != null)
+                            {
+                                if (sourceCollisionComponent.BoundingSphere.Intersects(targetCollisionComponent.BoundingBox))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                                    found = true; //Temp debug flag
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                            else if (targetCollisionComponent.BoundingSphere != null)
+                            {
+                                if (sourceCollisionComponent.BoundingSphere.Intersects(targetCollisionComponent.BoundingSphere))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                                    found = true; //Temp debug flag
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                        }
                     }
                 }
             });

@@ -38,7 +38,48 @@ namespace thundercats.Systems
                     var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(surfaceComponent.Key);
                     var surface = surfaceComponent.Value as SurfaceComponent;
 
-                    if (surfaceBoundingSphere.BoundingShape.Intersects(playerBoundingSphereComponent.BoundingShape))
+                    if (surfaceBoundingSphere.ComponentId != playerBoundingSphereComponent.ComponentId)
+                    {
+                        if (surfaceBoundingSphere.BoundingBox != null)
+                        {
+                            if (playerBoundingSphereComponent.BoundingBox != null)
+                            {
+                                if (surfaceBoundingSphere.BoundingBox.Intersects(playerBoundingSphereComponent.BoundingBox))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(player.Key, surfaceComponent.Key);
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                            else if (playerBoundingSphereComponent.BoundingSphere != null)
+                            {
+                                if (surfaceBoundingSphere.BoundingBox.Intersects(playerBoundingSphereComponent.BoundingSphere))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(player.Key, surfaceComponent.Key);
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                        }
+                        else if (surfaceBoundingSphere.BoundingSphere != null)
+                        {
+                            if (playerBoundingSphereComponent.BoundingBox != null)
+                            {
+                                if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphereComponent.BoundingBox))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(player.Key, surfaceComponent.Key);
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                            else if (playerBoundingSphereComponent.BoundingSphere != null)
+                            {
+                                if (surfaceBoundingSphere.BoundingSphere.Intersects(playerBoundingSphereComponent.BoundingSphere))
+                                {
+                                    CollisionManager.Instance.AddCollisionPair(player.Key, surfaceComponent.Key);
+                                                  //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                                }
+                            }
+                        }
+                    }
+
                     {
                         // Shouldn't it be players velocity we change rather?
                         playerFrictionComponent.Friction = (float)surface.SurfaceType;

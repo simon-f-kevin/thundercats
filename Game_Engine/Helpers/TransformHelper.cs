@@ -67,9 +67,12 @@ namespace Game_Engine.Helpers
 
             if(collisionComponent != null)
             {
-                var boundingShape = collisionComponent.BoundingShape;
-                boundingShape = collisionComponent.BoundingShape.Transform(translation);
-                collisionComponent.BoundingShape = boundingShape;
+                if (collisionComponent.BoundingSphere != null)
+                {
+                    var boundingShape = collisionComponent.BoundingSphere;
+                    boundingShape = collisionComponent.BoundingSphere.Transform(translation);
+                    collisionComponent.BoundingSphere = boundingShape;
+                }
             }
         }
 
@@ -87,9 +90,9 @@ namespace Game_Engine.Helpers
         public static void SetInitialBoundingSpherePos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
             Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-            var boundingSphere = collisionComponent.BoundingShape;
-            boundingSphere = collisionComponent.BoundingShape.Transform(translation);
-            collisionComponent.BoundingShape = boundingSphere;
+            var boundingSphere = collisionComponent.BoundingSphere;
+            boundingSphere = collisionComponent.BoundingSphere.Transform(translation);
+            collisionComponent.BoundingSphere = boundingSphere;
         }
 
         /*
@@ -97,14 +100,14 @@ namespace Game_Engine.Helpers
         */
         public static void SetInitialBoundingBoxPos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
-            var boundingBox = collisionComponent.BoundingShape;
+            var boundingBox = collisionComponent.BoundingBox;
             var lengthX = (boundingBox.Max.X - boundingBox.Min.X) / 2;
             var lengthY = (boundingBox.Max.Y - boundingBox.Min.Y) / 2;
             var lengthZ = (boundingBox.Max.Z - boundingBox.Min.Z) / 2;
 
             var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
             var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
-            collisionComponent.BoundingShape = new BoundingBox(min, max);
+            collisionComponent.BoundingBox = new BoundingBox(min, max);
         }
     }
 }

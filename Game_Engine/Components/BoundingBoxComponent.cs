@@ -12,14 +12,14 @@ namespace Game_Engine.Components
     {
         public BoundingBoxComponent(Entity id, BoundingBox box) : base(id)
         {
-            this.BoundingShape = box;
+            this.BoundingBox = box;
         }
 
         public override List<BoundingBox> Children{ get; set; }
 
         public override Vector3 Center
         {
-            get => ((BoundingBox)base.BoundingShape).Min + ((((BoundingBox)base.BoundingShape).Max - ((BoundingBox)base.BoundingShape).Min) / 2);
+            get => ((BoundingBox)base.BoundingBox).Min + ((((BoundingBox)base.BoundingBox).Max - ((BoundingBox)base.BoundingBox).Min) / 2);
         }
     }
 }

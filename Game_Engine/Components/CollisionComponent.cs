@@ -7,22 +7,43 @@ namespace Game_Engine.Components
 {
     public abstract class CollisionComponent : Component
     {
-        private dynamic boundingShape;
-        public dynamic BoundingShape
+        private BoundingBox box;
+        public BoundingBox BoundingBox
         {
             get {
-                return boundingShape;
+                return box;
             }
             set {
-                if (boundingShape == null || value.GetType() == boundingShape.GetType())
+                if (box != null)
                 {
-                    boundingShape = value;
+                    box = value;
                 }
                 else {
                     throw new Exception("Must be the same volume type as the initial volume");
                 }
             }
         }
+
+        private BoundingSphere sphere;
+        public BoundingSphere BoundingSphere
+        {
+            get
+            {
+                return sphere;
+            }
+            set
+            {
+                if (sphere != null)
+                {
+                    sphere = value;
+                }
+                else
+                {
+                    throw new Exception("Must be the same volume type as the initial volume");
+                }
+            }
+        }
+
         public abstract List<BoundingBox> Children { get; set; }
 
         public abstract Vector3 Center { get; }
