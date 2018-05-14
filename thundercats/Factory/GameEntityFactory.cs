@@ -35,7 +35,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, collisionComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
