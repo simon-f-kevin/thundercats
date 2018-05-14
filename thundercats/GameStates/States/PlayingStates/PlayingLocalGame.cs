@@ -67,7 +67,7 @@ AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice)
                     else if (world[x, z] == 1)
                     {
                         GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)),
-AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), "block");
+AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
                     }
                     iter++; //for debugging
                 }

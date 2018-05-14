@@ -61,10 +61,10 @@ namespace thundercats.Systems
 
             switch (targetEntity.EntityTypeName)
             {
-                case "Goal":
+                case GameEntityFactory.GOAL:
                     Debug.WriteLine("A winner is you");
                     break;
-                case "block":
+                case GameEntityFactory.BLOCK:
                     UpdateSourceCollider(sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.REMOTE_PLAYER:
