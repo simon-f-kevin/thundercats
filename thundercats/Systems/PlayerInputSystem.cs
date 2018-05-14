@@ -41,33 +41,37 @@ namespace thundercats.Systems
             
 
             /* Keyboard actions */
-            if(keyboardComponent != null && velocityComponent != null)
+            if (keyboardComponent != null && velocityComponent != null)
             {
                 KeyboardState state = Keyboard.GetState();
 
                 if(state.IsKeyDown(Keys.Up) && !state.IsKeyDown(Keys.Down))
                 {
                     PlayerActions.AcceleratePlayerForwards(velocityComponent);
+                    
                 }
                 if(state.IsKeyDown(Keys.Down) && !state.IsKeyDown(Keys.Up))
                 {
+                    //This shouldn't be possible?
                     PlayerActions.AcceleratePlayerBackwards(velocityComponent);
-                }
+                    
 
-                if(state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
+                }
+                if (state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    
                 }
                 if(state.IsKeyDown(Keys.Right) && !state.IsKeyDown(Keys.Left))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    
                 }
-
                 if (state.IsKeyDown(Keys.Space))
                 {
                     PlayerActions.PlayerJumpSpeed(velocityComponent);
+                    
                 }
-
             }
 
             /* Gamepad actions */
@@ -78,6 +82,7 @@ namespace thundercats.Systems
                 if(state.IsButtonDown(Buttons.A) && !state.IsButtonDown(Buttons.B))
                 {
                     PlayerActions.AcceleratePlayerForwards(velocityComponent);
+                    
                 }
                 if(state.IsButtonDown(Buttons.B) && !state.IsButtonDown(Buttons.A))
                 {
@@ -87,15 +92,18 @@ namespace thundercats.Systems
                 if(state.IsButtonDown(Buttons.LeftThumbstickLeft) && !state.IsButtonDown(Buttons.LeftThumbstickRight))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    
                 }
                 if(state.IsButtonDown(Buttons.LeftThumbstickRight) && !state.IsButtonDown(Buttons.LeftThumbstickLeft))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    
                 }
 
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
                     PlayerActions.PlayerJumpSpeed(velocityComponent);
+                    
                 }
             }
         }

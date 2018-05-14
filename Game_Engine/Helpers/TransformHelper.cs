@@ -1,5 +1,6 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Entities;
+using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game_Engine.Managers
+namespace Game_Engine.Helpers
 {
     public static class TransformHelper
     {

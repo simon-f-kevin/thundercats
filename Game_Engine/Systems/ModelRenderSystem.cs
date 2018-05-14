@@ -25,7 +25,6 @@ namespace Game_Engine.Systems
         public void Draw(GameTime gameTime)
         {
             DrawModels(gameTime);
-            //DrawGameWorld();
         }
 
         /*
@@ -48,7 +47,7 @@ namespace Game_Engine.Systems
                 return;
             }
             
-            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value; //get the cameracomponent for the local player
 
             foreach(var modelComponentPair in modelComponents)
             {
@@ -95,11 +94,6 @@ namespace Game_Engine.Systems
             //        }
             //    }
             //});
-        }
-
-        private void DrawGameWorld()
-        {
-            throw new NotImplementedException();
         }
     }
 }

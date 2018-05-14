@@ -40,10 +40,16 @@ namespace thundercats.Systems
 
             switch(sourceEntity.EntityTypeName)
             {
-                case "local_player":
+                case GameEntityFactory.REMOTE_PLAYER:
                     PlayerCollision(collisionPair);
                     break;
-                case "default":
+                case GameEntityFactory.LOCAL_PLAYER:
+                    PlayerCollision(collisionPair);
+                    break;
+                case GameEntityFactory.AI_PLAYER:
+                    PlayerCollision(collisionPair);
+                    break;
+                default:
                     break;
             }       
 		}
@@ -55,10 +61,16 @@ namespace thundercats.Systems
 
             switch (targetEntity.EntityTypeName)
             {
-                case "Goal":
+                case GameEntityFactory.GOAL:
                     Debug.WriteLine("A winner is you");
                     break;
-                case "default":
+                case GameEntityFactory.BLOCK:
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+                case GameEntityFactory.REMOTE_PLAYER:
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+                case GameEntityFactory.LOCAL_PLAYER:
                     UpdateSourceCollider(sourceEntity, targetEntity);
                     break;
             }

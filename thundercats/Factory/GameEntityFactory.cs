@@ -1,13 +1,10 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Entities;
+using Game_Engine.Helpers;
 using Game_Engine.Managers;
-using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using thundercats.GameStates;
 
 namespace thundercats
 {
@@ -16,24 +13,20 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
-        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, string name = null)
+        public const string REMOTE_PLAYER = "remote_player";
+        public const string LOCAL_PLAYER = "local_player";
+        public const string AI_PLAYER = "ai_player";
+        public const string BLOCK = "block";
+        public const string GOAL = "Goal";
+
+        public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, String typeName)
         {
-            Entity player;
-            if (name == null)
-            {
-                player = EntityFactory.NewEntity("remote_player");
-            }
-            else
-            {
-                player = EntityFactory.NewEntity(name);
-            }
+            Entity player = EntityFactory.NewEntity(typeName);
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
             CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
-            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
-            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
 
@@ -42,8 +35,6 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
@@ -52,35 +43,59 @@ namespace thundercats
 
             return player;
         }
-
-        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
+        /// <summary>
+        /// A Player without network component
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="transformPos"></param>
+        /// <param name="cameraPos"></param>
+        /// <param name="cameraAspectRatio"></param>
+        /// <param name="followPlayer"></param>
+        /// <param name="texture"></param>
+        /// <returns></returns>
+        public static Entity NewLocalPlayer(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
-            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, "local_player");
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, LOCAL_PLAYER);
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
+            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
+            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
+            
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            
 
+            return player;
+        }
+
+        /// <summary>
+        /// Opponent in singleplayer game
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="gamePadIndex"></param>
+        /// <param name="texture"></param>
+        /// <param name="transformPos"></param>
+        /// <returns></returns>
+        public static Entity NewAiPlayer(String model, int gamePadIndex, Texture2D texture, Vector3 transformPos)
+        {
+            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, AI_PLAYER);
+            //here be ai components in the future
             return player;
         }
 
         public static Entity NewGoalBlock(Vector3 positionValues, Texture2D texture)
         {
-            Entity player = NewBlock(positionValues, texture, "Goal");
+            Entity player = NewBlock(positionValues, texture, GOAL);
             GoalComponent goalComponent = new GoalComponent(player);
             ComponentManager.Instance.AddComponentToEntity(player, goalComponent);
             return player;
         }
 
-        public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string name = null)
+        public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string typeName)
         {
-            Entity block;
-            if (name == null)
-            {
-                block = EntityFactory.NewEntity();
-            }
-            else
-            {
-                block = EntityFactory.NewEntity(name);
-            }
+            Entity block = EntityFactory.NewEntity(typeName);
+            
             TransformComponent transformComponent = new TransformComponent(block, new Vector3(x: positionValues.X, y: positionValues.Y, z: positionValues.Z));
             ModelComponent modelComponent = new ModelComponent(block, AssetManager.Instance.GetContent<Model>("Models/Block"));
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
