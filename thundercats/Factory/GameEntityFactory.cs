@@ -43,6 +43,7 @@ namespace thundercats
 
             return player;
         }
+        //Create AI Player
         public static Entity NewAiPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
             Entity player = EntityFactory.NewEntity("Ai_player");
