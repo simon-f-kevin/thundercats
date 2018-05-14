@@ -27,6 +27,7 @@ namespace thundercats
         CameraSystem cameraSystem;
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
+        AiSystem aiSystem;
 
         public Game1()
         {
@@ -60,6 +61,7 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
+            aiSystem = new AiSystem();
            
             //SystemManager.Instance.AddToDrawables(uiSystem);
             SystemManager.Instance.AddToUpdateables(cameraSystem);
@@ -68,6 +70,7 @@ namespace thundercats
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(collisionHandlingSystem);
+            SystemManager.Instance.AddToUpdateables(aiSystem);
 
             base.Initialize();
         }
@@ -116,6 +119,9 @@ namespace thundercats
                 Exit();
 
             gameManager.Update(gameTime);
+            //update the AiStateManager 
+         //   aiStateManager.Update(gameTime);
+
             // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
             {

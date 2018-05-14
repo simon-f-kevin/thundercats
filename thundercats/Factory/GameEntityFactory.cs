@@ -5,6 +5,8 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using thundercats.Components;
+using thundercats.GameStates;
 
 namespace thundercats
 {
@@ -33,10 +35,41 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
+
+            PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
+            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+
+            return player;
+        }
+        //Create AI Player
+        public static Entity NewAiPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        {
+            Entity player = EntityFactory.NewEntity("Ai_player");
+            TransformComponent transformComponent = new TransformComponent(player, transformPos);
+            ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
+            VelocityComponent velocityComponent = new VelocityComponent(player);
+            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            PlayerComponent playerComponent = new PlayerComponent(player);
+            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
+            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
+            FrictionComponent frictionComponent = new FrictionComponent(player);
+            TextureComponent textureComponent = new TextureComponent(player, texture);
+            AiComponent aiComponent = new AiComponent(player);
+
+            ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, aiComponent);
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
