@@ -49,7 +49,6 @@
     <Compile Include="Factory\WorldGenerator.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Factory\GameEntityFactory.cs" />
-    <Compile Include="GameStates\AiStateManager.cs" />
     <Compile Include="GameStates\GameManager.cs" />
     <Compile Include="GameStates\States\AiStates\AiState.cs" />
     <Compile Include="GameStates\States\AiStates\IAiState.cs" />

@@ -34,7 +34,6 @@ namespace thundercats.GameStates.States.AiStates
             {
                 // Logic should be here to choose column/block
                 if (row[i] == 1) currentChoice = i; // return new Point(RowIndex, i); 
-                /*skulle kunna ha if( [i] == 1 || [i] != 0)??för att få en block o gå till,sen kollar vi specifikt värde */
                 if (row[i] == 2)
                 {
                     currentChoice = i;

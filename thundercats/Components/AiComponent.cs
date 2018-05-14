@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using thundercats.GameStates;
-using static thundercats.GameStates.AiStateManager;
 using static thundercats.Systems.AiSystem;
 
 namespace thundercats.Components

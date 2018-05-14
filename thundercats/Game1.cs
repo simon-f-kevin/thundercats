@@ -19,7 +19,6 @@ namespace thundercats
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         GameManager gameManager;
-        AiStateManager aiStateManager;
         Viewport viewport;
 
         ModelRenderSystem modelRenderSystem;
@@ -95,7 +94,6 @@ namespace thundercats
 
 
             gameManager = new GameManager(this);
-            aiStateManager = new AiStateManager();
 
             viewport = gameManager.game.GraphicsDevice.Viewport;
 
