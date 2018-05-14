@@ -35,26 +35,24 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, boundingSphereComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, collisionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
 
-            PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
-            PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+            TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }
         //Create AI Player
         public static Entity NewAiPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
-            Entity player = EntityFactory.NewEntity("Ai_player");
+            Entity player = EntityFactory.NewEntity(GameEntityFactory.AI_PLAYER);
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            BoundingSphereComponent boundingSphereComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
@@ -99,21 +97,6 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             
 
-            return player;
-        }
-
-        /// <summary>
-        /// Opponent in singleplayer game
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="gamePadIndex"></param>
-        /// <param name="texture"></param>
-        /// <param name="transformPos"></param>
-        /// <returns></returns>
-        public static Entity NewAiPlayer(String model, int gamePadIndex, Texture2D texture, Vector3 transformPos)
-        {
-            Entity player = NewBasePlayer(model, gamePadIndex, transformPos, texture, AI_PLAYER);
-            //here be ai components in the future
             return player;
         }
 

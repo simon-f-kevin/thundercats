@@ -70,7 +70,7 @@ namespace thundercats.GameStates.States.PlayingStates
                     {
                         
                         Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (viewport.Height * 0.45f), (row * distanceBetweenBlocksZ)),
-                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
 
                         worldEntity[column, row] = Block;
                         
