@@ -27,6 +27,8 @@ namespace thundercats
         CameraSystem cameraSystem;
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
+        ParticleSystem particleSystem; 
+
 
         public Game1()
         {
@@ -60,8 +62,12 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
-           
+            particleSystem = new ParticleSystem();
+            particleSystem.device = GraphicsDevice;
+            particleSystem.modelManager = graphics;
+
             //SystemManager.Instance.AddToDrawables(uiSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
@@ -87,8 +93,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
-
-
+            AssetManager.Instance.AddContent<Effect>(Content, "Particle");
 
             gameManager = new GameManager(this);
 

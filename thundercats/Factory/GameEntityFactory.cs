@@ -27,6 +27,9 @@ namespace thundercats
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
+            ParticleComponent particleComponent = new ParticleComponent(player, texture);
+            
+            
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
@@ -37,6 +40,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, particleComponent);
 
             PhysicsSystem.SetInitialModelPos(modelComponent, transformComponent);
             PhysicsSystem.SetInitialBoundingSpherePos(collisionComponent, transformComponent);

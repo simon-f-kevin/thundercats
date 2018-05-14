@@ -106,3 +106,9 @@
 /processorParam:TextureFormat=Color
 /build:2DTextures/stars.jpg
 
+#begin Particle.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Particle.fx
+
