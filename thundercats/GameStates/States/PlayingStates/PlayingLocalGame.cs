@@ -35,6 +35,9 @@ namespace thundercats.GameStates.States.PlayingStates
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
             InitWorld();
             GameService.Instance().GameWorld = world;
+
+            AudioManager.Instance.ClearSongs();
+            AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
         }
        
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -47,6 +50,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Update(GameTime gameTime)
         {
+            if (!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
             SystemManager.Instance.Update(gameTime);
         }
 

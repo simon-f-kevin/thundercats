@@ -2,6 +2,7 @@
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 
 namespace thundercats.GameStates.States.MenuStates
@@ -32,6 +33,8 @@ namespace thundercats.GameStates.States.MenuStates
             this.gameManager = gameManager;
             viewport = gameManager.game.GraphicsDevice.Viewport;
             controls = new MenuControls(0, 2, gameManager);
+            AudioManager.Instance.ClearSongs();
+            AudioManager.Instance.EnqueueSongs("lounge");
         }
 
 
@@ -90,6 +93,12 @@ namespace thundercats.GameStates.States.MenuStates
         // depending on which option we currently are at.
         public void Update(GameTime gameTime)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.M))
+            {
+                AudioManager.Instance.PlaySound("disaster");
+            }
+            if(!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
+
             currentPosition = (OptionsState) controls.MoveOptionPositionVertically((int) currentPosition);
 
             switch (currentPosition)

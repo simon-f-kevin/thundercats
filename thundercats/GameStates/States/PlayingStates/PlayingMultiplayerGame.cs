@@ -58,6 +58,9 @@ namespace thundercats.GameStates.States.PlayingStates
 
             //NetworkInputSystem networkInputSystem = new NetworkInputSystem();
             //SystemManager.Instance.AddToUpdateables(networkInputSystem);
+
+            AudioManager.Instance.ClearSongs();
+            AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
             InitWorld();
         }
 
@@ -71,6 +74,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Update(GameTime gameTime)
         {
+            if (!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
             SystemManager.Instance.Update(gameTime);
         }
 

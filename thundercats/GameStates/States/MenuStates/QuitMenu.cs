@@ -1,6 +1,7 @@
 ﻿using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace thundercats.GameStates.States.MenuStates
 {
@@ -14,6 +15,8 @@ namespace thundercats.GameStates.States.MenuStates
 
         public void Initialize()
         {
+            AudioManager.Instance.PlaySound("quit");
+            System.Threading.Thread.Sleep(3500);
             KillSwitch.game.Exit();
         }
 
