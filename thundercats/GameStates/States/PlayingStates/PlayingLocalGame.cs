@@ -27,11 +27,11 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.55f, 35),
+            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 50, 35),
                 new Vector3(0, 0, -150), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             
-            GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, viewport.Height * 0.45f, 100),
+            GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0,10, 100),
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
             InitWorld();
             GameService.Instance().GameWorld = world;
@@ -69,7 +69,7 @@ namespace thundercats.GameStates.States.PlayingStates
                     if (world[column, row] == 1)
                     {
                         
-                        Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (viewport.Height * 0.45f), (row * distanceBetweenBlocksZ)),
+                        Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
                         AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
 
                         worldEntity[column, row] = Block;

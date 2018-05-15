@@ -1,6 +1,7 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
+using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
 
@@ -57,13 +58,19 @@ namespace thundercats.Actions
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
             GravityComponent gravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(entity);
+            TransformComponent transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(entity);
 
-           // if(gravityComponent.IsFalling)
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Y = 0f; //Disabled until smoother adjustment is implemented
-                Debug.WriteLine("collision: "+ velocityComponent.Velocity.Y);
-            }
+
+                //gravityComponent.Airborn = false;
+            //    velocityComponent.Velocity.Y += Math.Abs(velocityComponent.Velocity.Y);
+            if(velocityComponent.Velocity.Y < 0)
+                velocityComponent.Velocity.Y += Math.Abs(velocityComponent.Velocity.Y);
+                
+               // velocityComponent.Velocity.Y += (0.1f * (Math.Abs(velocityComponent.Velocity.Y) + 1));
+                Debug.WriteLine("pos-Y: " + transformComponent.Position.Y);
+            } 
         }
 
         public static void AccelerateColliderDownwards(Entity entity)
