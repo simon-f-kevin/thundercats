@@ -67,9 +67,17 @@ namespace Game_Engine.Helpers
 
             if(collisionComponent != null)
             {
-                var boundingShape = collisionComponent.BoundingShape;
-                boundingShape = collisionComponent.BoundingShape.Transform(translation);
-                collisionComponent.BoundingShape = boundingShape;
+                if (collisionComponent.BoundingShape.GetType() == typeof(BoundingSphere))
+                {
+                    var boundingShape = collisionComponent.BoundingShape;
+                    boundingShape = collisionComponent.BoundingShape.Transform(translation);
+                    collisionComponent.BoundingShape = boundingShape;
+                }
+                //else {
+                //    var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(entity);
+                //    SetBoundingBoxPos( collisionComponent, transformComponent);
+
+                //}
             }
         }
 
@@ -95,7 +103,7 @@ namespace Game_Engine.Helpers
         /*
         * Translates a bounding box component to be at the same world position as a transform component.
         */
-        public static void SetInitialBoundingBoxPos(CollisionComponent collisionComponent, TransformComponent transformComponent)
+        public static void SetBoundingBoxPos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
             var boundingBox = collisionComponent.BoundingShape;
             var lengthX = (boundingBox.Max.X - boundingBox.Min.X) / 2;

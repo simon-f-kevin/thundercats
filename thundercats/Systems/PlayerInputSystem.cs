@@ -69,6 +69,7 @@ namespace thundercats.Systems
                 if (state.IsKeyDown(Keys.Space))
                 {
                     PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent);
+                   
                 }
             }
 

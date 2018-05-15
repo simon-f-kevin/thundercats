@@ -105,10 +105,9 @@ namespace thundercats.Systems
             }
             else
             {
-                sourceGravityComponent.IsFalling = false;
+                //sourceGravityComponent.IsFalling = false;
                 CollisionActions.AccelerateColliderUpwards(sourceEntity);
-
-                sourceTransformComponent.Position.Y += 0.6f;
+               //S sourceTransformComponent.Position.Y += 0.6f;
             }
             //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             //{

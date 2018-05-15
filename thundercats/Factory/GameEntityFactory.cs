@@ -27,7 +27,7 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent collisionComponent = /*new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model));*/new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             PlayerComponent playerComponent = new PlayerComponent(player);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
@@ -41,6 +41,9 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
+
+            //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            //TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
@@ -71,8 +74,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, aiComponent);
 
-            TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
-            TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
+            //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            //TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }
@@ -129,7 +132,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(block, blockComponent);
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
-            TransformHelper.SetInitialBoundingBoxPos(collisionComponent, transformComponent);
+            TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
             EntityFactory.AddBoundingBoxChildren((BoundingBoxComponent)collisionComponent);
 
             return block;

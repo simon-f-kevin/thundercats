@@ -7,21 +7,21 @@ namespace thundercats.Actions
 {
     static class PlayerActions
     {
- 
+
         private static float playerForwardAcceleration = 0.1f;
         private static float playerStrafeAcceleration = 0.1f;
         private static float playerMaxRunningSpeed = 0.6f;
         private static float playerMaxStrafeSpeed = 0.6f;
-        private static float _playerJumpSpeed = 0.6f;
+        private static float _playerJumpSpeed = 0.3f;
 
-        
+
         /// <summary>
         /// Accelerates the player forward until it reaches maximum running speed
         /// </summary>
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerForwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Z < playerMaxRunningSpeed)
+            if (velocityComponent.Velocity.Z < playerMaxRunningSpeed)
             {
                 velocityComponent.Velocity.Z += playerForwardAcceleration;
             }
@@ -32,7 +32,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerBackwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Z > -playerMaxRunningSpeed)
+            if (velocityComponent.Velocity.Z > -playerMaxRunningSpeed)
             {
                 velocityComponent.Velocity.Z -= playerForwardAcceleration;
             }
@@ -43,7 +43,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerLeftwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.X < playerMaxStrafeSpeed)
+            if (velocityComponent.Velocity.X < playerMaxStrafeSpeed)
             {
                 velocityComponent.Velocity.X += playerStrafeAcceleration;
             }
@@ -54,7 +54,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerRightwards(VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.X > -playerMaxStrafeSpeed)
+            if (velocityComponent.Velocity.X > -playerMaxStrafeSpeed)
             {
                 velocityComponent.Velocity.X -= playerStrafeAcceleration;
             }
@@ -66,12 +66,10 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void PlayerJumpSpeed(VelocityComponent velocityComponent, GravityComponent gravity)
         {
-            gravity.IsFalling = true;
-            if (velocityComponent.Velocity.Y < _playerJumpSpeed)
-            {
-              // gravity.IsFalling = true;
-               velocityComponent.Velocity.Y += _playerJumpSpeed;
-            }
+                if (velocityComponent.Velocity.Y < _playerJumpSpeed)
+                {
+                    velocityComponent.Velocity.Y += _playerJumpSpeed;
+                }
 
         }
     }

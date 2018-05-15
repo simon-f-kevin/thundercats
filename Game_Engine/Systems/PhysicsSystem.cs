@@ -23,9 +23,9 @@ namespace Game_Engine.Systems
 
         public void Update(GameTime gameTime)
         {
-            RunGravity(gameTime);
-            CheckCollision();
             UpdatePositionsOfModels();
+            CheckCollision();
+            RunGravity(gameTime);
         }
 
 
@@ -94,33 +94,12 @@ namespace Game_Engine.Systems
             var gravityComponents = ComponentManager.Instance.GetConcurrentDictionary<GravityComponent>();
             foreach (var gravityComponentKeyValuePair in gravityComponents)
             {
-                //(if (!(gravityComponentKeyValuePair.Value is GravityComponent)) continue;
                 var gravityComponent = gravityComponentKeyValuePair.Value as GravityComponent;
                 var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
-                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(gravityComponentKeyValuePair.Key);
-                var collisionComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<BoundingSphereComponent>(gravityComponentKeyValuePair.Key);
 
-                //if(transformComponent.Position.Y != 0)
-                //velocityComponent.Velocity.Y -= 0.001f;//0.5f * (float)gameTime.ElapsedGameTime.TotalSeconds;
- 
-                //Debug.WriteLine(velocityComponent.Velocity);
-              //  Debug.WriteLine("Position: " + transformComponent.Position);
-         
-
-
-                //        //velocityComponent.Velocity.Y = +1;
-                //        //acceleration = force(time, position) / mass;
-                //        //time += timestep;
-                //        //position += timestep * velocity;
-                //        //velocity += timestep * acceleration;
-                if (gravityComponent.IsFalling)
-                {
-                    var dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    var acceleration = 9.8f / gravityComponent.Mass;
-                    velocityComponent.Velocity.Y -= acceleration * dt;
-                    Debug.WriteLine("Velocity: " + velocityComponent.Velocity.ToString());
-                }
-                gravityComponent.IsFalling = true;
+                var dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                var acceleration = gravityComponent.GravityCoefficient / gravityComponent.Mass;
+                velocityComponent.Velocity.Y -= acceleration * dt;
             }
         }
 
