@@ -94,6 +94,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Sounds\Chatwheel_disastah.wav" />
+    <Content Include="Content\Sounds\Lounge Game2.wav" />
+    <Content Include="Content\Sounds\Platformer2.mp3" />
+    <Content Include="Content\Sounds\rage-quit.mp3" />
+    <Content Include="Content\Sounds\Synthwave-Fun.mp3" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

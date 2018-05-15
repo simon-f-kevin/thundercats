@@ -34,7 +34,7 @@ namespace thundercats.GameStates.States.MenuStates
             viewport = gameManager.game.GraphicsDevice.Viewport;
             controls = new MenuControls(0, 2, gameManager);
             AudioManager.Instance.ClearSongs();
-            AudioManager.Instance.EnqueueSongs("disaster");
+            AudioManager.Instance.EnqueueSongs("lounge");
         }
 
 
@@ -77,7 +77,7 @@ namespace thundercats.GameStates.States.MenuStates
 
         public void Initialize()
         {
-            
+
         }
 
         // Draws
@@ -97,6 +97,8 @@ namespace thundercats.GameStates.States.MenuStates
             {
                 AudioManager.Instance.PlaySound("disaster");
             }
+            if(!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
+
             currentPosition = (OptionsState) controls.MoveOptionPositionVertically((int) currentPosition);
 
             switch (currentPosition)

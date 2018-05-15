@@ -14,9 +14,8 @@ namespace Game_Engine.Managers
     {
         private static AudioManager _instance;
         private Queue<Song> songQueue;
-        private Dictionary<string, Song> soundDictionary;
         private Song currentSongPlaying;
-        private bool isPlaying;
+        public bool IsPlaying;
         private double lastTotalSeconds;
 
         public static AudioManager Instance
@@ -32,13 +31,14 @@ namespace Game_Engine.Managers
             }
         }
 
+
         /// <summary>
         /// Starts the audio manager and plays the songs in the queue
         /// </summary>
         public void StartAudioManager()
         {
             currentSongPlaying = songQueue.Dequeue();
-            isPlaying = true;
+            IsPlaying = true;
             MediaPlayer.Play(currentSongPlaying);
             songQueue.Enqueue(currentSongPlaying);
             MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
@@ -50,7 +50,7 @@ namespace Game_Engine.Managers
         /// <param name="name"></param>
         public void PlaySound(string name)
         {
-            if(soundDictionary.TryGetValue(name, out var sound)) MediaPlayer.Play(sound);
+            MediaPlayer.Play(AssetManager.Instance.GetContent<Song>(name));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Game_Engine.Managers
         {
             if (Math.Abs(gameTime.TotalGameTime.TotalSeconds - lastTotalSeconds) > 0.5)
             {
-                if (MediaPlayer.State == MediaState.Paused && isPlaying == false)
+                if (MediaPlayer.State == MediaState.Paused && IsPlaying == false)
                 {
                     Resume();
                 }
@@ -81,20 +81,6 @@ namespace Game_Engine.Managers
         }
 
         /// <summary>
-        /// Adds new audio to the AudioManagers' dictionary
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="song"></param>
-        public void AddNewAudio(string name, Song song)
-        {
-            if (soundDictionary == null)
-            {
-                soundDictionary = new Dictionary<string, Song>();
-            }
-            soundDictionary.Add(name, song);
-        }
-
-        /// <summary>
         /// Enqueues songs to be played on repeat
         /// </summary>
         /// <param name="names"></param>
@@ -104,13 +90,14 @@ namespace Game_Engine.Managers
 
             foreach (var songname in names)
             {
-                if (soundDictionary.TryGetValue(songname, out var song))
-                {
-                    songQueue.Enqueue(song);
-                }
+                songQueue.Enqueue(AssetManager.Instance.GetContent<Song>(songname));
             }
         }
 
+        /// <summary>
+        /// Plays the next song in the queue
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void PlayNextInQueue(GameTime gameTime)
         {
             if (Math.Abs(gameTime.TotalGameTime.TotalSeconds - lastTotalSeconds) > 0.5)
@@ -122,7 +109,7 @@ namespace Game_Engine.Managers
 
         public void ClearSongs()
         {
-            isPlaying = false;
+            IsPlaying = false;
             MediaPlayer.Stop();
             songQueue?.Clear(); //thank you resharper :)
         }
