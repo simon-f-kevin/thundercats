@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Game_Engine.Components.BlockComponent" Collapsed="true">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\BlockComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.BoundingBoxComponent" Collapsed="true">
+    <Position X="25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Components\BoundingBoxComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.BoundingSphereComponent" Collapsed="true">
+    <Position X="27.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Components\BoundingSphereComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.CameraComponent" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgBwAAACAAAAIAAAACAAAAAAgAAAA=</HashCode>
+      <FileName>Components\CameraComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.CollisionComponent" Collapsed="true">
+    <Position X="26" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAQAAAAAAEAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Components\CollisionComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.Component" Collapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Components\Component.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.FrictionComponent" Collapsed="true">
+    <Position X="14.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\FrictionComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.GamePadComponent" Collapsed="true">
+    <Position X="21" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Components\GamepadComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.GoalComponent" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\GoalComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.GravityComponent" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAACAAAAAAAAAAAAAICAAgA=</HashCode>
+      <FileName>Components\GravityComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.KeyboardComponent" Collapsed="true">
+    <Position X="14" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\KeyBoardComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.ModelComponent" Collapsed="true">
+    <Position X="18.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAgAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Components\ModelComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.NetworkConnectionComponent" Collapsed="true">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Components\NetworkConnectionComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.NetworkInputComponent" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAABAAAAAAAABAAAAEAAAAIQAAAAAAAAAA=</HashCode>
+      <FileName>Components\NetworkInputComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.PlayerComponent" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\PlayerComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.TextureComponent" Collapsed="true">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Components\TextureComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.TransformComponent" Collapsed="true">
+    <Position X="16.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAgAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\TransformComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.UIComponent" Collapsed="true">
+    <Position X="20.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAACIAiAAAAAA=</HashCode>
+      <FileName>Components\UIComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Components.VelocityComponent" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Components\VelocityComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Entities.Entity" Collapsed="true">
+    <Position X="40.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Entities.EntityFactory" Collapsed="true">
+    <Position X="40.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAIAAAAAAAAAAgAAIAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Entities\EntityFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Helpers.EntityHelper" Collapsed="true">
+    <Position X="42.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\EntityHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Helpers.NetworkHelper" Collapsed="true">
+    <Position X="42.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAACAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Helpers\NetworkHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Helpers.TransformHelper" Collapsed="true">
+    <Position X="42.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAgAAAAEAAAAAAAAAAAAAAAAIAAAAAAg=</HashCode>
+      <FileName>Helpers\TransformHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.AssetManager" Collapsed="true">
+    <Position X="38.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAABAAAAAAAAAAAAAAAQSAAABAAAAA=</HashCode>
+      <FileName>Managers\AssetManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.AudioManager" Collapsed="true">
+    <Position X="38.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEmAAAAAwAAAAAAAAAAABgAAAQAAAAEQAAAAAgAAAA=</HashCode>
+      <FileName>Managers\AudioManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.CollisionManager" Collapsed="true">
+    <Position X="38.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEAAAAAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAACAA=</HashCode>
+      <FileName>Managers\CollisionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.ComponentManager" Collapsed="true">
+    <Position X="38.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAEAAAAAAAAAAAARAgAAABAAQAAQAAAAEQAQAA=</HashCode>
+      <FileName>Managers\ComponentManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.SystemManager" Collapsed="true">
+    <Position X="38.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUEABAAAAAAAgAAAABAQIAAEAABAAAARAAAAAAAAAA=</HashCode>
+      <FileName>Managers\SystemManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Managers.Network.NetworkConnectionManager" Collapsed="true">
+    <Position X="38.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAACgAAAAAACAAABQABIAEAAABgAAAAI=</HashCode>
+      <FileName>Managers\Network\NetworkConnectionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game_Engine.Systems.CameraSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Systems\CameraSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Game_Engine.Systems.ModelRenderSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAQAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\ModelRenderSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Game_Engine.Systems.PhysicsSystem" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAAAAAAAAAAAAAAAAAUCAAAAAAABAAAA=</HashCode>
+      <FileName>Systems\PhysicsSystem.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Game_Engine.Systems.IDrawableSystem" Collapsed="true">
+    <Position X="33.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\IDrawableSystem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Game_Engine.Systems.IUpdateableSystem" Collapsed="true">
+    <Position X="36" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Systems\IUpdateableSystem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
