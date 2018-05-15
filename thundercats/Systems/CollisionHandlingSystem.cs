@@ -90,7 +90,6 @@ namespace thundercats.Systems
             float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
             //float diffY = sourceCollisionComponent.Center.Y - targetCollisionComponent.Center.Y;
 
-
             //if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             //{
             //    CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
