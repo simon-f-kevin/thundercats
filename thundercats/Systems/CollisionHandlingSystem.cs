@@ -90,7 +90,6 @@ namespace thundercats.Systems
             float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
             //float diffY = sourceCollisionComponent.Center.Y - targetCollisionComponent.Center.Y;
 
-
             //if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             //{
             //    CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
@@ -101,13 +100,11 @@ namespace thundercats.Systems
             //}
             if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             {
-                CollisionActions.AccelerateColliderDownwards(sourceEntity);
+                CollisionActions.HandleCollisionFromBelow(sourceEntity);
             }
             else
             {
-                //sourceGravityComponent.IsFalling = false;
-                CollisionActions.AccelerateColliderUpwards(sourceEntity);
-               //S sourceTransformComponent.Position.Y += 0.6f;
+                CollisionActions.HandleCollisionFromAbove(sourceEntity);
             }
             //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             //{

@@ -68,7 +68,11 @@ namespace thundercats.Systems
                 }
                 if (state.IsKeyDown(Keys.Space))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent);
+                    if (!gravityComponent.Airborn)
+                    {
+                        PlayerActions.PlayerJumpSpeed(velocityComponent, gravityComponent);
+                        gravityComponent.Airborn = true;
+                    }
                    
                 }
             }

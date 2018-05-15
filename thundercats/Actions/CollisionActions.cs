@@ -17,8 +17,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.Z += 0.25f;
-                velocityComponent.Velocity.Z += (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
+                velocityComponent.Velocity.Z += 0f;
+                //velocityComponent.Velocity.Z += (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
             }
         }
 
@@ -28,7 +28,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Z -= (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
+                //velocityComponent.Velocity.Z -= (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
+                velocityComponent.Velocity.Z = 0f;
             }
         }
 
@@ -38,8 +39,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.X += 0.25f;
-                velocityComponent.Velocity.X += (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
+                velocityComponent.Velocity.X = 0f;
+                //velocityComponent.Velocity.X += (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
             }
         }
 
@@ -49,33 +50,34 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.X -= 0.25f;
-                velocityComponent.Velocity.X -= (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
+                velocityComponent.Velocity.X = 0f;
+                //velocityComponent.Velocity.X -= (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
             }
         }
 
-        public static void AccelerateColliderUpwards(Entity entity)
+        public static void HandleCollisionFromAbove(Entity entity)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
-            GravityComponent gravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(entity);
-            TransformComponent transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(entity);
+            GravityComponent gravity = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(entity);
 
             if(velocityComponent != null)
             {
             if(velocityComponent.Velocity.Y < 0)
                 // if we collide with an acceleration downwards then we want a counter force up.
                 velocityComponent.Velocity.Y += Math.Abs(velocityComponent.Velocity.Y);
-
+                gravity.Airborn = false;
             } 
+            
         }
 
-        public static void AccelerateColliderDownwards(Entity entity)
+        public static void HandleCollisionFromBelow(Entity entity)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
 
             if(velocityComponent != null)
             {
                 //velocityComponent.Velocity.Y -= 0.1f; //Disabled until smoother adjustment is implemented
+                velocityComponent.Velocity.Y = 0f;
             }
         }
     }
