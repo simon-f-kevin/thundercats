@@ -122,8 +122,7 @@ namespace thundercats
                 Exit();
 
             gameManager.Update(gameTime);
-            //update the AiStateManager 
-         //   aiStateManager.Update(gameTime);
+
 
             // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.D1))

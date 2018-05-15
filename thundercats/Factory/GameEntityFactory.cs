@@ -27,7 +27,8 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            CollisionComponent collisionComponent = /*new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model));*/new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            //new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model)); 
             PlayerComponent playerComponent = new PlayerComponent(player);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
@@ -58,11 +59,13 @@ namespace thundercats
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
             CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
+            //new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model));
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
+            GravityComponent gravityComponent = new GravityComponent(player);
             AiComponent aiComponent = new AiComponent(player);
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
@@ -71,11 +74,17 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, aiComponent);
 
             //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
-            //TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
+            //TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
+
+            TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }

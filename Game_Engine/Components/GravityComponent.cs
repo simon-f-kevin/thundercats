@@ -11,7 +11,7 @@ namespace Game_Engine.Components
     
     public class GravityComponent : Component
     {
-        public bool Airborn { get; set; } = true;
+        public bool HasJumped { get; set; } = true;
         public int MaxJump { get; set; }
         public int MinJump { get; set; }
 

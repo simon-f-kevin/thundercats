@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
+using Game_Engine.Helpers;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -59,7 +60,7 @@ namespace Game_Engine.Systems
                 {
                     foreach (BasicEffect effect in modelMesh.Effects)
                     {
-                        effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
+                        effect.World = EngineHelper.Instance().WorldMatrix * model.BoneTransformations[modelMesh.ParentBone.Index];
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();

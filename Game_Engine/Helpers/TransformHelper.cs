@@ -86,7 +86,7 @@ namespace Game_Engine.Helpers
         */
         public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
         {
-            modelComponent.World = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            EngineHelper.Instance().WorldMatrix *= Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
         }
 
         /*
@@ -110,6 +110,7 @@ namespace Game_Engine.Helpers
             var lengthY = (boundingBox.Max.Y - boundingBox.Min.Y) / 2;
             var lengthZ = (boundingBox.Max.Z - boundingBox.Min.Z) / 2;
 
+            
             var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
             var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
             collisionComponent.BoundingShape = new BoundingBox(min, max);

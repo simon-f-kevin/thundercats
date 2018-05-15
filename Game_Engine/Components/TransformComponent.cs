@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Entities;
+using Game_Engine.Helpers;
 using Microsoft.Xna.Framework;
 
 namespace Game_Engine.Components
@@ -17,6 +18,7 @@ namespace Game_Engine.Components
         public TransformComponent(Entity id, Vector3 pos) : base(id)
         {
             Position = pos;
+            EngineHelper.Instance().WorldMatrix = Matrix.CreateTranslation(Position);
         }
     }
 }

@@ -65,7 +65,7 @@ namespace thundercats.Actions
             if(velocityComponent.Velocity.Y < 0)
                 // if we collide with an acceleration downwards then we want a counter force up.
                 velocityComponent.Velocity.Y += Math.Abs(velocityComponent.Velocity.Y);
-                gravity.Airborn = false;
+                gravity.HasJumped = false;
             } 
             
         }
