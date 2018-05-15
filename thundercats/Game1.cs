@@ -1,4 +1,5 @@
-﻿using Game_Engine.Components;
+﻿using System;
+using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Game_Engine.Systems;
@@ -6,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
 
@@ -52,10 +54,9 @@ namespace thundercats
             //thread1 = new ThreadStart();
             //thread2 = Thread.CurrentThread;
            
-
+       
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
-         //   physicsSystem = new PhysicsSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
@@ -89,7 +90,18 @@ namespace thundercats
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
 
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Chatwheel_disastah", "disaster");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/rage-quit", "quit");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Platformer2", "playMusic1");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
 
+
+            //AudioManager.Instance.AddNewAudio("disaster", Content.Load<Song>(@"Sounds\Chatwheel_disastah"));
+            //AudioManager.Instance.AddNewAudio("quit", Content.Load<Song>(@"Sounds\rage-quit"));
+            //AudioManager.Instance.AddNewAudio("playMusic1", Content.Load<Song>(@"Sounds\Platformer2"));
+            //AudioManager.Instance.AddNewAudio("playMusic2", Content.Load<Song>(@"Sounds\Synthwave-Fun"));
+            //AudioManager.Instance.AddNewAudio("lounge", Content.Load<Song>(@"Sounds\Lounge Game2"));
 
             gameManager = new GameManager(this);
 
