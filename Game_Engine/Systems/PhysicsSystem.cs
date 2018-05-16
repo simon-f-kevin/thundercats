@@ -40,13 +40,15 @@ namespace Game_Engine.Systems
             {
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
+                CollisionComponent collisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(velocityComponentPair.Key);
 
                 transformationComponent.Position += velocityComponent.Velocity;
-                Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
                 Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(transformationComponent.Position);
                 TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);
+
+                collisionComponent.UpdateShape(transformationComponent.Position);
+
                 Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
-                Console.WriteLine("transform Velocity" + velocityComponent.Velocity.ToString());
                 //UpdateFriction(velocityComponentPair.Key);
             });
         }
