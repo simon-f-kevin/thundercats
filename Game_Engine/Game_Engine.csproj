@@ -82,6 +82,7 @@
     <Compile Include="Systems\IDrawableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
+    <Compile Include="Systems\UIRenderSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram2.cd" />
