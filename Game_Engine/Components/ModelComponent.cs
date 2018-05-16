@@ -14,6 +14,7 @@ namespace Game_Engine.Components
             Model = model;
             BoneTransformations = new Matrix[Model.Bones.Count];
             World = this.Model.Bones[0].Transform;
+            
         }
     }
 }

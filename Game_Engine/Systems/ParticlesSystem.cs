@@ -17,15 +17,8 @@ namespace Game_Engine.Systems
         public GraphicsDevice device { get; set; }
         public void Draw(GameTime gameTime)
         {
-            var billboardComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();
-
-            foreach (var billboardComponent in billboardComponents)
-            {
-                var particle = billboardComponent.Value as ParticleComponent;
-
-
-
-            }
+            DrawParticles();
+            ManipulateParticlePosition(gameTime);
         }
 
         public void DrawParticles()
@@ -37,25 +30,25 @@ namespace Game_Engine.Systems
                 var particle = particleComponent.Value as ParticleComponent;
                 var transform = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponent.Key);
 
-                particle.Vertices = new VertexPositionColor[6];
-
-                
+                particle.vertices = new PositionTexcoordVertex[4*particle.NumOfParticles];
+    
                 var vertexPos1 = new Vector3(-0.26286500f, 0.0000000f, 0.42532500f);
                 var vertexPos2 = new Vector3(-0.26286500f, 0.0000000f, -0.42532500f);
                 var vertexPos3 = new Vector3(-0.26286500f, 0.0000000f, -0.42532500f);
 
                 //Sets up the vertex buffer
-                particle.VertexBuffer = new VertexBuffer(device, typeof(VertexPositionColor), 4*particle.NumOfParticles, BufferUsage.WriteOnly);
-                
+                particle.VertexBuffer = new VertexBuffer(device, typeof(PositionTexcoordVertex), 4*particle.NumOfParticles, BufferUsage.WriteOnly);
 
+                
                 for (int i = 0; i < particle.NumOfParticles; i++)
                 {
-                    // Set Particle Color 
-                    particle.Vertices[4*i+0] = new VertexPositionColor(vertexPos1, Color.Yellow);
-                    particle.Vertices[4*i+1] = new VertexPositionColor(vertexPos2, Color.Orange);
-                    particle.Vertices[4*i+2] = new VertexPositionColor(vertexPos3, Color.Red);
+                    
+                    particle.vertices[4 * i + 0] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(0,0));
+                    particle.vertices[4 * i + 1] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(0,1));
+                    particle.vertices[4 * i + 2] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(1,1));
+                    particle.vertices[4 * i + 3] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(1,0));
                 }
-                particle.VertexBuffer.SetData(particle.Vertices);
+                particle.VertexBuffer.SetData(particle.vertices);
 
                 particle.Indices = new ushort[6 * particle.NumOfParticles];
 
@@ -73,9 +66,76 @@ namespace Game_Engine.Systems
 
                 modelManager.GraphicsDevice.SetVertexBuffer(particle.VertexBuffer);
                 modelManager.GraphicsDevice.Indices = particle.IndexBuffer;
+
+                // Particle.fx filen innehåller en viss information som måste matchas med vår PositionTexcoordVertex struct.
+                //Görs via Effect Objektet exempel nedan.
+                
+                //particle.Effect.Parameters[" WorldViewProjection"].SetValue();
+               
+        
+
+                particle.Effect.CurrentTechnique = particle.Effect.Techniques["TransformAndTexture"];
+
+                modelManager.GraphicsDevice.Indices = particle.IndexBuffer;
+               // modelManager.GraphicsDevice.VertexDeclaration = particle.vertices[].VertexDeclaration;
+
                 modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
+            }
+
+        }
+        /
+        public void ManipulateParticlePosition(GameTime gameTime)
+        {
+            var particleComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();
+
+            foreach (var particleComponent in particleComponents)
+            {
+                var particle = particleComponent.Value as ParticleComponent;
+                var camera = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponent.Key);
+                var transform = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponent.Key);
+                var velocity = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(particleComponent.Key);
+
+                var elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
+
+                // Set a randomdirection for every particle
+                var randomDirection = new Vector3(0, 0, 0);
+                var randomValue = new Random();
+                randomDirection.X = RandomFloat(randomValue);
+                randomDirection.Y = RandomFloat(randomValue);
+                randomDirection.Z = RandomFloat(randomValue);
+
+                particle.ParticlePosition = transform.Position;
+                
+                // Particle Size
+                particle.ParticleHeight = 0.1f;
+                particle.ParticleWidth = 0.1f;
+
+                for (int i = 0; i < particle.NumOfParticles; i++)
+                {
+                    // StartPosition
+                    particle.ParticlePosition = transform.Position;
+                    // Hur länge partikeln har varit vid liv.
+                    particle.Age = elapsedTime;
+                    // hur länge den ska vara vid liv
+                    particle.LifeTime = 2f;
+
+                    while (particle.Age < particle.LifeTime)
+                    {
+                        particle.ParticlePosition += randomDirection;
+                    }
+                }
             }
         }
 
+       public void PixelShader()
+        {
+            
+        }
+        private float RandomFloat(Random random)
+        {
+            double val = random.NextDouble(); 
+            
+            return  (float)val;
+        }
     }
 }

@@ -97,7 +97,7 @@ namespace thundercats
             PhysicsSystem.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
         }
 
-
+      
         private static BoundingBox CreateBoundingBox(Model model)
         {
             Matrix[] boneTransforms = new Matrix[model.Bones.Count];

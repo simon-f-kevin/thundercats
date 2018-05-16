@@ -28,6 +28,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 new Vector3(0, 0, -50), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             GameEntityFactory.TestCollisionEntity("Models/Blob", new Vector3(0, viewport.Height * 0.45f, 120));
+            
             InitWorld();
         }
        
