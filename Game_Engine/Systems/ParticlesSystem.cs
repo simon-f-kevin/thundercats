@@ -72,14 +72,19 @@ namespace Game_Engine.Systems
                 
                 //particle.Effect.Parameters[" WorldViewProjection"].SetValue();
                
-        
-
                 particle.Effect.CurrentTechnique = particle.Effect.Techniques["TransformAndTexture"];
 
                 modelManager.GraphicsDevice.Indices = particle.IndexBuffer;
-               // modelManager.GraphicsDevice.VertexDeclaration = particle.vertices[].VertexDeclaration;
+                // modelManager.GraphicsDevice.VertexDeclaration = particle.vertices[].VertexDeclaration;
 
-                modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
+                foreach (EffectPass pass in particle.Effect.CurrentTechnique.Passes)
+                {
+
+                    modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
+                    
+
+                    pass.Apply();
+                }           
             }
 
         }
