@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ParticlesComponent.cs" />
+    <Compile Include="Components\ParticleComponent.cs" />
     <Compile Include="Components\BlockComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BoundingSphereComponent.cs" />

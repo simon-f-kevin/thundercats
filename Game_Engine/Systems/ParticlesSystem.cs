@@ -15,13 +15,14 @@ namespace Game_Engine.Systems
     {
         public GraphicsDeviceManager modelManager { get; set; }
         public GraphicsDevice device { get; set; }
+
         public void Draw(GameTime gameTime)
         {
             DrawParticles();
             ManipulateParticlePosition(gameTime);
         }
 
-        public void DrawParticles()
+        private void DrawParticles()
         {
             var particleComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();
 
@@ -80,7 +81,8 @@ namespace Game_Engine.Systems
                 foreach (EffectPass pass in particle.Effect.CurrentTechnique.Passes)
                 {
 
-                    modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
+                    //modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
+                    modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, particle.NumOfParticles);
                     
 
                     pass.Apply();
@@ -88,7 +90,7 @@ namespace Game_Engine.Systems
             }
 
         }
-        /
+        
         public void ManipulateParticlePosition(GameTime gameTime)
         {
             var particleComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();
