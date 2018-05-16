@@ -43,7 +43,7 @@ namespace thundercats.GameStates.States.MenuStates
         private void MainMenuDisplay(SpriteBatch sb)    
         {
             String txtMultiplayer = "Multiplayer";
-            String txtSingleplayer = "Singelplayer";
+            String txtSingleplayer = "Singleplayer";
             String txtExit = "Quit";
 
             SpriteFont font = AssetManager.Instance.GetContent<SpriteFont>("menu");
