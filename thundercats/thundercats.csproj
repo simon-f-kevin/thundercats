@@ -79,7 +79,6 @@
     <Compile Include="Systems\NetworkHandlingSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\SurfaceSystem.cs" />
-    <Compile Include="Systems\UIRenderSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
