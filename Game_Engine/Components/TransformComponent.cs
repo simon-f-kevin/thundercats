@@ -18,7 +18,6 @@ namespace Game_Engine.Components
         public TransformComponent(Entity id, Vector3 pos) : base(id)
         {
             Position = pos;
-            EngineHelper.Instance().WorldMatrix = Matrix.CreateTranslation(Position);
         }
     }
 }

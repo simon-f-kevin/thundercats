@@ -42,10 +42,14 @@ namespace Game_Engine.Systems
         private void FollowPlayer(Entity entity)
         {
             ModelComponent modelComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<ModelComponent>(entity);
-            
-            cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Forward * 30f) + (modelComponent.World.Up * 40f);
+            TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(entity);
+            //cameraComponent.Position = new Vector3(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z) + new Vector3(0, 10, -50);
+            //cameraComponent.Target = new Vector3(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+
+            cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Forward * 20f) + (modelComponent.World.Up * 20f);
             cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Backward * 20f);
-            //Console.WriteLine(cameraComponent.Position.ToString()); //For debugging
+            Console.WriteLine("Position: " + cameraComponent.Position.ToString()); //For debugging
+            Console.WriteLine("Target: " + cameraComponent.Target.ToString()); //For debugging
 
             cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
 

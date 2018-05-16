@@ -41,11 +41,13 @@ namespace Game_Engine.Systems
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
 
-                Matrix translation = Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z)
-                        * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(velocityComponent.Velocity.X, velocityComponent.Velocity.Y, velocityComponent.Velocity.Z);
-
+                transformationComponent.Position += velocityComponent.Velocity;
+                Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
+                Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(transformationComponent.Position);
                 TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);
-                UpdateFriction(velocityComponentPair.Key);
+                Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
+                Console.WriteLine("transform Velocity" + velocityComponent.Velocity.ToString());
+                //UpdateFriction(velocityComponentPair.Key);
             });
         }
 

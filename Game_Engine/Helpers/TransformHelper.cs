@@ -40,7 +40,7 @@ namespace Game_Engine.Helpers
 
                 if(modelComponent != null)
                 {
-                    modelComponent.World *= translation;
+                    modelComponent.World = translation;
                 }
                 TransformBoundingShapes(entity, translation, threadSafety);
             }
@@ -86,7 +86,7 @@ namespace Game_Engine.Helpers
         */
         public static void SetInitialModelPos(ModelComponent modelComponent, TransformComponent transformComponent)
         {
-            EngineHelper.Instance().WorldMatrix *= Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            modelComponent.World = EngineHelper.Instance().WorldMatrix * Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
         }
 
         /*
@@ -94,7 +94,7 @@ namespace Game_Engine.Helpers
          */
         public static void SetInitialBoundingSpherePos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
-            Matrix translation = Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
+            Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
             var boundingSphere = collisionComponent.BoundingShape;
             boundingSphere = collisionComponent.BoundingShape.Transform(translation);
             collisionComponent.BoundingShape = boundingSphere;
