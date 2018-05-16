@@ -8,7 +8,7 @@ namespace Game_Engine.Components
     public class ParticleComponent : Component
     {
        // public VertexPositionColor[] Vertices { get; set; }
-        public PositionTexcoordVertex[] vertices { get; set; }
+        public PositionTexcoordVertex[] Vertices { get; set; }
         //public VertexPositionTexture[] verticess { get; set; }
         public Effect Effect { get; set; }
         public IndexBuffer IndexBuffer { get; set; }
@@ -22,10 +22,6 @@ namespace Game_Engine.Components
         public Vector3 ParticlePosition { get; set; }
         public float LifeTime { get; set; }
         public float Age { get; set; }
-        
-        
-
-
 
         public ParticleComponent(Entity id, Texture texture) : base(id)
         {
