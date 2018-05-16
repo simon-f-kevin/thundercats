@@ -16,7 +16,7 @@ namespace thundercats.GameStates.States.MenuStates
         {
             StartServer,
             StartClient,
-            Exit
+            Back
         }
 
         public MultiplayerMainMenu(GameManager gameManager)
@@ -51,8 +51,8 @@ namespace thundercats.GameStates.States.MenuStates
                 case OptionsState.StartClient:
                     controls.ContinueButton(GameManager.GameState.MultiplayerConnectServer);
                     break;
-                case OptionsState.Exit:
-                    controls.ContinueButton(GameManager.GameState.Quit);
+                case OptionsState.Back:
+                    controls.ContinueButton(GameManager.GameState.MainMenu);
                     break;
             }
             //controls.GoBackButton();
@@ -63,7 +63,7 @@ namespace thundercats.GameStates.States.MenuStates
         {
             string txtStartServer = "Start a new server";
             string txtConnectToServer = "Connect to a server";
-            string txtExit = "Quit";
+            string txtBack = "Back";
 
             SpriteFont font = AssetManager.Instance.GetContent<SpriteFont>("menu");
 
@@ -71,12 +71,12 @@ namespace thundercats.GameStates.States.MenuStates
 
             Vector2 positionStartServer = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtStartServer).X * 0.5f), viewport.Height * 0.55f);
             Vector2 positionConnectServer = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtConnectToServer).X * 0.5f), viewport.Height * 0.65f);
-            Vector2 positionExit = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtExit).X * 0.5f), viewport.Height * 0.75f);
+            Vector2 positionExit = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtBack).X * 0.5f), viewport.Height * 0.75f);
 
             spriteBatch.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/bg-menu"), viewport.Bounds, Color.White);
             spriteBatch.DrawString(font, txtStartServer, positionStartServer, Color.White);
             spriteBatch.DrawString(font, txtConnectToServer, positionConnectServer, Color.White);
-            spriteBatch.DrawString(font, txtExit, positionExit, Color.White);
+            spriteBatch.DrawString(font, txtBack, positionExit, Color.White);
 
             switch (currentPosition)
             {
@@ -86,8 +86,8 @@ namespace thundercats.GameStates.States.MenuStates
                 case OptionsState.StartClient:
                     spriteBatch.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionConnectServer.Y - (font.MeasureString(txtConnectToServer).Y * 0.5f)), Color.White);
                     break;
-                case OptionsState.Exit:
-                    spriteBatch.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionExit.Y - (font.MeasureString(txtExit).Y * 0.5f)), Color.White);
+                case OptionsState.Back:
+                    spriteBatch.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionExit.Y - (font.MeasureString(txtBack).Y * 0.5f)), Color.White);
                     break;
             }
         }

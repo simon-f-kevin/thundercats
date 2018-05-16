@@ -28,7 +28,7 @@ namespace thundercats.GameStates.States.MenuStates
             FindServer,
             ConnectedTo,
             Play,
-            Exit
+            Back
         }
 
         public MultiplayerConnectMenu(GameManager gameManager)
@@ -72,8 +72,8 @@ namespace thundercats.GameStates.States.MenuStates
                 case OptionsState.Play:
                     controls.ContinueButton(GameManager.GameState.MultiplayerPlaying);
                     break;
-                case OptionsState.Exit:
-                    controls.ContinueButton(GameManager.GameState.Quit);
+                case OptionsState.Back:
+                    controls.ContinueButton(GameManager.GameState.MainMenu);
                     break;
             }
         }
@@ -91,7 +91,7 @@ namespace thundercats.GameStates.States.MenuStates
             string txtFindServer = "Find a server in the LAN";
             string txtServerName = serverName;
             string txtStartGame = "Play Multiplayer";
-            string txtExit = "Quit";
+            string txtBack = "Back";
 
             SpriteFont font = AssetManager.Instance.GetContent<SpriteFont>("menu");
 
@@ -100,13 +100,13 @@ namespace thundercats.GameStates.States.MenuStates
             Vector2 positionFindServer = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtFindServer).X * 0.5f), viewport.Height * 0.55f);
             Vector2 positionServername = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtServerName).X * 0.5f), viewport.Height * 0.65f);
             Vector2 positionStartGame = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtStartGame).X * 0.5f), viewport.Height * 0.75f);
-            Vector2 positionExit = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtExit).X * 0.5f), viewport.Height * 0.85f);
+            Vector2 positionExit = new Vector2(viewport.TitleSafeArea.Center.X - (font.MeasureString(txtBack).X * 0.5f), viewport.Height * 0.85f);
 
             spriteBatch.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/bg-menu"), viewport.Bounds, Color.White);
             spriteBatch.DrawString(font, txtFindServer, positionFindServer, Color.White);
             spriteBatch.DrawString(font, txtServerName, positionServername, Color.White);
             spriteBatch.DrawString(font, txtStartGame, positionStartGame, Color.White);
-            spriteBatch.DrawString(font, txtExit, positionExit, Color.White);
+            spriteBatch.DrawString(font, txtBack, positionExit, Color.White);
 
             switch (currentPosition)
             {
@@ -119,8 +119,8 @@ namespace thundercats.GameStates.States.MenuStates
                 case OptionsState.Play:
                     spriteBatch.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionStartGame.Y - (font.MeasureString(txtServerName).Y * 0.5f)), Color.White);
                     break;
-                case OptionsState.Exit:
-                    spriteBatch.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionExit.Y - (font.MeasureString(txtExit).Y * 0.5f)), Color.White);
+                case OptionsState.Back:
+                    spriteBatch.Draw(arrow, new Vector2(viewport.TitleSafeArea.Center.X - (arrow.Width * 0.5f), positionExit.Y - (font.MeasureString(txtBack).Y * 0.5f)), Color.White);
                     break;
             }
         }
