@@ -1,4 +1,5 @@
-﻿using Game_Engine.Components;
+﻿using System;
+using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Game_Engine.Systems;
@@ -6,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
 
@@ -27,8 +29,8 @@ namespace thundercats
         CameraSystem cameraSystem;
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
+        AiSystem aiSystem;
         ParticleSystem particleSystem; 
-
 
         public Game1()
         {
@@ -57,7 +59,6 @@ namespace thundercats
 
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
-            physicsSystem = new PhysicsSystem();
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
             physicsSystem = new PhysicsSystem();
@@ -67,12 +68,15 @@ namespace thundercats
 
             //SystemManager.Instance.AddToDrawables(uiSystem);
             SystemManager.Instance.AddToDrawables(particleSystem);
+            aiSystem = new AiSystem();
+
             SystemManager.Instance.AddToUpdateables(cameraSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(playerInputSystem);
             SystemManager.Instance.AddToUpdateables(physicsSystem);
             SystemManager.Instance.AddToUpdateables(collisionHandlingSystem);
+            SystemManager.Instance.AddToUpdateables(aiSystem);
 
             base.Initialize();
         }
@@ -87,11 +91,17 @@ namespace thundercats
             spriteBatch = new SpriteBatch(GraphicsDevice);
             uiSystem.Initialize(spriteBatch, this);
             AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
-            AssetManager.Instance.AddContent<Model>(Content,"Models/Block");
+            AssetManager.Instance.AddContent<Model>(Content,"Models/block2");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
+            //sounds
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Chatwheel_disastah", "disaster");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/rage-quit", "quit");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Platformer2", "playMusic1");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
+            AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
             AssetManager.Instance.AddContent<Effect>(Content, "Particles");
 
             gameManager = new GameManager(this);
@@ -120,6 +130,8 @@ namespace thundercats
                 Exit();
 
             gameManager.Update(gameTime);
+
+
             // TODO: Add your update logic here
             if (Keyboard.GetState().IsKeyDown(Keys.D1))
             {

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using thundercats.Actions;
+using thundercats.Components;
 
 namespace thundercats.Systems
 {
@@ -23,12 +24,12 @@ namespace thundercats.Systems
         {
             ConcurrentDictionary<Entity, Component> playerComponents = componentManager.GetConcurrentDictionary<PlayerComponent>();
 
-
-            foreach(Entity playerEntity in playerComponents.Keys)
+            foreach (Entity playerEntity in playerComponents.Keys)
             {
                 ParsePlayerInput(gameTime, playerEntity);
             }
         }
+
 
         /*
          * Gets player keyboard input and takes appropriate action.
@@ -38,36 +39,42 @@ namespace thundercats.Systems
             VelocityComponent velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(playerEntity);
             KeyboardComponent keyboardComponent = componentManager.ConcurrentGetComponentOfEntity<KeyboardComponent>(playerEntity);
             GamePadComponent gamePadComponent = componentManager.ConcurrentGetComponentOfEntity<GamePadComponent>(playerEntity);
-            
+            GravityComponent gravityComponent = componentManager.ConcurrentGetComponentOfEntity<GravityComponent>(playerEntity);
 
             /* Keyboard actions */
-            if(keyboardComponent != null && velocityComponent != null)
+            if (keyboardComponent != null && velocityComponent != null)
             {
                 KeyboardState state = Keyboard.GetState();
 
-                if(state.IsKeyDown(Keys.Up) && !state.IsKeyDown(Keys.Down))
+                if (state.IsKeyDown(Keys.Up) && !state.IsKeyDown(Keys.Down))
                 {
                     PlayerActions.AcceleratePlayerForwards(velocityComponent);
+                    
                 }
-                if(state.IsKeyDown(Keys.Down) && !state.IsKeyDown(Keys.Up))
+                if (state.IsKeyDown(Keys.Down) && !state.IsKeyDown(Keys.Up))
                 {
                     PlayerActions.AcceleratePlayerBackwards(velocityComponent);
                 }
 
-                if(state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
+                if (state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    
                 }
-                if(state.IsKeyDown(Keys.Right) && !state.IsKeyDown(Keys.Left))
+                if (state.IsKeyDown(Keys.Right) && !state.IsKeyDown(Keys.Left))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    
                 }
-
                 if (state.IsKeyDown(Keys.Space))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent);
+                    if (!gravityComponent.HasJumped)
+                    {
+                        PlayerActions.PlayerJumpSpeed(velocityComponent, gravityComponent);
+                        gravityComponent.HasJumped = true;
+                    }
+                   
                 }
-
             }
 
             /* Gamepad actions */
@@ -75,27 +82,25 @@ namespace thundercats.Systems
             {
                 GamePadState state = GamePad.GetState(gamePadComponent.Index);
 
-                if(state.IsButtonDown(Buttons.A) && !state.IsButtonDown(Buttons.B))
+                if (state.IsButtonDown(Buttons.A) && !state.IsButtonDown(Buttons.B))
                 {
                     PlayerActions.AcceleratePlayerForwards(velocityComponent);
                 }
-                if(state.IsButtonDown(Buttons.B) && !state.IsButtonDown(Buttons.A))
+                if (state.IsButtonDown(Buttons.B) && !state.IsButtonDown(Buttons.A))
                 {
                     PlayerActions.AcceleratePlayerBackwards(velocityComponent);
                 }
-
-                if(state.IsButtonDown(Buttons.LeftThumbstickLeft) && !state.IsButtonDown(Buttons.LeftThumbstickRight))
+                if (state.IsButtonDown(Buttons.LeftThumbstickLeft) && !state.IsButtonDown(Buttons.LeftThumbstickRight))
                 {
                     PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
                 }
-                if(state.IsButtonDown(Buttons.LeftThumbstickRight) && !state.IsButtonDown(Buttons.LeftThumbstickLeft))
+                if (state.IsButtonDown(Buttons.LeftThumbstickRight) && !state.IsButtonDown(Buttons.LeftThumbstickLeft))
                 {
                     PlayerActions.AcceleratePlayerRightwards(velocityComponent);
                 }
-
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent);
+                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent); 
                 }
             }
         }

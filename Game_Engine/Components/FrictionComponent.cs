@@ -10,9 +10,11 @@ namespace Game_Engine.Components
  
     public class FrictionComponent : Component
     {
-        public float Friction { get; set; } = 0;
+        public float Friction { get; set; }
+
         public FrictionComponent(Entity id) : base(id)
         {
+            Friction = 0.9f;
         }
     }
 }

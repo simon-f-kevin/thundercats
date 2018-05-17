@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Components;
+using Game_Engine.Helpers;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using System;
@@ -16,7 +17,7 @@ namespace thundercats.Factory
     public class WorldGenerator
     {
         private string seed;
-        private int[,] world;
+        public int[,] World { get; private set; }
 
         public WorldGenerator(string seed)
         {
@@ -25,11 +26,11 @@ namespace thundercats.Factory
 
         internal int[,] GenerateWorld(int nLanes, int nRows)
         {
-            world = new int[nLanes, nRows];
+            World = new int[nLanes, nRows];
 
-            PopulateWorld(world);
+            PopulateWorld(World);
 
-            return world;
+            return World;
         }
 
         private void PopulateWorld(int[,] world)

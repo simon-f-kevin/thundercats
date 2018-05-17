@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game_Engine.Components
 {
@@ -26,13 +23,15 @@ namespace Game_Engine.Components
                 }
             }
         }
+        public abstract List<BoundingBox> Children { get; set; }
 
         public abstract Vector3 Center { get; }
 
         public CollisionComponent(Entity id) : base(id)
         {
+            Children = new List<BoundingBox>();
         }
 
-
+        public abstract void UpdateShape(Vector3 position);
     }
 }
