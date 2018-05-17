@@ -52,7 +52,7 @@ namespace thundercats
             return player;
         }
         //Create AI Player
-        public static Entity NewAiPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        public static Entity NewAiPlayer(String model, Vector3 transformPos, Texture2D texture)
         {
             Entity player = EntityFactory.NewEntity(GameEntityFactory.AI_PLAYER);
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
@@ -62,7 +62,6 @@ namespace thundercats
             //new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model));
             PlayerComponent playerComponent = new PlayerComponent(player);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
-            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
@@ -75,7 +74,6 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, aiComponent);

@@ -18,11 +18,11 @@ namespace thundercats.GameStates.States.AiStates
     {
         public Winning() : base(new Random()){}
 
-        public void Update(GameTime gameTime, ref Point matrixPosition,Vector3 Position)
+        public void Update(GameTime gameTime, ref Point matrixPosition,Vector3 Position,VelocityComponent aiVelocity)
         {
             worldMatrix = GameService.Instance().GameWorld;
             worldEntityMatrix = GameService.Instance().EntityGameWorld;
-            matrixPosition = ExecuteState(matrixPosition, Position);
+            matrixPosition = ExecuteState(matrixPosition, Position,aiVelocity);
             Console.WriteLine($"player-Pos:{matrixPosition}");
         }
 

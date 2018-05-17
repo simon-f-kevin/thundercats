@@ -64,7 +64,7 @@ namespace thundercats.Actions
         /// Accelerates the player upward in a jumping motion until it reaches the maximum jumping speed
         /// </summary>
         /// <param name="velocityComponent"></param>
-        public static void PlayerJumpSpeed(VelocityComponent velocityComponent, GravityComponent gravity)
+        public static void PlayerJumpSpeed(VelocityComponent velocityComponent)
         {
                 if (velocityComponent.Velocity.Y < _playerJumpSpeed)
                 {

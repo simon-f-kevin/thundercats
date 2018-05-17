@@ -62,9 +62,10 @@ namespace thundercats.Systems
         {
             var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
             var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
+            var aiVelocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
             //Player values
             var pos = aiComponent.MatrixPosition;
-            aiStates[aiComponent.CurrentState].Update(gameTime, ref pos, aiTransformComponent.Position);
+            aiStates[aiComponent.CurrentState].Update(gameTime, ref pos, aiTransformComponent.Position, aiVelocityComponent);
             aiComponent.MatrixPosition = pos;
         }
 

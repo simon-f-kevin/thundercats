@@ -27,11 +27,11 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
+            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(23, 100, -5),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
 
-            GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(23, 100, -5),
+            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(0, 100, -5),
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
 
             InitWorld();

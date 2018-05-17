@@ -49,25 +49,32 @@ namespace thundercats.GameStates.States.AiStates
             return transform.Position;
         }
 
-        protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position)
+        protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent aiVelocity)
         {
             //Debug.WriteLine("currentBlock: " + currentBlock.ToString());
             //Debug.WriteLine("aiPos: " + position.ToString());
-            //var VelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
-            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
+            Debug.WriteLine("currentBlock Z: " + currentBlock.Z.ToString());
+            if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {
                 //jump left
                 //AiActions.MoveAiLeftwards();
-                //PlayerActions.AcceleratePlayerLeftWards(VelocityComponent);
-                //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+                Debug.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                PlayerActions.AcceleratePlayerForwards(aiVelocity);
+                PlayerActions.AcceleratePlayerLeftwards(aiVelocity);
+               
+               
+               // PlayerActions.PlayerJumpSpeed(aiVelocity);
                 MadeMove = true;
             }
-            if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
+            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
                 //    AiActions.MoveAiLeftwards();
                 //jump Right
-                //PlayerActions.AcceleratePlayerRightwards(VelocityComponent);
-                //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+                Debug.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                PlayerActions.AcceleratePlayerForwards(aiVelocity);
+                PlayerActions.AcceleratePlayerRightwards(aiVelocity);
+               
+                // PlayerActions.PlayerJumpSpeed(aiVelocity);
                 MadeMove = true;
             }
             else
@@ -77,9 +84,9 @@ namespace thundercats.GameStates.States.AiStates
                 MadeMove = true;
             }
         }
-        protected Point ExecuteState(Point matrixPosition, Vector3 position)
+        protected Point ExecuteState(Point matrixPosition, Vector3 position,VelocityComponent aiVelocity)
         {
-
+            
 
             var currentBlock = GetBlock(matrixPosition);
 
@@ -103,8 +110,11 @@ namespace thundercats.GameStates.States.AiStates
             var decision = ChooseBlock(nextMatrixRow, index);
             var destinationBlock = GetBlock(decision);
             // Execute the move to the next block
-            ExecuteMove(currentBlock, destinationBlock, position);
-
+            if (MadeMove)
+            {
+                ExecuteMove(currentBlock, destinationBlock, position, aiVelocity);
+                MadeMove = false;
+            }
             // We look to see if the player is in the same block in the "real" world as
             // in the matrix. if he is, we "wait" until the move is completed and return the same
             // position, or we make the move.
