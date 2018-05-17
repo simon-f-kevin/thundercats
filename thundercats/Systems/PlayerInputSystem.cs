@@ -48,32 +48,28 @@ namespace thundercats.Systems
 
                 if (state.IsKeyDown(Keys.Up) && !state.IsKeyDown(Keys.Down))
                 {
-                    PlayerActions.AcceleratePlayerForwards(velocityComponent);
-                    
+                    PlayerActions.AcceleratePlayerForwards(gameTime, velocityComponent);
                 }
                 if (state.IsKeyDown(Keys.Down) && !state.IsKeyDown(Keys.Up))
                 {
-                    PlayerActions.AcceleratePlayerBackwards(velocityComponent);
+                    PlayerActions.AcceleratePlayerBackwards(gameTime, velocityComponent);
                 }
 
                 if (state.IsKeyDown(Keys.Left) && !state.IsKeyDown(Keys.Right))
                 {
-                    PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
-                    
+                    PlayerActions.AcceleratePlayerLeftwards(gameTime, velocityComponent);
                 }
                 if (state.IsKeyDown(Keys.Right) && !state.IsKeyDown(Keys.Left))
                 {
-                    PlayerActions.AcceleratePlayerRightwards(velocityComponent);
-                    
+                    PlayerActions.AcceleratePlayerRightwards(gameTime, velocityComponent);
                 }
                 if (state.IsKeyDown(Keys.Space))
                 {
                     if (!gravityComponent.HasJumped)
                     {
-                        PlayerActions.PlayerJumpSpeed(velocityComponent, gravityComponent);
+                        PlayerActions.PlayerJumpSpeed(gameTime, velocityComponent);
                         gravityComponent.HasJumped = true;
                     }
-                   
                 }
             }
 
@@ -84,23 +80,27 @@ namespace thundercats.Systems
 
                 if (state.IsButtonDown(Buttons.A) && !state.IsButtonDown(Buttons.B))
                 {
-                    PlayerActions.AcceleratePlayerForwards(velocityComponent);
+                    PlayerActions.AcceleratePlayerForwards(gameTime, velocityComponent);
                 }
                 if (state.IsButtonDown(Buttons.B) && !state.IsButtonDown(Buttons.A))
                 {
-                    PlayerActions.AcceleratePlayerBackwards(velocityComponent);
+                    PlayerActions.AcceleratePlayerBackwards(gameTime, velocityComponent);
                 }
                 if (state.IsButtonDown(Buttons.LeftThumbstickLeft) && !state.IsButtonDown(Buttons.LeftThumbstickRight))
                 {
-                    PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
+                    PlayerActions.AcceleratePlayerLeftwards(gameTime, velocityComponent);
                 }
                 if (state.IsButtonDown(Buttons.LeftThumbstickRight) && !state.IsButtonDown(Buttons.LeftThumbstickLeft))
                 {
-                    PlayerActions.AcceleratePlayerRightwards(velocityComponent);
+                    PlayerActions.AcceleratePlayerRightwards(gameTime, velocityComponent);
                 }
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent); 
+                    if (!gravityComponent.HasJumped)
+                    {
+                        PlayerActions.PlayerJumpSpeed(gameTime, velocityComponent);
+                        gravityComponent.HasJumped = true;
+                    }
                 }
             }
         }

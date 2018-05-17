@@ -27,13 +27,13 @@ namespace thundercats.Systems
                 currentCollisionPair = collisionManager.RemoveCollisionPair();
                 if(currentCollisionPair != null)
                 {
-                    ResolveCollision(currentCollisionPair);
+                    ResolveCollision(gameTime, currentCollisionPair);
                 }
             }
         }
 
         /* Runs collision actions based on entity type of the source component pair. */
-        private void ResolveCollision(Tuple<Entity, Entity> collisionPair)
+        private void ResolveCollision(GameTime gameTime, Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -41,7 +41,7 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case GameEntityFactory.REMOTE_PLAYER:
-                    PlayerCollision(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
                     PlayerCollision(collisionPair);
@@ -54,7 +54,7 @@ namespace thundercats.Systems
             }       
 		}
 
-        private void PlayerCollision(Tuple<Entity, Entity> collisionPair)
+        private void PlayerCollision(GameTime gameTime, Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -80,22 +80,20 @@ namespace thundercats.Systems
          * Move the source entity away from the target which it has collided with.
          * TODO: Adjustment velocity is currently static and should be adjusted to be relative to how close the bounding volumes are at each axis.
          */
-        private void UpdateSourceCollider(Entity sourceEntity, Entity targetEntity)
+        private void UpdateSourceCollider(GameTime gameTime, Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
             GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
             TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
-            float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
-            float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
 
             //if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             //{
-            //    CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
+            //    CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
             //}
             //else
             //{
-            //    CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
+            //    CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
             //}
             if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             {
@@ -103,15 +101,15 @@ namespace thundercats.Systems
             }
             else
             {
-                CollisionActions.HandleCollisionFromAbove(sourceEntity);
+                CollisionActions.HandleCollisionFromAbove(gameTime, sourceEntity);
             }
             //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             //{
-            //    CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
+            //    CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
             //}
             //else
             //{
-            //    CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
+            //    CollisionActions.AccelerateColliderForwards(gameTime, sourceEntity);
             //}
         }
 
@@ -121,16 +119,14 @@ namespace thundercats.Systems
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
             GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
             TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
-            float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
-            float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
 
             if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             {
-                CollisionActions.AccelerateColliderRightwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderLeftwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
             }
             //if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             //{
@@ -142,11 +138,11 @@ namespace thundercats.Systems
             //}
             if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             {
-                CollisionActions.AccelerateColliderBackwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderForwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderForwards(gameTime, sourceEntity);
             }
         }
     }
