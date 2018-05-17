@@ -21,5 +21,11 @@ namespace Game_Engine.Components
         {
             get => ((BoundingBox)base.BoundingShape).Min + ((((BoundingBox)base.BoundingShape).Max - ((BoundingBox)base.BoundingShape).Min) / 2);
         }
+
+        public override void UpdateShape(Vector3 position)
+        {
+            Vector3 size = BoundingShape.Max - BoundingShape.Min;
+            BoundingShape = new BoundingBox(position - size / 2, position + size / 2);
+        }
     }
 }

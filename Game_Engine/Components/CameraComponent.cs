@@ -8,7 +8,6 @@ namespace Game_Engine.Components
         /*Properties*/
         public Vector3 Position { get; set; }
         public Vector3 Target { get; set; }
-        public Matrix WorldMatrix { get; set; }
         public Matrix ViewMatrix { get; set; }
         public Matrix ProjectionMatrix { get; set; }
         public float FieldOfView { get; set; }
@@ -16,7 +15,6 @@ namespace Game_Engine.Components
         public bool FollowPlayer { get; set; }
 		
         public CameraComponent(Entity id, Vector3 position, float aspectRatio, bool followPlayer) : base(id){
-            WorldMatrix = new Matrix();
             ViewMatrix = new Matrix();
             ProjectionMatrix = new Matrix();
             FieldOfView = MathHelper.PiOver2;

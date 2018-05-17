@@ -1,11 +1,12 @@
 ﻿using Game_Engine.Entities;
+using Game_Engine.Helpers;
 using Microsoft.Xna.Framework;
 
 namespace Game_Engine.Components
 {
     public class TransformComponent : Component
     {
-        public Vector3 Position { get; set; }
+        public Vector3 Position;
         public Vector3 Scale { get; set; }
         public Matrix RotationMatrix { get; set; }
 

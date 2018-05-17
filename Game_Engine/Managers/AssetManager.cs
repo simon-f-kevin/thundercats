@@ -43,6 +43,15 @@ namespace Game_Engine.Managers
             contentDictionary[typeof(T)].TryAdd(contentName, Content.Load<T>(contentName));
         }
 
+        public void AddContent<T>(ContentManager Content, String sourceName, String contentName)
+        {
+            if (!contentDictionary.ContainsKey(typeof(T)))
+            {
+                contentDictionary.TryAdd(typeof(T), new ConcurrentDictionary<string, object>());
+            }
+            contentDictionary[typeof(T)].TryAdd(contentName, Content.Load<T>(sourceName));
+        }
+
         public T GetContent<T>(String contentName) where T : class
         {
             return contentDictionary[typeof(T)][contentName] as T;

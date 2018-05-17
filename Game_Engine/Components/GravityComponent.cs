@@ -11,7 +11,7 @@ namespace Game_Engine.Components
     
     public class GravityComponent : Component
     {
-        public bool IsFalling { get; set; } = false;
+        public bool HasJumped { get; set; } = true;
         public int MaxJump { get; set; }
         public int MinJump { get; set; }
 
@@ -20,8 +20,8 @@ namespace Game_Engine.Components
         /// gravity constant for each entity that has this component. Good feature
         /// for a potential game mode.
         /// </summary>
-        public float Gravity { get; set; } = 9.82f;
-        public float Mass { get; internal set; }
+        public float GravityCoefficient { get; set; } = 9.82f;
+        public float Mass { get; internal set; } = 10f;
 
         public GravityComponent(Entity id) : base(id)
         {

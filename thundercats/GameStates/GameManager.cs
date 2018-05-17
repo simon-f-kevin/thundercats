@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Game_Engine.Managers.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -31,6 +32,8 @@ namespace thundercats.GameStates
             }
         }
 
+        protected internal NetworkConnectionManager NetworkConnectionManager { get; set; }
+
         // Game states
         public enum GameState
         {   
@@ -41,6 +44,9 @@ namespace thundercats.GameStates
             Credits,
             Paused,
             PlayingSinglePlayer,
+            MultiplayerPlaying,
+            MultiplayerStartServer,
+            MultiplayerConnectServer,
         };
 
         public GameManager(Game game)
@@ -50,10 +56,14 @@ namespace thundercats.GameStates
             gameStates = new Dictionary<GameState, IState>();
             gameStates.Add(GameState.MainMenu, new MainMenu(this));
             gameStates.Add(GameState.SinglePlayer, new SinglePlayer(this));
-            gameStates.Add(GameState.MultiPlayer, new MultiplayerMenu(this));
+            gameStates.Add(GameState.MultiPlayer, new MultiplayerMainMenu(this));
             gameStates.Add(GameState.Paused, new PausedMenu(this));
             gameStates.Add(GameState.Credits, new Credits(this));
-            gameStates.Add(GameState.PlayingSinglePlayer, new PlayingSinglePlayerState(this));
+            gameStates.Add(GameState.PlayingSinglePlayer, new PlayingLocalGame(this));
+            gameStates.Add(GameState.MultiplayerStartServer, new MultiplayerStartServerMenu(this));
+            gameStates.Add(GameState.MultiplayerConnectServer, new MultiplayerConnectMenu(this));
+            gameStates.Add(GameState.MultiplayerPlaying, new PlayingMultiplayerGame(this));
+            gameStates.Add(GameState.Quit, new QuitMenu(this));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)
