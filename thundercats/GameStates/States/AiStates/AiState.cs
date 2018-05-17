@@ -17,6 +17,7 @@ namespace thundercats.GameStates.States.AiStates
     public abstract class AiState
     {
         protected Random Random { get; private set; }
+        protected bool MadeMove { get; private set; }
         protected int[,] worldMatrix;
         protected Entity[,] worldEntityMatrix;
 
@@ -59,22 +60,28 @@ namespace thundercats.GameStates.States.AiStates
                 //AiActions.MoveAiLeftwards();
                 //PlayerActions.AcceleratePlayerLeftWards(VelocityComponent);
                 //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+                MadeMove = true;
             }
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
-            //    AiActions.MoveAiLeftwards();
+                //    AiActions.MoveAiLeftwards();
                 //jump Right
                 //PlayerActions.AcceleratePlayerRightwards(VelocityComponent);
                 //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+                MadeMove = true;
             }
             else
             {
                 //Continue run
                 //PlayerActions.AcceleratePlayerForwards(VelocityComponent);
+                MadeMove = true;
             }
         }
         protected Point ExecuteState(Point matrixPosition, Vector3 position)
         {
+
+
+            var currentBlock = GetBlock(matrixPosition);
 
             // We need the players current matrix row position to determine the next move
             // the ai should do in the real world:
@@ -86,13 +93,25 @@ namespace thundercats.GameStates.States.AiStates
 
             // Then we need the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:
-            var currentBlock = GetBlock(matrixPosition);
+            int index = 0;
+            if (matrixPosition.Y < worldMatrix.GetLength(1) - 1)
+                index = matrixPosition.Y + 1;
+            else
+                index = matrixPosition.Y;
+
             var decision = ChooseBlock(nextMatrixRow, matrixPosition.Y + 1);
             var destinationBlock = GetBlock(decision);
             // Execute the move to the next block
             ExecuteMove(currentBlock, destinationBlock, position);
 
-            return decision;
+            // We look to see if the player is in the same block in the "real" world as
+            // in the matrix. if he is, we "wait" until the move is completed and return the same
+            // position, or we make the move.
+            // TODO: Need to fix
+            if (currentBlock.Z + 50 <= position.Z)
+                return decision;
+            else
+                return matrixPosition;
         }
 
         public void WriteRow(int[] row)
