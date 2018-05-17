@@ -50,8 +50,8 @@ namespace thundercats.GameStates.States.AiStates
 
         protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position)
         {
-            Debug.WriteLine("currentBlock: " + currentBlock.ToString());
-            Debug.WriteLine("aiPos: " + position.ToString());
+            //Debug.WriteLine("currentBlock: " + currentBlock.ToString());
+            //Debug.WriteLine("aiPos: " + position.ToString());
             //var VelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
             if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {
@@ -73,7 +73,7 @@ namespace thundercats.GameStates.States.AiStates
                 //PlayerActions.AcceleratePlayerForwards(VelocityComponent);
             }
         }
-        protected void ExecuteState(Point matrixPosition, Vector3 position)
+        protected Point ExecuteState(Point matrixPosition, Vector3 position)
         {
 
             // We need the players current matrix row position to determine the next move
@@ -91,8 +91,8 @@ namespace thundercats.GameStates.States.AiStates
             var destinationBlock = GetBlock(decision);
             // Execute the move to the next block
             ExecuteMove(currentBlock, destinationBlock, position);
-            matrixPosition = decision;
-            Debug.WriteLine("MatrixPos: " + matrixPosition);
+
+            return decision;
         }
 
         public void WriteRow(int[] row)

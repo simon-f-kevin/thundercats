@@ -29,13 +29,16 @@ namespace thundercats.Systems
             Winning,
             Losing
         };
+
         public Dictionary<AiState, IAiState> aiStates;
+
         public AiSystem() {
             aiStates = new Dictionary<AiState, IAiState>();
             aiStates.Add(AiState.Winning, new Winning());
             aiStates.Add(AiState.Losing, new Losing());
         }
-        private void AiGameState(Entity AiKey, Entity PlayerKey, GameTime gameTime) {
+
+        private void UpdateCurrentState(Entity AiKey, Entity PlayerKey, GameTime gameTime) {
             Random random = new Random();
             //Ai values
             var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
@@ -50,10 +53,19 @@ namespace thundercats.Systems
             else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 5))
             {
                 aiComponent.CurrentState = AiState.Winning;
-   
+  
             }
-            aiStates[aiComponent.CurrentState].Update(gameTime,aiComponent.MatrixPosition, aiTransformComponent.Position);
 
+        }
+
+        private void RunCurrentState(GameTime gameTime, Entity key)
+        {
+            var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
+            var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
+            //Player values
+            var pos = aiComponent.MatrixPosition;
+            aiStates[aiComponent.CurrentState].Update(gameTime, ref pos, aiTransformComponent.Position);
+            aiComponent.MatrixPosition = pos;
         }
 
         public void Update(GameTime gameTime)
@@ -61,10 +73,11 @@ namespace thundercats.Systems
             ConcurrentDictionary<Entity, Component> playerComponents = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
             ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
             
-            foreach (var aiComponent in aiComponents.Keys)
+            foreach (var ai in aiComponents.Keys)
             {
                 foreach (var playerComponent in playerComponents.Keys) {
-                    AiGameState(aiComponent, playerComponent,gameTime);
+                    UpdateCurrentState(ai, playerComponent,gameTime);
+                    RunCurrentState(gameTime, ai);
                 }
             }
         }

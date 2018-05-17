@@ -31,8 +31,9 @@ namespace thundercats.GameStates.States.PlayingStates
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
 
-            //GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, -10, 0),
-            //    AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
+            GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(23, 100, -5),
+                AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
+
             InitWorld();
             GameService.Instance().GameWorld = world;
 

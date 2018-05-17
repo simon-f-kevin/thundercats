@@ -12,7 +12,7 @@ namespace thundercats.Actions
         private static float playerStrafeAcceleration = 0.1f;
         private static float playerMaxRunningSpeed = 0.6f;
         private static float playerMaxStrafeSpeed = 0.6f;
-        private static float _playerJumpSpeed = 0.3f;
+        private static float _playerJumpSpeed = 0.6f;
 
 
         /// <summary>
