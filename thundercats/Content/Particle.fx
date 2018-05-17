@@ -18,7 +18,7 @@ struct VertexShaderInput
 struct VertexShaderOutput
 {
 	float4 Position : SV_POSITION;
-	float2 Texture : TEXTURE0;
+	float2 Color : TEXTURE0;
 };
 
 VertexShaderOutput MainVS(in VertexShaderInput input)
@@ -31,7 +31,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 	return output;
 }
 
-float4 MainPS(VertexShaderOutput input) : COLOR
+float2 MainPS(VertexShaderOutput input) : TEXTURE0
 {
 	return input.Texture;
 }

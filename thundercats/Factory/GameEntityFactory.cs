@@ -15,7 +15,8 @@ namespace thundercats
      */
     public static class GameEntityFactory
     {
-        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture,Effect effect)
+        public static GraphicsDevice GraphicsDevice;
+        public static Entity NewPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
         {
             Entity player = EntityFactory.NewEntity("local_player");
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
@@ -27,7 +28,14 @@ namespace thundercats
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
-            ParticleComponent particleComponent = new ParticleComponent(player, effect);
+            ParticleComponent particleComponent = new ParticleComponent(player)
+            {
+                LifeTime = 2,
+                Age = 0,
+                NumOfParticles = 2,
+                Texture = AssetManager.Instance.CreateTexture(Color.Aqua, GraphicsDevice),
+                TexturePosition = new Vector2(0, 0),
+            };
             
             
 
@@ -48,9 +56,9 @@ namespace thundercats
             return player;
         }
 
-        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture, Effect effect)
+        public static Entity NewPlayerWithCamera(String model, int gamePadIndex, Vector3 transformPos, Vector3 cameraPos, float cameraAspectRatio, bool followPlayer, Texture2D texture)
         {
-            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture, effect);
+            Entity player = NewPlayer(model, gamePadIndex, transformPos, texture);
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);

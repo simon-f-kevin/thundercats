@@ -10,8 +10,8 @@ namespace Game_Engine.Components.Particle
 {
     public struct PositionTexcoordVertex : IVertexType
     {
-        public Vector4 Position;
-        public Vector2 Texture;
+        public Vector4 ParticlePosition;
+        public Vector2 TexturePosition;
 
         public VertexDeclaration VertexDeclaration
         {
@@ -20,11 +20,11 @@ namespace Game_Engine.Components.Particle
                 return vertexDeclaration;
             }
         }
-        public PositionTexcoordVertex(Vector3 position, Vector2 texture)
+        public PositionTexcoordVertex(Vector3 position, Vector2 texturePosition)
         {
 
-            Position = new Vector4(position, 1.0f);
-            Texture = texture;
+            ParticlePosition = new Vector4(position, 1.0f);
+            TexturePosition = texturePosition;
 
         }
 

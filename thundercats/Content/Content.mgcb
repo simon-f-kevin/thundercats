@@ -106,12 +106,6 @@
 /processorParam:TextureFormat=Color
 /build:2DTextures/stars.jpg
 
-#begin Particle.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Particle.fx
-
 #begin 2DTextures/ParticleTexture.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -123,4 +117,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:2DTextures/ParticleTexture.jpg
+
+#begin Particles.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Particles.fx
 

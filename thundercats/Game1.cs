@@ -52,7 +52,8 @@ namespace thundercats
         {
             //thread1 = new ThreadStart();
             //thread2 = Thread.CurrentThread;
-           
+
+            GameEntityFactory.GraphicsDevice = GraphicsDevice;
 
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
@@ -62,9 +63,7 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
-            particleSystem = new ParticleSystem();
-            particleSystem.device = GraphicsDevice;
-            particleSystem.modelManager = graphics;
+            particleSystem = new ParticleSystem(graphics);
 
             //SystemManager.Instance.AddToDrawables(uiSystem);
             SystemManager.Instance.AddToDrawables(particleSystem);
@@ -93,7 +92,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
-            AssetManager.Instance.AddContent<Effect>(Content, "Particle");
+            AssetManager.Instance.AddContent<Effect>(Content, "Particles");
 
             gameManager = new GameManager(this);
 
