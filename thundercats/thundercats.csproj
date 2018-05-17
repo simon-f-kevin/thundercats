@@ -45,8 +45,11 @@
     <Compile Include="Actions\PlayerActions.cs" />
     <Compile Include="Components\AiComponent.cs" />
     <Compile Include="Components\SurfaceComponent.cs" />
+    <Compile Include="Worldgen\BlockWorldgenDef.cs" />
+    <Compile Include="Worldgen\VoidWorldGenDef.cs" />
+    <Compile Include="Worldgen\WorldgenEntityDef.cs" />
     <Compile Include="Factory\Uifactory.cs" />
-    <Compile Include="Factory\WorldGenerator.cs" />
+    <Compile Include="Worldgen\WorldGenerator.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Factory\GameEntityFactory.cs" />
     <Compile Include="GameStates\GameManager.cs" />
