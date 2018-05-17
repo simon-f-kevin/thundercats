@@ -15,20 +15,25 @@ namespace Game_Engine.Systems
     {
         public GraphicsDeviceManager modelManager { get; set; }
         public GraphicsDevice device { get; set; }
+
         public void Draw(GameTime gameTime)
         {
             DrawParticles();
             ManipulateParticlePosition(gameTime);
         }
 
-        public void DrawParticles()
+        /// <summary>
+        /// This method initates every ParticleComponent
+        /// </summary>
+        private void DrawParticles()
         {
             var particleComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();
 
-            foreach (var particleComponent in particleComponents)
+            foreach (var particleComponentKeyValuePair in particleComponents)
             {
-                var particle = particleComponent.Value as ParticleComponent;
-                var transform = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponent.Key);
+                var particleComponent = particleComponentKeyValuePair.Value as ParticleComponent;
+                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
+                
                 var camera = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponent.Key);
 
                 particle.vertices = new PositionTexcoordVertex[4*particle.NumOfParticles];
@@ -40,28 +45,29 @@ namespace Game_Engine.Systems
 
                 #region Initializationbuffer 
                 //Sets up the vertex buffer
-                particle.VertexBuffer = new VertexBuffer(device, typeof(PositionTexcoordVertex), 4*particle.NumOfParticles, BufferUsage.WriteOnly);
+                particleComponent.VertexBuffer = new VertexBuffer(device, typeof(PositionTexcoordVertex), 4*particleComponent.NumOfParticles, BufferUsage.WriteOnly);
 
-                for (int i = 0; i < particle.NumOfParticles; i++)
+                
+                for (int i = 0; i < particleComponent.NumOfParticles; i++)
                 {
                     
-                    particle.vertices[4 * i + 0] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(0,0));
-                    particle.vertices[4 * i + 1] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(0,1));
-                    particle.vertices[4 * i + 2] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(1,1));
-                    particle.vertices[4 * i + 3] = new PositionTexcoordVertex(particle.ParticlePosition, new Vector2(1,0));
+                    particleComponent.Vertices[4 * i + 0] = new PositionTexcoordVertex(particleComponent.ParticlePosition, new Vector2(0,0));
+                    particleComponent.Vertices[4 * i + 1] = new PositionTexcoordVertex(particleComponent.ParticlePosition, new Vector2(0,1));
+                    particleComponent.Vertices[4 * i + 2] = new PositionTexcoordVertex(particleComponent.ParticlePosition, new Vector2(1,1));
+                    particleComponent.Vertices[4 * i + 3] = new PositionTexcoordVertex(particleComponent.ParticlePosition, new Vector2(1,0));
                 }
-                particle.VertexBuffer.SetData(particle.vertices);
+                particleComponent.VertexBuffer.SetData(particleComponent.Vertices);
 
-                particle.Indices = new ushort[6 * particle.NumOfParticles];
+                particleComponent.Indices = new ushort[6 * particleComponent.NumOfParticles];
 
-                for (int i = 0; i < particle.NumOfParticles; i++)
+                for (int i = 0; i < particleComponent.NumOfParticles; i++)
                 {
-                    particle.Indices[6 * i + 0] = (ushort)(4 * i + 0);
-                    particle.Indices[6 * i + 1] = (ushort)(4 * i + 1);
-                    particle.Indices[6 * i + 2] = (ushort)(4 * i + 2);
-                    particle.Indices[6 * i + 3] = (ushort)(4 * i + 3);
-                    particle.Indices[6 * i + 4] = (ushort)(4 * i + 4);
-                    particle.Indices[6 * i + 5] = (ushort)(4 * i + 5);
+                    particleComponent.Indices[6 * i + 0] = (ushort)(4 * i + 0);
+                    particleComponent.Indices[6 * i + 1] = (ushort)(4 * i + 1);
+                    particleComponent.Indices[6 * i + 2] = (ushort)(4 * i + 2);
+                    particleComponent.Indices[6 * i + 3] = (ushort)(4 * i + 3);
+                    particleComponent.Indices[6 * i + 4] = (ushort)(4 * i + 4);
+                    particleComponent.Indices[6 * i + 5] = (ushort)(4 * i + 5);
                 }
                 particle.IndexBuffer = new IndexBuffer(device, typeof(ushort), particle.Indices.Length, BufferUsage.WriteOnly);
                 particle.IndexBuffer.SetData(particle.Indices);
@@ -70,6 +76,11 @@ namespace Game_Engine.Systems
                 modelManager.GraphicsDevice.SetVertexBuffer(particle.VertexBuffer);
                 modelManager.GraphicsDevice.Indices = particle.IndexBuffer;
                 #endregion Initializationbuffer   
+                particleComponent.IndexBuffer = new IndexBuffer(device, typeof(ushort), particleComponent.Indices.Length, BufferUsage.WriteOnly);
+                particleComponent.IndexBuffer.SetData(particleComponent.Indices);
+
+                modelManager.GraphicsDevice.SetVertexBuffer(particleComponent.VertexBuffer);
+                modelManager.GraphicsDevice.Indices = particleComponent.IndexBuffer;
 
                 // Particle.fx filen innehåller en viss information som måste matchas med vår PositionTexcoordVertex struct.
                 //Görs via Effect Objektet exempel nedan.
