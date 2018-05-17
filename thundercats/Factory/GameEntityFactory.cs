@@ -109,17 +109,7 @@ namespace thundercats
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
-            ParticleComponent particleComponent = new ParticleComponent(player)
-            {
-                ParticleHeight = 20f,
-                ParticleWidth = 20f,
-                Texture = AssetManager.Instance.GetContent<Texture2D>("2DTextures/ParticleTexture"),
-                LifeTime = 8f,
-                EmitRate = 100,
-                RadiusDeviation = new Vector2(40f, 100f),
-            };
 
-            ComponentManager.Instance.AddComponentToEntity(player, particleComponent);
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
@@ -175,6 +165,25 @@ namespace thundercats
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+        }
+
+        public static Entity NewParticleSettingsEntity(Entity player, int maxParticles, int lifeSpan, string textureName)
+        {
+            Entity particles = player;
+            ParticleSettingsComponent particleSettingsComponent = new ParticleSettingsComponent(particles)
+            {
+                AlphaBlendState = BlendState.NonPremultiplied,
+                EmitterVelocitySensitivity = 1,
+                GravityDirection = Vector3.Up,
+                MaximumParticles = maxParticles,
+                MaxVelocity = 1,
+                MinVelocity = 0,
+                ParticleLifeSpan = TimeSpan.FromSeconds(lifeSpan),
+                TextureName = textureName
+            };
+
+            ComponentManager.Instance.AddComponentToEntity(particles, particleSettingsComponent);
+            return particles;
         }
     }
 }

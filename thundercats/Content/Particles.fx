@@ -60,7 +60,7 @@ struct VSOutput
 };
 
 VSOutput MainVS(in VSVertexInput vertexInput, float3 RandomIntervals : POSITION1,
-	float ParticleTime : BLENDWEIGHT0)
+float ParticleTime : BLENDWEIGHT0)
 {
 	VSOutput output = (VSOutput)0;
 
@@ -72,8 +72,8 @@ VSOutput MainVS(in VSVertexInput vertexInput, float3 RandomIntervals : POSITION1
 	// We have a radial particle system
 	// To be fancy, adjust the radius size by both the passed in random interval, time and instance id
 	float radius = lerp(RadiusRange[0], RadiusRange[1], RandomIntervals.x)
-		* timeFraction
-		* ((vertexInput.InstanceId % 10) + 1) / 10;
+		* timeFraction 
+		* ((vertexInput.InstanceId % 10) + 1)/ 10;
 
 	// Find relative position of particle
 	float2 offset;
@@ -99,7 +99,7 @@ VSOutput MainVS(in VSVertexInput vertexInput, float3 RandomIntervals : POSITION1
 }
 
 float4 MainPS(VSOutput input) : COLOR0
-{
+{	
 	return input.Color * ParticleTexture.Sample(TexSampler, input.TexCoord);
 }
 

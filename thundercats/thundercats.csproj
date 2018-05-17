@@ -46,6 +46,7 @@
     <Compile Include="Actions\CollisionActions.cs" />
     <Compile Include="Actions\PlayerActions.cs" />
     <Compile Include="Components\AiComponent.cs" />
+    <Compile Include="Components\ParticleSettingsComponent.cs" />
     <Compile Include="Components\SurfaceComponent.cs" />
     <Compile Include="Factory\Uifactory.cs" />
     <Compile Include="Factory\WorldGenerator.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Systems\NetworkInputSystem.cs" />
     <Compile Include="Systems\NetworkHandlingSystem.cs" />
     <Compile Include="Systems\ParticleDrawSystem.cs" />
+    <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\SurfaceSystem.cs" />
   </ItemGroup>

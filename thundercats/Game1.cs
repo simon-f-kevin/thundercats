@@ -30,14 +30,15 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
-        ParticleDrawSystem particleSystem; 
+        //ParticleDrawSystem particleSystem;
+        //ParticleSystem particleSystem;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1000;
             graphics.PreferredBackBufferHeight = 600;
-            //graphics.PreferMultiSampling = false;
+            graphics.PreferMultiSampling = false;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
 
@@ -64,14 +65,14 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
-            particleSystem = new ParticleDrawSystem(GraphicsDevice);
+            //particleSystem = new ParticleSystem(GraphicsDevice);
             aiSystem = new AiSystem();
 
             //SystemManager.Instance.AddToDrawables(uiSystem);
 
 
             SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem);
-            SystemManager.Instance.AddToDrawables(modelRenderSystem, particleSystem);
+            SystemManager.Instance.AddToDrawables(modelRenderSystem);
             
 
             base.Initialize();
@@ -91,7 +92,9 @@ namespace thundercats
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
-            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/ParticleTexture");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/fire", "fire");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/smoke", "smoke");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/checker", "checker");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
             //sounds
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Chatwheel_disastah", "disaster");
@@ -101,8 +104,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
             //particles
             AssetManager.Instance.AddContent<Effect>(Content, "Particles");
-            particleSystem.ParticleEffect = AssetManager.Instance.GetContent<Effect>("Particles");
-            //particleSystem.RefreshBuffers();
+            AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
 
             gameManager = new GameManager(this);
 
@@ -183,7 +185,7 @@ namespace thundercats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-             gameManager.Draw(gameTime, spriteBatch);
+            gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

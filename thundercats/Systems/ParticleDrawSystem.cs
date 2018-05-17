@@ -94,7 +94,6 @@ namespace thundercats.Systems
 
         public void RefreshBuffers()
         {
-            // Create a single quad centered at the origin
             float halfWidth = ParticleSize.X / 2;
             float halfHeight = ParticleSize.Y / 2;
 
@@ -156,10 +155,17 @@ namespace thundercats.Systems
             {
                 var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
                 var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
-                SetParticleData(particleComponentKeyValuePair.Value as ParticleComponent);
+                var modelComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<ModelComponent>(particleComponentKeyValuePair.Key);
+                var particleComponent = particleComponentKeyValuePair.Value as ParticleComponent;
+                SetParticleData(particleComponent);
                 RefreshBuffers();
-                var worldViewProj = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
-                Console.WriteLine(worldViewProj.Translation.ToString());
+                // Create our camera that's looking straight at the center
+                Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 5.0f), Vector3.Zero, Vector3.Up);
+
+                // Create a projection matrix so that the world dimensions have the same aspect ratio as our window size
+                Matrix projMatrix = Matrix.CreateOrthographic(cameraComponent.AspectRatio * 300, 300, 0.1f, 10000);
+                var worldViewProj = (viewMatrix * projMatrix);
+                Console.WriteLine("particle: " + worldViewProj.Translation.ToString());
                 DrawParticles(ref worldViewProj);
             }
            
@@ -176,10 +182,10 @@ namespace thundercats.Systems
         private void SetParticleData(ParticleComponent component)
         {
             Life = component.LifeTime;
-            ParticleSize = new Vector2(component.ParticleWidth, component.ParticleHeight);
+            ParticleSize = component.ParticleSize;
             ParticleTexture = component.Texture;
             LightEmitRate = component.EmitRate;
-            ParticleRadius = component.ParticleWidth * 10;
+            ParticleRadius = component.Radius;
             RadiusDeviation = component.RadiusDeviation;
         }
 
@@ -187,6 +193,10 @@ namespace thundercats.Systems
 
         private void DrawParticles(ref Matrix worldViewProjection)
         {
+            graphicsDevice.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.Black, 1.0f, 0);
+            graphicsDevice.BlendState = BlendState.Additive;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
+
             ParticleEffect.CurrentTechnique = ParticleEffect.Techniques["ParticleDrawing"];
             ParticleEffect.Parameters["WorldViewProjection"].SetValue(worldViewProjection);
             ParticleEffect.Parameters["Life"].SetValue(Life);
@@ -200,8 +210,6 @@ namespace thundercats.Systems
             graphicsDevice.SetVertexBuffers(bufferBinding, instanceBufferBinding);
             graphicsDevice.Indices = indexBuffer;
 
-            graphicsDevice.BlendState = BlendState.Additive;
-            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             graphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 0, 6, 0, 2, numberOfInstancesToDraw);
 
