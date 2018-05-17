@@ -94,12 +94,13 @@ namespace thundercats.GameStates.States.AiStates
             // Then we need the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:
             int index = 0;
+
             if (matrixPosition.Y < worldMatrix.GetLength(1) - 1)
                 index = matrixPosition.Y + 1;
             else
                 index = matrixPosition.Y;
 
-            var decision = ChooseBlock(nextMatrixRow, matrixPosition.Y + 1);
+            var decision = ChooseBlock(nextMatrixRow, index);
             var destinationBlock = GetBlock(decision);
             // Execute the move to the next block
             ExecuteMove(currentBlock, destinationBlock, position);
