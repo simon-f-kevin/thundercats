@@ -17,8 +17,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Z += 0f;
-                //velocityComponent.Velocity.Z += (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
+                //velocityComponent.Velocity.Z += 0f;
+                velocityComponent.Velocity.Z += (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
             }
         }
 
@@ -28,8 +28,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.Z -= (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
-                velocityComponent.Velocity.Z = 0f;
+                velocityComponent.Velocity.Z -= (0.1f * (Math.Abs(velocityComponent.Velocity.Z) + 1));
+                //velocityComponent.Velocity.Z = 0f;
             }
         }
 
@@ -39,8 +39,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.X = 0f;
-                //velocityComponent.Velocity.X += (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
+                //velocityComponent.Velocity.X = 0f;
+                velocityComponent.Velocity.X += (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
             }
         }
 
@@ -50,8 +50,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.X = 0f;
-                //velocityComponent.Velocity.X -= (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
+                //velocityComponent.Velocity.X = 0f;
+                velocityComponent.Velocity.X -= (0.1f * (Math.Abs(velocityComponent.Velocity.X) + 1));
             }
         }
 

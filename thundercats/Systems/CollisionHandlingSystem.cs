@@ -68,10 +68,10 @@ namespace thundercats.Systems
                     UpdateSourceCollider(sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.REMOTE_PLAYER:
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    PlayerCollision2(sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    PlayerCollision2(sourceEntity, targetEntity);
                     break;
             }
         }
@@ -113,6 +113,41 @@ namespace thundercats.Systems
             //{
             //    CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
             //}
+        }
+
+        private void PlayerCollision2(Entity sourceEntity, Entity targetEntity)
+        {
+            CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
+            CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
+            GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
+            TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
+            float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
+            float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
+
+            if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
+            {
+                CollisionActions.AccelerateColliderRightwards(sourceEntity, 30);
+            }
+            else
+            {
+                CollisionActions.AccelerateColliderLeftwards(sourceEntity, 30);
+            }
+            //if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
+            //{
+            //    CollisionActions.HandleCollisionFromBelow(sourceEntity);
+            //}
+            //else
+            //{
+            //    CollisionActions.HandleCollisionFromAbove(sourceEntity);
+            //}
+            if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
+            {
+                CollisionActions.AccelerateColliderBackwards(sourceEntity, 30);
+            }
+            else
+            {
+                CollisionActions.AccelerateColliderForwards(sourceEntity, 30);
+            }
         }
     }
 }
