@@ -65,28 +65,26 @@ namespace thundercats.Systems
         private VertexBuffer instanceBuffer;
         private VertexBufferBinding instanceBufferBinding;
 
-        private Effect particleEffect;
-
         private Vector2 radiusRange;
 
         private float elapsedTime = 0;
 
         private GraphicsDevice graphicsDevice;
 
-        //properties, this should come from component
-        public Vector2 ParticleSize { get; set; }
-        public Texture2D ParticleTexture { get; set; }
-        public float Life { get; set; }
-        public uint LightEmitRate { get; set; }
-        public float ParticleRadius { get; set; }
-        public Vector2 RadiusDeviation { get; set; }
-        
+        //current component values
+        private Vector2 ParticleSize;
+        private Texture2D ParticleTexture;
+        private float Life;
+        private uint LightEmitRate;
+        private float ParticleRadius;
+        private Vector2 RadiusDeviation;
+
+        public Effect ParticleEffect { get; set; }
 
         public int MaxVisibleParticles { get; private set; }
 
-        public ParticleDrawSystem(Effect effect, GraphicsDevice device)
+        public ParticleDrawSystem(GraphicsDevice device)
         {
-            particleEffect = effect;
             graphicsDevice = device;
         }
 
@@ -152,8 +150,11 @@ namespace thundercats.Systems
             var ParticleComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();
             foreach (var particleComponentKeyValuePair in ParticleComponents)
             {
+                var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
                 SetParticleData(particleComponentKeyValuePair.Value as ParticleComponent);
-                DrawParticles();
+                RefreshBuffers();
+                var worldViewProj = (cameraComponent.ViewMatrix * cameraComponent.ProjectionMatrix);
+                DrawParticles(ref worldViewProj);
             }
            
         }
@@ -168,25 +169,33 @@ namespace thundercats.Systems
 
         private void SetParticleData(ParticleComponent component)
         {
-            
+            Life = component.LifeTime;
+            ParticleSize = new Vector2(component.ParticleWidth, component.ParticleHeight);
+            ParticleTexture = component.Texture;
+            LightEmitRate = component.EmitRate;
+            ParticleRadius = component.ParticleWidth/2;
+            RadiusDeviation = component.RadiusDeviation;
         }
 
 
 
         private void DrawParticles(ref Matrix worldViewProjection)
         {
-            particleEffect.CurrentTechnique = particleEffect.Techniques["ParticleDrawing"];
-            particleEffect.Parameters["WorldViewProjection"].SetValue(worldViewProjection);
-            particleEffect.Parameters["Life"].SetValue(Life);
-            particleEffect.Parameters["RadiusRange"].SetValue(radiusRange);
-            particleEffect.Parameters["MaxNumOfParticles"].SetValue(MaxVisibleParticles);
-            particleEffect.Parameters["TotalTime"].SetValue((float)elapsedTime);
-            particleEffect.CurrentTechnique.Passes[0].Apply();
+            ParticleEffect.CurrentTechnique = ParticleEffect.Techniques["ParticleDrawing"];
+            ParticleEffect.Parameters["WorldViewProjection"].SetValue(worldViewProjection);
+            ParticleEffect.Parameters["Life"].SetValue(Life);
+            ParticleEffect.Parameters["RadiusRange"].SetValue(radiusRange);
+            ParticleEffect.Parameters["MaxNumOfParticles"].SetValue(MaxVisibleParticles);
+            ParticleEffect.Parameters["TotalTime"].SetValue((float)elapsedTime);
+            ParticleEffect.CurrentTechnique.Passes[0].Apply();
 
             graphicsDevice.Textures[0] = ParticleTexture;
             graphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
             graphicsDevice.SetVertexBuffers(bufferBinding, instanceBufferBinding);
             graphicsDevice.Indices = indexBuffer;
+
+            graphicsDevice.BlendState = BlendState.Additive;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             graphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 0, 6, 0, 2, numberOfInstancesToDraw);
 

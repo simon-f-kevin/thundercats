@@ -21,6 +21,8 @@ namespace thundercats
         public const string BLOCK = "block";
         public const string GOAL = "Goal";
 
+        public static GraphicsDevice GraphicsDevice;
+
         public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, String typeName)
         {
             Entity player = EntityFactory.NewEntity(typeName);
@@ -67,14 +69,6 @@ namespace thundercats
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
             AiComponent aiComponent = new AiComponent(player);
-            ParticleComponent particleComponent = new ParticleComponent(player)
-            {
-                LifeTime = 2,
-                Age = 0,
-                NumOfParticles = 2,
-                Texture = AssetManager.Instance.CreateTexture(Color.Aqua, GraphicsDevice),
-                TexturePosition = new Vector2(0, 0),
-            };
             
             
 
@@ -115,7 +109,17 @@ namespace thundercats
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
-            
+            ParticleComponent particleComponent = new ParticleComponent(player)
+            {
+                ParticleHeight = 20f,
+                ParticleWidth = 20f,
+                Texture = AssetManager.Instance.GetContent<Texture2D>("2DTextures/ParticleTexture"),
+                LifeTime = 8,
+                EmitRate = 10000,
+                RadiusDeviation = new Vector2(40, 100),
+            };
+
+            ComponentManager.Instance.AddComponentToEntity(player, particleComponent);
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);

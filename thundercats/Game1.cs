@@ -30,7 +30,7 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
-        ParticleSystem particleSystem; 
+        ParticleDrawSystem particleSystem; 
 
         public Game1()
         {
@@ -64,19 +64,15 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
-            particleSystem = new ParticleSystem(graphics);
-
-            //SystemManager.Instance.AddToDrawables(uiSystem);
-            SystemManager.Instance.AddToDrawables(particleSystem);
+            particleSystem = new ParticleDrawSystem(GraphicsDevice);
             aiSystem = new AiSystem();
 
-            SystemManager.Instance.AddToUpdateables(cameraSystem);
-            SystemManager.Instance.AddToDrawables(modelRenderSystem);
-            SystemManager.Instance.AddToUpdateables(physicsSystem);
-            SystemManager.Instance.AddToUpdateables(playerInputSystem);
-            SystemManager.Instance.AddToUpdateables(physicsSystem);
-            SystemManager.Instance.AddToUpdateables(collisionHandlingSystem);
-            SystemManager.Instance.AddToUpdateables(aiSystem);
+            //SystemManager.Instance.AddToDrawables(uiSystem);
+
+
+            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem);
+            SystemManager.Instance.AddToDrawables(modelRenderSystem, particleSystem);
+            
 
             base.Initialize();
         }
@@ -95,6 +91,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/ParticleTexture");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
             //sounds
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Chatwheel_disastah", "disaster");
@@ -102,7 +99,10 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Platformer2", "playMusic1");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
+            //particles
             AssetManager.Instance.AddContent<Effect>(Content, "Particles");
+            particleSystem.ParticleEffect = AssetManager.Instance.GetContent<Effect>("Particles");
+            //particleSystem.RefreshBuffers();
 
             gameManager = new GameManager(this);
 
