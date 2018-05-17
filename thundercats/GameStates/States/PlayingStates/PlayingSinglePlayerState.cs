@@ -8,7 +8,6 @@ using System;
 using System.Linq;
 using Game_Engine.Systems;
 using System.Collections.Generic;
-using thundercats.Worldgen;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -52,7 +51,7 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me", WorldGenerator.GetWorldgenEntityDefs());
+            worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
             var world = GenerateWorld(3, 5);
             int distanceBetweenBlocksX = 100;
             int distanceBetweenBlocksZ = 50;
