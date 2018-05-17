@@ -114,9 +114,9 @@ namespace thundercats
                 ParticleHeight = 20f,
                 ParticleWidth = 20f,
                 Texture = AssetManager.Instance.GetContent<Texture2D>("2DTextures/ParticleTexture"),
-                LifeTime = 8,
-                EmitRate = 10000,
-                RadiusDeviation = new Vector2(40, 100),
+                LifeTime = 8f,
+                EmitRate = 100,
+                RadiusDeviation = new Vector2(40f, 100f),
             };
 
             ComponentManager.Instance.AddComponentToEntity(player, particleComponent);

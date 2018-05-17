@@ -4,6 +4,8 @@ using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Game_Engine.Helpers;
+using thundercats.GameStates;
 
 namespace thundercats.Systems
 {
@@ -71,6 +73,8 @@ namespace thundercats.Systems
 
         private GraphicsDevice graphicsDevice;
 
+        private Random rnd;
+
         //current component values
         private Vector2 ParticleSize;
         private Texture2D ParticleTexture;
@@ -127,7 +131,7 @@ namespace thundercats.Systems
             instanceBuffer = new VertexBuffer(graphicsDevice, InstanceData.VertexDeclaration, MaxVisibleParticles, BufferUsage.WriteOnly);
             instanceBufferBinding = new VertexBufferBinding(instanceBuffer, 0, 1);
 
-            Random rnd = new Random();
+            rnd = new Random();
 
             // Initialise our instance buffer
             for (int i = 0; i < MaxVisibleParticles; ++i)
@@ -151,9 +155,11 @@ namespace thundercats.Systems
             foreach (var particleComponentKeyValuePair in ParticleComponents)
             {
                 var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
+                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
                 SetParticleData(particleComponentKeyValuePair.Value as ParticleComponent);
                 RefreshBuffers();
-                var worldViewProj = (cameraComponent.ViewMatrix * cameraComponent.ProjectionMatrix);
+                var worldViewProj = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
+                Console.WriteLine(worldViewProj.Translation.ToString());
                 DrawParticles(ref worldViewProj);
             }
            
@@ -173,7 +179,7 @@ namespace thundercats.Systems
             ParticleSize = new Vector2(component.ParticleWidth, component.ParticleHeight);
             ParticleTexture = component.Texture;
             LightEmitRate = component.EmitRate;
-            ParticleRadius = component.ParticleWidth/2;
+            ParticleRadius = component.ParticleWidth * 10;
             RadiusDeviation = component.RadiusDeviation;
         }
 
