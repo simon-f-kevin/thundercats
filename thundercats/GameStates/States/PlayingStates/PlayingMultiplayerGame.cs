@@ -32,8 +32,8 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Initialize()
         {
             this.connectionManager = gameManager.NetworkConnectionManager;
-            var HostPosition = new Vector3(0, viewport.Height * 0.45f, 0);
-            var ClientPosition = new Vector3(100, viewport.Height * 0.45f, 0);
+            var HostPosition = new Vector3(0, (viewport.Height * 0.45f) + 100, 100);
+            var ClientPosition = new Vector3(100, (viewport.Height * 0.45f) + 100, 100);
             if (connectionManager.IsHost)
             {
 
@@ -62,6 +62,7 @@ namespace thundercats.GameStates.States.PlayingStates
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
             InitWorld();
+            //GameService.Instance().GameWorld = world;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
