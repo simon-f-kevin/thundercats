@@ -438,7 +438,6 @@ namespace thundercats.Systems
                         GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,
                                                      firstActiveParticle * 4, (firstFreeParticle - firstActiveParticle) * 4,
                                                      firstActiveParticle * 6, (firstFreeParticle - firstActiveParticle) * 2);
-                        Console.WriteLine("draw");
                     }
                     else
                     {
