@@ -70,8 +70,6 @@ namespace thundercats
             GravityComponent gravityComponent = new GravityComponent(player);
             AiComponent aiComponent = new AiComponent(player);
             
-            
-
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
             ComponentManager.Instance.AddComponentToEntity(player, velocityComponent);

@@ -177,8 +177,6 @@ namespace thundercats.Systems
             RadiusDeviation = component.RadiusDeviation;
         }
 
-
-
         private void DrawParticles(ref Matrix worldViewProjection)
         {
             ParticleEffect.CurrentTechnique = ParticleEffect.Techniques["ParticleDrawing"];

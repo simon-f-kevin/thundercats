@@ -99,9 +99,10 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Platformer2", "playMusic1");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
+           
             //particles
-            AssetManager.Instance.AddContent<Effect>(Content, "Particles");
             particleSystem.ParticleEffect = AssetManager.Instance.GetContent<Effect>("Particles");
+            AssetManager.Instance.AddContent<Effect>(Content, "Particles");
             //particleSystem.RefreshBuffers();
 
             gameManager = new GameManager(this);
