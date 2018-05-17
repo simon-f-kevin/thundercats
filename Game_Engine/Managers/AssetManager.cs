@@ -80,5 +80,10 @@ namespace Game_Engine.Managers
 
             return texture;
         }
+     
+        private static Effect CreateEffect(GraphicsDevice device)
+        {
+            Effect effect = new Effect(device)
+        }
     }
 }

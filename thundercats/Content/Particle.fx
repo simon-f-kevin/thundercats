@@ -12,13 +12,13 @@ matrix WorldViewProjection;
 struct VertexShaderInput
 {
 	float4 Position : POSITION0;
-	float4 Color : COLOR0;
+	float2 Texture : TEXTURE0;
 };
 
 struct VertexShaderOutput
 {
 	float4 Position : SV_POSITION;
-	float4 Color : COLOR0;
+	float2 Texture : TEXTURE0;
 };
 
 VertexShaderOutput MainVS(in VertexShaderInput input)
@@ -26,14 +26,14 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 	VertexShaderOutput output = (VertexShaderOutput)0;
 
 	output.Position = mul(input.Position, WorldViewProjection);
-	output.Color = input.Color;
+	output.Texture = input.Texture;
 
 	return output;
 }
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	return input.Color;
+	return input.Texture;
 }
 
 technique BasicColorDrawing

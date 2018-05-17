@@ -29,17 +29,19 @@ namespace Game_Engine.Systems
             {
                 var particle = particleComponent.Value as ParticleComponent;
                 var transform = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponent.Key);
+                var camera = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponent.Key);
 
                 particle.vertices = new PositionTexcoordVertex[4*particle.NumOfParticles];
-    
-                var vertexPos1 = new Vector3(-0.26286500f, 0.0000000f, 0.42532500f);
-                var vertexPos2 = new Vector3(-0.26286500f, 0.0000000f, -0.42532500f);
-                var vertexPos3 = new Vector3(-0.26286500f, 0.0000000f, -0.42532500f);
 
+                var worldviewproj = camera.WorldMatrix * camera.ViewMatrix * camera.ProjectionMatrix;
+                //var vertexPos1 = new Vector3(-0.26286500f, 0.0000000f, 0.42532500f);
+                //var vertexPos2 = new Vector3(-0.26286500f, 0.0000000f, -0.42532500f);
+                //var vertexPos3 = new Vector3(-0.26286500f, 0.0000000f, -0.42532500f);
+
+                #region Initializationbuffer 
                 //Sets up the vertex buffer
                 particle.VertexBuffer = new VertexBuffer(device, typeof(PositionTexcoordVertex), 4*particle.NumOfParticles, BufferUsage.WriteOnly);
 
-                
                 for (int i = 0; i < particle.NumOfParticles; i++)
                 {
                     
@@ -63,32 +65,25 @@ namespace Game_Engine.Systems
                 }
                 particle.IndexBuffer = new IndexBuffer(device, typeof(ushort), particle.Indices.Length, BufferUsage.WriteOnly);
                 particle.IndexBuffer.SetData(particle.Indices);
+                
 
                 modelManager.GraphicsDevice.SetVertexBuffer(particle.VertexBuffer);
                 modelManager.GraphicsDevice.Indices = particle.IndexBuffer;
+                #endregion Initializationbuffer   
 
                 // Particle.fx filen innehåller en viss information som måste matchas med vår PositionTexcoordVertex struct.
                 //Görs via Effect Objektet exempel nedan.
-                
-                //particle.Effect.Parameters[" WorldViewProjection"].SetValue();
-               
                 particle.Effect.CurrentTechnique = particle.Effect.Techniques["TransformAndTexture"];
-
+                particle.Effect.Parameters["WorldViewProjection"].SetValue(worldviewproj);
                 modelManager.GraphicsDevice.Indices = particle.IndexBuffer;
-                // modelManager.GraphicsDevice.VertexDeclaration = particle.vertices[].VertexDeclaration;
+                particle.Effect.CurrentTechnique.Passes[0].Apply();
 
-                foreach (EffectPass pass in particle.Effect.CurrentTechnique.Passes)
-                {
-
-                    modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
-                    
-
-                    pass.Apply();
-                }           
+                modelManager.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 4 * particle.NumOfParticles, 0, 2 * particle.NumOfParticles);
+                                          
             }
 
         }
-        /
+        
         public void ManipulateParticlePosition(GameTime gameTime)
         {
             var particleComponents = ComponentManager.Instance.GetConcurrentDictionary<ParticleComponent>();

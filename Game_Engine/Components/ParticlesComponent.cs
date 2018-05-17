@@ -27,9 +27,9 @@ namespace Game_Engine.Components
 
 
 
-        public ParticleComponent(Entity id, Texture texture) : base(id)
+        public ParticleComponent(Entity id, Effect effect) : base(id)
         {
-           
+            Effect = effect;
         }
     }
 }
