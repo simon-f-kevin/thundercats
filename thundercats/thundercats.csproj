@@ -47,7 +47,7 @@
     <Compile Include="Components\SurfaceComponent.cs" />
     <Compile Include="Worldgen\BlockWorldgenDef.cs" />
     <Compile Include="Worldgen\VoidWorldGenDef.cs" />
-    <Compile Include="Worldgen\WorldgenEntityDef.cs" />
+    <Compile Include="Worldgen\IWorldgenEntityDef.cs" />
     <Compile Include="Factory\Uifactory.cs" />
     <Compile Include="Worldgen\WorldGenerator.cs" />
     <Compile Include="Game1.cs" />

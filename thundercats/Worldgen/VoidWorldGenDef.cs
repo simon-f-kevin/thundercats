@@ -1,8 +1,20 @@
-﻿namespace thundercats.Worldgen
+﻿using Microsoft.Xna.Framework;
+using thundercats.GameStates;
+
+namespace thundercats.Worldgen
 {
-    internal class VoidWorldgenDef : WorldgenEntityDef
+    internal class VoidWorldgenDef : IWorldgenEntityDef
     {
-        public VoidWorldgenDef(int weight) : base(weight)
+        public int Weight { get; }
+        public float SelectionValue { get; set; }
+
+        public VoidWorldgenDef(int weight)
+        {
+            Weight = weight;
+            SelectionValue = 0f;
+        }
+
+        public void RunWorldGenEntityCreator(GameManager gameManager, Vector3 position)
         {
         }
     }

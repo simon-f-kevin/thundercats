@@ -1,11 +1,13 @@
 ﻿using Game_Engine.Components;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using thundercats.GameStates;
 using thundercats.Worldgen;
 
 namespace thundercats.Factory
@@ -18,12 +20,17 @@ namespace thundercats.Factory
     {
         private string seed;
         private float[,] world;
-        private List<WorldgenEntityDef> WorldgenEntities { get; set;}
+        private GameManager gameManager;
+        private Viewport viewport;
 
-        internal WorldGenerator(string seed, List<WorldgenEntityDef> worldgenEntities)
+        private List<IWorldgenEntityDef> WorldgenEntities { get; set;}
+
+        internal WorldGenerator(string seed, List<IWorldgenEntityDef> worldgenEntities, GameManager gameManager, Viewport viewport)
         {
             this.seed = seed;
             WorldgenEntities = worldgenEntities;
+            this.gameManager = gameManager;
+            this.viewport = viewport;
             SetSelectionValues();
         }
 
@@ -38,28 +45,31 @@ namespace thundercats.Factory
 
         private void PopulateWorld(float[,] world)
         {
+            int distanceBetweenEntitiesX = 100;
+            int distanceBetweenEntitiesZ = 50;
             Random rnd = new Random(seed.GetHashCode());
             int weightTotal = GetWeightTotal();
             WorldgenEntities = WorldgenEntities.OrderBy(o => o.SelectionValue).ToList();
 
-            for(int i = 0; i < world.GetLength(0); i++)
+            for(int x = 0; x < world.GetLength(0); x++)
             {
-                for(int j = 0; j < world.GetLength(1); j++)
+                for(int z = 0; z < world.GetLength(1); z++)
                 {
-                    world[i, j] = rnd.Next(2); //TODO: Disable when new generation is complete
-                    CreateSelectedWorldEntity((float)rnd.NextDouble());
+                    //world[x, z] = rnd.Next(2); //TODO: Disable when new generation is complete
+                    CreateSelectedWorldEntity((float)rnd.NextDouble(), new Vector3((x * distanceBetweenEntitiesX), (viewport.Height * 0.45f), (z * distanceBetweenEntitiesZ)));
                 }
             }
         }
 
-        private void CreateSelectedWorldEntity(float selectedValue)
+        private void CreateSelectedWorldEntity(float selectedValue, Vector3 position)
         {
+
             for(int i = 0; i < WorldgenEntities.Count; i++)
             {
                 if(selectedValue < WorldgenEntities[i].SelectionValue)
                 {
-                    Console.WriteLine(selectedValue + ", " + WorldgenEntities[i].GetType());
-                    WorldgenEntities[i].RunWorldGenEntityCreator();
+                    //Console.WriteLine(selectedValue + ", " + WorldgenEntities[i].GetType());
+                    WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
                     break;
                 }
             }
@@ -88,12 +98,13 @@ namespace thundercats.Factory
             }
         }
 
-        internal static List<WorldgenEntityDef> GetWorldgenEntityDefs()
+        internal static List<IWorldgenEntityDef> GetWorldgenEntityDefs()
         {
-            List<WorldgenEntityDef> worldgenEntities = new List<WorldgenEntityDef>(){
+            List<IWorldgenEntityDef> worldgenEntities = new List<IWorldgenEntityDef>(){
                 new BlockWorldgenDef(3),
                 new VoidWorldgenDef(2)
             };
+
             return worldgenEntities;
         }
 
