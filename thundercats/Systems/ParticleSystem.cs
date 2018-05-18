@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using thundercats.Components;
+using thundercats.Service;
 
 namespace thundercats.Systems
 {
@@ -294,7 +295,12 @@ namespace thundercats.Systems
 
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             RetireActiveParticles();
-            //FreeRetiredParticles();
+            if (GameService.FreeParticleBuffer)
+            {
+                FreeRetiredParticles();
+                GameService.FreeParticleBuffer = false;
+            }
+
 
             // If we let our timer go on increasing for ever, it would eventually
             // run out of floating point precision, at which point the particles

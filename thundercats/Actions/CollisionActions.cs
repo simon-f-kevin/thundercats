@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using thundercats.Components;
+using thundercats.Service;
 using thundercats.Systems;
 
 namespace thundercats.Actions
@@ -87,8 +89,8 @@ namespace thundercats.Actions
 
         internal static void RunParticleSystem(Entity player)
         {
-            var particleCreateSystem = SystemManager.Instance.UpdateableSystems.Where(s => s.GetType() == typeof(ParticleCreationSystem)).First() as ParticleCreationSystem;
-            particleCreateSystem.Active = true;
+            GameService.DrawParticles = true;
+            
         }
     }
 }

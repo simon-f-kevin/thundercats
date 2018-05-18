@@ -27,13 +27,15 @@ namespace thundercats.Systems
         {
             //var playerComponents = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
             var particleSettingsComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<ParticleSettingsComponent>();
-
-            if (Active)
+            var currentTime = gameTime.ElapsedGameTime.TotalSeconds;
+           
+            foreach (var particleComponentKeyValuePair in particleSettingsComponentKeyValuePairs)
             {
-                foreach (var particleComponentKeyValuePair in particleSettingsComponentKeyValuePairs)
+                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
+                var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
+                var particleSettings = particleComponentKeyValuePair.Value as ParticleSettingsComponent;
+                if (GameService.DrawParticles)
                 {
-                    var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
-                    var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
                     if (transformComponent == null)
                     {
                         throw new Exception("oops, no transformcomponent found");
@@ -42,12 +44,12 @@ namespace thundercats.Systems
                     {
                         throw new Exception("oops, no cameracomponent found");
                     }
-                    var particleSettings = particleComponentKeyValuePair.Value as ParticleSettingsComponent;
                     for (int i = 0; i < particleSettings.MaximumParticles; i++)
                     {
                         particleSystem.SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
                         particleSystem.AddParticle(transformComponent.Position, Vector3.Zero);
                     }
+                    //GameService.DrawParticles = false;
                 }
             }
         }

@@ -13,6 +13,9 @@ namespace thundercats.Service
         public int[,] GameWorld {get; set;}
         public Entity[,] EntityGameWorld { get; set; }
 
+        public static bool FreeParticleBuffer { get; set; } = false;
+        public static bool DrawParticles { get; internal set; }
+
         private static GameService gameService;
         private GameService() {
 

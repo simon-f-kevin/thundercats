@@ -3,6 +3,8 @@ using Game_Engine.Components;
 using Game_Engine.Managers;
 using System;
 using System.Linq;
+using thundercats.Components;
+using thundercats.Service;
 using thundercats.Systems;
 
 namespace thundercats.Actions
@@ -72,10 +74,8 @@ namespace thundercats.Actions
 
             if (velocityComponent.Velocity.Y < _playerJumpSpeed)
             {
-                var particleCreateSystem = SystemManager.Instance.UpdateableSystems.Where(s => s.GetType() == typeof(ParticleCreationSystem)).First() as ParticleCreationSystem;
-                var particleSystem = SystemManager.Instance.UpdateableSystems.Where(s => s.GetType() == typeof(ParticleSystem)).First() as ParticleSystem;
-                particleCreateSystem.Active = false;
-                particleSystem.FreeRetiredParticles();
+                GameService.FreeParticleBuffer = true;
+                GameService.DrawParticles = false;
                 velocityComponent.Velocity.Y += _playerJumpSpeed;
             }
         }
