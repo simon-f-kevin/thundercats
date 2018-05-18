@@ -9,6 +9,7 @@ using System.Linq;
 using Game_Engine.Systems;
 using thundercats.Service;
 using thundercats.Systems;
+using thundercats.Components;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -32,10 +33,9 @@ namespace thundercats.GameStates.States.PlayingStates
         public void Initialize()
         {   
             particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            particleCreationSystem = new ParticleCreationSystem();
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
             SystemManager.Instance.AddToDrawables(particleSystem);
             SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
-            particleCreationSystem.Initialize();
 
             var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
@@ -46,7 +46,7 @@ namespace thundercats.GameStates.States.PlayingStates
             //GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, -10, 0),
             //    AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
 
-            particleSystem.InitializeParticleSystem();
+            particleSystem.InitializeParticleSystem(ComponentManager.Instance.GetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
             InitWorld();
             GameService.Instance().GameWorld = world;
 

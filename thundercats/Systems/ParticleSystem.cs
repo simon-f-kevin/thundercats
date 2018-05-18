@@ -180,10 +180,10 @@ namespace thundercats.Systems
         /// <summary>
         /// Initializes the particle system.
         /// </summary>
-        public void InitializeParticleSystem()
+        public void InitializeParticleSystem(ParticleSettingsComponent particleSettingsComponent)
         {
             //There should only exist one particleSettingsComponent, so we can safely get the first one from the dict 
-            settings = ComponentManager.Instance.GetConcurrentDictionary<ParticleSettingsComponent>().Values.First() as ParticleSettingsComponent;
+            settings = particleSettingsComponent;
 
             // Allocate the particle array, and fill in the corner fields (which never change).
             if (settings != null)
@@ -200,16 +200,6 @@ namespace thundercats.Systems
             }
 
             LoadContent();
-        }
-
-
-        /// <summary>
-        /// Derived particle system classes should override this method
-        /// and use it to initalize their tweakable settings.
-        /// </summary>
-        private void InitializeSettings(ParticleSettingsComponent settings)
-        {
-
         }
 
 
@@ -249,7 +239,7 @@ namespace thundercats.Systems
         /// </summary>
         private void LoadParticleEffectData()
         {
-            Effect effect = AssetManager.Instance.GetContent<Effect>("ParticleEffect");
+            particleEffect = AssetManager.Instance.GetContent<Effect>("ParticleEffect");
 
             // If we have several particle systems, the content manager will return
             // a single shared effect instance to them all. But we want to preconfigure
@@ -257,7 +247,7 @@ namespace thundercats.Systems
             // particle system. By cloning the effect, we prevent one particle system
             // from stomping over the parameter settings of another.
 
-            particleEffect = effect.Clone();
+            //particleEffect = effect.Clone();
 
             EffectParameterCollection parameters = particleEffect.Parameters;
 
@@ -317,24 +307,6 @@ namespace thundercats.Systems
 
             if (firstRetiredParticle == firstActiveParticle)
                 drawCounter = 0;
-
-        }
-
-        public void CreateParticles(GameTime gameTime)
-        {
-            var playerComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
-            foreach (var playerComponentKeyValuePair in playerComponentKeyValuePairs)
-            {
-                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(playerComponentKeyValuePair.Key);
-                var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(playerComponentKeyValuePair.Key);
-                SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
-                if (currentTime > settings.ParticleLifeSpan.TotalSeconds)
-                {
-                    var pos = Vector3.Lerp(transformComponent.Position, transformComponent.Position + new Vector3(0,10,0),
-                        currentTime / gameTime.TotalGameTime.Seconds);
-                    AddParticle(pos, new Vector3(0, currentTime, 0) * settings.GravityDirection);
-                }
-            }
 
         }
 
