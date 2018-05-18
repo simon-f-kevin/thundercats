@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using thundercats.Components;
 using thundercats.Service;
 
 namespace thundercats.Systems
@@ -28,22 +29,23 @@ namespace thundercats.Systems
                 {
                     particleSystem = system as ParticleSystem;
                     break;
-                }
-                    
+                }    
             }
         }
 
         public void Update(GameTime gameTime)
         {
             var playerComponents = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
+
             foreach(var playerComponentKeyValuePair in playerComponents)
             {
-                var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(playerComponentKeyValuePair.Key);
-                var cameraComponent = ComponentManager.Instance.GetComponentOfEntity<CameraComponent>(playerComponentKeyValuePair.Key);
-                for (int i = 0; i < 10; i++)
+                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(playerComponentKeyValuePair.Key);
+                var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(playerComponentKeyValuePair.Key);
+                var particleSettings = ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(playerComponentKeyValuePair.Key);
+                for (int i = 0; i < particleSettings.MaximumParticles; i++)
                 {
                     particleSystem.SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
-                    particleSystem.AddParticle(transformComponent.Position /*+ new Vector3(0, new Random().Next((int)transformComponent.Position.Y, (int)transformComponent.Position.Y + 10), 0)*/, Vector3.Zero);
+                    particleSystem.AddParticle(transformComponent.Position, Vector3.Zero);
                 }
             }
             

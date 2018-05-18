@@ -40,8 +40,8 @@ namespace thundercats.GameStates.States.PlayingStates
             var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-            GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
-            //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "smoke");
+            //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
+            GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "smoke");
 
             //GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, -10, 0),
             //    AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
@@ -56,9 +56,9 @@ namespace thundercats.GameStates.States.PlayingStates
        
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            //spriteBatch.Begin();
-            //spriteBatch.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/stars"), viewport.TitleSafeArea, Color.White);
-            //spriteBatch.End();
+            spriteBatch.Begin();
+            spriteBatch.Draw(AssetManager.Instance.GetContent<Texture2D>("2DTextures/stars"), viewport.TitleSafeArea, Color.White);
+            spriteBatch.End();
             SystemManager.Instance.Draw(gameTime);
         }
 

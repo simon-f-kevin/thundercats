@@ -333,7 +333,6 @@ namespace thundercats.Systems
                     var pos = Vector3.Lerp(transformComponent.Position, transformComponent.Position + new Vector3(0,10,0),
                         currentTime / gameTime.TotalGameTime.Seconds);
                     AddParticle(pos, new Vector3(0, currentTime, 0) * settings.GravityDirection);
-                    Console.WriteLine("campos" + cameraComponent.Position);
                 }
             }
 
@@ -442,7 +441,6 @@ namespace thundercats.Systems
                 foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    Console.WriteLine("Draw");
                     if (firstActiveParticle < firstFreeParticle)
                     {
                         // If the active particles are all in one consecutive range,
@@ -537,7 +535,8 @@ namespace thundercats.Systems
         /// </summary>
         public void AddParticle(Vector3 position, Vector3 velocity)
         {
-            Console.WriteLine("Adding new particle at: " + position);
+            //Console.WriteLine("Adding new particle at: " + position); //for debugging
+
             // Figure out where in the circular queue to allocate the new particle.
             int nextFreeParticle = firstFreeParticle + 1;
 
@@ -585,8 +584,6 @@ namespace thundercats.Systems
 
             firstFreeParticle = nextFreeParticle;
         }
-
-
         #endregion
     }
 }
