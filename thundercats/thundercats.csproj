@@ -78,6 +78,7 @@
     <Compile Include="Systems\AiSystem.cs" />
     <Compile Include="Systems\NetworkInputSystem.cs" />
     <Compile Include="Systems\NetworkHandlingSystem.cs" />
+    <Compile Include="Systems\ParticleCreationSystem.cs" />
     <Compile Include="Systems\ParticleDrawSystem.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />

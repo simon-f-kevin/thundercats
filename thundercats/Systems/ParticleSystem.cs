@@ -17,27 +17,27 @@ namespace thundercats.Systems
 {
     public struct ParticleVertex
     {
-        public Short2 Corner;
         public Vector3 Position;
+        public Vector2 Corner;
         public Vector3 Velocity;
         public Color RandomColor;
         public float CreationTime;
 
-        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration(
-        
-            new VertexElement(0, VertexElementFormat.Short2,
-                VertexElementUsage.Position, 0),
-            new VertexElement(4, VertexElementFormat.Vector3,
-                VertexElementUsage.Position, 1),
-            new VertexElement(16, VertexElementFormat.Vector3,
-                VertexElementUsage.Normal, 0),
-            new VertexElement(28, VertexElementFormat.Color,
-                VertexElementUsage.Color, 0),
-            new VertexElement(32, VertexElementFormat.Single,
-                VertexElementUsage.TextureCoordinate, 0)
+        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration
+        (
+          new VertexElement(0, VertexElementFormat.Vector3,
+                                 VertexElementUsage.Position, 0),
+          new VertexElement(12, VertexElementFormat.Vector2,
+                                 VertexElementUsage.Normal, 0),
+          new VertexElement(20, VertexElementFormat.Vector3,
+                                 VertexElementUsage.Normal, 1),
+          new VertexElement(32, VertexElementFormat.Color,
+                                 VertexElementUsage.Color, 0),
+          new VertexElement(36, VertexElementFormat.Single,
+                                 VertexElementUsage.TextureCoordinate, 0)
         );
 
-        public const int SizeInBytes = 36;
+        public const int SizeInBytes = 40;
     }
     public class ParticleSystem : IUpdateableSystem, IDrawableSystem
     {
@@ -66,6 +66,7 @@ namespace thundercats.Systems
         // A vertex buffer holding our particles. This contains the same data as
         // the particles array, but copied across to where the GPU can access it.
         private DynamicVertexBuffer vertexBuffer;
+        //private VertexBuffer vertexBuffer;
 
 
         // Index buffer turns sets of four vertices into particle quads (pairs of triangles).
@@ -191,10 +192,10 @@ namespace thundercats.Systems
 
                 for (int i = 0; i < settings.MaximumParticles; i++)
                 {
-                    particles[i * 4 + 0].Corner = new Short2(-1, -1);
-                    particles[i * 4 + 1].Corner = new Short2(1, -1);
-                    particles[i * 4 + 2].Corner = new Short2(1, 1);
-                    particles[i * 4 + 3].Corner = new Short2(-1, 1);
+                    particles[i * 4 + 0].Corner = new Vector2(-1, -1);
+                    particles[i * 4 + 1].Corner = new Vector2(1, -1);
+                    particles[i * 4 + 2].Corner = new Vector2(1, 1);
+                    particles[i * 4 + 3].Corner = new Vector2(-1, 1);
                 }
             }
 
@@ -268,7 +269,20 @@ namespace thundercats.Systems
 
             // Set the values of parameters that do not change.
             parameters["Duration"].SetValue((float)settings.ParticleLifeSpan.TotalSeconds);
+            parameters["DurationRandomness"].SetValue(settings.ParticleLifeSpanRandomness);
             parameters["Gravity"].SetValue(settings.GravityDirection);
+            parameters["EndVelocity"].SetValue(settings.EndVelocity);
+            parameters["MinColor"].SetValue(settings.MinColor.ToVector4());
+            parameters["MaxColor"].SetValue(settings.MaxColor.ToVector4());
+
+            parameters["RotateSpeed"].SetValue(
+                new Vector2(settings.MinRotateSpeed, settings.MaxRotateSpeed));
+
+            parameters["StartSize"].SetValue(
+                new Vector2(settings.MinSize, settings.MaxSize));
+
+            parameters["EndSize"].SetValue(
+                new Vector2(settings.MinSize, settings.MaxSize));
 
             // Load the particle texture, and set it onto the effect.
             Texture2D texture = AssetManager.Instance.GetContent<Texture2D>(settings.TextureName);
@@ -289,7 +303,6 @@ namespace thundercats.Systems
         {
 
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             RetireActiveParticles();
             FreeRetiredParticles();
 
@@ -299,16 +312,15 @@ namespace thundercats.Systems
             // that the time value doesn't matter when no particles are being drawn,
             // so we can reset it back to zero any time the active queue is empty.
 
-            //if (firstActiveParticle == firstFreeParticle)
-            //    currentTime = 0;
+            if (firstActiveParticle == firstFreeParticle)
+                currentTime = 0;
 
-            //if (firstRetiredParticle == firstActiveParticle)
-            //    drawCounter = 0;
+            if (firstRetiredParticle == firstActiveParticle)
+                drawCounter = 0;
 
-            CreateParticles(gameTime);
         }
 
-        private void CreateParticles(GameTime gameTime)
+        public void CreateParticles(GameTime gameTime)
         {
             var playerComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
             foreach (var playerComponentKeyValuePair in playerComponentKeyValuePairs)
@@ -318,7 +330,7 @@ namespace thundercats.Systems
                 SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
                 if (currentTime > settings.ParticleLifeSpan.TotalSeconds)
                 {
-                    var pos = Vector3.Lerp(transformComponent.Position, cameraComponent.Position,
+                    var pos = Vector3.Lerp(transformComponent.Position, transformComponent.Position + new Vector3(0,10,0),
                         currentTime / gameTime.TotalGameTime.Seconds);
                     AddParticle(pos, new Vector3(0, currentTime, 0) * settings.GravityDirection);
                     Console.WriteLine("campos" + cameraComponent.Position);
@@ -411,7 +423,7 @@ namespace thundercats.Systems
             // If there are any active particles, draw them now!
             if (firstActiveParticle != firstFreeParticle)
             {
-                GraphicsDevice.BlendState = settings.AlphaBlendState;
+                GraphicsDevice.BlendState = BlendState.Additive;
                 GraphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
                 
                 // Set an effect parameter describing the viewport size. This is
@@ -430,7 +442,7 @@ namespace thundercats.Systems
                 foreach (EffectPass pass in particleEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-
+                    Console.WriteLine("Draw");
                     if (firstActiveParticle < firstFreeParticle)
                     {
                         // If the active particles are all in one consecutive range,
@@ -513,7 +525,7 @@ namespace thundercats.Systems
         /// Sets the camera view and projection matrices
         /// that will be used to draw this particle system.
         /// </summary>
-        private void SetCamera(Matrix view, Matrix projection)
+        public void SetCamera(Matrix view, Matrix projection)
         {
             effectViewParameter.SetValue(view);
             effectProjectionParameter.SetValue(projection);
@@ -523,7 +535,7 @@ namespace thundercats.Systems
         /// <summary>
         /// Adds a new particle to the system.
         /// </summary>
-        private void AddParticle(Vector3 position, Vector3 velocity)
+        public void AddParticle(Vector3 position, Vector3 velocity)
         {
             Console.WriteLine("Adding new particle at: " + position);
             // Figure out where in the circular queue to allocate the new particle.
@@ -551,7 +563,7 @@ namespace thundercats.Systems
             velocity.Z += horizontalVelocity * (float)Math.Sin(horizontalAngle);
 
             // Add in some random amount of vertical velocity.
-            velocity.Y += MathHelper.Lerp(settings.MinVelocity,
+            velocity.Y += MathHelper.Lerp(settings.MaxVelocity,
                                           settings.MaxVelocity,
                                           (float)random.NextDouble());
 

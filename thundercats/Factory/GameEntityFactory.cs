@@ -172,13 +172,17 @@ namespace thundercats
             Entity particles = player;
             ParticleSettingsComponent particleSettingsComponent = new ParticleSettingsComponent(particles)
             {
-                AlphaBlendState = BlendState.NonPremultiplied,
+                AlphaBlendState = BlendState.Additive,
                 EmitterVelocitySensitivity = 1,
                 GravityDirection = Vector3.Up,
                 MaximumParticles = maxParticles,
-                MaxVelocity = 1,
+                MaxVelocity = 10,
                 MinVelocity = 0,
+                MinColor = new Color(255, 255, 255, 10),
+                MaxColor = new Color(255, 255, 255, 40),
                 ParticleLifeSpan = TimeSpan.FromSeconds(lifeSpan),
+                MaxSize = 100,
+                MinSize = 100,
                 TextureName = textureName
             };
 
