@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Game_Engine.Entities;
+using thundercats.Components;
 
 namespace thundercats.Service
 {
