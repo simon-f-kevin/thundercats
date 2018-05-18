@@ -4,6 +4,8 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using thundercats.Systems;
 
 namespace thundercats.Actions
 {
@@ -81,6 +83,12 @@ namespace thundercats.Actions
                 velocityComponent.Velocity.Y -= 0.1f; //Disabled until smoother adjustment is implemented
                 //velocityComponent.Velocity.Y = 0f;
             }
+        }
+
+        internal static void RunParticleSystem(Entity player)
+        {
+            var particleCreateSystem = SystemManager.Instance.UpdateableSystems.Where(s => s.GetType() == typeof(ParticleCreationSystem)).First() as ParticleCreationSystem;
+            particleCreateSystem.Active = true;
         }
     }
 }

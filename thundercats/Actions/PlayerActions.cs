@@ -2,6 +2,8 @@
 using Game_Engine.Components;
 using Game_Engine.Managers;
 using System;
+using System.Linq;
+using thundercats.Systems;
 
 namespace thundercats.Actions
 {
@@ -66,11 +68,16 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void PlayerJump(VelocityComponent velocityComponent, GravityComponent gravity)
         {
-                if (velocityComponent.Velocity.Y < _playerJumpSpeed)
-                {
-                    velocityComponent.Velocity.Y += _playerJumpSpeed;
-                }
+            var collisionComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<CollisionComponent>();
 
+            if (velocityComponent.Velocity.Y < _playerJumpSpeed)
+            {
+                var particleCreateSystem = SystemManager.Instance.UpdateableSystems.Where(s => s.GetType() == typeof(ParticleCreationSystem)).First() as ParticleCreationSystem;
+                var particleSystem = SystemManager.Instance.UpdateableSystems.Where(s => s.GetType() == typeof(ParticleSystem)).First() as ParticleSystem;
+                particleCreateSystem.Active = false;
+                particleSystem.FreeRetiredParticles();
+                velocityComponent.Velocity.Y += _playerJumpSpeed;
+            }
         }
     }
 }

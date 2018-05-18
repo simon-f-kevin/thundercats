@@ -18,33 +18,38 @@ namespace thundercats.Systems
         public ParticleCreationSystem(ParticleSystem particleSystem)
         {
             this.particleSystem = particleSystem;
+            Active = false;
         }
+
+        public bool Active { get; internal set; }
 
         public void Update(GameTime gameTime)
         {
             //var playerComponents = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
             var particleSettingsComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<ParticleSettingsComponent>();
 
-            foreach(var particleComponentKeyValuePair in particleSettingsComponentKeyValuePairs)
+            if (Active)
             {
-                var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
-                var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
-                if (transformComponent == null)
+                foreach (var particleComponentKeyValuePair in particleSettingsComponentKeyValuePairs)
                 {
-                    throw new Exception("oops, no transformcomponent found");
-                }
-                if (cameraComponent == null)
-                {
-                    throw new Exception("oops, no cameracomponent found");
-                }
-                var particleSettings = particleComponentKeyValuePair.Value as ParticleSettingsComponent;
-                for (int i = 0; i < particleSettings.MaximumParticles; i++)
-                {
-                    particleSystem.SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
-                    particleSystem.AddParticle(transformComponent.Position, Vector3.Zero);
+                    var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
+                    var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
+                    if (transformComponent == null)
+                    {
+                        throw new Exception("oops, no transformcomponent found");
+                    }
+                    if (cameraComponent == null)
+                    {
+                        throw new Exception("oops, no cameracomponent found");
+                    }
+                    var particleSettings = particleComponentKeyValuePair.Value as ParticleSettingsComponent;
+                    for (int i = 0; i < particleSettings.MaximumParticles; i++)
+                    {
+                        particleSystem.SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
+                        particleSystem.AddParticle(transformComponent.Position, Vector3.Zero);
+                    }
                 }
             }
-            
         }
     }
 }

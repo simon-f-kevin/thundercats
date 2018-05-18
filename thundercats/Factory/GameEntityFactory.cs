@@ -167,7 +167,7 @@ namespace thundercats
             TransformHelper.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
         }
 
-        public static Entity NewParticleSettingsEntity(Entity player, int maxParticles, int lifeSpan, string textureName)
+        public static Entity NewParticleSettingsEntity(Entity player, int maxParticles, float lifeSpan, string textureName)
         {
             Entity particles = player;
             ParticleSettingsComponent particleSettingsComponent = new ParticleSettingsComponent(particles)

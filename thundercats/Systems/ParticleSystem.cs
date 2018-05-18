@@ -294,7 +294,7 @@ namespace thundercats.Systems
 
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             RetireActiveParticles();
-            FreeRetiredParticles();
+            //FreeRetiredParticles();
 
             // If we let our timer go on increasing for ever, it would eventually
             // run out of floating point precision, at which point the particles
@@ -302,11 +302,11 @@ namespace thundercats.Systems
             // that the time value doesn't matter when no particles are being drawn,
             // so we can reset it back to zero any time the active queue is empty.
 
-            if (firstActiveParticle == firstFreeParticle)
-                currentTime = 0;
+            //if (firstActiveParticle == firstFreeParticle)
+            //    currentTime = 0;
 
-            if (firstRetiredParticle == firstActiveParticle)
-                drawCounter = 0;
+            //if (firstRetiredParticle == firstActiveParticle)
+            //    drawCounter = 0;
 
         }
 
@@ -347,7 +347,7 @@ namespace thundercats.Systems
         /// enough that we can be sure the GPU is no longer using them. It moves
         /// old particles from the retired area of the queue to the free section.
         /// </summary>
-        private void FreeRetiredParticles()
+        public void FreeRetiredParticles()
         {
             while (firstRetiredParticle != firstActiveParticle)
             {
