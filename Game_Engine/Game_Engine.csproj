@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ParticleComponent.cs" />
     <Compile Include="Components\BlockComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\BoundingSphereComponent.cs" />
@@ -65,7 +64,6 @@
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
-    <Compile Include="Components\Particle\PositionTexcoordVertex.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityFactory.cs" />
     <Compile Include="Helpers\EngineHelper.cs" />
@@ -78,7 +76,6 @@
     <Compile Include="Managers\SystemManager.cs" />
     <Compile Include="Helpers\TransformHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Systems\ParticlesSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Systems\ModelRenderSystem.cs" />
