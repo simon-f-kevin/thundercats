@@ -21,7 +21,7 @@ namespace thundercats.Factory
         private string seed;
         private float[,] world;
         private GameManager gameManager;
-        private Viewport viewport;
+        private Viewport viewport
 
         private List<IWorldgenEntityDef> WorldgenEntities { get; set;}
 
@@ -34,42 +34,51 @@ namespace thundercats.Factory
             SetSelectionValues();
         }
 
-        internal float[,] GenerateWorld(int nLanes, int nRows)
+        /*
+        * Creates a new world matrix and populates it with randomly selected worldgen entities
+        */
+        internal float[,] GenerateWorld(int nColumns, int nRows)
         {
-            world = new float[nLanes, nRows];
+            world = new float[nColumns, nRows];
 
-            PopulateWorld(world);
+            PopulateWorld(nColumns, nRows);
 
             return world;
         }
 
-        private void PopulateWorld(float[,] world)
+        /*
+        * For all columns and rows, selects and creates worldgen entities for the world matrix
+        */
+        private void PopulateWorld(int nColumns, int nRows)
         {
-            int distanceBetweenEntitiesX = 100;
-            int distanceBetweenEntitiesZ = 50;
+            int distanceBetweenColumns = 100;
+            int distanceBetweenRows = 50;
             Random rnd = new Random(seed.GetHashCode());
             int weightTotal = GetWeightTotal();
             WorldgenEntities = WorldgenEntities.OrderBy(o => o.SelectionValue).ToList();
 
-            for(int x = 0; x < world.GetLength(0); x++)
+            for(int column = 0; column < nColumns; column++)
             {
-                for(int z = 0; z < world.GetLength(1); z++)
+                for(int row = 0; row < nRows; row++)
                 {
-                    //world[x, z] = rnd.Next(2); //TODO: Disable when new generation is complete
-                    CreateSelectedWorldEntity((float)rnd.NextDouble(), new Vector3((x * distanceBetweenEntitiesX), (viewport.Height * 0.45f), (z * distanceBetweenEntitiesZ)));
+                    //world[column, row] = rnd.Next(2); //TODO: Disable when new generation is complete
+                    CreateSelectedWorldEntity((float)rnd.NextDouble(), column, row, new Vector3((column * distanceBetweenColumn), (viewport.Height * 0.45f), (row * distanceBetweenRows)));
                 }
             }
         }
 
-        private void CreateSelectedWorldEntity(float selectedValue, Vector3 position)
+        /*
+        * Creates a game entity at the specified position and matrix index. The entity is selected based on the selection value which picks an entity in a pre-sorted list
+        */
+        private void CreateSelectedWorldEntity(float selectedValue, int column, int row, Vector3 position)
         {
 
             for(int i = 0; i < WorldgenEntities.Count; i++)
             {
                 if(selectedValue < WorldgenEntities[i].SelectionValue)
                 {
-                    //Console.WriteLine(selectedValue + ", " + WorldgenEntities[i].GetType());
-                    WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
+                    GameService.EntityGameWorld[column, row] = WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
+					world[column, row] = WorldgenEntities[i].Index;
                     break;
                 }
             }
