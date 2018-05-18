@@ -1,27 +1,26 @@
 ﻿
 using Game_Engine.Components;
 using Microsoft.Xna.Framework;
+using Game_Engine.Managers;
 using System;
 
 namespace thundercats.Actions
 {
     static class PlayerActions
     {
- 
         private static float playerForwardAcceleration = 10f;
         private static float playerStrafeAcceleration = 10f;
         private static float playerMaxRunningSpeed = 40f;
         private static float playerMaxStrafeSpeed = 40f;
         private static float _playerJumpSpeed = 40f;
 
-        
         /// <summary>
         /// Accelerates the player forward until it reaches maximum running speed
         /// </summary>
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerForwards(GameTime gameTime, VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Z < playerMaxRunningSpeed)
+            if (velocityComponent.Velocity.Z < playerMaxRunningSpeed)
             {
                 velocityComponent.Velocity.Z += playerForwardAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
@@ -32,7 +31,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerBackwards(GameTime gameTime, VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.Z > -playerMaxRunningSpeed)
+            if (velocityComponent.Velocity.Z > -playerMaxRunningSpeed)
             {
                 velocityComponent.Velocity.Z -= playerForwardAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
@@ -43,7 +42,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerLeftwards(GameTime gameTime, VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.X < playerMaxStrafeSpeed)
+            if (velocityComponent.Velocity.X < playerMaxStrafeSpeed)
             {
                 velocityComponent.Velocity.X += playerStrafeAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
@@ -54,7 +53,7 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void AcceleratePlayerRightwards(GameTime gameTime, VelocityComponent velocityComponent)
         {
-            if(velocityComponent.Velocity.X > -playerMaxStrafeSpeed)
+            if (velocityComponent.Velocity.X > -playerMaxStrafeSpeed)
             {
                 velocityComponent.Velocity.X -= playerStrafeAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
@@ -70,9 +69,6 @@ namespace thundercats.Actions
             {
                velocityComponent.Velocity.Y += _playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds; 
             }
-
-
-           
         }
     }
 }

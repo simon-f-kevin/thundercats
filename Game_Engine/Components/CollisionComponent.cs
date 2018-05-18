@@ -31,5 +31,7 @@ namespace Game_Engine.Components
         {
             Children = new List<BoundingBox>();
         }
+
+        public abstract void UpdateShape(Vector3 position);
     }
 }

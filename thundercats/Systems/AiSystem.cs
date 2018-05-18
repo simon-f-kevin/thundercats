@@ -4,11 +4,14 @@ using Game_Engine.Managers;
 using Game_Engine.Systems;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using thundercats.Components;
+using thundercats.GameStates;
+using thundercats.GameStates.States.AiStates;
 
 namespace thundercats.Systems
 {
@@ -19,35 +22,52 @@ namespace thundercats.Systems
          * if! losing! the AI should check after powerups! 
          * in Nextrow we need to evaluate where to go!
          */
-        public void CheckNextRow(/*ArrayOfMap,*/ Entity key) {
-           var AiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(key);
-           var AiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(key);
-            
-            int[] nextRow;
-            nextRow = new int[3];
-            //nextRow = ArrayMap[AiTransformComponent.Position+1];
-            for(int i=0; i< nextRow.Length; i++) {
-                /*if(AiState == losing)
-                 *  move == 1  (1 is bad)?
-                 * 
-                 * 
-                 * 
-                 */
-                switch (nextRow[i]) {
-                    case 0:
-                        //lane is clear this is option NR1 if WinningState
-                        break;
-                    case 1:
-                        // 1 is obstacle
-                        break;
-                }
-                 
-                }
-            //return move
+       
+      
+        //protected GameTime gameTime;
+        public enum AiState {
+            Winning,
+            Losing
+        };
+        public Dictionary<AiState, IAiState> aiStates;
+        public AiSystem() {
+            aiStates = new Dictionary<AiState, IAiState>();
+            aiStates.Add(AiState.Winning, new Winning());
+            aiStates.Add(AiState.Losing, new Losing());
         }
+        private void AiGameState(Entity AiKey, Entity PlayerKey, GameTime gameTime) {
+            Random random = new Random();
+            //Ai values
+            var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
+            var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(AiKey);
+            //Player values
+            var playerTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(PlayerKey);
+            // we need +10 because we need a bufferZone to not change state like everysecond if players are close to eachother
+            if (aiTransformComponent.Position.Z < (playerTransformComponent.Position.Z + 10))
+            {
+                aiComponent.CurrentState = AiState.Losing;
+            }
+            else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 5))
+            {
+                aiComponent.CurrentState = AiState.Winning;
+   
+            }
+            aiStates[aiComponent.CurrentState].Update(gameTime,aiComponent.MatrixPosition, aiTransformComponent.Position);
+
+        }
+
         public void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            ConcurrentDictionary<Entity, Component> playerComponents = ComponentManager.Instance.GetConcurrentDictionary<PlayerComponent>();
+            ConcurrentDictionary<Entity, Component> aiComponents = ComponentManager.Instance.GetConcurrentDictionary<AiComponent>();
+            
+            foreach (var aiComponent in aiComponents.Keys)
+            {
+                foreach (var playerComponent in playerComponents.Keys) {
+                    AiGameState(aiComponent, playerComponent,gameTime);
+                }
+            }
         }
+       
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
+using Game_Engine.Helpers;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +26,6 @@ namespace Game_Engine.Systems
         public void Draw(GameTime gameTime)
         {
             DrawModels(gameTime);
-            //DrawGameWorld();
         }
 
         /*
@@ -48,19 +48,22 @@ namespace Game_Engine.Systems
                 return;
             }
             
-            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value;
+            CameraComponent cameraComponent = (CameraComponent)cameraComponentPairs.First().Value; //get the cameracomponent for the local player
 
             foreach(var modelComponentPair in modelComponents)
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
                 TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
-                model.BoneTransformations[0] = model.World;
-
+                 model.BoneTransformations[0] = model.World;
+                //model.Model.CopyAbsoluteBoneTransformsTo(model.BoneTransformations);
+                //model.BoneTransformations = new Matrix[model.Model.Bones.Count];
+                //model.Model.CopyAbsoluteBoneTransformsTo(model.BoneTransformations);
+                
                 foreach (var modelMesh in model.Model.Meshes)
                 {
                     foreach (BasicEffect effect in modelMesh.Effects)
                     {
-                        effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
+                        effect.World = model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix;
                         effect.View = cameraComponent.ViewMatrix;
                         effect.Projection = cameraComponent.ProjectionMatrix;
                         effect.EnableDefaultLighting();
@@ -95,11 +98,6 @@ namespace Game_Engine.Systems
             //        }
             //    }
             //});
-        }
-
-        private void DrawGameWorld()
-        {
-            throw new NotImplementedException();
         }
     }
 }

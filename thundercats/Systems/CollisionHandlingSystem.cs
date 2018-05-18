@@ -40,10 +40,16 @@ namespace thundercats.Systems
 
             switch(sourceEntity.EntityTypeName)
             {
-                case "local_player":
+                case GameEntityFactory.REMOTE_PLAYER:
                     PlayerCollision(gameTime, collisionPair);
                     break;
-                case "default":
+                case GameEntityFactory.LOCAL_PLAYER:
+                    PlayerCollision(collisionPair);
+                    break;
+                case GameEntityFactory.AI_PLAYER:
+                    PlayerCollision(collisionPair);
+                    break;
+                default:
                     break;
             }       
 		}
@@ -55,11 +61,17 @@ namespace thundercats.Systems
 
             switch (targetEntity.EntityTypeName)
             {
-                case "Goal":
+                case GameEntityFactory.GOAL:
                     Debug.WriteLine("A winner is you");
                     break;
-                case "default":
-                    UpdateSourceCollider(gameTime, sourceEntity, targetEntity);
+                case GameEntityFactory.BLOCK:
+                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    break;
+                case GameEntityFactory.REMOTE_PLAYER:
+                    PlayerCollision2(sourceEntity, targetEntity);
+                    break;
+                case GameEntityFactory.LOCAL_PLAYER:
+                    PlayerCollision2(sourceEntity, targetEntity);
                     break;
             }
         }
@@ -72,8 +84,43 @@ namespace thundercats.Systems
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
+            GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
+            TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
 
-            if(sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
+            //if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
+            //{
+            //    CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
+            //}
+            //else
+            //{
+            //    CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
+            //}
+            if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
+            {
+                CollisionActions.HandleCollisionFromBelow(sourceEntity);
+            }
+            else
+            {
+                CollisionActions.HandleCollisionFromAbove(gameTime, sourceEntity);
+            }
+            //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
+            //{
+            //    CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
+            //}
+            //else
+            //{
+            //    CollisionActions.AccelerateColliderForwards(gameTime, sourceEntity);
+            //}
+        }
+
+        private void PlayerCollision2(Entity sourceEntity, Entity targetEntity)
+        {
+            CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
+            CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
+            GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
+            TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
+
+            if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             {
                 CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
             }
@@ -81,15 +128,15 @@ namespace thundercats.Systems
             {
                 CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
             }
-            if(sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
-            {
-                CollisionActions.AccelerateColliderDownwards(gameTime, sourceEntity);
-            }
-            else
-            {
-                CollisionActions.AccelerateColliderUpwards(gameTime, sourceEntity);
-            }
-            if(sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
+            //if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
+            //{
+            //    CollisionActions.HandleCollisionFromBelow(sourceEntity);
+            //}
+            //else
+            //{
+            //    CollisionActions.HandleCollisionFromAbove(sourceEntity);
+            //}
+            if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             {
                 CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
             }
