@@ -34,7 +34,7 @@ namespace thundercats.Systems
                 var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
                 var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
                 var particleSettings = particleComponentKeyValuePair.Value as ParticleSettingsComponent;
-                if (GameService.DrawParticles)
+                if (GameService.CreateParticles)
                 {
                     if (transformComponent == null)
                     {

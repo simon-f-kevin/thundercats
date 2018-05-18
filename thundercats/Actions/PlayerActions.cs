@@ -75,7 +75,7 @@ namespace thundercats.Actions
             if (velocityComponent.Velocity.Y < _playerJumpSpeed)
             {
                 GameService.FreeParticleBuffer = true;
-                GameService.DrawParticles = false;
+                GameService.CreateParticles = false;
                 velocityComponent.Velocity.Y += _playerJumpSpeed;
             }
         }

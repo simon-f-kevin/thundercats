@@ -89,7 +89,7 @@ namespace thundercats.Actions
 
         internal static void RunParticleSystem(Entity player)
         {
-            GameService.DrawParticles = true;
+            GameService.CreateParticles = true;
             
         }
     }
