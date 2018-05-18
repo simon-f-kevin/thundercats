@@ -78,8 +78,8 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.Y -= 0.1f; //Disabled until smoother adjustment is implemented
-                velocityComponent.Velocity.Y = 0f;
+                velocityComponent.Velocity.Y -= 0.1f; //Disabled until smoother adjustment is implemented
+                //velocityComponent.Velocity.Y = 0f;
             }
         }
     }
