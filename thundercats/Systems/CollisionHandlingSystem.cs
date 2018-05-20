@@ -44,10 +44,10 @@ namespace thundercats.Systems
                     PlayerCollision(gameTime, collisionPair);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    PlayerCollision(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 case GameEntityFactory.AI_PLAYER:
-                    PlayerCollision(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 default:
                     break;
@@ -65,13 +65,13 @@ namespace thundercats.Systems
                     Debug.WriteLine("A winner is you");
                     break;
                 case GameEntityFactory.BLOCK:
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    UpdateSourceCollider(gameTime, sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.REMOTE_PLAYER:
-                    PlayerCollision2(sourceEntity, targetEntity);
+                    PlayerCollision2(gameTime, sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    PlayerCollision2(sourceEntity, targetEntity);
+                    PlayerCollision2(gameTime, sourceEntity, targetEntity);
                     break;
             }
         }
@@ -113,7 +113,7 @@ namespace thundercats.Systems
             //}
         }
 
-        private void PlayerCollision2(Entity sourceEntity, Entity targetEntity)
+        private void PlayerCollision2(GameTime gameTime, Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);

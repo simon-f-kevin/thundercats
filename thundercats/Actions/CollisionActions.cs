@@ -3,7 +3,6 @@ using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 
 namespace thundercats.Actions
 {
@@ -61,7 +60,7 @@ namespace thundercats.Actions
                 if(velocityComponent.Velocity.Y < 0)
                 {
                     // if we collide with an acceleration downwards then we want a counter force up.
-                    velocityComponent.Velocity.Y += Math.Abs(velocityComponent.Velocity.Y) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    velocityComponent.Velocity.Y += 45f * (Math.Abs(velocityComponent.Velocity.Y)) * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
                 gravity.HasJumped = false;
             } 
