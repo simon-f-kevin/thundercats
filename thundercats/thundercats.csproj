@@ -46,6 +46,7 @@
     <Compile Include="Actions\CollisionActions.cs" />
     <Compile Include="Actions\PlayerActions.cs" />
     <Compile Include="Components\AiComponent.cs" />
+    <Compile Include="Components\ParticleSettingsComponent.cs" />
     <Compile Include="Components\SurfaceComponent.cs" />
     <Compile Include="Worldgen\BlockWorldgenDef.cs" />
     <Compile Include="Worldgen\VoidWorldGenDef.cs" />
@@ -80,6 +81,8 @@
     <Compile Include="Systems\AiSystem.cs" />
     <Compile Include="Systems\NetworkInputSystem.cs" />
     <Compile Include="Systems\NetworkHandlingSystem.cs" />
+    <Compile Include="Systems\ParticleCreationSystem.cs" />
+    <Compile Include="Systems\ParticleSystem.cs" />
     <Compile Include="Systems\PlayerInputSystem.cs" />
     <Compile Include="Systems\SurfaceSystem.cs" />
   </ItemGroup>
