@@ -44,6 +44,7 @@ namespace thundercats.Factory
             world = new int[nColumns, nRows];
 
             PopulateWorld(nColumns, nRows);
+            GameService.Instance().GameWorld = world;
 
             return world;
         }
@@ -65,7 +66,15 @@ namespace thundercats.Factory
                 for(int row = 0; row < nRows; row++)
                 {
                     //world[column, row] = rnd.Next(2); //TODO: Disable when new generation is complete
-                    CreateSelectedWorldEntity((float)rnd.NextDouble(), column, row, new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)));
+                    if(row == 0) // First row is always filled with blocks as the players start there
+                    {
+                        GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
+                            AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
+                    }
+                    else
+                    {
+                        CreateSelectedWorldEntity((float)rnd.NextDouble(), column, row, new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)));
+                    }
                 }
             }
         }

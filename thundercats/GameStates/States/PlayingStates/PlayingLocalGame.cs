@@ -17,8 +17,6 @@ namespace thundercats.GameStates.States.PlayingStates
         private GameManager gameManager;
         private Viewport viewport;
         internal WorldGenerator worldGenerator;
-        public int[,] world;
-        public Entity[,] worldEntity;
 
         public PlayingLocalGame(GameManager gameManager)
         {
@@ -35,7 +33,6 @@ namespace thundercats.GameStates.States.PlayingStates
             //GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, -10, 0),
             //    AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
             InitWorld();
-            GameService.Instance().GameWorld = world;
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
@@ -51,7 +48,10 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Update(GameTime gameTime)
         {
-            if (!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
+            if(!AudioManager.Instance.IsPlaying)
+            {
+                AudioManager.Instance.PlayNextInQueue(gameTime);
+            }
             SystemManager.Instance.Update(gameTime);
         }
 
@@ -62,35 +62,13 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
-            var world = GenerateWorld(3, 5);
-            int distanceBetweenBlocksX = 100;
-            int distanceBetweenBlocksZ = 50;
-            int iter = 0;
-
-            for (int column = 0; column < world.GetLength(0); column++)
-            {
-                for (int row = 0; row < world.GetLength(1); row++)
-                {
-                    if (world[column, row] == 1)
-                    {
-                        
-                        //Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
-                        //AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
-
-                        //worldEntity[column, row] = Block;
-                        
-                    }
-                    iter++; //for debugging
-                }
-            }
-            //GameService.Instance().EntityGameWorld = worldEntity;
+            GenerateWorld(3, 20);
             worldGenerator.MoveBlocks();
         }
 
-        private int[,] GenerateWorld(int nLanes, int nRows)
+        private void GenerateWorld(int nLanes, int nRows)
         {
-            var world = worldGenerator.GenerateWorld(nLanes, nRows);
-            return world;
+            worldGenerator.GenerateWorld(nLanes, nRows);
         }
     }
 }
