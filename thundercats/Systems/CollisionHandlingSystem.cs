@@ -27,13 +27,13 @@ namespace thundercats.Systems
                 currentCollisionPair = collisionManager.RemoveCollisionPair();
                 if(currentCollisionPair != null)
                 {
-                    ResolveCollision(currentCollisionPair);
+                    ResolveCollision(gameTime, currentCollisionPair);
                 }
             }
         }
 
         /* Runs collision actions based on entity type of the source component pair. */
-        private void ResolveCollision(Tuple<Entity, Entity> collisionPair)
+        private void ResolveCollision(GameTime gameTime, Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -41,20 +41,20 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case GameEntityFactory.REMOTE_PLAYER:
-                    CollisionSource_Player(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    CollisionSource_Player(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 case GameEntityFactory.AI_PLAYER:
-                    CollisionSource_Player(collisionPair);
+                    PlayerCollision(gameTime, collisionPair);
                     break;
                 default:
                     break;
             }       
 		}
 
-        private void CollisionSource_Player(Tuple<Entity, Entity> collisionPair)
+        private void PlayerCollision(GameTime gameTime, Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -65,13 +65,13 @@ namespace thundercats.Systems
                     Debug.WriteLine("A winner is you");
                     break;
                 case GameEntityFactory.BLOCK:
-                    KeepSourceOnTop(sourceEntity, targetEntity);
+                    KeepSourceOnTop(gameTime, sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.REMOTE_PLAYER:
-                    PushSourceAwayFromTarget(sourceEntity, targetEntity);
+                    PushSourceAwayFromTarget(gameTime, sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    PushSourceAwayFromTarget(sourceEntity, targetEntity);
+                    PushSourceAwayFromTarget(gameTime, sourceEntity, targetEntity);
                     break;
             }
         }
@@ -80,7 +80,7 @@ namespace thundercats.Systems
          * Move the source entity away from the target which it has collided with.
          * TODO: Adjustment velocity is currently static and should be adjusted to be relative to how close the bounding volumes are at each axis.
          */
-        private void KeepSourceOnTop(Entity sourceEntity, Entity targetEntity)
+        private void KeepSourceOnTop(GameTime gameTime, Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
@@ -93,11 +93,11 @@ namespace thundercats.Systems
             }
             else
             {
-                CheckSurfaceOfBlock(sourceEntity, targetEntity, sourceCollisionComponent, targetCollisionComponent);
+                CollisionActions.HandleCollisionFromAbove(gameTime, sourceEntity);
             }
         }
 
-        private void CheckSurfaceOfBlock(Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
+        private void CheckSurfaceOfBlock(GameTime gameTime, Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
         {
             var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingShape;
             var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
@@ -105,39 +105,36 @@ namespace thundercats.Systems
             
             if (diff < 5 && diff > 0)
             {
-                 CollisionActions.HandleCollisionFromAbove(player);
+                 CollisionActions.HandleCollisionFromAbove(gameTime, player);
             }
             else
             {
-                PushSourceAwayFromTarget(player, block);
                 CollisionActions.HandleCollisionFromBelow(player);
             }
         }
 
-        private void PushSourceAwayFromTarget(Entity sourceEntity, Entity targetEntity)
+        private void PushSourceAwayFromTarget(GameTime gameTime, Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
             GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
             TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
-            float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
-            float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
 
             if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             {
-                CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
+                CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
+                CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
             }
             if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             {
-                CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
+                CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
             }
             else
             {
-                CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
+                CollisionActions.AccelerateColliderForwards(gameTime, sourceEntity);
             }
         }
     }
