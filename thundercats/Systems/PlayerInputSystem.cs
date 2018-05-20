@@ -67,7 +67,7 @@ namespace thundercats.Systems
                 {
                     if (!gravityComponent.HasJumped)
                     {
-                        PlayerActions.PlayerJumpSpeed(gameTime, velocityComponent);
+                        PlayerActions.PlayerJump(gameTime, velocityComponent);
                         gravityComponent.HasJumped = true;
                     }
                 }
@@ -98,7 +98,7 @@ namespace thundercats.Systems
                 {
                     if (!gravityComponent.HasJumped)
                     {
-                        PlayerActions.PlayerJumpSpeed(gameTime, velocityComponent);
+                        PlayerActions.PlayerJump(gameTime, velocityComponent);
                         gravityComponent.HasJumped = true;
                     }
                 }

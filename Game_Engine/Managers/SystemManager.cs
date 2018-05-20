@@ -15,9 +15,11 @@ namespace Game_Engine.Managers
      */
     public class SystemManager
     {
-        private static SystemManager _instance;
         public Queue<IUpdateableSystem> UpdateableSystems { get; set; }
         public Queue<IDrawableSystem> DrawableSystems { get; set; }
+
+        #region Thread-safe singleton - use "SystemManager.Instance" to access
+        private static readonly Lazy<SystemManager> lazy = new Lazy<SystemManager>(() => new SystemManager());
 
         private SystemManager()
         {
@@ -28,14 +30,10 @@ namespace Game_Engine.Managers
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new SystemManager();
-                }
-                return _instance;
+                return lazy.Value;
             }
-            
         }
+        #endregion
 
         public void AddToUpdateables(params IUpdateableSystem[] list)
         {

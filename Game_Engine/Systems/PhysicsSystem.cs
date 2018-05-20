@@ -106,7 +106,7 @@ namespace Game_Engine.Systems
 
                 var dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 var acceleration = gravityComponent.GravityCoefficient / gravityComponent.Mass;
-                velocityComponent.Velocity.Y -= acceleration * dt;
+                velocityComponent.Velocity.Y -= 150f* acceleration * dt * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
         }
 
