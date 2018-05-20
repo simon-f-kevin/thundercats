@@ -8,11 +8,11 @@ namespace thundercats.Actions
 {
     static class PlayerActions
     {
-        private static float playerForwardAcceleration = 10f;
-        private static float playerStrafeAcceleration = 10f;
-        private static float playerMaxRunningSpeed = 40f;
-        private static float playerMaxStrafeSpeed = 40f;
-        private static float _playerJumpSpeed = 40f;
+        private static float playerForwardAcceleration = 5f;
+        private static float playerStrafeAcceleration = 5f;
+        private static float playerMaxRunningSpeed = 20f;
+        private static float playerMaxStrafeSpeed = 20f;
+        private static float playerJumpSpeed = 40f;
 
         /// <summary>
         /// Accelerates the player forward until it reaches maximum running speed
@@ -65,9 +65,9 @@ namespace thundercats.Actions
         /// <param name="velocityComponent"></param>
         public static void PlayerJumpSpeed(GameTime gameTime, VelocityComponent velocityComponent)
         {
-            if (velocityComponent.Velocity.Y < -_playerJumpSpeed)
+            if (velocityComponent.Velocity.Y < -playerJumpSpeed)
             {
-               velocityComponent.Velocity.Y += _playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds; 
+               velocityComponent.Velocity.Y += playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds; 
             }
         }
     }

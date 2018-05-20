@@ -1,7 +1,7 @@
 ﻿using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using thundercats.GameStates;
-using Game_Engine.Entities
+using Game_Engine.Entities;
 
 namespace thundercats.Worldgen
 {
@@ -20,7 +20,7 @@ namespace thundercats.Worldgen
 
         public Entity RunWorldGenEntityCreator(GameManager gameManager, Vector3 position)
         {
-            return GameEntityFactory.NewBlock(position, AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice));
+            return GameEntityFactory.NewBlock(position, AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
         }
     }
 }

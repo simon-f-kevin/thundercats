@@ -85,7 +85,7 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me");
+            worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
             var world = worldGenerator.GenerateWorld(2, 5);
             int distanceBetweenBlocksX = 100;
             int distanceBetweenBlocksZ = 50;

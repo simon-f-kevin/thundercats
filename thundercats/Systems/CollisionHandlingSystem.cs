@@ -98,7 +98,7 @@ namespace thundercats.Systems
             CheckSurfaceOfBlock(gameTime, sourceEntity, targetEntity, sourceCollisionComponent, targetCollisionComponent);
         }
 
-        private void CheckSurfaceOfBlock(GameTime, gameTime Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
+        private void CheckSurfaceOfBlock(GameTime gameTime, Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
         {
             var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingShape;
             var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
@@ -110,12 +110,11 @@ namespace thundercats.Systems
             }
             else
             {
-                PushSourceAwayFromTarget(player, block);
                 CollisionActions.HandleCollisionFromBelow(player);
             }
         }
 
-        private void PushSourceAwayFromTarget(Entity sourceEntity, Entity targetEntity)
+        private void PushSourceAwayFromTarget(GameTime gameTime, Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);

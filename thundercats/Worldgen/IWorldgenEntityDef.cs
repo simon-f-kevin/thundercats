@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using thundercats.GameStates;
-using Game_Engine.Entities
+using Game_Engine.Entities;
 
 namespace thundercats.Worldgen
 {

@@ -16,7 +16,7 @@ namespace thundercats.GameStates.States.PlayingStates
     {
         private GameManager gameManager;
         private Viewport viewport;
-        public WorldGenerator worldGenerator;
+        internal WorldGenerator worldGenerator;
         public int[,] world;
         public Entity[,] worldEntity;
 
@@ -74,20 +74,20 @@ namespace thundercats.GameStates.States.PlayingStates
                     if (world[column, row] == 1)
                     {
                         
-                        Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
-                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
+                        //Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
+                        //AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
 
-                        worldEntity[column, row] = Block;
+                        //worldEntity[column, row] = Block;
                         
                     }
                     iter++; //for debugging
                 }
             }
-            GameService.Instance().EntityGameWorld = worldEntity;
+            //GameService.Instance().EntityGameWorld = worldEntity;
             worldGenerator.MoveBlocks();
         }
 
-        private float[,] GenerateWorld(int nLanes, int nRows)
+        private int[,] GenerateWorld(int nLanes, int nRows)
         {
             var world = worldGenerator.GenerateWorld(nLanes, nRows);
             return world;

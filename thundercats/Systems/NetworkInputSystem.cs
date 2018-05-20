@@ -40,11 +40,11 @@ namespace thundercats.Systems
             TransformComponent transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(playerEntity);
             GravityComponent gravityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<GravityComponent>(playerEntity);
 
-            if (networkInputComponent.MoveForward) PlayerActions.AcceleratePlayerForwards(velocityComponent);
-            if (networkInputComponent.MoveLeft) PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
-            if (networkInputComponent.MoveRight) PlayerActions.AcceleratePlayerRightwards(velocityComponent);
-            if (networkInputComponent.Jump) PlayerActions.PlayerJumpSpeed(velocityComponent, gravityComponent);
-            if (networkInputComponent.MoveBackward) PlayerActions.AcceleratePlayerBackwards(velocityComponent);
+            if (networkInputComponent.MoveForward) PlayerActions.AcceleratePlayerForwards(gameTime, velocityComponent);
+            if (networkInputComponent.MoveLeft) PlayerActions.AcceleratePlayerLeftwards(gameTime, velocityComponent);
+            if (networkInputComponent.MoveRight) PlayerActions.AcceleratePlayerRightwards(gameTime, velocityComponent);
+            if (networkInputComponent.Jump) PlayerActions.PlayerJumpSpeed(gameTime, velocityComponent);
+            if (networkInputComponent.MoveBackward) PlayerActions.AcceleratePlayerBackwards(gameTime, velocityComponent);
 
         }
     }
