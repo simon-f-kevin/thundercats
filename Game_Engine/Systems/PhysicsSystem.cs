@@ -61,18 +61,13 @@ namespace Game_Engine.Systems
         private void CheckCollision()
         {
             ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
+            var playerComponents = componentManager.GetConcurrentDictionary<PlayerComponent>();
             bool found = false; //Temp debug flag
 
-            Parallel.ForEach(collisionComponentPairs, sourceCollisionComponentPair =>
+            Parallel.ForEach(playerComponents, playerComponentPair =>
             {
-                Entity sourceEntity = sourceCollisionComponentPair.Key;
-                var sourceCollisionComponent = sourceCollisionComponentPair.Value as CollisionComponent;
-                var cameraComponent = componentManager.GetConcurrentDictionary<CameraComponent>().Values.First() as CameraComponent; //get the cameracomponent
-                
-                /*
-                * Only check collsion on blocks within the cameraComponent farplane,
-                * otherwise we get horrendous lag when we check all blocks on entire map
-                */
+                Entity sourceEntity = playerComponentPair.Key;
+                var sourceCollisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(playerComponentPair.Key);
                 
                 foreach (var targetCollisionComponentPair in collisionComponentPairs)
                 {
