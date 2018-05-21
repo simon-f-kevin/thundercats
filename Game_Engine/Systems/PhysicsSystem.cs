@@ -67,6 +67,10 @@ namespace Game_Engine.Systems
                 Entity sourceEntity = sourceCollisionComponentPair.Key;
                 var sourceCollisionComponent = sourceCollisionComponentPair.Value as CollisionComponent;
 
+                /*
+                 * Only check collsion on blocks within the cameraComponent farplane,
+                 * otherwise we get horrendous lag when we check all blocks on entire map
+                 */
                 foreach (var targetCollisionComponentPair in collisionComponentPairs)
                 {
 
