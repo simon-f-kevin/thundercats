@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game_Engine.Entities;
 using Game_Engine.Managers;
 using Game_Engine.Managers.Network;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using thundercats.Components;
 using thundercats.Factory;
 using thundercats.Systems;
 
@@ -19,6 +21,8 @@ namespace thundercats.GameStates.States.PlayingStates
         private Viewport viewport;
         private WorldGenerator worldGenerator;
         private NetworkConnectionManager connectionManager;
+        private ParticleSystem particleSystem;
+        private ParticleCreationSystem particleCreationSystem;
 
         public PlayingMultiplayerGame(GameManager gameManager)
         {
@@ -31,32 +35,40 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         public void Initialize()
         {
+            Entity local;
+            Entity remote;
             this.connectionManager = gameManager.NetworkConnectionManager;
             var HostPosition = new Vector3(0, (viewport.Height * 0.45f) + 100, 100);
             var ClientPosition = new Vector3(100, (viewport.Height * 0.45f) + 100, 100);
             if (connectionManager.IsHost)
             {
 
-                var local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
+                local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
                 GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
-                var remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
+                remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
                 GameEntityFactory.NewParticleSettingsEntity(remote, 100, 1, "smoke");
             }
             else
             {
-                var local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, ClientPosition,
+                local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, ClientPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
                 GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
-                var remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
+                remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
                 GameEntityFactory.NewParticleSettingsEntity(remote, 100, 1, "smoke");
             }
 
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
             networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
+
+            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
+            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             //NetworkInputSystem networkInputSystem = new NetworkInputSystem();
             //SystemManager.Instance.AddToUpdateables(networkInputSystem);
