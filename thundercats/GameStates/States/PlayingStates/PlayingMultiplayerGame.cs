@@ -37,19 +37,21 @@ namespace thundercats.GameStates.States.PlayingStates
             if (connectionManager.IsHost)
             {
 
-                GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
+                var local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-
-                GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
+                GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
+                var remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
+                GameEntityFactory.NewParticleSettingsEntity(remote, 100, 1, "smoke");
             }
             else
             {
-                GameEntityFactory.NewLocalPlayer("Models/Blob", 0, ClientPosition,
+                var local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, ClientPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
-
-                GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
+                GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
+                var remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
+                GameEntityFactory.NewParticleSettingsEntity(remote, 100, 1, "smoke");
             }
 
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
