@@ -17,6 +17,7 @@ namespace thundercats.GameStates.States.AiStates
     public abstract class AiState
     {
         protected Random Random { get; private set; }
+        protected bool AiJumped { get; private set; } = false;
         protected bool MadeMove { get; private set; } = true;
         protected int[,] worldMatrix;
         protected Entity[,] worldEntityMatrix;
@@ -54,32 +55,64 @@ namespace thundercats.GameStates.States.AiStates
             //Debug.WriteLine("currentBlock: " + currentBlock.ToString());
             //Debug.WriteLine("aiPos: " + position.ToString());
             Debug.WriteLine("currentBlock Z: " + currentBlock.Z.ToString());
+            Debug.WriteLine("currentBlock X: " + currentBlock.X.ToString());
+            Debug.WriteLine("Position!!!!! X: " + position.X.ToString());
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {
                 //jump left
                 //AiActions.MoveAiLeftwards();
-                Debug.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                
+                Console.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 PlayerActions.AcceleratePlayerForwards(aiVelocity);
                 PlayerActions.AcceleratePlayerLeftwards(aiVelocity);
-               
-               
-               // PlayerActions.PlayerJumpSpeed(aiVelocity);
+                if (!AiJumped)
+                {
+                    PlayerActions.PlayerJumpSpeed(aiVelocity);
+                    AiJumped = true;
+                }
+                //if ((currentBlock.X <= position.X))
+                //{
+                //    Console.WriteLine("currentBlock X" + position.X);
+                //    PlayerActions.PlayerJumpSpeed(aiVelocity);
+                //}
+                //PlayerActions.AcceleratePlayerForwards(aiVelocity);
+                // PlayerActions.PlayerJumpSpeed(aiVelocity);
+                //PlayerActions.AcceleratePlayerLeftwards(aiVelocity);
+
+
+                // PlayerActions.PlayerJumpSpeed(aiVelocity);
                 MadeMove = true;
             }
             if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
                 //    AiActions.MoveAiLeftwards();
                 //jump Right
-                Debug.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                PlayerActions.AcceleratePlayerForwards(aiVelocity);
+                Console.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Console.WriteLine("AI VEL Y:" + aiVelocity.Velocity.Y);
+     
+        
                 PlayerActions.AcceleratePlayerRightwards(aiVelocity);
-               
-                // PlayerActions.PlayerJumpSpeed(aiVelocity);
+                PlayerActions.AcceleratePlayerForwards(aiVelocity);
+                //Console.WriteLine("we r about to jump");
+                if (!AiJumped)
+                {
+                    PlayerActions.PlayerJumpSpeed(aiVelocity);
+                    AiJumped = true;
+                }
+                //if(Ai position is bigger then half currentX we can jump?)
+                //
+                //if ((currentBlock.X >= position.X))
+                //{
+                //    Console.WriteLine("position X" + position.X);
+                //    PlayerActions.PlayerJumpSpeed(aiVelocity);
+                //}
+
                 MadeMove = true;
             }
             else
             {
                 //Continue run
+                //PlayerActions.PlayerJumpSpeed(aiVelocity);
                 //PlayerActions.AcceleratePlayerForwards(VelocityComponent);
                 MadeMove = true;
             }
@@ -112,8 +145,9 @@ namespace thundercats.GameStates.States.AiStates
             // Execute the move to the next block
             if (MadeMove)
             {
-                ExecuteMove(currentBlock, destinationBlock, position, aiVelocity);
+                AiJumped = false;
                 MadeMove = false;
+                ExecuteMove(currentBlock, destinationBlock, position, aiVelocity);
             }
             // We look to see if the player is in the same block in the "real" world as
             // in the matrix. if he is, we "wait" until the move is completed and return the same
