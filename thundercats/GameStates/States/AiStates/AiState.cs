@@ -17,7 +17,7 @@ namespace thundercats.GameStates.States.AiStates
     public abstract class AiState
     {
         protected Random Random { get; private set; }
-        protected bool MadeMove { get; private set; }
+        protected bool MadeMove { get; private set; } = true;
         protected int[,] worldMatrix;
         protected Entity[,] worldEntityMatrix;
 
