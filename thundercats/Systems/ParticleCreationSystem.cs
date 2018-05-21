@@ -43,11 +43,13 @@ namespace thundercats.Systems
                     }
                     if (cameraComponent == null)
                     {
-                        throw new Exception("oops, no cameracomponent found");
+                        //throw new Exception("oops, no cameracomponent found");
+                        var otherCamera = ComponentManager.Instance.GetConcurrentDictionary<CameraComponent>().Values.First() as CameraComponent;
+                        particleSystem.SetCamera(otherCamera.ViewMatrix, otherCamera.ProjectionMatrix);
                     }
+                    else { particleSystem.SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix); }
                     for (int i = 0; i < particleSettings.MaximumParticles; i++)
                     {
-                        particleSystem.SetCamera(cameraComponent.ViewMatrix, cameraComponent.ProjectionMatrix);
                         particleSystem.AddParticle(transformComponent.Position, Vector3.Zero);
                     }
                     //GameService.DrawParticles = false;
