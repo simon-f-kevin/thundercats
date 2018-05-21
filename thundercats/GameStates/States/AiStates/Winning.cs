@@ -20,8 +20,8 @@ namespace thundercats.GameStates.States.AiStates
 
         public void Update(GameTime gameTime, Point matrixPosition,Vector3 Position)
         {
-            worldMatrix = GameService.Instance().GameWorld;
-            worldEntityMatrix = GameService.Instance().EntityGameWorld;
+            worldMatrix = GameService.Instance.GameWorld;
+            worldEntityMatrix = GameService.Instance.EntityGameWorld;
             ExecuteState(matrixPosition, Position);
         }
 

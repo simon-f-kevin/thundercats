@@ -48,6 +48,7 @@ namespace thundercats.GameStates
             MultiplayerStartServer,
             MultiplayerConnectServer,
             VictoryScreen,
+            GameOverScreen,
         };
 
         public GameManager(Game game)

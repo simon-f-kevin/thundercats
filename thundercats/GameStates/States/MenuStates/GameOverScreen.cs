@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Game_Engine.Managers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Game_Engine.Managers;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace thundercats.GameStates.States.MenuStates
 {
-    public class VictoryScreen : IMenu
+    class GameOverScreen : IMenu
     {
         private GameManager gameManager;
         private MenuControls controls;
@@ -23,7 +23,7 @@ namespace thundercats.GameStates.States.MenuStates
             Exit
         }
 
-        public VictoryScreen(GameManager gameManager)
+        public GameOverScreen(GameManager gameManager)
         {
             this.gameManager = gameManager;
             viewport = gameManager.game.GraphicsDevice.Viewport;
@@ -37,8 +37,8 @@ namespace thundercats.GameStates.States.MenuStates
         private void VictoryScreenDisplay(SpriteBatch sb)
         {
             String txtExit = "Quit";
-            String txtMessage1 = "You have endured the gauntlet, and you are free.";
-            String txtMessage2 = "The Supreme Leader smiles upon you.";
+            String txtMessage1 = "You have failed the Supreme Leader";
+            String txtMessage2 = "Your death shall be an example to all others.";
 
             SpriteFont font = AssetManager.Instance.GetContent<SpriteFont>("menu");
 

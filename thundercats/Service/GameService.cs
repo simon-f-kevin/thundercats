@@ -20,13 +20,20 @@ namespace thundercats.Service
         private GameService() {
 
         }
-        public static GameService Instance() {
+        public static GameService Instance {
+            get
+            {
+                if (gameService == null)
+                {
 
-            if (gameService == null) {
-
-                gameService = new GameService();
+                    gameService = new GameService();
+                }
+                return gameService;
             }
-            return gameService;
+            set
+            {
+                gameService = value;
+            }
         }
     }
 }

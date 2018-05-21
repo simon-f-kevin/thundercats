@@ -58,6 +58,7 @@
     <Compile Include="GameStates\States\AiStates\Losing.cs" />
     <Compile Include="GameStates\States\AiStates\Winning.cs" />
     <Compile Include="GameStates\States\IState.cs" />
+    <Compile Include="GameStates\States\MenuStates\GameOverScreen.cs" />
     <Compile Include="GameStates\States\MenuStates\IMenu.cs" />
     <Compile Include="GameStates\States\MenuStates\MenuControls.cs" />
     <Compile Include="GameStates\States\MenuStates\Credits.cs" />

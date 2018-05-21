@@ -108,7 +108,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
 
             gameManager = new GameManager(this);
-            GameService.Instance().gameManager = gameManager;
+            GameService.Instance.gameManager = gameManager;
 
             viewport = gameManager.game.GraphicsDevice.Viewport;
 

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using thundercats.Actions;
+using thundercats.GameStates;
 using thundercats.GameStates.States.MenuStates;
 using thundercats.Service;
 
@@ -64,7 +65,14 @@ namespace thundercats.Systems
             switch (targetEntity.EntityTypeName)
             {
                 case GameEntityFactory.GOAL:
-                    GameService.Instance().gameManager.CurrentGameState = GameStates.GameManager.GameState.VictoryScreen;
+                    if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
+                    {
+                        GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
+                    }
+                    else
+                    {
+                        GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
+                    }
                     break;
                 case GameEntityFactory.BLOCK:
                     KeepSourceOnTop(sourceEntity, targetEntity);
