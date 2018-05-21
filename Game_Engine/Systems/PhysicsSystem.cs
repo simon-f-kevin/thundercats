@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
@@ -66,25 +67,28 @@ namespace Game_Engine.Systems
             {
                 Entity sourceEntity = sourceCollisionComponentPair.Key;
                 var sourceCollisionComponent = sourceCollisionComponentPair.Value as CollisionComponent;
-
+                var cameraComponent = componentManager.GetConcurrentDictionary<CameraComponent>().Values.First() as CameraComponent; //get the cameracomponent
+                
                 /*
-                 * Only check collsion on blocks within the cameraComponent farplane,
-                 * otherwise we get horrendous lag when we check all blocks on entire map
-                 */
-                foreach (var targetCollisionComponentPair in collisionComponentPairs)
+                * Only check collsion on blocks within the cameraComponent farplane,
+                * otherwise we get horrendous lag when we check all blocks on entire map
+                */
+                if (cameraComponent.BoundingFrustum.Intersects(sourceCollisionComponent.BoundingShape))
                 {
-
-                    Entity targetEntity = targetCollisionComponentPair.Key;
-                    CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
-
-                    if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
-                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                    foreach (var targetCollisionComponentPair in collisionComponentPairs)
                     {
-                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
-                        found = true; //Temp debug flag
-                        //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                        Entity targetEntity = targetCollisionComponentPair.Key;
+                        CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
+                        if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
+                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                        {
+                            CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                            found = true; //Temp debug flag
+                                          //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                        }
                     }
-                } 
+                }
+                
             });
             if (!found) //Temp debug check
             {
