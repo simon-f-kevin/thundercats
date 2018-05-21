@@ -48,7 +48,6 @@ namespace thundercats.GameStates.States.PlayingStates
                     AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
                 GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
-                //GameEntityFactory.NewParticleSettingsEntity(remote, 100, 1, "smoke");
             }
             else
             {
@@ -57,7 +56,6 @@ namespace thundercats.GameStates.States.PlayingStates
                     AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
                 GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
-                //GameEntityFactory.NewParticleSettingsEntity(remote, 100, 1, "smoke");
             }
 
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
