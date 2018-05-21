@@ -112,10 +112,15 @@ namespace thundercats.Systems
             var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingShape;
             var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
             var diff = boxBounding.Max.Y - (playerBounding.Center.Y - playerBounding.Radius);
-            
+
             if (diff < 5 && diff > 0)
             {
-                 CollisionActions.HandleCollisionFromAbove(player);
+                var gravityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<GravityComponent>(player);
+                if (!gravityComponent.HasJumped)
+                {
+                     CollisionActions.RunParticleSystem(player);
+                }
+                CollisionActions.HandleCollisionFromAbove(player);
             }
             else
             {
