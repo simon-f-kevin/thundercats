@@ -1,7 +1,12 @@
 ﻿
 using Game_Engine.Components;
+using Game_Engine.Entities;
 using Game_Engine.Managers;
 using System;
+using System.Linq;
+using thundercats.Components;
+using thundercats.Service;
+using thundercats.Systems;
 
 namespace thundercats.Actions
 {
@@ -62,15 +67,22 @@ namespace thundercats.Actions
 
         /// <summary>
         /// Accelerates the player upward in a jumping motion until it reaches the maximum jumping speed
+        /// If a playerEntity is passed, we will delete the DrawParticleComponent from the entity-
         /// </summary>
         /// <param name="velocityComponent"></param>
-        public static void PlayerJump(VelocityComponent velocityComponent, GravityComponent gravity)
+        public static void PlayerJump(VelocityComponent velocityComponent, GravityComponent gravity, Entity playerEntity = null)
         {
-                if (velocityComponent.Velocity.Y < _playerJumpSpeed)
-                {
-                    velocityComponent.Velocity.Y += _playerJumpSpeed;
-                }
+            var collisionComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<CollisionComponent>();
 
+            if (velocityComponent.Velocity.Y < _playerJumpSpeed)
+            {
+                GameService.FreeParticleBuffer = true;
+                if (playerEntity != null)
+                {
+                    ComponentManager.Instance.RemoveComponentFromEntity<DrawParticleComponent>(playerEntity);
+                }
+                velocityComponent.Velocity.Y += _playerJumpSpeed;
+            }
         }
     }
 }
