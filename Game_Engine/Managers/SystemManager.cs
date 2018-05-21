@@ -19,7 +19,7 @@ namespace Game_Engine.Managers
         public Queue<IDrawableSystem> DrawableSystems { get; set; }
 
         #region Thread-safe singleton - use "SystemManager.Instance" to access
-        private static readonly Lazy<SystemManager> lazy = new Lazy<SystemManager>(() => new SystemManager());
+        private static readonly Lazy<SystemManager> lazy = new Lazy<SystemManager>(() => new SystemManager(), true);
 
         private SystemManager()
         {
