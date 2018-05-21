@@ -89,8 +89,13 @@ namespace thundercats.Actions
 
         internal static void RunParticleSystem(Entity player)
         {
-            GameService.CreateParticles = true;
-            
+            //GameService.CreateParticles = true;
+            DrawParticleComponent drawParticleComponent = new DrawParticleComponent(player);
+            var oldDrawParticleComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<DrawParticleComponent>(player);
+            if(oldDrawParticleComponent == null)
+            {
+                ComponentManager.Instance.AddComponentToEntity(player, drawParticleComponent);
+            }
         }
     }
 }

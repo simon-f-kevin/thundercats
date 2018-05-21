@@ -46,6 +46,7 @@
     <Compile Include="Actions\CollisionActions.cs" />
     <Compile Include="Actions\PlayerActions.cs" />
     <Compile Include="Components\AiComponent.cs" />
+    <Compile Include="Components\DrawParticleComponent.cs" />
     <Compile Include="Components\ParticleSettingsComponent.cs" />
     <Compile Include="Components\SurfaceComponent.cs" />
     <Compile Include="Factory\Uifactory.cs" />

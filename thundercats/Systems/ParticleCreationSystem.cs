@@ -33,8 +33,9 @@ namespace thundercats.Systems
             {
                 var transformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(particleComponentKeyValuePair.Key);
                 var cameraComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CameraComponent>(particleComponentKeyValuePair.Key);
+                var drawParticleComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<DrawParticleComponent>(particleComponentKeyValuePair.Key);
                 var particleSettings = particleComponentKeyValuePair.Value as ParticleSettingsComponent;
-                if (GameService.CreateParticles)
+                if (drawParticleComponent != null)
                 {
                     if (transformComponent == null)
                     {
@@ -50,6 +51,7 @@ namespace thundercats.Systems
                         particleSystem.AddParticle(transformComponent.Position, Vector3.Zero);
                     }
                     //GameService.DrawParticles = false;
+                    //ComponentManager.Instance.RemoveComponentFromEntity<DrawParticleComponent>(particleComponentKeyValuePair.Key);
                 }
             }
         }
