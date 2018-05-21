@@ -65,14 +65,7 @@ namespace thundercats.Systems
             switch (targetEntity.EntityTypeName)
             {
                 case GameEntityFactory.GOAL:
-                    if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
-                    {
-                        GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
-                    }
-                    else
-                    {
-                        GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
-                    }
+                    HandleGoal(sourceEntity);
                     break;
                 case GameEntityFactory.BLOCK:
                     KeepSourceOnTop(sourceEntity, targetEntity);
@@ -83,6 +76,18 @@ namespace thundercats.Systems
                 case GameEntityFactory.LOCAL_PLAYER:
                     PushSourceAwayFromTarget(sourceEntity, targetEntity);
                     break;
+            }
+        }
+
+        private static void HandleGoal(Entity sourceEntity)
+        {
+            if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
+            }
+            else
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
             }
         }
 
