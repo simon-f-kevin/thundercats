@@ -7,6 +7,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using thundercats.Actions;
+using thundercats.GameStates.States.MenuStates;
+using thundercats.Service;
 
 namespace thundercats.Systems
 {
@@ -62,7 +64,7 @@ namespace thundercats.Systems
             switch (targetEntity.EntityTypeName)
             {
                 case GameEntityFactory.GOAL:
-                    Debug.WriteLine("A winner is you");
+                    GameService.Instance().gameManager.CurrentGameState = GameStates.GameManager.GameState.VictoryScreen;
                     break;
                 case GameEntityFactory.BLOCK:
                     KeepSourceOnTop(sourceEntity, targetEntity);

@@ -37,7 +37,7 @@ namespace thundercats.GameStates.States.MenuStates
         // in an ordered fashion.
         private void VictoryScreenDisplay(SpriteBatch sb)
         {
-            String txtMultiplayer = "Multiplayer";
+            String txtMultiplayer = "Main Menu";
             String txtExit = "Quit";
 
             SpriteFont font = AssetManager.Instance.GetContent<SpriteFont>("menu");
