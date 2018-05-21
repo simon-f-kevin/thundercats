@@ -56,7 +56,7 @@ namespace Game_Engine.Systems
         /// Checks intersections for all BoundingSphereComponents.
         /// Currently only identifies collision, taking action based on collision is TODO.
         /// </summary>
-        private void CheckCollision()
+        private void CheckCollision() 
         {
             ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
             bool found = false; //Temp debug flag

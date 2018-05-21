@@ -50,7 +50,7 @@ namespace thundercats.GameStates.States.AiStates
             return transform.Position;
         }
 
-        protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent aiVelocity)
+        protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent velocity, GravityComponent gravity)
         {
             //Debug.WriteLine("currentBlock: " + currentBlock.ToString());
             //Debug.WriteLine("aiPos: " + position.ToString());
@@ -63,12 +63,12 @@ namespace thundercats.GameStates.States.AiStates
                 //AiActions.MoveAiLeftwards();
                 
                 Console.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                PlayerActions.AcceleratePlayerForwards(aiVelocity);
-                PlayerActions.AcceleratePlayerLeftwards(aiVelocity);
-                if (!AiJumped)
+                PlayerActions.AcceleratePlayerForwards(velocity);
+                PlayerActions.AcceleratePlayerLeftwards(velocity);
+                if (!gravity.HasJumped)
                 {
-                    PlayerActions.PlayerJumpSpeed(aiVelocity);
-                    AiJumped = true;
+                    PlayerActions.PlayerJumpSpeed(velocity);
+                    gravity.HasJumped = true;
                 }
                 //if ((currentBlock.X <= position.X))
                 //{
@@ -88,16 +88,16 @@ namespace thundercats.GameStates.States.AiStates
                 //    AiActions.MoveAiLeftwards();
                 //jump Right
                 Console.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Console.WriteLine("AI VEL Y:" + aiVelocity.Velocity.Y);
+                Console.WriteLine("AI VEL Y:" + velocity.Velocity.Y);
      
         
-                PlayerActions.AcceleratePlayerRightwards(aiVelocity);
-                PlayerActions.AcceleratePlayerForwards(aiVelocity);
+                PlayerActions.AcceleratePlayerRightwards(velocity);
+                PlayerActions.AcceleratePlayerForwards(velocity);
                 //Console.WriteLine("we r about to jump");
-                if (!AiJumped)
+                if (!gravity.HasJumped)
                 {
-                    PlayerActions.PlayerJumpSpeed(aiVelocity);
-                    AiJumped = true;
+                    PlayerActions.PlayerJumpSpeed(velocity);
+                    gravity.HasJumped = true;
                 }
                 //if(Ai position is bigger then half currentX we can jump?)
                 //
@@ -117,7 +117,7 @@ namespace thundercats.GameStates.States.AiStates
                 MadeMove = true;
             }
         }
-        protected Point ExecuteState(Point matrixPosition, Vector3 position,VelocityComponent aiVelocity)
+        protected Point ExecuteState(Point matrixPosition, Vector3 position,VelocityComponent aiVelocity, GravityComponent gravity)
         {
             
 
@@ -145,9 +145,7 @@ namespace thundercats.GameStates.States.AiStates
             // Execute the move to the next block
             if (MadeMove)
             {
-                AiJumped = false;
-                MadeMove = false;
-                ExecuteMove(currentBlock, destinationBlock, position, aiVelocity);
+                ExecuteMove(currentBlock, destinationBlock, position, aiVelocity, gravity);
             }
             // We look to see if the player is in the same block in the "real" world as
             // in the matrix. if he is, we "wait" until the move is completed and return the same
