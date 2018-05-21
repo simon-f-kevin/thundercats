@@ -67,6 +67,7 @@
     <Compile Include="GameStates\States\MenuStates\MultiplayerStartServerMenu.cs" />
     <Compile Include="GameStates\States\MenuStates\PausedMenu.cs" />
     <Compile Include="GameStates\States\MenuStates\QuitMenu.cs" />
+    <Compile Include="GameStates\States\MenuStates\VictoryScreen.cs" />
     <Compile Include="GameStates\States\PlayingStates\IPlaying.cs" />
     <Compile Include="GameStates\States\PlayingStates\PlayingMultiplayerGame.cs" />
     <Compile Include="GameStates\States\PlayingStates\PlayingLocalGame.cs" />

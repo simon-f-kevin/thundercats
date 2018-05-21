@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Game_Engine.Entities;
 using thundercats.Components;
+using thundercats.GameStates;
 
 namespace thundercats.Service
 {
@@ -14,6 +15,8 @@ namespace thundercats.Service
         public Entity[,] EntityGameWorld { get; set; }
 
         private static GameService gameService;
+
+        public GameManager gameManager { get; set; }
         private GameService() {
 
         }

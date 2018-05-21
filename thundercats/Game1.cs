@@ -10,6 +10,7 @@ using System.Threading;
 using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
+using thundercats.Service;
 
 namespace thundercats
 {
@@ -107,6 +108,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
 
             gameManager = new GameManager(this);
+            GameService.Instance().gameManager = gameManager;
 
             viewport = gameManager.game.GraphicsDevice.Viewport;
 
