@@ -73,22 +73,19 @@ namespace Game_Engine.Systems
                 * Only check collsion on blocks within the cameraComponent farplane,
                 * otherwise we get horrendous lag when we check all blocks on entire map
                 */
-                if (cameraComponent.BoundingFrustum.Intersects(sourceCollisionComponent.BoundingShape))
+                
+                foreach (var targetCollisionComponentPair in collisionComponentPairs)
                 {
-                    foreach (var targetCollisionComponentPair in collisionComponentPairs)
+                    Entity targetEntity = targetCollisionComponentPair.Key;
+                    CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
+                    if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
+                    sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
                     {
-                        Entity targetEntity = targetCollisionComponentPair.Key;
-                        CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
-                        if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
-                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
-                        {
-                            CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
-                            found = true; //Temp debug flag
-                                          //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
-                        }
+                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                        found = true; //Temp debug flag
+                                        //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
                     }
                 }
-                
             });
             if (!found) //Temp debug check
             {
