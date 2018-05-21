@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Game_Engine.Entities;
 using thundercats.Components;
+using thundercats.GameStates;
 
 namespace thundercats.Service
 {
@@ -17,16 +18,25 @@ namespace thundercats.Service
         public static bool CreateParticles { get; internal set; }
 
         private static GameService gameService;
+
+        public GameManager gameManager { get; set; }
         private GameService() {
 
         }
-        public static GameService Instance() {
+        public static GameService Instance {
+            get
+            {
+                if (gameService == null)
+                {
 
-            if (gameService == null) {
-
-                gameService = new GameService();
+                    gameService = new GameService();
+                }
+                return gameService;
             }
-            return gameService;
+            set
+            {
+                gameService = value;
+            }
         }
     }
 }

@@ -48,7 +48,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
             particleSystem.InitializeParticleSystem(ComponentManager.Instance.GetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
             InitWorld();
-            GameService.Instance().GameWorld = world;
+            GameService.Instance.GameWorld = world;
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
@@ -84,7 +84,14 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int row = 0; row < world.GetLength(1); row++)
                 {
-                    if (world[column, row] == 1)
+                    if (row == world.GetLength(1) - 1)
+                    {
+                        Entity Block = GameEntityFactory.NewGoalBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
+                        AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));
+
+                        worldEntity[column, row] = Block;
+                    }
+                    else if (world[column, row] == 1)
                     {
                         
                         Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
@@ -96,7 +103,7 @@ namespace thundercats.GameStates.States.PlayingStates
                     iter++; //for debugging
                 }
             }
-            GameService.Instance().EntityGameWorld = worldEntity;
+            GameService.Instance.EntityGameWorld = worldEntity;
             worldGenerator.MoveBlocks();
         }
 
