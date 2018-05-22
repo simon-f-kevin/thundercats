@@ -31,6 +31,7 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
+        
         //ParticleDrawSystem particleSystem;
         //ParticleSystem particleSystem;
 
@@ -106,6 +107,10 @@ namespace thundercats
             //particles
             AssetManager.Instance.AddContent<Effect>(Content, "Particles");
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
+            //light
+            AssetManager.Instance.AddContent<Effect>(Content, "Shading");
+
+
 
             gameManager = new GameManager(this);
             GameService.Instance.gameManager = gameManager;

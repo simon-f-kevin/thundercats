@@ -35,6 +35,8 @@ namespace thundercats
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
+            LightComponent lightComponent = new LightComponent(player);
+            EffectComponent effectComponent = new EffectComponent(player, AssetManager.Instance.GetContent<Effect>("Shading"));
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
@@ -44,6 +46,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, effectComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, lightComponent);
 
             //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             //TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
@@ -69,8 +73,11 @@ namespace thundercats
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
             AiComponent aiComponent = new AiComponent(player);
-            
-            
+            LightComponent lightComponent = new LightComponent(player);
+            EffectComponent effectComponent = new EffectComponent(player, AssetManager.Instance.GetContent<Effect>("Shading"));
+
+
+
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
@@ -83,6 +90,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, aiComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, effectComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, lightComponent);
 
             //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             //TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
@@ -135,7 +144,9 @@ namespace thundercats
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
             CollisionComponent collisionComponent = new BoundingBoxComponent(block, EntityFactory.CreateBoundingBox(modelComponent.Model));
-            
+            LightComponent lightComponent = new LightComponent(block);
+            EffectComponent effectComponent = new EffectComponent(block, AssetManager.Instance.GetContent<Effect>("Shading"));
+
             BlockComponent blockComponent = new BlockComponent(block);
 
             ComponentManager.Instance.AddComponentToEntity(block, transformComponent);
@@ -143,6 +154,8 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(block, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(block, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(block, blockComponent);
+            ComponentManager.Instance.AddComponentToEntity(block, effectComponent);
+            ComponentManager.Instance.AddComponentToEntity(block, lightComponent);
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
