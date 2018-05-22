@@ -75,6 +75,7 @@ namespace thundercats.GameStates.States.MenuStates
                     break;
                 case OptionsState.Back:
                     controls.ContinueButton(GameManager.GameState.MultiPlayer);
+                    networkConnectionManager.ExitServer();
                     break;
             }
         }

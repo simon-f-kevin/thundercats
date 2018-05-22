@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game_Engine.Managers.Network;
+using thundercats.GameStates.States.MenuStates;
 
 namespace thundercats.Systems
 {
@@ -69,9 +71,6 @@ namespace thundercats.Systems
                         if(remotePlayerEntity != null)
                         {
                             var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(remotePlayerEntity);
-                            //var xpos = message.ReadFloat();
-                            //var ypos = message.ReadFloat();
-                            //var zpos = message.ReadFloat();
                             var velx = message.ReadFloat();
                             var vely = message.ReadFloat();
                             var velz = message.ReadFloat();
@@ -90,6 +89,13 @@ namespace thundercats.Systems
                         if (status == NetConnectionStatus.Connected)
                         {
                             Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " connected, yay!");
+                        }
+
+                        if (status == NetConnectionStatus.Disconnected)
+                        {
+                            Console.WriteLine(message.SenderConnection.RemoteUniqueIdentifier + " disconnected!");
+                            //should we shut down th server if the client disconnects?
+                            peer.Shutdown("bye!");
                         }
 
                         break;
