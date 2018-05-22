@@ -7,6 +7,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using thundercats.Actions;
+using thundercats.GameStates;
+using thundercats.GameStates.States.MenuStates;
+using thundercats.Service;
 
 namespace thundercats.Systems
 {
@@ -41,20 +44,20 @@ namespace thundercats.Systems
             switch(sourceEntity.EntityTypeName)
             {
                 case GameEntityFactory.REMOTE_PLAYER:
-                    PlayerCollision(collisionPair);
+                    CollisionSource_Player(collisionPair);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    PlayerCollision(collisionPair);
+                    CollisionSource_Player(collisionPair);
                     break;
                 case GameEntityFactory.AI_PLAYER:
-                    PlayerCollision(collisionPair);
+                    CollisionSource_Player(collisionPair);
                     break;
                 default:
                     break;
             }       
 		}
 
-        private void PlayerCollision(Tuple<Entity, Entity> collisionPair)
+        private void CollisionSource_Player(Tuple<Entity, Entity> collisionPair)
         {
             Entity sourceEntity = collisionPair.Item1;
             Entity targetEntity = collisionPair.Item2;
@@ -62,17 +65,29 @@ namespace thundercats.Systems
             switch (targetEntity.EntityTypeName)
             {
                 case GameEntityFactory.GOAL:
-                    Debug.WriteLine("A winner is you");
+                    HandleGoal(sourceEntity);
                     break;
                 case GameEntityFactory.BLOCK:
-                    UpdateSourceCollider(sourceEntity, targetEntity);
+                    KeepSourceOnTop(sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.REMOTE_PLAYER:
-                    PlayerCollision2(sourceEntity, targetEntity);
+                    PushSourceAwayFromTarget(sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.LOCAL_PLAYER:
-                    PlayerCollision2(sourceEntity, targetEntity);
+                    PushSourceAwayFromTarget(sourceEntity, targetEntity);
                     break;
+            }
+        }
+
+        private static void HandleGoal(Entity sourceEntity)
+        {
+            if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
+            }
+            else
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
             }
         }
 
@@ -80,42 +95,46 @@ namespace thundercats.Systems
          * Move the source entity away from the target which it has collided with.
          * TODO: Adjustment velocity is currently static and should be adjusted to be relative to how close the bounding volumes are at each axis.
          */
-        private void UpdateSourceCollider(Entity sourceEntity, Entity targetEntity)
+        private void KeepSourceOnTop(Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
             GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
             TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
-            float diffX = sourceCollisionComponent.Center.X - targetCollisionComponent.Center.X;
-            float diffZ = sourceCollisionComponent.Center.Z - targetCollisionComponent.Center.Z;
 
-            //if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
-            //{
-            //    CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
-            //}
-            //else
-            //{
-            //    CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
-            //}
             if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             {
                 CollisionActions.HandleCollisionFromBelow(sourceEntity);
             }
             else
             {
-                CollisionActions.HandleCollisionFromAbove(sourceEntity);
+                CheckSurfaceOfBlock(sourceEntity, targetEntity, sourceCollisionComponent, targetCollisionComponent);
             }
-            //if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
-            //{
-            //    CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
-            //}
-            //else
-            //{
-            //    CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
-            //}
         }
 
-        private void PlayerCollision2(Entity sourceEntity, Entity targetEntity)
+        private void CheckSurfaceOfBlock(Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
+        {
+            var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingShape;
+            var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
+            var diff = boxBounding.Max.Y - (playerBounding.Center.Y - playerBounding.Radius);
+
+            if (diff < 5 && diff > 0)
+            {
+                var gravityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<GravityComponent>(player);
+                if (!gravityComponent.HasJumped)
+                {
+                     CollisionActions.RunParticleSystem(player);
+                }
+                CollisionActions.HandleCollisionFromAbove(player);
+            }
+            else
+            {
+                PushSourceAwayFromTarget(player, block);
+                CollisionActions.HandleCollisionFromBelow(player);
+            }
+        }
+
+        private void PushSourceAwayFromTarget(Entity sourceEntity, Entity targetEntity)
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
@@ -126,27 +145,19 @@ namespace thundercats.Systems
 
             if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
             {
-                CollisionActions.AccelerateColliderRightwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderRightwards(sourceEntity, diffX);
             }
             else
             {
-                CollisionActions.AccelerateColliderLeftwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderLeftwards(sourceEntity, diffX);
             }
-            //if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
-            //{
-            //    CollisionActions.HandleCollisionFromBelow(sourceEntity);
-            //}
-            //else
-            //{
-            //    CollisionActions.HandleCollisionFromAbove(sourceEntity);
-            //}
             if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
             {
-                CollisionActions.AccelerateColliderBackwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderBackwards(sourceEntity, diffZ);
             }
             else
             {
-                CollisionActions.AccelerateColliderForwards(sourceEntity, 30);
+                CollisionActions.AccelerateColliderForwards(sourceEntity, diffZ);
             }
         }
     }

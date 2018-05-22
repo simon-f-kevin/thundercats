@@ -20,6 +20,12 @@ namespace thundercats.GameStates.States.MenuStates
             viewport = gameManager.game.GraphicsDevice.Viewport;
         }
 
+        public void Quit(GameManager gameManager)
+        {
+            this.gameManager = gameManager;
+            gameManager.game.Exit();
+        }
+
         public void Initialize()
         {
 

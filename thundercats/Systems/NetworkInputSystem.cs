@@ -43,7 +43,7 @@ namespace thundercats.Systems
             if (networkInputComponent.MoveForward) PlayerActions.AcceleratePlayerForwards(velocityComponent);
             if (networkInputComponent.MoveLeft) PlayerActions.AcceleratePlayerLeftwards(velocityComponent);
             if (networkInputComponent.MoveRight) PlayerActions.AcceleratePlayerRightwards(velocityComponent);
-            if (networkInputComponent.Jump) PlayerActions.PlayerJumpSpeed(velocityComponent);
+            if (networkInputComponent.Jump) PlayerActions.PlayerJump(velocityComponent, gravityComponent, playerEntity);
             if (networkInputComponent.MoveBackward) PlayerActions.AcceleratePlayerBackwards(velocityComponent);
 
         }

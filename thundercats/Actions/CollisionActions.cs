@@ -4,6 +4,10 @@ using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using thundercats.Components;
+using thundercats.Service;
+using thundercats.Systems;
 
 namespace thundercats.Actions
 {
@@ -78,8 +82,19 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                //velocityComponent.Velocity.Y -= 0.1f; //Disabled until smoother adjustment is implemented
-                velocityComponent.Velocity.Y = 0f;
+                velocityComponent.Velocity.Y -= 0.1f; //Disabled until smoother adjustment is implemented
+                //velocityComponent.Velocity.Y = 0f;
+            }
+        }
+
+        internal static void RunParticleSystem(Entity player)
+        {
+            //GameService.CreateParticles = true;
+            DrawParticleComponent drawParticleComponent = new DrawParticleComponent(player);
+            var oldDrawParticleComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<DrawParticleComponent>(player);
+            if(oldDrawParticleComponent == null)
+            {
+                ComponentManager.Instance.AddComponentToEntity(player, drawParticleComponent);
             }
         }
     }

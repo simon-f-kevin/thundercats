@@ -8,6 +8,8 @@ using System;
 using System.Linq;
 using Game_Engine.Systems;
 using thundercats.Service;
+using thundercats.Systems;
+using thundercats.Components;
 
 namespace thundercats.GameStates.States.PlayingStates
 {
@@ -19,6 +21,9 @@ namespace thundercats.GameStates.States.PlayingStates
         public int[,] world;
         public Entity[,] worldEntity;
 
+        private ParticleSystem particleSystem;
+        private ParticleCreationSystem particleCreationSystem;
+
         public PlayingLocalGame(GameManager gameManager)
         {
             this.gameManager = gameManager;
@@ -27,15 +32,22 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(23, 40, -5),
+            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
+            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
+
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
+            //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
+            GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
 
             GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(0, 40, -5),
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
 
             InitWorld();
-            GameService.Instance().GameWorld = world;
+            GameService.Instance.GameWorld = world;
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
@@ -72,7 +84,14 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int row = 0; row < world.GetLength(1); row++)
                 {
-                    if (world[column, row] == 1)
+                    if (row == world.GetLength(1) - 1)
+                    {
+                        Entity Block = GameEntityFactory.NewGoalBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
+                        AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));
+
+                        worldEntity[column, row] = Block;
+                    }
+                    else if (world[column, row] == 1)
                     {
                         
                         Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),

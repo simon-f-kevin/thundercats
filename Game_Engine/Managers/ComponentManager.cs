@@ -16,9 +16,9 @@ namespace Game_Engine.Managers
         private ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>> componentPairsAndTypesConcurrent;
         private Dictionary<Type, Dictionary<Entity, Component>> componentPairsAndTypes;
 
-        private static ComponentManager instance;
 
-        /* Constructors */
+        #region Thread-safe singleton - use "ComponentManager.Instance" to access
+        private static readonly Lazy<ComponentManager> lazy = new Lazy<ComponentManager>(() => new ComponentManager(), true);
 
         private ComponentManager()
         {
@@ -26,19 +26,15 @@ namespace Game_Engine.Managers
             componentPairsAndTypesConcurrent = new ConcurrentDictionary<Type, ConcurrentDictionary<Entity, Component>>();
         }
 
-        /* Properties */
-
         //Creates an instance of the compmanager if one does not already exist
         public static ComponentManager Instance
         {
-            get {
-                if(instance == null)
-                {
-                    instance = new ComponentManager();
-                }
-                return instance;
+            get
+            {
+                return lazy.Value;
             }
         }
+        #endregion
 
         /* Methods */
 

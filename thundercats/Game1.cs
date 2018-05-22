@@ -10,6 +10,7 @@ using System.Threading;
 using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
+using thundercats.Service;
 
 namespace thundercats
 {
@@ -30,13 +31,15 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
+        //ParticleDrawSystem particleSystem;
+        //ParticleSystem particleSystem;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1000;
             graphics.PreferredBackBufferHeight = 600;
-            //graphics.PreferMultiSampling = false;
+            graphics.PreferMultiSampling = false;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
 
@@ -53,8 +56,9 @@ namespace thundercats
         {
             //thread1 = new ThreadStart();
             //thread2 = Thread.CurrentThread;
-           
-       
+
+            GameEntityFactory.GraphicsDevice = GraphicsDevice;
+
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
             playerInputSystem = new PlayerInputSystem();
@@ -62,14 +66,15 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
+            //particleSystem = new ParticleSystem(GraphicsDevice);
             aiSystem = new AiSystem();
 
-            SystemManager.Instance.AddToUpdateables(cameraSystem);
+            //SystemManager.Instance.AddToDrawables(uiSystem);
+
+
+            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem);
             SystemManager.Instance.AddToDrawables(modelRenderSystem);
-            SystemManager.Instance.AddToUpdateables(physicsSystem);
-            SystemManager.Instance.AddToUpdateables(playerInputSystem);
-            SystemManager.Instance.AddToUpdateables(collisionHandlingSystem);
-            SystemManager.Instance.AddToUpdateables(aiSystem);
+            
 
             base.Initialize();
         }
@@ -88,6 +93,9 @@ namespace thundercats
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/fire", "fire");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/smoke", "smoke");
+            AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/checker", "checker");
             AssetManager.Instance.AddContent<SpriteFont>(Content, "menu");
             //sounds
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Chatwheel_disastah", "disaster");
@@ -95,8 +103,12 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Platformer2", "playMusic1");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
+            //particles
+            AssetManager.Instance.AddContent<Effect>(Content, "Particles");
+            AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
 
             gameManager = new GameManager(this);
+            GameService.Instance.gameManager = gameManager;
 
             viewport = gameManager.game.GraphicsDevice.Viewport;
 
@@ -175,7 +187,7 @@ namespace thundercats
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-             gameManager.Draw(gameTime, spriteBatch);
+            gameManager.Draw(gameTime, spriteBatch);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);

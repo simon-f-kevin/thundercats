@@ -21,6 +21,8 @@ namespace thundercats
         public const string BLOCK = "block";
         public const string GOAL = "Goal";
 
+        public static GraphicsDevice GraphicsDevice;
+
         public static Entity NewBasePlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture, String typeName)
         {
             Entity player = EntityFactory.NewEntity(typeName);
@@ -65,6 +67,8 @@ namespace thundercats
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
             AiComponent aiComponent = new AiComponent(player);
+            
+            
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
             ComponentManager.Instance.AddComponentToEntity(player, transformComponent);
@@ -101,7 +105,7 @@ namespace thundercats
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
-            
+
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
@@ -157,6 +161,29 @@ namespace thundercats
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
+        }
+
+        public static Entity NewParticleSettingsEntity(Entity player, int maxParticles, float lifeSpan, string textureName)
+        {
+            Entity particles = player;
+            ParticleSettingsComponent particleSettingsComponent = new ParticleSettingsComponent(particles)
+            {
+                AlphaBlendState = BlendState.Additive,
+                EmitterVelocitySensitivity = 1,
+                GravityDirection = Vector3.Up,
+                MaximumParticles = maxParticles,
+                MaxVelocity = 10,
+                MinVelocity = 0,
+                MinColor = new Color(255, 255, 255, 10),
+                MaxColor = new Color(255, 255, 255, 40),
+                ParticleLifeSpan = TimeSpan.FromSeconds(lifeSpan),
+                MaxSize = 100,
+                MinSize = 100,
+                TextureName = textureName
+            };
+
+            ComponentManager.Instance.AddComponentToEntity(particles, particleSettingsComponent);
+            return particles;
         }
     }
 }

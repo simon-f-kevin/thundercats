@@ -70,7 +70,7 @@ namespace thundercats.Systems
                 {
                     if (!gravityComponent.HasJumped)
                     {
-                        PlayerActions.PlayerJumpSpeed(velocityComponent);
+                        PlayerActions.PlayerJump(velocityComponent, gravityComponent, playerEntity);
                         gravityComponent.HasJumped = true;
                     }
                    
@@ -100,11 +100,7 @@ namespace thundercats.Systems
                 }
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
-                    if (!gravityComponent.HasJumped)
-                    {
-                        PlayerActions.PlayerJumpSpeed(velocityComponent);
-                        gravityComponent.HasJumped = true;
-                    }
+                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent); 
                 }
             }
         }

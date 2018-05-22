@@ -33,5 +33,7 @@ namespace Game_Engine.Components
         }
 
         public abstract void UpdateShape(Vector3 position);
+
+        public bool LandedOnBlock { get; set; }
     }
 }
