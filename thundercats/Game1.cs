@@ -31,6 +31,7 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
+        FrameCounterSystem frameCounterSystem;
         //ParticleDrawSystem particleSystem;
         //ParticleSystem particleSystem;
 
@@ -42,6 +43,8 @@ namespace thundercats
             graphics.PreferMultiSampling = false;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
+            IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
 
             Content.RootDirectory = "Content";
         }
@@ -59,6 +62,7 @@ namespace thundercats
 
             GameEntityFactory.GraphicsDevice = GraphicsDevice;
 
+            frameCounterSystem = new FrameCounterSystem(true, this.Window);
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
             playerInputSystem = new PlayerInputSystem();
@@ -72,8 +76,8 @@ namespace thundercats
             //SystemManager.Instance.AddToDrawables(uiSystem);
 
 
-            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem);
-            SystemManager.Instance.AddToDrawables(modelRenderSystem);
+            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem, frameCounterSystem);
+            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem);
             
 
             base.Initialize();

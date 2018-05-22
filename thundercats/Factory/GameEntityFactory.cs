@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Components;
+using Game_Engine.Components.Preformance;
 using Game_Engine.Entities;
 using Game_Engine.Helpers;
 using Game_Engine.Managers;
@@ -109,10 +110,12 @@ namespace thundercats
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
+            FPSComponent fpsComponent = new FPSComponent(player);
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, fpsComponent);
             
 
             return player;
