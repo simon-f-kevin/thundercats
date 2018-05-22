@@ -44,7 +44,7 @@ namespace thundercats
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
             IsFixedTimeStep = false;
-            graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.SynchronizeWithVerticalRetrace = true;
 
             Content.RootDirectory = "Content";
         }
@@ -57,9 +57,6 @@ namespace thundercats
         /// </summary>
         protected override void Initialize()
         {
-            //thread1 = new ThreadStart();
-            //thread2 = Thread.CurrentThread;
-
             GameEntityFactory.GraphicsDevice = GraphicsDevice;
 
             frameCounterSystem = new FrameCounterSystem(true, this.Window);
@@ -70,10 +67,7 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
-            //particleSystem = new ParticleSystem(GraphicsDevice);
             aiSystem = new AiSystem();
-
-            //SystemManager.Instance.AddToDrawables(uiSystem);
 
 
             SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem, frameCounterSystem);
