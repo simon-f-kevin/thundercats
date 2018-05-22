@@ -100,7 +100,8 @@ namespace thundercats.Systems
                 }
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
-                    PlayerActions.PlayerJumpSpeed(velocityComponent,gravityComponent); 
+                   
+                    PlayerActions.PlayerJump(velocityComponent, gravityComponent, null);
                 }
             }
         }

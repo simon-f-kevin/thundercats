@@ -21,8 +21,8 @@ namespace thundercats.GameStates.States.AiStates
         public Losing() : base(new Random()) { }
         public void Update(GameTime gameTime, ref Point matrixPosition, Vector3 Position, VelocityComponent aiVelocity, GravityComponent gravity)
         {
-            worldMatrix = GameService.Instance().GameWorld;
-            worldEntityMatrix = GameService.Instance().EntityGameWorld;
+            worldMatrix = GameService.Instance.GameWorld;
+            worldEntityMatrix = GameService.Instance.EntityGameWorld;
             matrixPosition = ExecuteState(matrixPosition, Position,aiVelocity, gravity);
         }
 

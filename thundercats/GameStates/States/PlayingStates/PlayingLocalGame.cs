@@ -32,10 +32,7 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            particleCreationSystem = new ParticleCreationSystem(particleSystem);
-            SystemManager.Instance.AddToDrawables(particleSystem);
-            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
+
 
             var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
@@ -48,6 +45,12 @@ namespace thundercats.GameStates.States.PlayingStates
 
             InitWorld();
             GameService.Instance.GameWorld = world;
+
+            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
+            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
@@ -75,7 +78,7 @@ namespace thundercats.GameStates.States.PlayingStates
         {
             //worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me");
             worldGenerator = new WorldGenerator("Markus");
-            world = GenerateWorld(3, 1000);
+            world = GenerateWorld(3, 10);
             worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
             int distanceBetweenBlocksX = -100;
             int distanceBetweenBlocksZ = 50;
@@ -103,7 +106,7 @@ namespace thundercats.GameStates.States.PlayingStates
                     iter++; //for debugging
                 }
             }
-            GameService.Instance().EntityGameWorld = worldEntity;
+            GameService.Instance.EntityGameWorld = worldEntity;
             worldGenerator.MoveBlocks();
         }
 

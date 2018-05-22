@@ -65,7 +65,7 @@ namespace thundercats.GameStates.States.AiStates
                 PlayerActions.AcceleratePlayerLeftwards(velocity);
                 if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
                 {
-                    PlayerActions.PlayerJumpSpeed(velocity);
+                    PlayerActions.PlayerJump(velocity,gravity,null);
                     gravity.HasJumped = true;
                 }
 
@@ -82,7 +82,7 @@ namespace thundercats.GameStates.States.AiStates
                 //Console.WriteLine("we r about to jump");
                 if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
                 {
-                    PlayerActions.PlayerJumpSpeed(velocity);
+                    PlayerActions.PlayerJump(velocity, gravity, null);
                     gravity.HasJumped = true;
                 }
 
