@@ -36,7 +36,6 @@ namespace thundercats.GameStates.States.PlayingStates
             var ClientPosition = new Vector3(100, (viewport.Height * 0.45f) + 100, 100);
             if (connectionManager.IsHost)
             {
-
                 GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));

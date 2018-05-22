@@ -45,6 +45,13 @@ namespace thundercats.Factory
                 }
                 
             }
+
+            // uggly, to check so no row is empty
+            for (int row = 0; row < world.GetLength(1); row++)
+            {
+                if (world[0, row] == 0 && world[1, row] == 0 && world[2, row] == 0)
+                    world[rnd.Next(2), row] = 1;
+            }
         }
 
         /// <summary>

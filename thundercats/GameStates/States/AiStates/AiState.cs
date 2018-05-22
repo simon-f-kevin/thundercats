@@ -57,36 +57,22 @@ namespace thundercats.GameStates.States.AiStates
             Debug.WriteLine("currentBlock Z: " + currentBlock.Z.ToString());
             Debug.WriteLine("currentBlock X: " + currentBlock.X.ToString());
             Debug.WriteLine("Position!!!!! X: " + position.X.ToString());
+        
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
-            {
-                //jump left
-                //AiActions.MoveAiLeftwards();
-                
+            {                
                 Console.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 PlayerActions.AcceleratePlayerForwards(velocity);
                 PlayerActions.AcceleratePlayerLeftwards(velocity);
-                if (!gravity.HasJumped)
+                if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
                 {
                     PlayerActions.PlayerJumpSpeed(velocity);
                     gravity.HasJumped = true;
                 }
-                //if ((currentBlock.X <= position.X))
-                //{
-                //    Console.WriteLine("currentBlock X" + position.X);
-                //    PlayerActions.PlayerJumpSpeed(aiVelocity);
-                //}
-                //PlayerActions.AcceleratePlayerForwards(aiVelocity);
-                // PlayerActions.PlayerJumpSpeed(aiVelocity);
-                //PlayerActions.AcceleratePlayerLeftwards(aiVelocity);
 
-
-                // PlayerActions.PlayerJumpSpeed(aiVelocity);
                 MadeMove = true;
             }
             if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
-                //    AiActions.MoveAiLeftwards();
-                //jump Right
                 Console.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 Console.WriteLine("AI VEL Y:" + velocity.Velocity.Y);
      
@@ -94,26 +80,20 @@ namespace thundercats.GameStates.States.AiStates
                 PlayerActions.AcceleratePlayerRightwards(velocity);
                 PlayerActions.AcceleratePlayerForwards(velocity);
                 //Console.WriteLine("we r about to jump");
-                if (!gravity.HasJumped)
+                if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
                 {
                     PlayerActions.PlayerJumpSpeed(velocity);
                     gravity.HasJumped = true;
                 }
-                //if(Ai position is bigger then half currentX we can jump?)
-                //
-                //if ((currentBlock.X >= position.X))
-                //{
-                //    Console.WriteLine("position X" + position.X);
-                //    PlayerActions.PlayerJumpSpeed(aiVelocity);
-                //}
+
 
                 MadeMove = true;
             }
             else
             {
-                //Continue run
-                //PlayerActions.PlayerJumpSpeed(aiVelocity);
-                //PlayerActions.AcceleratePlayerForwards(VelocityComponent);
+                //Console.WriteLine("going FORWARD!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                //PlayerActions.AcceleratePlayerForwards(velocity);
+               
                 MadeMove = true;
             }
         }
@@ -157,7 +137,7 @@ namespace thundercats.GameStates.States.AiStates
                 return matrixPosition;
         }
 
-        public void WriteRow(int[] row)
+        public static void WriteRow(int[] row)
         {
             Debug.Write("Row: {");
             for (int i = 0; i < row.Length; i++)
@@ -167,7 +147,7 @@ namespace thundercats.GameStates.States.AiStates
             Debug.WriteLine("}");
         }
 
-        public void WriteWorld(int[,] worldMatrix)
+        public static void WriteWorld(int[,] worldMatrix)
         {
             Debug.WriteLine(" World:");
             for (int j = 0; j < worldMatrix.GetLength(1); j++)
