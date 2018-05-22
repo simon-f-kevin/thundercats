@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Components;
+using Game_Engine.Components.Preformance;
 using Game_Engine.Entities;
 using Game_Engine.Helpers;
 using Game_Engine.Managers;
@@ -19,12 +20,20 @@ namespace thundercats.Systems
     public class NetworkHandlingSystem : IUpdateableSystem
     {
         private NetPeer peer;
-        Entity remotePlayerEntity;
-        Entity localPlayerEntity;
+        private Entity remotePlayerEntity;
+        private Entity localPlayerEntity;
+        private bool runDiagnostics;
+        private double currentTime;
+        private double nextSendUpdates;
 
-        public NetworkHandlingSystem(NetPeer peer)
+        //diagnstics
+        private NetworkDiagnosticComponent networkDiagnostic;
+    
+
+        public NetworkHandlingSystem(NetPeer peer, bool runDiagnostics = false)
         {
             this.peer = peer;
+            this.runDiagnostics = runDiagnostics;
         }
 
         public void InitPlayers()
@@ -35,7 +44,7 @@ namespace thundercats.Systems
 
         public void Update(GameTime gameTime)
         {
-            double nextSendUpdates = NetTime.Now;
+            nextSendUpdates = NetTime.Now;
             var listOfIncomingMessages = new List<NetIncomingMessage>();
             var nMessages = peer.ReadMessages(listOfIncomingMessages);
             
@@ -103,42 +112,55 @@ namespace thundercats.Systems
             /********************************************************************************************************/
             /*********************************************SEND DATA**************************************************/
             /********************************************************************************************************/
-            double now = NetTime.Now;
-            if (now > nextSendUpdates)
+            currentTime = NetTime.Now;
+            if (currentTime > nextSendUpdates)
             {
                 foreach (NetConnection player in peer.Connections)
                 {
                     foreach (NetConnection otherPlayer in peer.Connections)
                     {
-                        Diagnostics();
+                        
                         NetOutgoingMessage om = peer.CreateMessage();
 
                         //sends data over the network to the host/client
 
                         var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
                         var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
-                        //om.Write(transformComponent.Position.X);
-                        //om.Write(transformComponent.Position.Y);
-                        //om.Write(transformComponent.Position.Z);
                         om.Write(velocityComponent.Velocity.X);
                         om.Write(velocityComponent.Velocity.Y);
                         om.Write(velocityComponent.Velocity.Z);
 
                         peer.SendMessage(om, player, NetDeliveryMethod.UnreliableSequenced);
-                        Console.WriteLine(om.Data[0].ToString());
+                        if (runDiagnostics)
+                        {
+                            Diagnostics(om);
+                        }
                     }
                 }
 
+                //send data 30 times per second
                 nextSendUpdates += (1.0 / 30.0);
             }
             if(nMessages > 0) Console.WriteLine(nMessages + " incoming messages!");
 
-            //Console.WriteLine(message.MessageType.ToString());
         }
 
-        private void Diagnostics()
+        private void Diagnostics(NetOutgoingMessage om)
         {
             //do preformance measurement here
+            networkDiagnostic = ComponentManager.Instance.GetConcurrentDictionary<NetworkDiagnosticComponent>().Values.First() as NetworkDiagnosticComponent;
+            
+            var sentData = om.LengthBytes;
+
+            networkDiagnostic.DataSentThisSecond += sentData;
+            networkDiagnostic.TotalDataSent += sentData;
+
+            if(currentTime > nextSendUpdates)
+            {
+                networkDiagnostic.DataSentThisSecond = 0;
+            }
+
+            Console.WriteLine(om.Data[0].ToString());
         }
 
         

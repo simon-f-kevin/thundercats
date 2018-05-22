@@ -58,7 +58,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
 
-            NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
+            NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer(), true);
             networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
 

@@ -61,6 +61,7 @@
     <Compile Include="Components\NetworkInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\Preformance\FPSComponent.cs" />
+    <Compile Include="Components\Preformance\NetworkDiagnosticComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\UIComponent.cs" />

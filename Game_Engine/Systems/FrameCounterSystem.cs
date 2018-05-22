@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework;
 
 namespace Game_Engine.Systems
 {
+    /// <summary>
+    /// This systems calculates the frames per second, it has functionality to display fps directly in window title
+    /// </summary>
     public class FrameCounterSystem : IUpdateableSystem, IDrawableSystem
     {
         private Queue<float> frameBuffer;
@@ -54,10 +57,6 @@ namespace Game_Engine.Systems
                 {
                     window.Title = "Current FPS: " + fpsComponent.CurrentFramesPerSecond.ToString();
                 }
-            }
-            else
-            {
-
             }
         }
     }
