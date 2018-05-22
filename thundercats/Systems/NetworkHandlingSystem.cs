@@ -68,7 +68,6 @@ namespace thundercats.Systems
                         //Recieves data and puts it in the networkInputComponent for the remote player entity
                         if(remotePlayerEntity != null)
                         {
-                            var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(remotePlayerEntity);
                             var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(remotePlayerEntity);
                             //var xpos = message.ReadFloat();
                             //var ypos = message.ReadFloat();
@@ -76,7 +75,6 @@ namespace thundercats.Systems
                             var velx = message.ReadFloat();
                             var vely = message.ReadFloat();
                             var velz = message.ReadFloat();
-                            //transformComponent.Position = new Vector3(xpos, ypos, zpos);
                             velocityComponent.Velocity = new Vector3(velx, vely, velz);
 
                         }
