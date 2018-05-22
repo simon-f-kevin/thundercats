@@ -13,6 +13,7 @@ namespace Game_Engine.Components
         public float FieldOfView { get; set; }
         public float AspectRatio { get; set; }
         public bool FollowPlayer { get; set; }
+        public BoundingFrustum BoundingFrustum { get; set; }
 		
         public CameraComponent(Entity id, Vector3 position, float aspectRatio, bool followPlayer) : base(id){
             ViewMatrix = new Matrix();
@@ -22,6 +23,7 @@ namespace Game_Engine.Components
             Position = position;
             AspectRatio = aspectRatio;
             FollowPlayer = followPlayer;
+            BoundingFrustum = new BoundingFrustum(ViewMatrix * ProjectionMatrix);
         }
     }
 }

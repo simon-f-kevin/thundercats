@@ -53,27 +53,28 @@ namespace Game_Engine.Systems
             foreach(var modelComponentPair in modelComponents)
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
-                TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
-                 model.BoneTransformations[0] = model.World;
-                //model.Model.CopyAbsoluteBoneTransformsTo(model.BoneTransformations);
-                //model.BoneTransformations = new Matrix[model.Model.Bones.Count];
-                //model.Model.CopyAbsoluteBoneTransformsTo(model.BoneTransformations);
-                
-                foreach (var modelMesh in model.Model.Meshes)
+                var collisionComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CollisionComponent>(modelComponentPair.Key);
+                if (cameraComponent.BoundingFrustum.Intersects(collisionComponent.BoundingShape))
                 {
-                    foreach (BasicEffect effect in modelMesh.Effects)
+                    TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
+                    model.BoneTransformations[0] = model.World;
+
+                    foreach (var modelMesh in model.Model.Meshes)
                     {
-                        effect.World = model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix;
-                        effect.View = cameraComponent.ViewMatrix;
-                        effect.Projection = cameraComponent.ProjectionMatrix;
-                        effect.EnableDefaultLighting();
-                        effect.LightingEnabled = true;
-                        if(textureComponent != null)
+                        foreach (BasicEffect effect in modelMesh.Effects)
                         {
-                            effect.Texture = textureComponent.Texture;
-                            effect.TextureEnabled = true;
+                            effect.World = model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix;
+                            effect.View = cameraComponent.ViewMatrix;
+                            effect.Projection = cameraComponent.ProjectionMatrix;
+                            effect.EnableDefaultLighting();
+                            effect.LightingEnabled = true;
+                            if (textureComponent != null)
+                            {
+                                effect.Texture = textureComponent.Texture;
+                                effect.TextureEnabled = true;
+                            }
+                            modelMesh.Draw();
                         }
-                        modelMesh.Draw();
                     }
                 }
             }

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
@@ -12,14 +13,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game_Engine.Systems
 {
-    /*
-     * System to handle all physics updates including 3D transformations based on velocity, friction, and collision.
-     * PhysicsSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
-     */
+    /// <summary>
+    /// System to handle all physics updates including 3D transformations based on velocity, friction, and collision.
+    /// PhysicsSystem uses parallel foreach loops to improve performance, this does not require locks as the component manager is thread safe.
+    /// If the parameter passed to the constructor is true we compare collisions with all models instead of just players and other models
+    /// </summary>
     public class PhysicsSystem : IUpdateableSystem
     {
-
         ComponentManager componentManager = ComponentManager.Instance;
+        private bool compareAllModels;
+
+        public PhysicsSystem(bool compareAllModels = false)
+        {
+            this.compareAllModels = compareAllModels;
+        }
 
         public void Update(GameTime gameTime)
         {
@@ -54,37 +61,50 @@ namespace Game_Engine.Systems
         }
 
         /// <summary>
-        /// Checks intersections for all BoundingSphereComponents.
-        /// Currently only identifies collision, taking action based on collision is TODO.
+        /// Checks intersections for all CollisionComponents if compareAllModels is set to true
+        /// Otherwise we only compare players to all other models and reducing number of comparisons. 
         /// </summary>
         private void CheckCollision()
         {
             ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
-            bool found = false; //Temp debug flag
-
-            Parallel.ForEach(collisionComponentPairs, sourceCollisionComponentPair =>
+            var playerComponents = componentManager.GetConcurrentDictionary<PlayerComponent>();
+            if (compareAllModels)
             {
-                Entity sourceEntity = sourceCollisionComponentPair.Key;
-                var sourceCollisionComponent = sourceCollisionComponentPair.Value as CollisionComponent;
-
-                foreach (var targetCollisionComponentPair in collisionComponentPairs)
+                Parallel.ForEach(collisionComponentPairs, sourceCollisionPair =>
                 {
+                    Entity sourceEntity = sourceCollisionPair.Key;
+                    var sourceCollisionComponent = sourceCollisionPair.Value as CollisionComponent;
 
-                    Entity targetEntity = targetCollisionComponentPair.Key;
-                    CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
-
-                    if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
-                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                    foreach (var targetCollisionComponentPair in collisionComponentPairs)
                     {
-                        CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
-                        found = true; //Temp debug flag
-                        //Console.WriteLine(sourceBoundingSphereComponent.ComponentId.ToString() + " Intersects " + targetBoundingSphereComponent.ComponentId.ToString());
+                        Entity targetEntity = targetCollisionComponentPair.Key;
+                        CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
+                        if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
+                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                        {
+                            CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                        }
                     }
-                } 
-            });
-            if (!found) //Temp debug check
+                });
+            }
+            else
             {
-                //Console.WriteLine("No BoundingSphereComponents intersect");
+                Parallel.ForEach(playerComponents, playerComponentPair =>
+                {
+                    Entity sourceEntity = playerComponentPair.Key;
+                    var sourceCollisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(playerComponentPair.Key);
+
+                    foreach (var targetCollisionComponentPair in collisionComponentPairs)
+                    {
+                        Entity targetEntity = targetCollisionComponentPair.Key;
+                        CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
+                        if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
+                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                        {
+                            CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
+                        }
+                    }
+                });
             }
         }
 

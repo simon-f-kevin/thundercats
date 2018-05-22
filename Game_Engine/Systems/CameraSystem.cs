@@ -27,7 +27,9 @@ namespace Game_Engine.Systems
                 }
                 cameraComponent.ViewMatrix = Matrix.CreateLookAt(cameraComponent.Position, cameraComponent.Target, Vector3.Up);
                 cameraComponent.ProjectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                cameraComponent.FieldOfView, cameraComponent.AspectRatio, 1f, 1000f);
+                cameraComponent.FieldOfView, cameraComponent.AspectRatio, 1f, 700f);
+                cameraComponent.BoundingFrustum = new BoundingFrustum(cameraComponent.ViewMatrix * cameraComponent.ProjectionMatrix);
+                //Console.WriteLine(cameraComponent.BoundingFrustum.Matrix);
                 if (cameraComponent.FollowPlayer){
                     FollowPlayer(cameraComponentPair.Key);
                 }
