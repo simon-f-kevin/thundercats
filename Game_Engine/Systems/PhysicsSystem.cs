@@ -55,6 +55,7 @@ namespace Game_Engine.Systems
 
                 collisionComponent.UpdateShape(transformationComponent.Position);
 
+
                 UpdateFriction(velocityComponentPair.Key);
             });
         }

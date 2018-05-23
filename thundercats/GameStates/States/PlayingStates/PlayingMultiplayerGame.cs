@@ -68,9 +68,6 @@ namespace thundercats.GameStates.States.PlayingStates
             //SystemManager.Instance.AddToDrawables(particleSystem);
             //SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
-            //NetworkInputSystem networkInputSystem = new NetworkInputSystem();
-            //SystemManager.Instance.AddToUpdateables(networkInputSystem);
-
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
             InitWorld();

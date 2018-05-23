@@ -60,6 +60,8 @@
     <Compile Include="Components\NetworkConnectionComponent.cs" />
     <Compile Include="Components\NetworkInputComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
+    <Compile Include="Components\Preformance\FPSComponent.cs" />
+    <Compile Include="Components\Preformance\NetworkDiagnosticComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\UIComponent.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
+    <Compile Include="Systems\FrameCounterSystem.cs" />
     <Compile Include="Systems\ModelRenderSystem.cs" />
     <Compile Include="Systems\IDrawableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
