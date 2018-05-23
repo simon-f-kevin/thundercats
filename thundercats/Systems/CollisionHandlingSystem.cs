@@ -76,9 +76,17 @@ namespace thundercats.Systems
                 case GameEntityFactory.LOCAL_PLAYER:
                     PushSourceAwayFromTarget(sourceEntity, targetEntity);
                     break;
+                case GameEntityFactory.OUTOFBOUNDS:
+                    HandleOutOfBounds(sourceEntity);
+                    break;
             }
         }
-
+        private static void HandleOutOfBounds(Entity sourceEntity) {
+            if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
+            }
+        }
         private static void HandleGoal(Entity sourceEntity)
         {
             if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
