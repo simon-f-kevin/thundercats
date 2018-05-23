@@ -74,8 +74,7 @@ namespace thundercats.GameStates.States.MenuStates
                     controls.ContinueButton(GameManager.GameState.MultiplayerPlaying);
                     break;
                 case OptionsState.Back:
-                    controls.ContinueButton(GameManager.GameState.MultiPlayer);
-                    networkConnectionManager.ExitServer();
+                    controls.GoBackButton(peer: networkConnectionManager.GetPeer());
                     break;
             }
         }
@@ -90,7 +89,7 @@ namespace thundercats.GameStates.States.MenuStates
 
         private void StartServerDisplay(SpriteBatch spriteBatch)
         {
-            string txtStartServer = "Initialize a new server";
+            string txtStartServer = "Create a new game";
             string txtServerName = ServerName;
             string txtStartGame = "Play Multiplayer";
             string txtBack = "Back";

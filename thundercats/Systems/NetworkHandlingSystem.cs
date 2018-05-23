@@ -30,7 +30,7 @@ namespace thundercats.Systems
 
         //diagnstics
         private NetworkDiagnosticComponent networkDiagnostic;
-    
+        private double sentDataGametime;
 
         public NetworkHandlingSystem(NetPeer peer)
         {
@@ -55,6 +55,7 @@ namespace thundercats.Systems
             
             foreach (var message in listOfIncomingMessages)
             {
+                sentDataGametime = gameTime.ElapsedGameTime.TotalMilliseconds;
                 //RECIEVE DATA
                 switch (message.MessageType)
                 {
@@ -100,7 +101,7 @@ namespace thundercats.Systems
                             Console.WriteLine(NetUtility.ToHexString(message.SenderConnection.RemoteUniqueIdentifier) + " connected, yay!");
                         }
 
-                        if (status == NetConnectionStatus.Disconnected)
+                        if (status == NetConnectionStatus.Disconnecting)
                         {
                             Console.WriteLine(message.SenderConnection.RemoteUniqueIdentifier + " disconnected!");
                             //should we shut down th server if the client disconnects?
@@ -130,27 +131,23 @@ namespace thundercats.Systems
             {
                 foreach (NetConnection player in peer.Connections)
                 {
-                    foreach (NetConnection otherPlayer in peer.Connections)
+                    NetOutgoingMessage om = peer.CreateMessage();
+
+                    //sends data over the network to the host/client
+
+                    var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
+                    var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
+                    om.Write(transformComponent.Position.X);
+                    om.Write(transformComponent.Position.Y);
+                    om.Write(transformComponent.Position.Z);
+                    om.Write(velocityComponent.Velocity.X);
+                    om.Write(velocityComponent.Velocity.Y);
+                    om.Write(velocityComponent.Velocity.Z);
+
+                    peer.SendMessage(om, player, NetDeliveryMethod.UnreliableSequenced);
+                    if (runDiagnostics)
                     {
-                        
-                        NetOutgoingMessage om = peer.CreateMessage();
-
-                        //sends data over the network to the host/client
-
-                        var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
-                        var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
-                        om.Write(transformComponent.Position.X);
-                        om.Write(transformComponent.Position.Y);
-                        om.Write(transformComponent.Position.Z);
-                        om.Write(velocityComponent.Velocity.X);
-                        om.Write(velocityComponent.Velocity.Y);
-                        om.Write(velocityComponent.Velocity.Z);
-
-                        peer.SendMessage(om, player, NetDeliveryMethod.UnreliableSequenced);
-                        if (runDiagnostics)
-                        {
-                            Diagnostics(om);
-                        }
+                        Diagnostics(om, gameTime);
                     }
                 }
 
@@ -161,23 +158,25 @@ namespace thundercats.Systems
 
         }
 
-        private void Diagnostics(NetOutgoingMessage om)
+        private void Diagnostics(NetOutgoingMessage om, GameTime gameTime)
         {
             //do preformance measurement here
             networkDiagnostic = ComponentManager.Instance.GetConcurrentDictionary<NetworkDiagnosticComponent>().Values.First() as NetworkDiagnosticComponent;
+            int sentData = 0;
 
-            var sentData = peer.Statistics.SentBytes;
-            var test = om.Data.Length;
-
-            networkDiagnostic.DataSentThisSecond += sentData;
-            networkDiagnostic.TotalDataSent += test;
-
-            if(currentTime > nextSendUpdates)
+            if(om.Data != null)
             {
-                networkDiagnostic.DataSentThisSecond = 0;
+                sentData = om.Data.Length;
             }
+           
 
-            Console.WriteLine("sent data  this frame" + test.ToString());
+            
+            networkDiagnostic.TotalDataSent += sentData;
+            //networkDiagnostic.DataSentThisSecond = (int)(networkDiagnostic.TotalDataSent / gameTime.ElapsedGameTime.TotalSeconds); //this does not work and is not really important
+
+
+            Console.WriteLine("sent data  this frame" + sentData.ToString());
+            //Console.WriteLine("sent data this second" + networkDiagnostic.DataSentThisSecond);
             Console.WriteLine("total data sent " + networkDiagnostic.TotalDataSent);
         }
 
