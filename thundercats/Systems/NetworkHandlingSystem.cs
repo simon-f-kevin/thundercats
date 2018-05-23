@@ -32,10 +32,13 @@ namespace thundercats.Systems
         private NetworkDiagnosticComponent networkDiagnostic;
     
 
-        public NetworkHandlingSystem(NetPeer peer, bool runDiagnostics = false)
+        public NetworkHandlingSystem(NetPeer peer)
         {
             this.peer = peer;
-            this.runDiagnostics = runDiagnostics;
+            if(peer.GetType() == typeof(NetServer))
+            {
+                runDiagnostics = true;
+            }
         }
 
         public void InitPlayers()
@@ -70,6 +73,8 @@ namespace thundercats.Systems
                         //Recieves data and puts it in the networkInputComponent for the remote player entity
                         if(remotePlayerEntity != null)
                         {
+                            var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(remotePlayerEntity);
+                            Console.WriteLine(transformComponent.Position.ToString());
                             var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(remotePlayerEntity);
                             var velx = message.ReadFloat();
                             var vely = message.ReadFloat();
@@ -128,7 +133,7 @@ namespace thundercats.Systems
 
                         //sends data over the network to the host/client
 
-                        var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
+                        
                         var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
                         om.Write(velocityComponent.Velocity.X);
                         om.Write(velocityComponent.Velocity.Y);
@@ -155,6 +160,7 @@ namespace thundercats.Systems
             networkDiagnostic = ComponentManager.Instance.GetConcurrentDictionary<NetworkDiagnosticComponent>().Values.First() as NetworkDiagnosticComponent;
 
             var sentData = peer.Statistics.SentBytes;
+            var test = om.Data.Length;
 
             networkDiagnostic.DataSentThisSecond += sentData;
             networkDiagnostic.TotalDataSent += sentData;
@@ -164,7 +170,7 @@ namespace thundercats.Systems
                 networkDiagnostic.DataSentThisSecond = 0;
             }
 
-            Console.WriteLine("sent data " + sentData.ToString());
+            Console.WriteLine("sent data " + test.ToString());
         }
 
         
