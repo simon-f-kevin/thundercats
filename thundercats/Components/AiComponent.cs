@@ -19,6 +19,7 @@ namespace thundercats.Components
         public AiComponent(Entity id) : base(id)
         {
             CurrentState = AiState.Winning;
+            MatrixPosition = new Point(1, 0);
         }
     }
 }

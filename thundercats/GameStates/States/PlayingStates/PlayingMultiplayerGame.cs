@@ -62,11 +62,11 @@ namespace thundercats.GameStates.States.PlayingStates
             networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
 
-            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
-            particleCreationSystem = new ParticleCreationSystem(particleSystem);
-            SystemManager.Instance.AddToDrawables(particleSystem);
-            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
+            //particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            //particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
+            //particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            //SystemManager.Instance.AddToDrawables(particleSystem);
+            //SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             //NetworkInputSystem networkInputSystem = new NetworkInputSystem();
             //SystemManager.Instance.AddToUpdateables(networkInputSystem);

@@ -41,9 +41,28 @@ namespace thundercats.Factory
             {
                 for(int j = 0; j < world.GetLength(1); j++)
                 {
-                    world[i, j] = rnd.Next(2);
+
+                    if (j == world.GetLength(1) - 1)
+                    {
+                        world[i, j] = 2;
+                    }
+                    else
+                    {
+                        world[i, j] = rnd.Next(2);
+                    }
+                    if (j == 0)
+                    {
+                        world[i, j] = 1;
+                    }
                 }
                 
+            }
+
+            // uggly, to check so no row is empty
+            for (int row = 0; row < world.GetLength(1); row++)
+            {
+                if (world[0, row] == 0 && world[1, row] == 0 && world[2, row] == 0)
+                    world[rnd.Next(2), row] = 1;
             }
         }
 
