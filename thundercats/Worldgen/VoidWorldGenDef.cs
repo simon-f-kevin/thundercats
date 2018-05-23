@@ -13,7 +13,7 @@ namespace thundercats.Worldgen
         public VoidWorldgenDef(int weight)
         {
             Weight = weight;
-			Index = 0;
+			Index = -1;
             SelectionValue = 0f;
         }
 

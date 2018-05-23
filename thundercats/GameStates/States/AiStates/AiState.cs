@@ -45,11 +45,8 @@ namespace thundercats.GameStates.States.AiStates
         /// <returns></returns>
         protected Vector3 GetBlock(Point cellPosition)
         {
-            //if(worldEntityMatrix[cellPosition.X, cellPosition.Y].EntityTypeName == GameEntityFactory.BLOCK)
-            //{
-                var transform = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(worldEntityMatrix[cellPosition.X, cellPosition.Y]);
-                return transform.Position;
-            //}
+            var transform = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(worldEntityMatrix[cellPosition.X, cellPosition.Y]);
+            return transform.Position;
         }
 
         protected void ExecuteMove(GameTime gameTime, Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent velocity, GravityComponent gravity)

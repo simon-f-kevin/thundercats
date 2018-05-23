@@ -25,6 +25,9 @@ namespace thundercats.Factory
         private GameManager gameManager;
         private Viewport viewport;
 
+        static int distanceBetweenColumns = -100;
+        static int distanceBetweenRows = 50;
+
         private List<IWorldgenEntityDef> WorldgenEntities { get; set;}
 
         internal WorldGenerator(string seed, List<IWorldgenEntityDef> worldgenEntities, GameManager gameManager, Viewport viewport)
@@ -54,8 +57,6 @@ namespace thundercats.Factory
         */
         private void PopulateWorld(int nColumns, int nRows)
         {
-            int distanceBetweenColumns = 100;
-            int distanceBetweenRows = 50;
             Random rnd = new Random(seed.GetHashCode());
             int weightTotal = GetWeightTotal();
             WorldgenEntities = WorldgenEntities.OrderBy(o => o.SelectionValue).ToList();
@@ -67,8 +68,9 @@ namespace thundercats.Factory
                 {
                     if(row == 0) // First row is always filled with blocks as the players start there
                     {
-                        GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
+                        GameService.Instance.EntityGameWorld[column, row] = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
                             AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
+                        world[column, row] = 1;
                     }
                     else
                     {
@@ -87,13 +89,14 @@ namespace thundercats.Factory
             {
                 if(selectedValue < WorldgenEntities[i].SelectionValue)
                 {
-                    if(WorldgenEntities[i].GetType() == typeof(VoidWorldgenDef) && IsRowTooOpen(row))
+                    GameService.Instance.EntityGameWorld[column, row] = WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
+                    world[column, row] = WorldgenEntities[i].Index;
+
+                    if((WorldgenEntities[i].Index == -1) && (column == world.GetLength(0) - 1) && (IsRowTooOpen(row)))
                     {
-                        GameEntityFactory.NewBlock(position, AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
+                        FillOpenRow(column, row);
                         break;
                     }
-                        GameService.Instance.EntityGameWorld[column, row] = WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
-                    world[column, row] = WorldgenEntities[i].Index;
                     break;
                 }
             }
@@ -105,20 +108,35 @@ namespace thundercats.Factory
          */
         private bool IsRowTooOpen(int row)
         {
-            int openess = 0;
+            int openness = 0;
 
             for(int column = 0; column < world.GetLength(0); column++)
             {
-                if(world[column, row] == 0)
+                if(world[column, row] == -1)
                 {
-                    openess++;
+                    openness++;
                 }
             }
-            if(openess > world.GetLength(0))
+            Console.WriteLine("Openess of row: " + row + ": " + openness);
+            if(openness >= world.GetLength(0))
             {
                 return true;
             }
             return false;
+        }
+
+        private void FillOpenRow(int currentColumn, int row)
+        {
+            //Void the current tile in case it is not selected.
+            //GameService.Instance.EntityGameWorld[currentColumn, row] = null;
+            //world[currentColumn, row] = -1;
+
+            //Fill a random tile on the row
+            Random rnd = new Random();
+            int selectedColumn = rnd.Next(0, world.GetLength(0));
+            GameService.Instance.EntityGameWorld[selectedColumn, row] = GameEntityFactory.NewBlock(new Vector3((selectedColumn * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
+                AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
+            world[selectedColumn, row] = 1;
         }
 
         /* Returns the total weight of all Worldgen entity types. */
@@ -152,8 +170,8 @@ namespace thundercats.Factory
         internal static List<IWorldgenEntityDef> GetWorldgenEntityDefs()
         {
             List<IWorldgenEntityDef> worldgenEntities = new List<IWorldgenEntityDef>(){
-                new BlockWorldgenDef(3),
-                new VoidWorldgenDef(2)
+                new BlockWorldgenDef(1),
+                new VoidWorldgenDef(5)
             };
 
             return worldgenEntities;

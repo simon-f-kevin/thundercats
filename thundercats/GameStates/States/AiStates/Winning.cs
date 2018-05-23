@@ -23,7 +23,6 @@ namespace thundercats.GameStates.States.AiStates
             worldMatrix = GameService.Instance.GameWorld;
             worldEntityMatrix = GameService.Instance.EntityGameWorld;
             matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity);
-        
         }
 
         protected override Point ChooseBlock(int[] row, int RowIndex)
