@@ -52,14 +52,10 @@ namespace thundercats.GameStates.States.AiStates
 
         protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent velocity, GravityComponent gravity)
         {
-            Debug.WriteLine("currentBlock Z: " + currentBlock.Z.ToString());
-            Debug.WriteLine("currentBlock X: " + currentBlock.X.ToString());
-            Debug.WriteLine("Position!!!!! X: " + position.X.ToString());
         
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {                
-                Console.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
-               // PlayerActions.AcceleratePlayerForwards(velocity);
+     
                 PlayerActions.AcceleratePlayerLeftwards(velocity);
                 if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
                 {
@@ -71,7 +67,6 @@ namespace thundercats.GameStates.States.AiStates
             }
             if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
-                Console.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 PlayerActions.AcceleratePlayerRightwards(velocity);
               //  PlayerActions.AcceleratePlayerForwards(velocity);
                 if (!gravity.HasJumped && currentBlock.Z + 40 <= position.Z)
@@ -85,9 +80,7 @@ namespace thundercats.GameStates.States.AiStates
             }
             else
             {
-                //Console.WriteLine("going FORWARD!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 PlayerActions.AcceleratePlayerForwards(velocity);
-               
                 MadeMove = true;
             }
         }

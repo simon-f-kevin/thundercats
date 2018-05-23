@@ -23,7 +23,7 @@ namespace thundercats.GameStates.States.AiStates
             worldMatrix = GameService.Instance.GameWorld;
             worldEntityMatrix = GameService.Instance.EntityGameWorld;
             matrixPosition = ExecuteState(matrixPosition, Position,aiVelocity, gravity);
-            Console.WriteLine($"player-Pos:{matrixPosition}");
+        
         }
 
         protected override Point ChooseBlock(int[] row, int RowIndex)
