@@ -33,22 +33,25 @@ namespace thundercats.GameStates.States.AiStates
             for (int i = 0; i < row.Length; i++)
             {
                 // Logic should be here to choose column/block
-                if (row[i] == 1) currentChoice = i; // return new Point(RowIndex, i); 
-                if (row[i] == 2)
+                if (row[i] == 1)
                 {
-                    currentChoice = i;
-                    break;
+                    currentChoice = i; break; // return new Point(RowIndex, i); 
                 }
-                if (row[i] == 3)
-                {
-                    currentChoice = i;
-                    break;
-                }
-                if (row[i] == 4)
-                {
-                    currentChoice = i;
-                    break;
-                }
+                //if (row[i] == 2)
+                //{
+                //    currentChoice = i;
+                //    break;
+                //}
+                //if (row[i] == 3)
+                //{
+                //    currentChoice = i;
+                //    break;
+                //}
+                //if (row[i] == 4)
+                //{
+                //    currentChoice = i;
+                //    break;
+                //}
             }
             return new Point(currentChoice, RowIndex);
             // Index of the next block the ai is moving to;

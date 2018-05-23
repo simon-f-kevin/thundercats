@@ -34,13 +34,13 @@ namespace thundercats.GameStates.States.PlayingStates
         {   
 
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(-10, 40, 0),
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 0),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
             GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
 
-            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(10, 40, 0),
+            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
 
             InitWorld();
@@ -76,9 +76,8 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            //worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me");
-            worldGenerator = new WorldGenerator("Markus");
-            world = GenerateWorld(3, 10);
+            worldGenerator = new WorldGenerator("nick"); // the NICE WORKING SEED 
+            world = GenerateWorld(3, 100);
             worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
             int distanceBetweenBlocksX = -100;
             int distanceBetweenBlocksZ = 50;
@@ -87,7 +86,7 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int row = 0; row < world.GetLength(1); row++)
                 {
-                    if (row == world.GetLength(1) - 1)
+                    if (world[column, row] == 2)
                     {
                         Entity Block = GameEntityFactory.NewGoalBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
                         AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));

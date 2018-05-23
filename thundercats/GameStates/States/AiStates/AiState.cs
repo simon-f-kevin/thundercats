@@ -17,7 +17,6 @@ namespace thundercats.GameStates.States.AiStates
     public abstract class AiState
     {
         protected Random Random { get; private set; }
-        protected bool AiJumped { get; private set; } = false;
         protected bool MadeMove { get; private set; } = true;
         protected int[,] worldMatrix;
         protected Entity[,] worldEntityMatrix;
@@ -52,42 +51,36 @@ namespace thundercats.GameStates.States.AiStates
 
         protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent velocity, GravityComponent gravity)
         {
-        
+            PlayerActions.AcceleratePlayerForwards(velocity);
+            
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {                
      
                 PlayerActions.AcceleratePlayerLeftwards(velocity);
-                if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
-                {
-                    PlayerActions.PlayerJump(velocity,gravity,null);
-                    gravity.HasJumped = true;
-                }
-
-                MadeMove = true;
-            }
-            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
-            {
-                PlayerActions.AcceleratePlayerRightwards(velocity);
-              //  PlayerActions.AcceleratePlayerForwards(velocity);
-                if (!gravity.HasJumped && currentBlock.Z + 40 <= position.Z)
+                if (!gravity.HasJumped)
                 {
                     PlayerActions.PlayerJump(velocity, gravity, null);
                     gravity.HasJumped = true;
                 }
 
-
-                MadeMove = true;
             }
-            else
+            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
-                PlayerActions.AcceleratePlayerForwards(velocity);
-                MadeMove = true;
+                PlayerActions.AcceleratePlayerRightwards(velocity);
+
+                if (!gravity.HasJumped) //&& currentBlock.Z + 40 <= position.Z)
+                {
+                    PlayerActions.PlayerJump(velocity, gravity, null);
+                    gravity.HasJumped = true;
+                }
             }
+
+
+             
+
         }
         protected Point ExecuteState(Point matrixPosition, Vector3 position,VelocityComponent aiVelocity, GravityComponent gravity)
         {
-            
-
             var currentBlock = GetBlock(matrixPosition);
 
             // We need the players current matrix row position to determine the next move
@@ -96,7 +89,7 @@ namespace thundercats.GameStates.States.AiStates
 
             // Debug
             //WriteWorld(worldMatrix);
-            //WriteRow(nextMatrixRow);
+            WriteRow(nextMatrixRow);
 
             // Then we need the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:
@@ -110,10 +103,9 @@ namespace thundercats.GameStates.States.AiStates
             var decision = ChooseBlock(nextMatrixRow, index);
             var destinationBlock = GetBlock(decision);
             // Execute the move to the next block
-            if (MadeMove)
-            {
-                ExecuteMove(currentBlock, destinationBlock, position, aiVelocity, gravity);
-            }
+
+            ExecuteMove(currentBlock, destinationBlock, position, aiVelocity, gravity);
+
             // We look to see if the player is in the same block in the "real" world as
             // in the matrix. if he is, we "wait" until the move is completed and return the same
             // position, or we make the move.

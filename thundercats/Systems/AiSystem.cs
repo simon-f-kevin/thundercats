@@ -49,7 +49,7 @@ namespace thundercats.Systems
             {
                 aiComponent.CurrentState = AiState.Losing;
             }
-            else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 5))
+            else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 2))
             {
                 aiComponent.CurrentState = AiState.Winning;
   
@@ -64,6 +64,7 @@ namespace thundercats.Systems
             var aiVelocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
             var aiGravityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<GravityComponent>(key);
             //Player values
+           
             var pos = aiComponent.MatrixPosition;
             aiStates[aiComponent.CurrentState].Update(gameTime, ref pos, aiTransformComponent.Position, aiVelocityComponent, aiGravityComponent);
             aiComponent.MatrixPosition = pos;

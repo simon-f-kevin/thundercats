@@ -41,7 +41,19 @@ namespace thundercats.Factory
             {
                 for(int j = 0; j < world.GetLength(1); j++)
                 {
-                    world[i, j] = rnd.Next(2);
+
+                    if (j == world.GetLength(1) - 1)
+                    {
+                        world[i, j] = 2;
+                    }
+                    else
+                    {
+                        world[i, j] = rnd.Next(2);
+                    }
+                    if (j == 0)
+                    {
+                        world[i, j] = 1;
+                    }
                 }
                 
             }
