@@ -42,9 +42,10 @@ namespace thundercats.GameStates.States.PlayingStates
 
             GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
-
+            GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             InitWorld();
             GameService.Instance.GameWorld = world;
+           
 
             particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
             particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
@@ -107,6 +108,8 @@ namespace thundercats.GameStates.States.PlayingStates
                     iter++; //for debugging
                 }
             }
+
+
             GameService.Instance.EntityGameWorld = worldEntity;
             worldGenerator.MoveBlocks();
         }

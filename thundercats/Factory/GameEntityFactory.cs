@@ -21,6 +21,7 @@ namespace thundercats
         public const string AI_PLAYER = "ai_player";
         public const string BLOCK = "block";
         public const string GOAL = "Goal";
+        public const string OUTOFBOUNDS = "Out of bounds";
 
         public static GraphicsDevice GraphicsDevice;
 
@@ -125,6 +126,13 @@ namespace thundercats
             GoalComponent goalComponent = new GoalComponent(player);
             ComponentManager.Instance.AddComponentToEntity(player, goalComponent);
             return player;
+        }
+        public static Entity NewOutOfBounds(Vector3 positionStart, Vector3 positionEnd) {
+            Entity outOfBounds = EntityFactory.NewEntity(GameEntityFactory.OUTOFBOUNDS);
+           BoundingBoxComponent boundingBox = new BoundingBoxComponent(outOfBounds,new BoundingBox(positionStart,positionEnd));
+
+            ComponentManager.Instance.AddComponentToEntity(outOfBounds, boundingBox, typeof(CollisionComponent));
+            return outOfBounds;
         }
 
         public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string typeName)
