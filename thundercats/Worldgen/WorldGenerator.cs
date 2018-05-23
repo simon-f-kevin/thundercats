@@ -65,7 +65,6 @@ namespace thundercats.Factory
             {
                 for(int row = 0; row < nRows; row++)
                 {
-                    //world[column, row] = rnd.Next(2); //TODO: Disable when new generation is complete
                     if(row == 0) // First row is always filled with blocks as the players start there
                     {
                         GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
@@ -88,13 +87,41 @@ namespace thundercats.Factory
             {
                 if(selectedValue < WorldgenEntities[i].SelectionValue)
                 {
+                    if(WorldgenEntities[i].GetType() == typeof(VoidWorldgenDef) && IsRowTooOpen(row))
+                    {
+                        GameEntityFactory.NewBlock(position, AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
+                        break;
+                    }
                     GameService.Instance().EntityGameWorld[column, row] = WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
-					world[column, row] = WorldgenEntities[i].Index;
+                    world[column, row] = WorldgenEntities[i].Index;
                     break;
                 }
             }
         }
 
+        /*
+         * Openess constraint which prevents any row from being completely void.
+         * More advanced constraints may be developed later to increase difficulty.
+         */
+        private bool IsRowTooOpen(int row)
+        {
+            int openess = 0;
+
+            for(int column = 0; column < world.GetLength(0); column++)
+            {
+                if(world[column, row] == 0)
+                {
+                    openess++;
+                }
+            }
+            if(openess > world.GetLength(0))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /* Returns the total weight of all Worldgen entity types. */
         private int GetWeightTotal()
         {
             int weightTotal = 0;
@@ -106,15 +133,19 @@ namespace thundercats.Factory
             return weightTotal;
         }
 
+        /* 
+         * Assigns the selection value (the normalized weight) of all worldgen entities
+         * based on their weight modified by total weight and offset by the current selection value total.
+         */
         private void SetSelectionValues()
         {
             int weightTotal = GetWeightTotal();
-            float prevSelectionValue = 0;
+            float currentSelectionValueTotal = 0;
 
             for(int i = 0; i < WorldgenEntities.Count; i++)
             {
-                WorldgenEntities[i].SelectionValue = (float)WorldgenEntities[i].Weight / weightTotal + prevSelectionValue;
-                prevSelectionValue += WorldgenEntities[i].SelectionValue;
+                WorldgenEntities[i].SelectionValue = (float)WorldgenEntities[i].Weight / weightTotal + currentSelectionValueTotal;
+                currentSelectionValueTotal += WorldgenEntities[i].SelectionValue;
             }
         }
 
