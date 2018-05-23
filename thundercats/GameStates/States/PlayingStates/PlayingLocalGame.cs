@@ -76,7 +76,9 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
+
             worldGenerator = new WorldGenerator("nick"); // the NICE WORKING SEED 
+
             world = GenerateWorld(3, 100);
             worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
             int distanceBetweenBlocksX = -100;
