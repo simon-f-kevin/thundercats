@@ -34,13 +34,13 @@ namespace thundercats.GameStates.States.PlayingStates
         {   
 
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(-10, 40, 0),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
             GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
 
-            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(0, 40, -5),
+            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(10, 40, 0),
                 AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
 
             InitWorld();

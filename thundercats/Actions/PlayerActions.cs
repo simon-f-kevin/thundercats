@@ -70,7 +70,7 @@ namespace thundercats.Actions
         /// If a playerEntity is passed, we will delete the DrawParticleComponent from the entity-
         /// </summary>
         /// <param name="velocityComponent"></param>
-        public static void PlayerJumpSpeed(VelocityComponent velocityComponent, GravityComponent gravity)
+        public static void PlayerJump(VelocityComponent velocityComponent, GravityComponent gravity, Entity playerEntity)
         {
             var collisionComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<CollisionComponent>();
 

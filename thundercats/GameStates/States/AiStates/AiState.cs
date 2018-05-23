@@ -52,8 +52,6 @@ namespace thundercats.GameStates.States.AiStates
 
         protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent velocity, GravityComponent gravity)
         {
-            //Debug.WriteLine("currentBlock: " + currentBlock.ToString());
-            //Debug.WriteLine("aiPos: " + position.ToString());
             Debug.WriteLine("currentBlock Z: " + currentBlock.Z.ToString());
             Debug.WriteLine("currentBlock X: " + currentBlock.X.ToString());
             Debug.WriteLine("Position!!!!! X: " + position.X.ToString());
@@ -61,7 +59,7 @@ namespace thundercats.GameStates.States.AiStates
             if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
             {                
                 Console.WriteLine("going LEFT!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                PlayerActions.AcceleratePlayerForwards(velocity);
+               // PlayerActions.AcceleratePlayerForwards(velocity);
                 PlayerActions.AcceleratePlayerLeftwards(velocity);
                 if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
                 {
@@ -74,13 +72,9 @@ namespace thundercats.GameStates.States.AiStates
             if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
                 Console.WriteLine("going RIGHT!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                Console.WriteLine("AI VEL Y:" + velocity.Velocity.Y);
-     
-        
                 PlayerActions.AcceleratePlayerRightwards(velocity);
-                PlayerActions.AcceleratePlayerForwards(velocity);
-                //Console.WriteLine("we r about to jump");
-                if (!gravity.HasJumped)//&& currentBlock.Z + 40 <= position.Z
+              //  PlayerActions.AcceleratePlayerForwards(velocity);
+                if (!gravity.HasJumped && currentBlock.Z + 40 <= position.Z)
                 {
                     PlayerActions.PlayerJump(velocity, gravity, null);
                     gravity.HasJumped = true;
@@ -92,7 +86,7 @@ namespace thundercats.GameStates.States.AiStates
             else
             {
                 //Console.WriteLine("going FORWARD!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                //PlayerActions.AcceleratePlayerForwards(velocity);
+                PlayerActions.AcceleratePlayerForwards(velocity);
                
                 MadeMove = true;
             }
@@ -109,7 +103,7 @@ namespace thundercats.GameStates.States.AiStates
 
             // Debug
             //WriteWorld(worldMatrix);
-            WriteRow(nextMatrixRow);
+            //WriteRow(nextMatrixRow);
 
             // Then we need the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:

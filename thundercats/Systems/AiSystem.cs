@@ -39,7 +39,6 @@ namespace thundercats.Systems
         }
 
         private void UpdateCurrentState(Entity AiKey, Entity PlayerKey, GameTime gameTime) {
-            Random random = new Random();
             //Ai values
             var aiComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<AiComponent>(AiKey);
             var aiTransformComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(AiKey);
