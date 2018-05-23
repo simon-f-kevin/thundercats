@@ -44,7 +44,7 @@ namespace thundercats.Factory
             world = new int[nColumns, nRows];
 
             PopulateWorld(nColumns, nRows);
-            GameService.Instance().GameWorld = world;
+            GameService.Instance.GameWorld = world;
 
             return world;
         }
@@ -59,7 +59,7 @@ namespace thundercats.Factory
             Random rnd = new Random(seed.GetHashCode());
             int weightTotal = GetWeightTotal();
             WorldgenEntities = WorldgenEntities.OrderBy(o => o.SelectionValue).ToList();
-            GameService.Instance().EntityGameWorld = new Entity[nColumns, nRows];
+            GameService.Instance.EntityGameWorld = new Entity[nColumns, nRows];
 
             for(int column = 0; column < nColumns; column++)
             {
@@ -92,7 +92,7 @@ namespace thundercats.Factory
                         GameEntityFactory.NewBlock(position, AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
                         break;
                     }
-                    GameService.Instance().EntityGameWorld[column, row] = WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
+                        GameService.Instance.EntityGameWorld[column, row] = WorldgenEntities[i].RunWorldGenEntityCreator(gameManager, position);
                     world[column, row] = WorldgenEntities[i].Index;
                     break;
                 }

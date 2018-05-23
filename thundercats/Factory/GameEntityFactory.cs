@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Components;
+using Game_Engine.Components.Preformance;
 using Game_Engine.Entities;
 using Game_Engine.Helpers;
 using Game_Engine.Managers;
@@ -54,7 +55,7 @@ namespace thundercats
             return player;
         }
         //Create AI Player
-        public static Entity NewAiPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        public static Entity NewAiPlayer(String model, Vector3 transformPos, Texture2D texture)
         {
             Entity player = EntityFactory.NewEntity(GameEntityFactory.AI_PLAYER);
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
@@ -63,8 +64,6 @@ namespace thundercats
             CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             //new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model));
             PlayerComponent playerComponent = new PlayerComponent(player);
-            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
-            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
@@ -78,8 +77,6 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, aiComponent);
@@ -109,10 +106,14 @@ namespace thundercats
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
+            FPSComponent fpsComponent = new FPSComponent(player);
+            NetworkDiagnosticComponent networkDiagnosticComponent = new NetworkDiagnosticComponent(player);
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, fpsComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, networkDiagnosticComponent);
             
 
             return player;
@@ -167,7 +168,7 @@ namespace thundercats
             TransformHelper.SetInitialBoundingSpherePos(boundingSphereComponent, transformComponent);
         }
 
-        public static Entity NewParticleSettingsEntity(Entity player, int maxParticles, int lifeSpan, string textureName)
+        public static Entity NewParticleSettingsEntity(Entity player, int maxParticles, float lifeSpan, string textureName)
         {
             Entity particles = player;
             ParticleSettingsComponent particleSettingsComponent = new ParticleSettingsComponent(particles)

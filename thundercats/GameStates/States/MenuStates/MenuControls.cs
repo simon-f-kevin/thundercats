@@ -1,5 +1,6 @@
 ﻿using Game_Engine.Managers;
 using Game_Engine.Managers.Network;
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -85,9 +86,6 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
             {
                 manager.StartServer();
-                //NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(manager.GetPeer());
-                //networkSystem.InitRemotePlayer();
-                //SystemManager.Instance.AddToUpdateables(networkSystem);
                 clicked = true;
             }
             gameManager.OldGamepadState = gamePadState;
@@ -112,7 +110,6 @@ namespace thundercats.GameStates.States.MenuStates
                     || keyboardState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
             {
                 manager.ClientSearch();
-                
                 clicked = true;
             }
             gameManager.OldGamepadState = gamePadState;
@@ -169,7 +166,7 @@ namespace thundercats.GameStates.States.MenuStates
                 return clicked;
             }
 
-            public void GoBackButton(PlayerIndex player = 0)
+            public void GoBackButton(PlayerIndex player = 0, NetPeer peer = null)
             {
                 // get the newest state
                 KeyboardState newState = Keyboard.GetState();
@@ -178,8 +175,12 @@ namespace thundercats.GameStates.States.MenuStates
 
                 // With this button we want to continue to the next phase of the game initialization
                 if (GamePad.GetState(player).Buttons.B == ButtonState.Pressed && gameManager.OldGamepadState.IsButtonUp(Buttons.B)
-                    || newState.IsKeyDown(Keys.Back) && gameManager.OldKeyboardState.IsKeyUp(Keys.Back))
+                    || newState.IsKeyDown(Keys.Enter) && gameManager.OldKeyboardState.IsKeyUp(Keys.Enter))
                 {
+                    if(peer != null)
+                    {
+                        peer.Shutdown("bye!");
+                    }
                     gameManager.CurrentGameState = gameManager.PreviousGameState;
                     gameManager.OldKeyboardState = newState;
                     gameManager.OldGamepadState = gamePadState;
@@ -187,6 +188,7 @@ namespace thundercats.GameStates.States.MenuStates
 
 
             }
+
 
             public void PauseButton(PlayerIndex player = 0)
             {

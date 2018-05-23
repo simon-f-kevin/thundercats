@@ -88,7 +88,7 @@ namespace thundercats.GameStates.States.MenuStates
 
         private void ConnectToServerDisplay(SpriteBatch spriteBatch)
         {
-            string txtFindServer = "Find a server in the LAN";
+            string txtFindServer = "Find a game in the LAN";
             string txtServerName = serverName;
             string txtStartGame = "Play Multiplayer";
             string txtBack = "Back";

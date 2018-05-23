@@ -67,12 +67,12 @@ namespace thundercats.Systems
                 {
                     if (!gravityComponent.HasJumped)
                     {
-                        PlayerActions.PlayerJump(gameTime, velocityComponent);
+                        PlayerActions.PlayerJump(gameTime, velocityComponent, playerEntity);
                         gravityComponent.HasJumped = true;
                     }
                 }
             }
-
+            #region 
             /* Gamepad actions */
             if (gamePadComponent != null && velocityComponent != null)
             {
@@ -98,11 +98,12 @@ namespace thundercats.Systems
                 {
                     if (!gravityComponent.HasJumped)
                     {
-                        PlayerActions.PlayerJump(gameTime, velocityComponent);
+                        PlayerActions.PlayerJump(gameTime, velocityComponent, playerEntity);
                         gravityComponent.HasJumped = true;
                     }
                 }
             }
+            #endregion
         }
     }
 }

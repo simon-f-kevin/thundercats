@@ -10,6 +10,7 @@ using System.Threading;
 using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
+using thundercats.Service;
 
 namespace thundercats
 {
@@ -30,6 +31,7 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
+        FrameCounterSystem frameCounterSystem;
         //ParticleDrawSystem particleSystem;
         //ParticleSystem particleSystem;
 
@@ -41,6 +43,8 @@ namespace thundercats
             graphics.PreferMultiSampling = false;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
+            IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = true;
 
             Content.RootDirectory = "Content";
         }
@@ -53,11 +57,9 @@ namespace thundercats
         /// </summary>
         protected override void Initialize()
         {
-            //thread1 = new ThreadStart();
-            //thread2 = Thread.CurrentThread;
-
             GameEntityFactory.GraphicsDevice = GraphicsDevice;
 
+            frameCounterSystem = new FrameCounterSystem(true, this.Window);
             modelRenderSystem = new ModelRenderSystem();
             modelRenderSystem.graphicsDevice = GraphicsDevice;
             playerInputSystem = new PlayerInputSystem();
@@ -65,14 +67,11 @@ namespace thundercats
             physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
-            //particleSystem = new ParticleSystem(GraphicsDevice);
             aiSystem = new AiSystem();
 
-            //SystemManager.Instance.AddToDrawables(uiSystem);
 
-
-            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem);
-            SystemManager.Instance.AddToDrawables(modelRenderSystem);
+            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem, frameCounterSystem);
+            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem);
             
 
             base.Initialize();
@@ -107,6 +106,7 @@ namespace thundercats
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
 
             gameManager = new GameManager(this);
+            GameService.Instance.gameManager = gameManager;
 
             viewport = gameManager.game.GraphicsDevice.Viewport;
 

@@ -10,7 +10,9 @@ namespace Game_Engine.Managers
     {
         public ConcurrentQueue<Tuple<Entity, Entity>> CurrentCollisionPairs {get;}
 
-        private static CollisionManager instance;
+
+        #region Thread-safe singleton - use "CollisionManager.Instance" to access
+        private static readonly Lazy<CollisionManager> lazy = new Lazy<CollisionManager>(() => new CollisionManager(), true);
 
         private CollisionManager()
         {
@@ -19,14 +21,14 @@ namespace Game_Engine.Managers
 
         public static CollisionManager Instance
         {
-            get {
-                if(instance == null)
-                {
-                    instance = new CollisionManager();
-                }
-                return instance;
+            get
+            {
+                return lazy.Value;
             }
         }
+        #endregion
+
+
 
         public void AddCollisionPair(Entity source, Entity target)
         {

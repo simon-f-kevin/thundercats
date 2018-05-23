@@ -18,7 +18,7 @@ namespace Game_Engine.Managers
 
 
         #region Thread-safe singleton - use "ComponentManager.Instance" to access
-        private static readonly Lazy<ComponentManager> lazy = new Lazy<ComponentManager>(() => new ComponentManager());
+        private static readonly Lazy<ComponentManager> lazy = new Lazy<ComponentManager>(() => new ComponentManager(), true);
 
         private ComponentManager()
         {

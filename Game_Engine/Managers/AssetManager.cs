@@ -18,7 +18,7 @@ namespace Game_Engine.Managers
         private readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, object>> contentDictionary;
 
         #region Thread-safe singleton - use "AssetManager.Instance" to access
-        private static readonly Lazy<AssetManager> lazy = new Lazy<AssetManager>(() => new AssetManager());
+        private static readonly Lazy<AssetManager> lazy = new Lazy<AssetManager>(() => new AssetManager(), true);
 
         private AssetManager()
         {

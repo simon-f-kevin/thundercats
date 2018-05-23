@@ -7,6 +7,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using thundercats.Actions;
+using thundercats.GameStates;
+using thundercats.GameStates.States.MenuStates;
+using thundercats.Service;
 
 namespace thundercats.Systems
 {
@@ -62,7 +65,7 @@ namespace thundercats.Systems
             switch (targetEntity.EntityTypeName)
             {
                 case GameEntityFactory.GOAL:
-                    Debug.WriteLine("A winner is you");
+                    HandleGoal(sourceEntity);
                     break;
                 case GameEntityFactory.BLOCK:
                     KeepSourceOnTop(gameTime, sourceEntity, targetEntity);
@@ -73,6 +76,18 @@ namespace thundercats.Systems
                 case GameEntityFactory.LOCAL_PLAYER:
                     PushSourceAwayFromTarget(gameTime, sourceEntity, targetEntity);
                     break;
+            }
+        }
+
+        private static void HandleGoal(Entity sourceEntity)
+        {
+            if (sourceEntity.EntityTypeName == GameEntityFactory.LOCAL_PLAYER)
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
+            }
+            else
+            {
+                GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
             }
         }
 
@@ -103,10 +118,15 @@ namespace thundercats.Systems
             var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingShape;
             var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
             var diff = boxBounding.Max.Y - (playerBounding.Center.Y - playerBounding.Radius);
-            
+
             if (diff < 5 && diff > 0)
             {
-                 CollisionActions.HandleCollisionFromAbove(gameTime, player);
+                var gravityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<GravityComponent>(player);
+                if (!gravityComponent.HasJumped)
+                {
+                     CollisionActions.RunParticleSystem(player);
+                }
+                CollisionActions.HandleCollisionFromAbove(gameTime, player);
             }
             else
             {

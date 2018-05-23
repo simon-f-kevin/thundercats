@@ -12,25 +12,30 @@ namespace Game_Engine.Managers
 {
     public class AudioManager
     {
-        private static AudioManager _instance;
         private Queue<Song> songQueue;
         private Song currentSongPlaying;
         public bool IsPlaying;
         private double lastTotalSeconds;
 
+
+
+
+        #region Thread-safe singleton - use "AudioManager.Instance" to access
+        private static readonly Lazy<AudioManager> lazy = new Lazy<AudioManager>(() => new AudioManager(), true);
+
+        private AudioManager()
+        {
+            MediaPlayer.Volume = 0.3f;
+        }
+
         public static AudioManager Instance
         {
             get
             {
-                if (_instance == null)
-                {
-                    MediaPlayer.Volume = 0.3f;
-                    _instance = new AudioManager();
-                }
-                return _instance;
+                return lazy.Value;
             }
         }
-
+        #endregion
 
         /// <summary>
         /// Starts the audio manager and plays the songs in the queue

@@ -1,8 +1,13 @@
 ﻿
 using Game_Engine.Components;
 using Microsoft.Xna.Framework;
+using Game_Engine.Entities;
 using Game_Engine.Managers;
 using System;
+using System.Linq;
+using thundercats.Components;
+using thundercats.Service;
+using thundercats.Systems;
 
 namespace thundercats.Actions
 {
@@ -61,11 +66,22 @@ namespace thundercats.Actions
 
         /// <summary>
         /// Accelerates the player upward in a jumping motion until it reaches the maximum jumping speed
+        /// If a playerEntity is passed, we will delete the DrawParticleComponent from the entity-
         /// </summary>
         /// <param name="velocityComponent"></param>
-        public static void PlayerJump(GameTime gameTime, VelocityComponent velocityComponent)
+        public static void PlayerJump(GameTime gameTime, VelocityComponent velocityComponent, Entity playerEntity)
         {
-            velocityComponent.Velocity.Y += playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds; 
+            var collisionComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<CollisionComponent>();
+
+            if (velocityComponent.Velocity.Y < playerJumpSpeed)
+            {
+                GameService.FreeParticleBuffer = true;
+                if (playerEntity != null)
+                {
+                    ComponentManager.Instance.RemoveComponentFromEntity<DrawParticleComponent>(playerEntity);
+                }
+                velocityComponent.Velocity.Y += playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
         }
     }
 }
