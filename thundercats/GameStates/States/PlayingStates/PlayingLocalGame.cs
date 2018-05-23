@@ -77,7 +77,7 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
 
-            worldGenerator = new WorldGenerator("nick"); // the NICE WORKING SEED 
+            worldGenerator = new WorldGenerator("nick"); // the NICE WORKING SEED DO NOT CHANGE IF U DONT WANT TO FIX ALL WITH AI
 
             world = GenerateWorld(3, 100);
             worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
