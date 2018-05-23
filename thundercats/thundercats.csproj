@@ -79,7 +79,6 @@
     <Compile Include="Service\GameService.cs" />
     <Compile Include="Systems\CollisionHandlingSystem.cs" />
     <Compile Include="Systems\AiSystem.cs" />
-    <Compile Include="Systems\NetworkInputSystem.cs" />
     <Compile Include="Systems\NetworkHandlingSystem.cs" />
     <Compile Include="Systems\ParticleCreationSystem.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />
