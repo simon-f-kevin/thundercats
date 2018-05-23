@@ -50,6 +50,7 @@ namespace Game_Engine.Systems
 
             cameraComponent.Position = modelComponent.World.Translation + (modelComponent.World.Forward * 20f) + (modelComponent.World.Up * 20f);
             cameraComponent.Target = modelComponent.World.Translation + (modelComponent.World.Backward * 20f);
+
             //Console.WriteLine("Position: " + cameraComponent.Position.ToString()); //For debugging
             //Console.WriteLine("Target: " + cameraComponent.Target.ToString()); //For debugging
 

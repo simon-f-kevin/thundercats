@@ -32,23 +32,25 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            particleCreationSystem = new ParticleCreationSystem(particleSystem);
-            SystemManager.Instance.AddToDrawables(particleSystem);
-            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
+
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 0),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
             GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
 
-            //GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, -10, 0),
-            //    AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
+            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
+                AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
 
-            particleSystem.InitializeParticleSystem(ComponentManager.Instance.GetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
             InitWorld();
             GameService.Instance.GameWorld = world;
+
+            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
+            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
@@ -74,7 +76,9 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
+
+            worldGenerator = new WorldGenerator("nick"); // the NICE WORKING SEED DO NOT CHANGE IF U DONT WANT TO FIX ALL WITH AI
+
             world = GenerateWorld(3, 100);
             worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
             int distanceBetweenBlocksX = -100;
@@ -84,7 +88,7 @@ namespace thundercats.GameStates.States.PlayingStates
             {
                 for (int row = 0; row < world.GetLength(1); row++)
                 {
-                    if (row == world.GetLength(1) - 1)
+                    if (world[column, row] == 2)
                     {
                         Entity Block = GameEntityFactory.NewGoalBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
                         AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));

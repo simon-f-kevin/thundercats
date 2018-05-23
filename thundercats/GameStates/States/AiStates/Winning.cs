@@ -18,11 +18,12 @@ namespace thundercats.GameStates.States.AiStates
     {
         public Winning() : base(new Random()){}
 
-        public void Update(GameTime gameTime, Point matrixPosition,Vector3 Position)
+        public void Update(GameTime gameTime, ref Point matrixPosition,Vector3 Position,VelocityComponent aiVelocity, GravityComponent gravity)
         {
             worldMatrix = GameService.Instance.GameWorld;
             worldEntityMatrix = GameService.Instance.EntityGameWorld;
-            ExecuteState(matrixPosition, Position);
+            matrixPosition = ExecuteState(matrixPosition, Position,aiVelocity, gravity);
+        
         }
 
         protected override Point ChooseBlock(int[] row, int RowIndex)

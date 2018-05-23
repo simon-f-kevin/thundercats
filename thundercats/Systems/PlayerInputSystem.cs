@@ -76,7 +76,7 @@ namespace thundercats.Systems
                    
                 }
             }
-
+            #region 
             /* Gamepad actions */
             if (gamePadComponent != null && velocityComponent != null)
             {
@@ -100,9 +100,11 @@ namespace thundercats.Systems
                 }
                 if (state.IsButtonDown(Buttons.Y) && !state.IsButtonDown(Buttons.A))
                 {
-                    PlayerActions.PlayerJump(velocityComponent,gravityComponent, playerEntity); 
+                   
+                    PlayerActions.PlayerJump(velocityComponent, gravityComponent, null);
                 }
             }
+            #endregion
         }
     }
 }

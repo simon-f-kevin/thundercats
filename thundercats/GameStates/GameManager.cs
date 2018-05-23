@@ -67,6 +67,7 @@ namespace thundercats.GameStates
             gameStates.Add(GameState.MultiplayerPlaying, new PlayingMultiplayerGame(this));
             gameStates.Add(GameState.Quit, new QuitMenu(this));
             gameStates.Add(GameState.VictoryScreen, new VictoryScreen(this));
+            gameStates.Add(GameState.GameOverScreen, new GameOverScreen(this));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)

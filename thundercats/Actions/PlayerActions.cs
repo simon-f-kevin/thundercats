@@ -14,10 +14,10 @@ namespace thundercats.Actions
     {
 
         private static float playerForwardAcceleration = 0.1f;
-        private static float playerStrafeAcceleration = 0.1f;
+        private static float playerStrafeAcceleration = 0.4f;
         private static float playerMaxRunningSpeed = 0.6f;
         private static float playerMaxStrafeSpeed = 0.6f;
-        private static float _playerJumpSpeed = 0.3f;
+        private static float _playerJumpSpeed = 0.6f;
 
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace thundercats.Actions
         /// If a playerEntity is passed, we will delete the DrawParticleComponent from the entity-
         /// </summary>
         /// <param name="velocityComponent"></param>
-        public static void PlayerJump(VelocityComponent velocityComponent, GravityComponent gravity, Entity playerEntity = null)
+        public static void PlayerJump(VelocityComponent velocityComponent, GravityComponent gravity, Entity playerEntity)
         {
             var collisionComponentKeyValuePairs = ComponentManager.Instance.GetConcurrentDictionary<CollisionComponent>();
 

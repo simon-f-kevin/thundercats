@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game_Engine.Components;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace thundercats.GameStates.States.AiStates
    public interface IAiState 
     {
 
-        void Update(GameTime gameTime, Point matrixPosition, Vector3 position);
+        void Update(GameTime gameTime, ref Point matrixPosition, Vector3 position, VelocityComponent aiVelocity, GravityComponent gravity);
     }
 }

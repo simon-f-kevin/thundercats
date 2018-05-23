@@ -55,7 +55,7 @@ namespace Game_Engine.Systems
 
                 collisionComponent.UpdateShape(transformationComponent.Position);
 
-                //Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
+
                 UpdateFriction(velocityComponentPair.Key);
             });
         }
@@ -64,7 +64,7 @@ namespace Game_Engine.Systems
         /// Checks intersections for all CollisionComponents if compareAllModels is set to true
         /// Otherwise we only compare players to all other models and reducing number of comparisons. 
         /// </summary>
-        private void CheckCollision()
+        private void CheckCollision() 
         {
             ConcurrentDictionary<Entity, Component> collisionComponentPairs = componentManager.GetConcurrentDictionary<CollisionComponent>();
             var playerComponents = componentManager.GetConcurrentDictionary<PlayerComponent>();
