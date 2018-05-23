@@ -57,10 +57,19 @@ namespace thundercats.Factory
         */
         private void PopulateWorld(int nColumns, int nRows)
         {
-            Random rnd = new Random(seed.GetHashCode());
+            Random rnd;
             int weightTotal = GetWeightTotal();
             WorldgenEntities = WorldgenEntities.OrderBy(o => o.SelectionValue).ToList();
             GameService.Instance.EntityGameWorld = new Entity[nColumns, nRows];
+
+            if(seed.Equals(""))
+            {
+                rnd = new Random();
+            }
+            else
+            {
+                rnd = new Random(seed.GetHashCode());
+            }
 
             for(int column = 0; column < nColumns; column++)
             {
@@ -117,7 +126,6 @@ namespace thundercats.Factory
                     openness++;
                 }
             }
-            Console.WriteLine("Openess of row: " + row + ": " + openness);
             if(openness >= world.GetLength(0))
             {
                 return true;
@@ -125,14 +133,20 @@ namespace thundercats.Factory
             return false;
         }
 
+        /* Turns a random tile on the row into a block to prevent large gaps in the level. */
         private void FillOpenRow(int currentColumn, int row)
         {
-            //Void the current tile in case it is not selected.
-            //GameService.Instance.EntityGameWorld[currentColumn, row] = null;
-            //world[currentColumn, row] = -1;
+            Random rnd;
 
-            //Fill a random tile on the row
-            Random rnd = new Random();
+            if(seed.Equals(""))
+            {
+                rnd = new Random();
+            }
+            else
+            {
+                rnd = new Random(seed.GetHashCode());
+            }
+
             int selectedColumn = rnd.Next(0, world.GetLength(0));
             GameService.Instance.EntityGameWorld[selectedColumn, row] = GameEntityFactory.NewBlock(new Vector3((selectedColumn * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
                 AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);

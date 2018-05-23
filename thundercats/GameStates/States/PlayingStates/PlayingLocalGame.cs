@@ -77,9 +77,9 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            //worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
-            worldGenerator = new WorldGenerator("nick", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport); // the NICE WORKING SEED DO NOT CHANGE IF U DONT WANT TO FIX ALL WITH AI
-            GenerateWorld(3, 30);
+            worldGenerator = new WorldGenerator("nick", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
+            //worldGenerator = new WorldGenerator("", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
+            GenerateWorld(3, 100);
             worldGenerator.MoveBlocks();
         }
 
