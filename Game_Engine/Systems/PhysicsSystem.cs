@@ -55,8 +55,8 @@ namespace Game_Engine.Systems
 
                 collisionComponent.UpdateShape(transformationComponent.Position);
 
-                Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
-                //UpdateFriction(velocityComponentPair.Key);
+                //Console.WriteLine("transform Position" + transformationComponent.Position.ToString());
+                UpdateFriction(velocityComponentPair.Key);
             });
         }
 

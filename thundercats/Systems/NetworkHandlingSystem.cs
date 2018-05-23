@@ -153,8 +153,8 @@ namespace thundercats.Systems
         {
             //do preformance measurement here
             networkDiagnostic = ComponentManager.Instance.GetConcurrentDictionary<NetworkDiagnosticComponent>().Values.First() as NetworkDiagnosticComponent;
-            
-            var sentData = om.LengthBytes;
+
+            var sentData = peer.Statistics.SentBytes;
 
             networkDiagnostic.DataSentThisSecond += sentData;
             networkDiagnostic.TotalDataSent += sentData;
@@ -164,7 +164,7 @@ namespace thundercats.Systems
                 networkDiagnostic.DataSentThisSecond = 0;
             }
 
-            Console.WriteLine(om.Data[0].ToString());
+            Console.WriteLine("sent data " + sentData.ToString());
         }
 
         
