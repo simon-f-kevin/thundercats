@@ -74,12 +74,16 @@ namespace thundercats.Systems
                         if(remotePlayerEntity != null)
                         {
                             var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(remotePlayerEntity);
-                            Console.WriteLine(transformComponent.Position.ToString());
+                            //Console.WriteLine(transformComponent.Position.ToString());
                             var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(remotePlayerEntity);
+                            var posx = message.ReadFloat();
+                            var posy = message.ReadFloat();
+                            var posz = message.ReadFloat();
                             var velx = message.ReadFloat();
                             var vely = message.ReadFloat();
                             var velz = message.ReadFloat();
                             velocityComponent.Velocity = new Vector3(velx, vely, velz);
+                            transformComponent.Position = new Vector3(posx, posy, posz);
 
                         }
                         break;
@@ -133,8 +137,11 @@ namespace thundercats.Systems
 
                         //sends data over the network to the host/client
 
-                        
+                        var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(localPlayerEntity);
                         var velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(localPlayerEntity);
+                        om.Write(transformComponent.Position.X);
+                        om.Write(transformComponent.Position.Y);
+                        om.Write(transformComponent.Position.Z);
                         om.Write(velocityComponent.Velocity.X);
                         om.Write(velocityComponent.Velocity.Y);
                         om.Write(velocityComponent.Velocity.Z);
@@ -163,14 +170,15 @@ namespace thundercats.Systems
             var test = om.Data.Length;
 
             networkDiagnostic.DataSentThisSecond += sentData;
-            networkDiagnostic.TotalDataSent += sentData;
+            networkDiagnostic.TotalDataSent += test;
 
             if(currentTime > nextSendUpdates)
             {
                 networkDiagnostic.DataSentThisSecond = 0;
             }
 
-            Console.WriteLine("sent data " + test.ToString());
+            Console.WriteLine("sent data  this frame" + test.ToString());
+            Console.WriteLine("total data sent " + networkDiagnostic.TotalDataSent);
         }
 
         
