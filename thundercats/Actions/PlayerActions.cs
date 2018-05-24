@@ -17,7 +17,7 @@ namespace thundercats.Actions
         private static float playerStrafeAcceleration = 10f;
         private static float playerMaxRunningSpeed = 10f;
         private static float playerMaxStrafeSpeed = 10f;
-        private static float playerJumpSpeed = 50f;
+        private static float playerJumpSpeed = 30f;
 
         /// <summary>
         /// Accelerates the player forward until it reaches maximum running speed
@@ -27,7 +27,8 @@ namespace thundercats.Actions
         {
             if (velocityComponent.Velocity.Z < playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.Z += playerForwardAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //velocityComponent.Velocity.Z += playerForwardAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.Z = Math.Min(velocityComponent.Velocity.Z + playerForwardAcceleration, playerForwardAcceleration);
             }
         }
         /// <summary>
@@ -38,7 +39,7 @@ namespace thundercats.Actions
         {
             if (velocityComponent.Velocity.Z > -playerMaxRunningSpeed)
             {
-                velocityComponent.Velocity.Z -= playerForwardAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.Z = Math.Max(velocityComponent.Velocity.Z - playerForwardAcceleration, -playerForwardAcceleration);
             }
         }
         /// <summary>
@@ -49,7 +50,8 @@ namespace thundercats.Actions
         {
             if (velocityComponent.Velocity.X < playerMaxStrafeSpeed)
             {
-                velocityComponent.Velocity.X += playerStrafeAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //velocityComponent.Velocity.X += playerStrafeAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.X = Math.Min(velocityComponent.Velocity.X + playerStrafeAcceleration, playerStrafeAcceleration);
             }
         }
         /// <summary>
@@ -60,7 +62,8 @@ namespace thundercats.Actions
         {
             if (velocityComponent.Velocity.X > -playerMaxStrafeSpeed)
             {
-                velocityComponent.Velocity.X -= playerStrafeAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //velocityComponent.Velocity.X -= playerStrafeAcceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.X = Math.Max(velocityComponent.Velocity.X - playerStrafeAcceleration, -playerStrafeAcceleration);
             }
         }
 
@@ -82,11 +85,13 @@ namespace thundercats.Actions
                 }
                 if(velocityComponent.Velocity.Y + playerJumpSpeed > playerJumpSpeed)
                 {
-                    velocityComponent.Velocity.Y = playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    //velocityComponent.Velocity.Y = playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    velocityComponent.Velocity.Y = playerJumpSpeed;
                 }
                 else
                 {
-                    velocityComponent.Velocity.Y += playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    //velocityComponent.Velocity.Y += playerJumpSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    velocityComponent.Velocity.Y += playerJumpSpeed;
                 }
             }
         }

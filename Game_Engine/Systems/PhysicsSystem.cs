@@ -48,8 +48,9 @@ namespace Game_Engine.Systems
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
                 CollisionComponent collisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(velocityComponentPair.Key);
-                        
-                transformationComponent.Position += velocityComponent.Velocity;
+                
+
+                transformationComponent.Position += velocityComponent.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
                 Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(transformationComponent.Position);
                 TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);
 
@@ -122,7 +123,7 @@ namespace Game_Engine.Systems
                 var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
 
                 var acceleration = gravityComponent.GravityCoefficient / gravityComponent.Mass;
-                velocityComponent.Velocity.Y -= acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds * 2f;
+                velocityComponent.Velocity.Y -= acceleration;
             }
         }
 
