@@ -33,7 +33,7 @@ namespace thundercats.GameStates.States.PlayingStates
         {   
 
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 100, 0),
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 0),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");

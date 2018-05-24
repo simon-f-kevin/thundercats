@@ -21,7 +21,7 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Z += 5f * (Math.Abs(velocityComponent.Velocity.Z) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.Z += (Math.Abs(velocityComponent.Velocity.Z) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
             }
         }
 
@@ -31,7 +31,7 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.Z -= 5f * (Math.Abs(velocityComponent.Velocity.Z) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.Z -= (Math.Abs(velocityComponent.Velocity.Z) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
             }
         }
 
@@ -41,7 +41,7 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.X += 5f * (Math.Abs(velocityComponent.Velocity.X) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.X += (Math.Abs(velocityComponent.Velocity.X) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
             }
         }
 
@@ -51,7 +51,7 @@ namespace thundercats.Actions
 
             if(velocityComponent != null)
             {
-                velocityComponent.Velocity.X -= 5f * (Math.Abs(velocityComponent.Velocity.X) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                velocityComponent.Velocity.X -= (Math.Abs(velocityComponent.Velocity.X) + 1) * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
             }
         }
 
@@ -65,7 +65,7 @@ namespace thundercats.Actions
                 if(velocityComponent.Velocity.Y < 0)
                 {
                     // if we collide with an acceleration downwards then we want a counter force up.
-                    velocityComponent.Velocity.Y += 45f * (Math.Abs(velocityComponent.Velocity.Y)) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    velocityComponent.Velocity.Y += (Math.Abs(velocityComponent.Velocity.Y)) * (float)gameTime.ElapsedGameTime.TotalSeconds * 45f;
                 }
                 gravity.HasJumped = false;
             } 

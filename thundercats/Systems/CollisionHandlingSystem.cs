@@ -130,6 +130,7 @@ namespace thundercats.Systems
             }
             else
             {
+                PushSourceAwayFromTarget(gameTime, player, block);
                 CollisionActions.HandleCollisionFromBelow(player);
             }
         }
