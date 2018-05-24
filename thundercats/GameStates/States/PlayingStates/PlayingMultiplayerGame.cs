@@ -57,7 +57,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
-
+            GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
             networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
@@ -97,7 +97,7 @@ namespace thundercats.GameStates.States.PlayingStates
         private void InitWorld()
         {
             worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
-            worldGenerator.GenerateWorld(2, 20);
+            worldGenerator.GenerateWorld(3, 100);
             worldGenerator.MoveBlocks();
         }
     }
