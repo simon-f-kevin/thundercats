@@ -152,14 +152,14 @@ namespace Game_Engine.Systems
 
                             //part.Effect.Parameters["DiffuseColor"].SetValue(Color.White.ToVector4());
                             part.Effect.Parameters["DiffuseLightDirection"].SetValue(new Vector3(0,1,-1));
-                            part.Effect.Parameters["DiffuseIntensity"].SetValue(1f);
-                            part.Effect.Parameters["AmbientColor"].SetValue(Color.Blue.ToVector4());
-                            part.Effect.Parameters["AmbientIntensity"].SetValue(1f);
-                            part.Effect.Parameters["Shininess"].SetValue(200f);
+                            //part.Effect.Parameters["DiffuseIntensity"].SetValue(1f);
+                            //part.Effect.Parameters["AmbientColor"].SetValue(Color.Blue.ToVector4());
+                            //part.Effect.Parameters["AmbientIntensity"].SetValue(1f);
+                            //part.Effect.Parameters["Shininess"].SetValue(200f);
 
                             
                             //part.Effect.Parameters["SpecularColor"].SetValue(Color.Black.ToVector4());
-                            part.Effect.Parameters["SpecularIntensity"].SetValue(7f);
+                            //part.Effect.Parameters["SpecularIntensity"].SetValue(7f);
 
 
                             part.Effect.Parameters["World"].SetValue(model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix);
@@ -170,10 +170,8 @@ namespace Game_Engine.Systems
                             var worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelMesh.ParentBone.Transform * EngineHelper.Instance().WorldMatrix));
                             part.Effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
 
-                            if (textureComponent != null)
-                            {
-                                part.Effect.Parameters["ModelTexture"].SetValue(textureComponent.Texture);
-                            }
+                           part.Effect.Parameters["ModelTexture"].SetValue(textureComponent.Texture);
+                            
                           
                         }
                         modelMesh.Draw();
