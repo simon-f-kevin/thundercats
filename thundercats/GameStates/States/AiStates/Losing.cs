@@ -31,22 +31,24 @@ namespace thundercats.GameStates.States.AiStates
             int column;
             bool found = false;
 
-            // Choose the right block on that row
+            // Choose a block on the row
             for (column = 0; column < world.GetLength(0); column++)
             {
-                // Logic should be here to choose column/block
                 if (world[column, row] == 1)
                 {
                     found = true;
                     break;
                 }
             }
-            if(!found)
+            if(!found && row < world.GetLength(1)) //If there is no block on the row attempt to find one on the next one
             {
                 return ChooseBlock(world, row + 1);
             }
-            return new Point(column, row);
-            // Index of the next block the ai is moving to;
+            else if(!found)
+            {
+                return new Point(-1, -1);
+            }
+            return new Point(column, row); // Index of the next block the ai is moving to;
         }
     }
 }

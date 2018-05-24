@@ -78,24 +78,17 @@ namespace thundercats.GameStates.States.AiStates
                     gravity.HasJumped = true;
                 }
             }
-
-
-             
-
         }
+
         protected Point ExecuteState(GameTime gameTime, Point matrixPosition, Vector3 position, VelocityComponent aiVelocity, GravityComponent gravity)
         {
+            //Get the block at the AI's current position
             var currentBlock = GetBlock(matrixPosition);
-
-            // We need the players current matrix row position to determine the next move
-            // the ai should do in the real world:
-            //var nextMatrixRow = GetRow(worldMatrix, matrixPosition.Y);
 
             // Debug
             //WriteWorld(worldMatrix);
-            //WriteRow(nextMatrixRow);
 
-            // Then we need the "real" values of the next block (destination) and the players "real" position
+            // Get the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:
             int row = 0;
 
@@ -106,8 +99,8 @@ namespace thundercats.GameStates.States.AiStates
 
             var decision = ChooseBlock(worldMatrix, row);
             var destinationBlock = GetBlock(decision);
-            // Execute the move to the next block
 
+            // Execute the move to the next block
             ExecuteMove(gameTime, currentBlock, destinationBlock, position, aiVelocity, gravity);
 
             // We look to see if the player is in the same block in the "real" world as
