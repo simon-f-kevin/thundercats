@@ -26,34 +26,26 @@ namespace thundercats.GameStates.States.AiStates
             matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity);
         }
 
-        protected override Point ChooseBlock(int[] row, int RowIndex)
+        protected override Point ChooseBlock(int[,] world, int row)
         {
-            int currentChoice = 0;
+            int column;
+            bool found = false;
+
             // Choose the right block on that row
-            for (int i = 0; i < row.Length; i++)
+            for (column = 0; column < world.GetLength(0); column++)
             {
                 // Logic should be here to choose column/block
-                if (row[i] == 1)
+                if (world[column, row] == 1)
                 {
-                    currentChoice = i; break; // return new Point(RowIndex, i); 
+                    found = true;
+                    break;
                 }
-                //if (row[i] == 2)
-                //{
-                //    currentChoice = i;
-                //    break;
-                //}
-                //if (row[i] == 3)
-                //{
-                //    currentChoice = i;
-                //    break;
-                //}
-                //if (row[i] == 4)
-                //{
-                //    currentChoice = i;
-                //    break;
-                //}
             }
-            return new Point(currentChoice, RowIndex);
+            if(!found)
+            {
+                return ChooseBlock(world, row + 1);
+            }
+            return new Point(column, row);
             // Index of the next block the ai is moving to;
         }
     }

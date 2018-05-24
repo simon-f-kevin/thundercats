@@ -25,20 +25,26 @@ namespace thundercats.GameStates.States.AiStates
             matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity);
         }
 
-        protected override Point ChooseBlock(int[] row, int RowIndex)
+        protected override Point ChooseBlock(int[,] world, int row)
         {
-            int currentChoice = 0;
+            int column;
+            bool found = false;
+
             // Choose the right block on that row
-            for (int i = 0; i < row.Length; i++)
+            for(column = 0; column < world.GetLength(0); column++)
             {
                 // Logic should be here to choose column/block
-                if (row[i] != 0)/* this should be the only thing we need to do? cuz we just want to survive*/
+                if(world[column, row] == 1)
                 {
-                    currentChoice = i;
+                    found = true;
                     break;
                 }
             }
-            return new Point(currentChoice, RowIndex);
+            if(!found)
+            {
+                return ChooseBlock(world, row + 1);
+            }
+            return new Point(column, row);
             // Index of the next block the ai is moving to;
         }
     }

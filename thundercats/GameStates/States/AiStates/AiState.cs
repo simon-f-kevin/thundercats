@@ -26,7 +26,7 @@ namespace thundercats.GameStates.States.AiStates
             this.Random = random;
         }
 
-        protected abstract Point ChooseBlock(int[] row, int RowIndex);
+        protected abstract Point ChooseBlock(int[,] world, int rowIndex);
 
         protected int[] GetRow(int[,] worldMatrix, int rowIndex)
         {
@@ -45,6 +45,10 @@ namespace thundercats.GameStates.States.AiStates
         /// <returns></returns>
         protected Vector3 GetBlock(Point cellPosition)
         {
+            if(worldEntityMatrix[cellPosition.X, cellPosition.Y] == null)
+            {
+                throw new Exception("worldEntityMatrix["+cellPosition.X+", "+cellPosition.Y+"] was null");
+            }
             var transform = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(worldEntityMatrix[cellPosition.X, cellPosition.Y]);
             return transform.Position;
         }
@@ -85,22 +89,22 @@ namespace thundercats.GameStates.States.AiStates
 
             // We need the players current matrix row position to determine the next move
             // the ai should do in the real world:
-            var nextMatrixRow = GetRow(worldMatrix, matrixPosition.Y);
+            //var nextMatrixRow = GetRow(worldMatrix, matrixPosition.Y);
 
             // Debug
             //WriteWorld(worldMatrix);
-            WriteRow(nextMatrixRow);
+            //WriteRow(nextMatrixRow);
 
             // Then we need the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:
-            int index = 0;
+            int row = 0;
 
             if (matrixPosition.Y < worldMatrix.GetLength(1) - 1)
-                index = matrixPosition.Y + 1;
+                row = matrixPosition.Y + 1;
             else
-                index = matrixPosition.Y;
+                row = matrixPosition.Y;
 
-            var decision = ChooseBlock(nextMatrixRow, index);
+            var decision = ChooseBlock(worldMatrix, row);
             var destinationBlock = GetBlock(decision);
             // Execute the move to the next block
 
