@@ -29,7 +29,8 @@ namespace Game_Engine.Systems
         }
         public void Draw(GameTime gameTime)
         {
-            DrawModelsWithEffect(gameTime);
+            DrawModelsWithEffects(gameTime);
+            
         }
 
         /*
@@ -106,7 +107,8 @@ namespace Game_Engine.Systems
             //});
         }
 
-        private void DrawModelsWithEffect(GameTime gameTime)
+        
+        private void DrawModelsWithEffects(GameTime gameTime)
         {
             //Undoes any changes from using the spritebatch
             graphicsDevice.BlendState = BlendState.Opaque;
@@ -134,6 +136,11 @@ namespace Game_Engine.Systems
                     LightComponent lightComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<LightComponent>(modelComponentPair.Key);
                     TransformComponent transformcComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(modelComponentPair.Key);
 
+                   var  viewVector = Vector3.Transform(cameraComponent.Target - cameraComponent.Position, Matrix.CreateRotationY(0));
+                   viewVector.Normalize();
+                    var technique =  "CreateShowMap";
+                    
+                    lightComponent.LightViewProjection = cameraComponent.ViewMatrix * cameraComponent.ProjectionMatrix;
 
                     model.BoneTransformations[0] = model.World;
 
@@ -142,16 +149,32 @@ namespace Game_Engine.Systems
                         foreach (ModelMeshPart part in modelMesh.MeshParts)
                         {
                             part.Effect = effectComponent.Effect;
+
+                            //part.Effect.Parameters["DiffuseColor"].SetValue(Color.White.ToVector4());
+                            part.Effect.Parameters["DiffuseLightDirection"].SetValue(new Vector3(0,1,-1));
+                            part.Effect.Parameters["DiffuseIntensity"].SetValue(1f);
+                            part.Effect.Parameters["AmbientColor"].SetValue(Color.Blue.ToVector4());
+                            part.Effect.Parameters["AmbientIntensity"].SetValue(1f);
+                            part.Effect.Parameters["Shininess"].SetValue(200f);
+
+                            
+                            //part.Effect.Parameters["SpecularColor"].SetValue(Color.Black.ToVector4());
+                            part.Effect.Parameters["SpecularIntensity"].SetValue(7f);
+
+
                             part.Effect.Parameters["World"].SetValue(model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix);
                             part.Effect.Parameters["View"].SetValue(cameraComponent.ViewMatrix);
                             part.Effect.Parameters["Projection"].SetValue(cameraComponent.ProjectionMatrix);
-                            part.Effect.Parameters["SpecularColor"].SetValue(Color.White.ToVector4());
-                            part.Effect.Parameters["AmbientColor"].SetValue(Color.Black.ToVector4());
-                            part.Effect.Parameters["AmbientIntensity"].SetValue(1f);
-                            part.Effect.Parameters["DiffuseColor"].SetValue(Color.DarkGray.ToVector4());
-                            part.Effect.Parameters["DiffuseIntensity"].SetValue(5f);
-                            part.Effect.Parameters["LightDirection"].SetValue(transformcComponent.Position);
-                            part.Effect.Parameters["EyePosition"].SetValue(transformcComponent.Position);
+                            part.Effect.Parameters["ViewVector"].SetValue(viewVector);
+                            
+                            var worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelMesh.ParentBone.Transform * EngineHelper.Instance().WorldMatrix));
+                            part.Effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
+
+                            if (textureComponent != null)
+                            {
+                                part.Effect.Parameters["ModelTexture"].SetValue(textureComponent.Texture);
+                            }
+                          
                         }
                         modelMesh.Draw();
                     }

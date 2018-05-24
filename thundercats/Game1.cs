@@ -31,6 +31,7 @@ namespace thundercats
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
+        //LightSystem lightSystem; 
         
         //ParticleDrawSystem particleSystem;
         //ParticleSystem particleSystem;
@@ -69,6 +70,7 @@ namespace thundercats
             collisionHandlingSystem = new CollisionHandlingSystem();
             //particleSystem = new ParticleSystem(GraphicsDevice);
             aiSystem = new AiSystem();
+            //lightSystem = new LightSystem();
 
             //SystemManager.Instance.AddToDrawables(uiSystem);
 

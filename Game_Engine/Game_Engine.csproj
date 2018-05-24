@@ -80,6 +80,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
+    <Compile Include="Systems\LightSystem.cs" />
     <Compile Include="Systems\ModelRenderSystem.cs" />
     <Compile Include="Systems\IDrawableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
