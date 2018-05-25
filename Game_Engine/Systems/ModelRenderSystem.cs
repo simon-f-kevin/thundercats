@@ -72,13 +72,7 @@ namespace Game_Engine.Systems
 
                     
 
-                    lightComponent.DiffuseLightDirection = new Vector3(0, 7, -5);
-                    lightComponent.DiffuseColor = Color.White.ToVector4();
-                    lightComponent.DiffuseIntensity = 10f;
-                    lightComponent.AmbientColor = Color.Blue.ToVector4();
-                    lightComponent.AmbientIntensity = 0.2f;
-                    lightComponent.SpecularColor = Color.White.ToVector4();
-                    lightComponent.SpecularIntensity = 1000f;
+           
 
 
                     model.BoneTransformations[0] = model.World;
@@ -102,6 +96,7 @@ namespace Game_Engine.Systems
                             part.Effect.Parameters["View"].SetValue(cameraComponent.ViewMatrix);
                             part.Effect.Parameters["Projection"].SetValue(cameraComponent.ProjectionMatrix);
                             part.Effect.Parameters["ViewVector"].SetValue(viewVector);
+                            part.Effect.Parameters["CameraPosition"].SetValue(cameraComponent.Position);
 
                             var worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelMesh.ParentBone.Transform * EngineHelper.Instance().WorldMatrix));
 

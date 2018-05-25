@@ -23,6 +23,16 @@ namespace Game_Engine.Components
         public float SpecularIntensity { get; set; }
         
 
-        public LightComponent(Entity id) : base(id){}
+        public LightComponent(Entity id, Vector3 DiffuseLightDirection, Vector4 DiffuseColor, float DiffuseIntensity, Vector4 AmbientColor, float AmbientIntensity, Vector4 SpecularColor, float SpecularIntensity) : base(id)
+        {
+            this.DiffuseLightDirection = DiffuseLightDirection;
+            this.DiffuseColor = DiffuseColor;
+            this.DiffuseIntensity = DiffuseIntensity;
+            this.AmbientColor = AmbientColor;
+            this.AmbientIntensity = AmbientIntensity;
+            this.SpecularColor = SpecularColor;
+            this.SpecularIntensity = SpecularIntensity;
+
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace thundercats.GameStates.States.PlayingStates
         {   
 
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 0),
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 70),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
@@ -42,7 +42,7 @@ namespace thundercats.GameStates.States.PlayingStates
             /*GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
             AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
             */        
-            GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
+            //GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             InitWorld();
 
             particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);

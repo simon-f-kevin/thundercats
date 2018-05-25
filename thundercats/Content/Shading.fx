@@ -14,6 +14,7 @@ float Shininess = 200;
 float4 SpecularColor = float4(1, 1, 1, 1);
 float SpecularIntensity = 1;
 float3 ViewVector = float3(1, 0, 0);
+float3 CameraPosition;
 
 texture ModelTexture;
 sampler2D textureSampler = sampler_state {
@@ -37,6 +38,7 @@ struct VertexShaderOutput
 	float4 Color : COLOR0;
 	float3 Normal : TEXCOORD0;
 	float2 TextureCoordinate : TEXCOORD1;
+	float3 World : TEXCOORD2;
 };
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
@@ -71,7 +73,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
 	textureColor.a = 1;
 
-	return saturate(textureColor * (input.Color) + AmbientColor * AmbientIntensity + specular);
+	return saturate(textureColor * (input.Color + AmbientColor * AmbientIntensity) + specular);
 }
 
 technique Textured

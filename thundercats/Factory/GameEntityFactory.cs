@@ -37,7 +37,7 @@ namespace thundercats
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
-            LightComponent lightComponent = new LightComponent(player);
+            LightComponent lightComponent = new LightComponent(player, new Vector3(0, 7, -5), Color.White.ToVector4(), 10f, Color.Blue.ToVector4(),0.2f, Color.White.ToVector4(),1000f);
             EffectComponent effectComponent = new EffectComponent(player, AssetManager.Instance.GetContent<Effect>("Shading"));
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);
@@ -73,7 +73,7 @@ namespace thundercats
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
             AiComponent aiComponent = new AiComponent(player);
-            LightComponent lightComponent = new LightComponent(player);
+            LightComponent lightComponent = new LightComponent(player, new Vector3(0, 7, -5), Color.White.ToVector4(), 10f, Color.Blue.ToVector4(), 0.2f, Color.White.ToVector4(), 1000f);
             EffectComponent effectComponent = new EffectComponent(player, AssetManager.Instance.GetContent<Effect>("Shading"));
 
 
@@ -153,7 +153,7 @@ namespace thundercats
             modelComponent.World = Matrix.CreateWorld(transformComponent.Position, Vector3.Forward, Vector3.Up);
             TextureComponent textureComponent = new TextureComponent(block, texture);
             CollisionComponent collisionComponent = new BoundingBoxComponent(block, EntityFactory.CreateBoundingBox(modelComponent.Model));
-            LightComponent lightComponent = new LightComponent(block);
+            LightComponent lightComponent = new LightComponent(block, new Vector3(0, 7, -5), Color.White.ToVector4(), 10f, Color.Blue.ToVector4(), 0.2f, Color.White.ToVector4(), 1000f);
             EffectComponent effectComponent = new EffectComponent(block, AssetManager.Instance.GetContent<Effect>("Shading"));
 
             BlockComponent blockComponent = new BlockComponent(block);
