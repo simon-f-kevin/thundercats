@@ -39,9 +39,9 @@ namespace thundercats.GameStates.States.PlayingStates
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
             GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
 
-            /*GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
+            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
             AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
-            */        
+                    
             GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             InitWorld();
 

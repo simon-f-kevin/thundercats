@@ -106,7 +106,7 @@ namespace thundercats.GameStates.States.AiStates
 
             if(targetBlockTile.Y <= matrixPosition.Y){
                 targetBlockTile = ChooseBlock(worldMatrix, row);
-                targetBlockPos = GetBlock(targetBlockPos);
+                targetBlockPos = GetBlock(targetBlockTile);
             }
 
             // Execute the move to the next block
