@@ -1,4 +1,5 @@
 ﻿using Game_Engine.Components;
+using Game_Engine.Components.Preformance;
 using Game_Engine.Entities;
 using Game_Engine.Helpers;
 using Game_Engine.Managers;
@@ -20,6 +21,7 @@ namespace thundercats
         public const string AI_PLAYER = "ai_player";
         public const string BLOCK = "block";
         public const string GOAL = "Goal";
+        public const string OUTOFBOUNDS = "Out of bounds";
 
         public static GraphicsDevice GraphicsDevice;
 
@@ -58,7 +60,7 @@ namespace thundercats
             return player;
         }
         //Create AI Player
-        public static Entity NewAiPlayer(String model, int gamePadIndex, Vector3 transformPos, Texture2D texture)
+        public static Entity NewAiPlayer(String model, Vector3 transformPos, Texture2D texture)
         {
             Entity player = EntityFactory.NewEntity(GameEntityFactory.AI_PLAYER);
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
@@ -67,8 +69,6 @@ namespace thundercats
             CollisionComponent collisionComponent = new BoundingSphereComponent(player, modelComponent.Model.Meshes[0].BoundingSphere);
             //new BoundingBoxComponent(player, EntityFactory.CreateBoundingBox(modelComponent.Model));
             PlayerComponent playerComponent = new PlayerComponent(player);
-            KeyboardComponent keyboardComponent = new KeyboardComponent(player);
-            GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
@@ -85,8 +85,6 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, collisionComponent, typeof(CollisionComponent));
             ComponentManager.Instance.AddComponentToEntity(player, playerComponent);
             ComponentManager.Instance.AddComponentToEntity(player, frictionComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
-            ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
             ComponentManager.Instance.AddComponentToEntity(player, aiComponent);
@@ -118,10 +116,14 @@ namespace thundercats
             CameraComponent cameraComponent = new CameraComponent(player, cameraPos, cameraAspectRatio, followPlayer);
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
+            FPSComponent fpsComponent = new FPSComponent(player);
+            NetworkDiagnosticComponent networkDiagnosticComponent = new NetworkDiagnosticComponent(player);
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
             ComponentManager.Instance.AddComponentToEntity(player, keyboardComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, fpsComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, networkDiagnosticComponent);
             
 
             return player;
@@ -133,6 +135,13 @@ namespace thundercats
             GoalComponent goalComponent = new GoalComponent(player);
             ComponentManager.Instance.AddComponentToEntity(player, goalComponent);
             return player;
+        }
+        public static Entity NewOutOfBounds(Vector3 positionStart, Vector3 positionEnd) {
+            Entity outOfBounds = EntityFactory.NewEntity(GameEntityFactory.OUTOFBOUNDS);
+           BoundingBoxComponent boundingBox = new BoundingBoxComponent(outOfBounds,new BoundingBox(positionStart,positionEnd));
+
+            ComponentManager.Instance.AddComponentToEntity(outOfBounds, boundingBox, typeof(CollisionComponent));
+            return outOfBounds;
         }
 
         public static Entity NewBlock(Vector3 positionValues, Texture2D texture, string typeName)
@@ -159,7 +168,7 @@ namespace thundercats
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
             TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
-            EntityFactory.AddBoundingBoxChildren((BoundingBoxComponent)collisionComponent);
+            //EntityFactory.AddBoundingBoxChildren((BoundingBoxComponent)collisionComponent);
 
             return block;
         }

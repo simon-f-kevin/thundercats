@@ -57,24 +57,20 @@ namespace thundercats.GameStates.States.PlayingStates
                 GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
-
+            GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             NetworkHandlingSystem networkSystem = new NetworkHandlingSystem(connectionManager.GetPeer());
             networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
 
-            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
-            particleCreationSystem = new ParticleCreationSystem(particleSystem);
-            SystemManager.Instance.AddToDrawables(particleSystem);
-            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
-
-            //NetworkInputSystem networkInputSystem = new NetworkInputSystem();
-            //SystemManager.Instance.AddToUpdateables(networkInputSystem);
+            //particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            //particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
+            //particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            //SystemManager.Instance.AddToDrawables(particleSystem);
+            //SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
             InitWorld();
-            //GameService.Instance().GameWorld = world;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -87,7 +83,10 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Update(GameTime gameTime)
         {
-            if (!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
+            if (!AudioManager.Instance.IsPlaying)
+            {
+                AudioManager.Instance.PlayNextInQueue(gameTime);
+            }
             SystemManager.Instance.Update(gameTime);
         }
 
@@ -97,21 +96,8 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me");
-            var world = worldGenerator.GenerateWorld(2, 5);
-            int distanceBetweenBlocksX = 100;
-            int distanceBetweenBlocksZ = 50;
-            int iter = 0;
-            for (int x = 0; x < world.GetLength(0); x++)
-            {
-                for (int z = 0; z < world.GetLength(1); z++)
-                {
-                    if (world[x, z] == 1) GameEntityFactory.NewBlock(new Vector3((x * distanceBetweenBlocksX), (viewport.Height * 0.45f), (z * distanceBetweenBlocksZ)),
-                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
-
-                    iter++; //for debugging
-                }
-            }
+            worldGenerator = new WorldGenerator("Somebody once told me the world is gonna roll me", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
+            worldGenerator.GenerateWorld(3, 100);
             worldGenerator.MoveBlocks();
         }
     }

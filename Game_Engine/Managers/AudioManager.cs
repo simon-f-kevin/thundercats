@@ -12,7 +12,6 @@ namespace Game_Engine.Managers
 {
     public class AudioManager
     {
-        private static AudioManager _instance;
         private Queue<Song> songQueue;
         private Song currentSongPlaying;
         public bool IsPlaying;

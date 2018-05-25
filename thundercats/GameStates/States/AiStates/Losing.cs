@@ -19,39 +19,36 @@ namespace thundercats.GameStates.States.AiStates
     public class Losing : AiState, IAiState
     {
         public Losing() : base(new Random()) { }
-        public void Update(GameTime gameTime, Point matrixPosition, Vector3 Position)
+        public void Update(GameTime gameTime, ref Point matrixPosition, Vector3 Position, VelocityComponent aiVelocity, GravityComponent gravity)
         {
             worldMatrix = GameService.Instance.GameWorld;
             worldEntityMatrix = GameService.Instance.EntityGameWorld;
-            ExecuteState(matrixPosition, Position);
+            matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity);
         }
 
-        protected override Point ChooseBlock(int[] row, int RowIndex)
+        protected override Point ChooseBlock(int[,] world, int row)
         {
-            int currentChoice = 0;
-            // Choose the right block on that row
-            for (int i = 0; i < row.Length; i++)
+            int column;
+            bool found = false;
+
+            // Choose a block on the row
+            for (column = 0; column < world.GetLength(0); column++)
             {
-                // Logic should be here to choose column/block
-                if (row[i] == 1) currentChoice = i; // return new Point(RowIndex, i); 
-                if (row[i] == 2)
+                if (world[column, row] == 1)
                 {
-                    currentChoice = i;
-                    break;
-                }
-                if (row[i] == 3)
-                {
-                    currentChoice = i;
-                    break;
-                }
-                if (row[i] == 4)
-                {
-                    currentChoice = i;
+                    found = true;
                     break;
                 }
             }
-            return new Point(currentChoice, RowIndex);
-            // Index of the next block the ai is moving to;
+            if(!found && row < world.GetLength(1)) //If there is no block on the row attempt to find one on the next one
+            {
+                return ChooseBlock(world, row + 1);
+            }
+            else if(!found)
+            {
+                return new Point(-1, -1);
+            }
+            return new Point(column, row); // Index of the next block the ai is moving to;
         }
     }
 }

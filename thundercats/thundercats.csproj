@@ -42,15 +42,17 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Actions\AiActions.cs" />
     <Compile Include="Actions\CollisionActions.cs" />
     <Compile Include="Actions\PlayerActions.cs" />
     <Compile Include="Components\AiComponent.cs" />
     <Compile Include="Components\DrawParticleComponent.cs" />
     <Compile Include="Components\ParticleSettingsComponent.cs" />
     <Compile Include="Components\SurfaceComponent.cs" />
+    <Compile Include="Worldgen\BlockWorldgenDef.cs" />
+    <Compile Include="Worldgen\VoidWorldGenDef.cs" />
+    <Compile Include="Worldgen\IWorldgenEntityDef.cs" />
     <Compile Include="Factory\Uifactory.cs" />
-    <Compile Include="Factory\WorldGenerator.cs" />
+    <Compile Include="Worldgen\WorldGenerator.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Factory\GameEntityFactory.cs" />
     <Compile Include="GameStates\GameManager.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="Service\GameService.cs" />
     <Compile Include="Systems\CollisionHandlingSystem.cs" />
     <Compile Include="Systems\AiSystem.cs" />
-    <Compile Include="Systems\NetworkInputSystem.cs" />
     <Compile Include="Systems\NetworkHandlingSystem.cs" />
     <Compile Include="Systems\ParticleCreationSystem.cs" />
     <Compile Include="Systems\ParticleSystem.cs" />

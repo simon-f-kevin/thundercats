@@ -17,15 +17,16 @@ namespace thundercats.GameStates.States.AiStates
     public abstract class AiState
     {
         protected Random Random { get; private set; }
+        protected bool MadeMove { get; private set; } = true;
         protected int[,] worldMatrix;
-        protected Entity[,] worldEntityMatrix;
+        protected Entity[,] worldEntityMatrix{ get; set;}
 
         protected AiState(Random random)
         {
             this.Random = random;
         }
 
-        protected abstract Point ChooseBlock(int[] row, int RowIndex);
+        protected abstract Point ChooseBlock(int[,] world, int rowIndex);
 
         protected int[] GetRow(int[,] worldMatrix, int rowIndex)
         {
@@ -44,58 +45,75 @@ namespace thundercats.GameStates.States.AiStates
         /// <returns></returns>
         protected Vector3 GetBlock(Point cellPosition)
         {
+            if(worldEntityMatrix[cellPosition.X, cellPosition.Y] == null)
+            {
+                throw new Exception("worldEntityMatrix["+cellPosition.X+", "+cellPosition.Y+"] was null");
+            }
             var transform = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(worldEntityMatrix[cellPosition.X, cellPosition.Y]);
             return transform.Position;
         }
 
-        protected void ExecuteMove(Vector3 currentBlock, Vector3 nextBlock, Vector3 position)
+        protected void ExecuteMove(GameTime gameTime, Vector3 currentBlock, Vector3 nextBlock, Vector3 position, VelocityComponent velocity, GravityComponent gravity)
         {
-            Debug.WriteLine("currentBlock: " + currentBlock.ToString());
-            Debug.WriteLine("aiPos: " + position.ToString());
-            //var VelocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
-            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
-            {
-                //jump left
-                //AiActions.MoveAiLeftwards();
-                //PlayerActions.AcceleratePlayerLeftWards(VelocityComponent);
-                //PlayerActions.PlayerJumpSpeed(VelocityComponent);
+            PlayerActions.AcceleratePlayerForwards(gameTime, velocity);
+            
+            if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "lower" X value AKA left of the current we need to jump left
+            {                
+     
+                PlayerActions.AcceleratePlayerLeftwards(gameTime, velocity);
+                if (!gravity.HasJumped)
+                {
+                    PlayerActions.PlayerJump(gameTime, velocity, null);
+                    gravity.HasJumped = true;
+                }
+
             }
-            if (currentBlock.X < nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
+            if (currentBlock.X > nextBlock.X) //if the block that AI wants to go to is "higher" X value AKA right of the current we need to jump right
             {
-            //    AiActions.MoveAiLeftwards();
-                //jump Right
-                //PlayerActions.AcceleratePlayerRightwards(VelocityComponent);
-                //PlayerActions.PlayerJumpSpeed(VelocityComponent);
-            }
-            else
-            {
-                //Continue run
-                //PlayerActions.AcceleratePlayerForwards(VelocityComponent);
+                PlayerActions.AcceleratePlayerRightwards(gameTime, velocity);
+
+                if (!gravity.HasJumped) //&& currentBlock.Z + 40 <= position.Z)
+                {
+                    PlayerActions.PlayerJump(gameTime, velocity, null);
+                    gravity.HasJumped = true;
+                }
             }
         }
-        protected void ExecuteState(Point matrixPosition, Vector3 position)
-        {
 
-            // We need the players current matrix row position to determine the next move
-            // the ai should do in the real world:
-            var nextMatrixRow = GetRow(worldMatrix, matrixPosition.Y);
+        protected Point ExecuteState(GameTime gameTime, Point matrixPosition, Vector3 position, VelocityComponent aiVelocity, GravityComponent gravity)
+        {
+            //Get the block at the AI's current position
+            var currentBlock = GetBlock(matrixPosition);
 
             // Debug
             //WriteWorld(worldMatrix);
-            WriteRow(nextMatrixRow);
 
-            // Then we need the "real" values of the next block (destination) and the players "real" position
+            // Get the "real" values of the next block (destination) and the players "real" position
             // to make the move to the next block:
-            var currentBlock = GetBlock(matrixPosition);
-            var decision = ChooseBlock(nextMatrixRow, matrixPosition.Y + 1);
+            int row = 0;
+
+            if (matrixPosition.Y < worldMatrix.GetLength(1) - 1)
+                row = matrixPosition.Y + 1;
+            else
+                row = matrixPosition.Y;
+
+            var decision = ChooseBlock(worldMatrix, row);
             var destinationBlock = GetBlock(decision);
+
             // Execute the move to the next block
-            ExecuteMove(currentBlock, destinationBlock, position);
-            matrixPosition = decision;
-            Debug.WriteLine("MatrixPos: " + matrixPosition);
+            ExecuteMove(gameTime, currentBlock, destinationBlock, position, aiVelocity, gravity);
+
+            // We look to see if the player is in the same block in the "real" world as
+            // in the matrix. if he is, we "wait" until the move is completed and return the same
+            // position, or we make the move.
+            // TODO: Need to fix
+            if (currentBlock.Z + 50 <= position.Z)
+                return decision;
+            else
+                return matrixPosition;
         }
 
-        public void WriteRow(int[] row)
+        public static void WriteRow(int[] row)
         {
             Debug.Write("Row: {");
             for (int i = 0; i < row.Length; i++)
@@ -105,7 +123,7 @@ namespace thundercats.GameStates.States.AiStates
             Debug.WriteLine("}");
         }
 
-        public void WriteWorld(int[,] worldMatrix)
+        public static void WriteWorld(int[,] worldMatrix)
         {
             Debug.WriteLine(" World:");
             for (int j = 0; j < worldMatrix.GetLength(1); j++)

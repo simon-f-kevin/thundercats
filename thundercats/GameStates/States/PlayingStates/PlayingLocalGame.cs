@@ -7,6 +7,7 @@ using thundercats.Factory;
 using System;
 using System.Linq;
 using Game_Engine.Systems;
+using System.Collections.Generic;
 using thundercats.Service;
 using thundercats.Systems;
 using thundercats.Components;
@@ -17,9 +18,7 @@ namespace thundercats.GameStates.States.PlayingStates
     {
         private GameManager gameManager;
         private Viewport viewport;
-        public WorldGenerator worldGenerator;
-        public int[,] world;
-        public Entity[,] worldEntity;
+        internal WorldGenerator worldGenerator;
 
         private ParticleSystem particleSystem;
         private ParticleCreationSystem particleCreationSystem;
@@ -32,23 +31,25 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Initialize()
         {   
-            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            particleCreationSystem = new ParticleCreationSystem(particleSystem);
-            SystemManager.Instance.AddToDrawables(particleSystem);
-            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(0, 100, -5),
+
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 0),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
             GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
 
-            //GameEntityFactory.NewAiPlayer("Models/Blob", 0, new Vector3(0, -10, 0),
-            //    AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
-
-            particleSystem.InitializeParticleSystem(ComponentManager.Instance.GetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
+            /*GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
+            AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
+            */        
+            GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             InitWorld();
-            GameService.Instance.GameWorld = world;
+
+            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(playerEntity));
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
+            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
@@ -64,7 +65,10 @@ namespace thundercats.GameStates.States.PlayingStates
 
         public void Update(GameTime gameTime)
         {
-            if (!AudioManager.Instance.IsPlaying) AudioManager.Instance.PlayNextInQueue(gameTime);
+            if(!AudioManager.Instance.IsPlaying)
+            {
+                AudioManager.Instance.PlayNextInQueue(gameTime);
+            }
             SystemManager.Instance.Update(gameTime);
         }
 
@@ -74,43 +78,15 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("Somebody once told me the wolrd is gonna roll me");
-            world = GenerateWorld(3, 100);
-            worldEntity = new Entity[world.GetLength(0), world.GetLength(1)];
-            int distanceBetweenBlocksX = -100;
-            int distanceBetweenBlocksZ = 50;
-            int iter = 0;
-            for (int column = 0; column < world.GetLength(0); column++)
-            {
-                for (int row = 0; row < world.GetLength(1); row++)
-                {
-                    if (row == world.GetLength(1) - 1)
-                    {
-                        Entity Block = GameEntityFactory.NewGoalBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
-                        AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));
-
-                        worldEntity[column, row] = Block;
-                    }
-                    else if (world[column, row] == 1)
-                    {
-                        
-                        Entity Block = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenBlocksX), (0), (row * distanceBetweenBlocksZ)),
-                        AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
-
-                        worldEntity[column, row] = Block;
-                        
-                    }
-                    iter++; //for debugging
-                }
-            }
-            GameService.Instance.EntityGameWorld = worldEntity;
+            worldGenerator = new WorldGenerator("nick", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
+            //worldGenerator = new WorldGenerator("", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
+            GenerateWorld(3, 10);
             worldGenerator.MoveBlocks();
         }
 
-        private int[,] GenerateWorld(int nLanes, int nRows)
+        private void GenerateWorld(int nLanes, int nRows)
         {
-            var world = worldGenerator.GenerateWorld(nLanes, nRows);
-            return world;
+            worldGenerator.GenerateWorld(nLanes, nRows);
         }
     }
 }
