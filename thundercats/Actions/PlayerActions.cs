@@ -13,11 +13,11 @@ namespace thundercats.Actions
 {
     static class PlayerActions
     {
-        private static float playerForwardAcceleration = 10f;
-        private static float playerStrafeAcceleration = 10f;
-        private static float playerMaxRunningSpeed = 10f;
-        private static float playerMaxStrafeSpeed = 10f;
-        private static float playerJumpSpeed = 30f;
+        private static float playerForwardAcceleration = 1f;
+        private static float playerStrafeAcceleration = 1f;
+        private static float playerMaxRunningSpeed = 1f;
+        private static float playerMaxStrafeSpeed = 1f;
+        private static float playerJumpSpeed = 2f;
 
         /// <summary>
         /// Accelerates the player forward until it reaches maximum running speed

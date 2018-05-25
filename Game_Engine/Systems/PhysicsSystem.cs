@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Game_Engine.Components;
 using Game_Engine.Entities;
 using Game_Engine.Helpers;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace Game_Engine.Systems
 {
@@ -35,7 +30,6 @@ namespace Game_Engine.Systems
             RunGravity(gameTime);
         }
 
-
         /// <summary>
         /// Updates TransformComponents, ModelComponents, and CollisionComponents with the velocities of any attached VelocityComponent.
         /// </summary>
@@ -48,14 +42,12 @@ namespace Game_Engine.Systems
                 VelocityComponent velocityComponent = velocityComponentPair.Value as VelocityComponent;
                 TransformComponent transformationComponent = componentManager.ConcurrentGetComponentOfEntity<TransformComponent>(velocityComponentPair.Key);
                 CollisionComponent collisionComponent = componentManager.ConcurrentGetComponentOfEntity<CollisionComponent>(velocityComponentPair.Key);
-                
 
-                transformationComponent.Position += velocityComponent.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
+                transformationComponent.Position += velocityComponent.Velocity;// * (float)gameTime.ElapsedGameTime.TotalSeconds * 10f;
                 Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(transformationComponent.Position);
                 TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);
 
                 collisionComponent.UpdateShape(transformationComponent.Position);
-
 
                 UpdateFriction(velocityComponentPair.Key);
             });
@@ -122,27 +114,25 @@ namespace Game_Engine.Systems
                 var gravityComponent = gravityComponentKeyValuePair.Value as GravityComponent;
                 var velocityComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<VelocityComponent>(gravityComponentKeyValuePair.Key);
 
-                var acceleration = gravityComponent.GravityCoefficient / gravityComponent.Mass;
+                var acceleration = (gravityComponent.GravityCoefficient / gravityComponent.Mass) * 0.05f;
                 velocityComponent.Velocity.Y -= acceleration;
             }
         }
 
-            /// <summary>
-            /// Updates the friction.
-            /// </summary>
-            /// <param name="velocityComponent"></param>
-            private void UpdateFriction(Entity key)
+        /// <summary>
+        /// Updates the friction.
+        /// </summary>
+        /// <param name="velocityComponent"></param>
+        private void UpdateFriction(Entity key)
+        {
+            var velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
+            var frictionComponent = componentManager.ConcurrentGetComponentOfEntity<FrictionComponent>(key);
+            // Placeholder friction
+            if (frictionComponent != null)
             {
-                var velocityComponent = componentManager.ConcurrentGetComponentOfEntity<VelocityComponent>(key);
-                var frictionComponent = componentManager.ConcurrentGetComponentOfEntity<FrictionComponent>(key);
-                // Placeholder friction
-                if (frictionComponent != null)
-                {
-                    velocityComponent.Velocity.X *= frictionComponent.Friction;
-                    velocityComponent.Velocity.Z *= frictionComponent.Friction;
-                }
-
+                velocityComponent.Velocity.X *= frictionComponent.Friction;
+                velocityComponent.Velocity.Z *= frictionComponent.Friction;
             }
-        
+        }
     }
 }

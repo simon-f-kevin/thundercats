@@ -86,6 +86,7 @@ namespace thundercats.Systems
             {
                 GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
             }
+            //else GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
         }
         private static void HandleGoal(Entity sourceEntity)
         {
@@ -107,9 +108,7 @@ namespace thundercats.Systems
         {
             CollisionComponent sourceCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(sourceEntity);
             CollisionComponent targetCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(targetEntity);
-            GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
-            TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
-
+/*
             if (sourceCollisionComponent.Center.Y < targetCollisionComponent.Center.Y)
             {
                 CollisionActions.HandleCollisionFromBelow(sourceEntity);
@@ -118,7 +117,7 @@ namespace thundercats.Systems
             {
                 CollisionActions.HandleCollisionFromAbove(gameTime, sourceEntity);
             }
-            CheckSurfaceOfBlock(gameTime, sourceEntity, targetEntity, sourceCollisionComponent, targetCollisionComponent);
+  */          CheckSurfaceOfBlock(gameTime, sourceEntity, targetEntity, sourceCollisionComponent, targetCollisionComponent);
         }
 
         private void CheckSurfaceOfBlock(GameTime gameTime, Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)

@@ -44,7 +44,7 @@ namespace thundercats
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
             IsFixedTimeStep = false;
-            graphics.SynchronizeWithVerticalRetrace = true;
+            graphics.SynchronizeWithVerticalRetrace = false;
 
             Content.RootDirectory = "Content";
         }
