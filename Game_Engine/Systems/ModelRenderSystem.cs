@@ -161,7 +161,7 @@ namespace Game_Engine.Systems
 
                             
                             part.Effect.Parameters["SpecularColor"].SetValue(Color.White.ToVector4());
-                           // part.Effect.Parameters["SpecularIntensity"].SetValue(1000f);
+                           part.Effect.Parameters["SpecularIntensity"].SetValue(1000f);
 
 
                             part.Effect.Parameters["World"].SetValue(model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix);
