@@ -26,7 +26,7 @@ namespace thundercats.Factory
         private Viewport viewport;
 
         static int distanceBetweenColumns = -100;
-        static int distanceBetweenRows = 50;
+        static int distanceBetweenRows = 60;
 
         private List<IWorldgenEntityDef> WorldgenEntities { get; set;}
 
