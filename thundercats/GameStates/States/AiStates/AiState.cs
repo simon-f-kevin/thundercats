@@ -17,13 +17,20 @@ namespace thundercats.GameStates.States.AiStates
     public abstract class AiState
     {
         protected Random Random { get; private set; }
-        protected bool MadeMove { get; private set; } = true;
+        protected bool MadeMove { get; private set; }
         protected int[,] worldMatrix;
         protected Entity[,] worldEntityMatrix{ get; set;}
+        private int targetRow;
+        private Point targetBlockTile;
+        private Vector3 targetBlockPos;
 
         protected AiState(Random random)
         {
             this.Random = random;
+            MadeMove = false;
+            targetRow = 0;
+            targetBlockTile = new Point(-1, -1);
+            targetBlockPos = Vector3.Zero;
         }
 
         protected abstract Point ChooseBlock(int[,] world, int rowIndex);
@@ -83,7 +90,7 @@ namespace thundercats.GameStates.States.AiStates
         protected Point ExecuteState(GameTime gameTime, Point matrixPosition, Vector3 position, VelocityComponent aiVelocity, GravityComponent gravity)
         {
             //Get the block at the AI's current position
-            var currentBlock = GetBlock(matrixPosition);
+            var currentBlockPos = GetBlock(matrixPosition);
 
             // Debug
             //WriteWorld(worldMatrix);
@@ -97,18 +104,20 @@ namespace thundercats.GameStates.States.AiStates
             else
                 row = matrixPosition.Y;
 
-            var decision = ChooseBlock(worldMatrix, row);
-            var destinationBlock = GetBlock(decision);
+            if(targetBlockTile.Y <= matrixPosition.Y){
+                targetBlockTile = ChooseBlock(worldMatrix, row);
+                targetBlockPos = GetBlock(targetBlockPos);
+            }
 
             // Execute the move to the next block
-            ExecuteMove(gameTime, currentBlock, destinationBlock, position, aiVelocity, gravity);
+            ExecuteMove(gameTime, currentBlockPos, targetBlockPos, position, aiVelocity, gravity);
 
             // We look to see if the player is in the same block in the "real" world as
             // in the matrix. if he is, we "wait" until the move is completed and return the same
             // position, or we make the move.
             // TODO: Need to fix
-            if (currentBlock.Z + 50 <= position.Z)
-                return decision;
+            if (currentBlockPos.Z + 50 <= position.Z)
+                return targetBlockTile;
             else
                 return matrixPosition;
         }
