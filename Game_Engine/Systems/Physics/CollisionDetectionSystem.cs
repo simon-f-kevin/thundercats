@@ -42,7 +42,7 @@ namespace Game_Engine.Systems.Physics
                         Entity targetEntity = targetCollisionComponentPair.Key;
                         CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
                         if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
-                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                        sourceCollisionComponent.BoundingVolume.Intersects(targetCollisionComponent.BoundingVolume))
                         {
                             CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         }
@@ -61,7 +61,7 @@ namespace Game_Engine.Systems.Physics
                         Entity targetEntity = targetCollisionComponentPair.Key;
                         CollisionComponent targetCollisionComponent = targetCollisionComponentPair.Value as CollisionComponent;
                         if (sourceCollisionComponent.ComponentId != targetCollisionComponent.ComponentId &&
-                        sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.BoundingShape))
+                        sourceCollisionComponent.BoundingVolume.Intersects(targetCollisionComponent.BoundingVolume))
                         {
                             CollisionManager.Instance.AddCollisionPair(sourceEntity, targetEntity);
                         }

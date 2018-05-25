@@ -122,8 +122,8 @@ namespace thundercats.Systems
 
         private void CheckSurfaceOfBlock(GameTime gameTime, Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
         {
-            var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingShape;
-            var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
+            var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingVolume.BoundingSphere;
+            var boxBounding = (BoundingBox)blockCollisionComponent.BoundingVolume.BoundingBox;
             var diff = boxBounding.Max.Y - (playerBounding.Center.Y - playerBounding.Radius);
 
             if (diff < 5 && diff > 0)
@@ -149,7 +149,7 @@ namespace thundercats.Systems
             GravityComponent sourceGravityComponent = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(sourceEntity);
             TransformComponent sourceTransformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(sourceEntity);
 
-            if (sourceCollisionComponent.Center.X < targetCollisionComponent.Center.X)
+            if (sourceCollisionComponent.BoundingVolume.Center.X < targetCollisionComponent.BoundingVolume.Center.X)
             {
                 CollisionActions.AccelerateColliderRightwards(gameTime, sourceEntity);
             }
@@ -157,7 +157,7 @@ namespace thundercats.Systems
             {
                 CollisionActions.AccelerateColliderLeftwards(gameTime, sourceEntity);
             }
-            if (sourceCollisionComponent.Center.Z < targetCollisionComponent.Center.Z)
+            if (sourceCollisionComponent.BoundingVolume.Center.Z < targetCollisionComponent.BoundingVolume.Center.Z)
             {
                 CollisionActions.AccelerateColliderBackwards(gameTime, sourceEntity);
             }

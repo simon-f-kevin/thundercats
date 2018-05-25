@@ -54,7 +54,7 @@ namespace Game_Engine.Systems
             {
                 ModelComponent model = modelComponentPair.Value as ModelComponent;
                 var collisionComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<CollisionComponent>(modelComponentPair.Key);
-                if (cameraComponent.BoundingFrustum.Intersects(collisionComponent.BoundingShape))
+                if (cameraComponent.BoundingFrustum.Intersects(collisionComponent.BoundingVolume.BoundingSphere) || cameraComponent.BoundingFrustum.Intersects(collisionComponent.BoundingVolume.BoundingBox))
                 {
                     TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
                     model.BoneTransformations[0] = model.World;

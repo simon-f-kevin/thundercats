@@ -35,7 +35,7 @@ namespace Game_Engine.Systems
                 Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateRotationX(0) * Matrix.CreateTranslation(transformationComponent.Position);
                 TransformHelper.TransformEntity(velocityComponentPair.Key, translation, true);
 
-                collisionComponent.UpdateShape(transformationComponent.Position);
+                collisionComponent.BoundingVolume.UpdateVolume(transformationComponent.Position);
 
             });
         }

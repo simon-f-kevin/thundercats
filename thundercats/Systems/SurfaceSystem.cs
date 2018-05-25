@@ -38,7 +38,7 @@ namespace thundercats.Systems
                     var surfaceBoundingSphere = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(surfaceComponent.Key);
                     var surface = surfaceComponent.Value as SurfaceComponent;
 
-                    if (surfaceBoundingSphere.BoundingShape.Intersects(playerBoundingSphereComponent.BoundingShape))
+                    if (surfaceBoundingSphere.BoundingVolume.Intersects(playerBoundingSphereComponent.BoundingVolume))
                     {
                         // Shouldn't it be players velocity we change rather?
                         playerFrictionComponent.Friction = (float)surface.SurfaceType;

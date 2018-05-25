@@ -45,18 +45,18 @@ namespace Game_Engine.Managers
         /*
          * For all bounding box children of target collision component, check which ones interescts with the source collision component.
          */
-        public List<dynamic> FindChildBoundingCollisions(CollisionComponent sourceCollisionComponent, CollisionComponent targetCollisionComponent)
-        {
-            List<dynamic> collidingChildren = new List<dynamic>();
+        //public List<dynamic> FindChildBoundingCollisions(CollisionComponent sourceCollisionComponent, CollisionComponent targetCollisionComponent)
+        //{
+        //    List<dynamic> collidingChildren = new List<dynamic>();
 
-            for(int i = 0; i < targetCollisionComponent.Children.Count; i++)
-            {
-                if(sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.Children[i]))
-                {
-                    collidingChildren.Add(targetCollisionComponent.Children[i]);
-                }
-            }
-            return collidingChildren;
-        }
+        //    for(int i = 0; i < targetCollisionComponent.Children.Count; i++)
+        //    {
+        //        if(sourceCollisionComponent.BoundingShape.Intersects(targetCollisionComponent.Children[i]))
+        //        {
+        //            collidingChildren.Add(targetCollisionComponent.Children[i]);
+        //        }
+        //    }
+        //    return collidingChildren;
+        //}
     }
 }

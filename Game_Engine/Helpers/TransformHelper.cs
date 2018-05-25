@@ -67,11 +67,12 @@ namespace Game_Engine.Helpers
 
             if(collisionComponent != null)
             {
-                if (collisionComponent.BoundingShape.GetType() == typeof(BoundingSphere))
+                if (collisionComponent.BoundingVolume.Type == BoundingVolume.VolumeType.Sphere)
                 {
-                    var boundingShape = collisionComponent.BoundingShape;
-                    boundingShape = collisionComponent.BoundingShape.Transform(translation);
-                    collisionComponent.BoundingShape = boundingShape;
+                    //var boundingShape = collisionComponent.BoundingShape;
+                    //boundingShape = collisionComponent.BoundingShape.Transform(translation);
+                    //collisionComponent.BoundingShape = boundingShape;
+                    collisionComponent.BoundingVolume.UpdateVolume(translation.Translation);
                 }
                 //else {
                 //    var transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(entity);
@@ -95,9 +96,11 @@ namespace Game_Engine.Helpers
         public static void SetInitialBoundingSpherePos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
             Matrix translation = EngineHelper.Instance().WorldMatrix * Matrix.CreateTranslation(transformComponent.Position.X, transformComponent.Position.Y, transformComponent.Position.Z);
-            var boundingSphere = collisionComponent.BoundingShape;
-            boundingSphere = collisionComponent.BoundingShape.Transform(translation);
-            collisionComponent.BoundingShape = boundingSphere;
+            //var boundingSphere = collisionComponent.BoundingShape;
+            //boundingSphere = collisionComponent.BoundingShape.Transform(translation);
+            //collisionComponent.BoundingShape = boundingSphere;
+
+            collisionComponent.BoundingVolume.UpdateVolume(translation.Translation);
         }
 
         /*
@@ -105,7 +108,7 @@ namespace Game_Engine.Helpers
         */
         public static void SetBoundingBoxPos(CollisionComponent collisionComponent, TransformComponent transformComponent)
         {
-            var boundingBox = collisionComponent.BoundingShape;
+            var boundingBox = collisionComponent.BoundingVolume.BoundingBox;
             var lengthX = (boundingBox.Max.X - boundingBox.Min.X) / 2;
             var lengthY = (boundingBox.Max.Y - boundingBox.Min.Y) / 2;
             var lengthZ = (boundingBox.Max.Z - boundingBox.Min.Z) / 2;
@@ -113,7 +116,8 @@ namespace Game_Engine.Helpers
             
             var min = new Vector3(transformComponent.Position.X - lengthX, transformComponent.Position.Y - lengthY, transformComponent.Position.Z - lengthZ);
             var max = new Vector3(transformComponent.Position.X + lengthX, transformComponent.Position.Y + lengthY, transformComponent.Position.Z + lengthZ);
-            collisionComponent.BoundingShape = new BoundingBox(min, max);
+            collisionComponent.BoundingVolume.BoundingBox = new BoundingBox(min, max);
+            //collisionComponent.BoundingVolume.UpdateVolume(min);
         }
     }
 }
