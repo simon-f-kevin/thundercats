@@ -185,7 +185,7 @@ namespace thundercats.Factory
         {
             List<IWorldgenEntityDef> worldgenEntities = new List<IWorldgenEntityDef>(){
                 new BlockWorldgenDef(1),
-                new VoidWorldgenDef(5)
+                new VoidWorldgenDef(1)
             };
 
             return worldgenEntities;
