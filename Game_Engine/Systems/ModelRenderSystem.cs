@@ -138,7 +138,7 @@ namespace Game_Engine.Systems
 
                    var  viewVector = Vector3.Transform(cameraComponent.Target - cameraComponent.Position, Matrix.CreateRotationY(0));
                    viewVector.Normalize();
-                    var technique =  "CreateShowMap";
+                   
                     
                     lightComponent.LightViewProjection = cameraComponent.ViewMatrix * cameraComponent.ProjectionMatrix;
 
@@ -150,22 +150,22 @@ namespace Game_Engine.Systems
                         {
                             part.Effect = effectComponent.Effect;
 
-                            //part.Effect.Parameters["DiffuseColor"].SetValue(Color.White.ToVector4());
+                           // part.Effect.Parameters["DiffuseColor"].SetValue(Color.Blue.ToVector4());
                             part.Effect.Parameters["DiffuseLightDirection"].SetValue(new Vector3(0,1,-1));
                             //part.Effect.Parameters["DiffuseIntensity"].SetValue(1f);
-                            //part.Effect.Parameters["AmbientColor"].SetValue(Color.Blue.ToVector4());
-                            //part.Effect.Parameters["AmbientIntensity"].SetValue(1f);
+                            part.Effect.Parameters["AmbientColor"].SetValue(Color.Blue.ToVector4());
+                           //part.Effect.Parameters["AmbientIntensity"].SetValue(0.2f);
                             //part.Effect.Parameters["Shininess"].SetValue(200f);
 
                             
-                            //part.Effect.Parameters["SpecularColor"].SetValue(Color.Black.ToVector4());
-                            //part.Effect.Parameters["SpecularIntensity"].SetValue(7f);
+                            part.Effect.Parameters["SpecularColor"].SetValue(Color.White.ToVector4());
+                           // part.Effect.Parameters["SpecularIntensity"].SetValue(1000f);
 
 
                             part.Effect.Parameters["World"].SetValue(model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix);
                             part.Effect.Parameters["View"].SetValue(cameraComponent.ViewMatrix);
                             part.Effect.Parameters["Projection"].SetValue(cameraComponent.ProjectionMatrix);
-                            part.Effect.Parameters["ViewVector"].SetValue(viewVector);
+                            part.Effect.Parameters["ViewVector"].SetValue(transformcComponent.Position);
                             
                             var worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelMesh.ParentBone.Transform * EngineHelper.Instance().WorldMatrix));
                             part.Effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
