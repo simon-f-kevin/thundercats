@@ -33,9 +33,17 @@ namespace thundercats.GameStates.States.AiStates
             // Choose a block on the row
             for(column = 0; column < world.GetLength(0); column++)
             {
-                if(world[column, row] == 1)
+                switch(world[column, row])
                 {
+                case(1): case(2):
                     found = true;
+                    break;
+                default:
+                    break;
+                }
+
+                if(found)
+                {
                     break;
                 }
             }

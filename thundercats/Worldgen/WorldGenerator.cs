@@ -75,14 +75,20 @@ namespace thundercats.Factory
             {
                 for(int row = 0; row < nRows; row++)
                 {
-                    if(row == 0) // First row is always filled with blocks as the players start there
+                    if(row == 0) //First row is always filled with blocks as the players start there
                     {
                         GameService.Instance.EntityGameWorld[column, row] = GameEntityFactory.NewBlock(new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
                             AssetManager.Instance.CreateTexture(Color.BlueViolet, gameManager.game.GraphicsDevice), GameEntityFactory.BLOCK);
                         world[column, row] = 1;
                     }
+                    else if(row == nRows - 1){ //Last row should always be the goal
+                        GameService.Instance.EntityGameWorld[column, row] = GameEntityFactory.NewGoalBlock(new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)),
+                            AssetManager.Instance.CreateTexture(Color.Gold, gameManager.game.GraphicsDevice));
+                        world[column, row] = 2;
+                    }
                     else
                     {
+                        //Create a new random entity for the tile
                         CreateSelectedWorldEntity((float)rnd.NextDouble(), column, row, new Vector3((column * distanceBetweenColumns), (0), (row * distanceBetweenRows)));
                     }
                 }
