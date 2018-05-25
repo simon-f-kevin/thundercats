@@ -141,6 +141,8 @@ namespace Game_Engine.Systems
                    
                     
                     lightComponent.LightViewProjection = cameraComponent.ViewMatrix * cameraComponent.ProjectionMatrix;
+                    lightComponent.DiffuseLightDirection = new Vector3(0, 1, -1);
+                    lightComponent.AmbientColor = Color.Blue.ToVector4();
 
                     model.BoneTransformations[0] = model.World;
 
@@ -150,12 +152,12 @@ namespace Game_Engine.Systems
                         {
                             part.Effect = effectComponent.Effect;
 
-                           // part.Effect.Parameters["DiffuseColor"].SetValue(Color.Blue.ToVector4());
-                            part.Effect.Parameters["DiffuseLightDirection"].SetValue(new Vector3(0,1,-1));
-                            //part.Effect.Parameters["DiffuseIntensity"].SetValue(1f);
-                            part.Effect.Parameters["AmbientColor"].SetValue(Color.Blue.ToVector4());
-                           //part.Effect.Parameters["AmbientIntensity"].SetValue(0.2f);
-                            //part.Effect.Parameters["Shininess"].SetValue(200f);
+                           part.Effect.Parameters["DiffuseColor"].SetValue(Color.White.ToVector4());
+                            part.Effect.Parameters["DiffuseLightDirection"].SetValue(lightComponent.DiffuseLightDirection);
+                            part.Effect.Parameters["DiffuseIntensity"].SetValue(10f);
+                            part.Effect.Parameters["AmbientColor"].SetValue(lightComponent.AmbientColor);
+                           part.Effect.Parameters["AmbientIntensity"].SetValue(0.2f);
+                          //  part.Effect.Parameters["Shininess"].SetValue(100f);
 
                             
                             part.Effect.Parameters["SpecularColor"].SetValue(Color.White.ToVector4());
@@ -169,10 +171,8 @@ namespace Game_Engine.Systems
                             
                             var worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelMesh.ParentBone.Transform * EngineHelper.Instance().WorldMatrix));
                             part.Effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
-
-                           part.Effect.Parameters["ModelTexture"].SetValue(textureComponent.Texture);
-                            
-                          
+                          //  if(textureComponent != null)
+                           part.Effect.Parameters["ModelTexture"].SetValue(textureComponent.Texture);     
                         }
                         modelMesh.Draw();
                     }
@@ -180,27 +180,6 @@ namespace Game_Engine.Systems
             }
         }
 
-        //Parallel.ForEach(modelComponents, modelComponentPair =>
-        //{
-        //    ModelComponent model = modelComponentPair.Value as ModelComponent;
-        //    TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
-        //    model.BoneTransformations[0] = model.World;
-
-        //    foreach(var modelMesh in model.Model.Meshes)
-        //    {
-        //        foreach(BasicEffect effect in modelMesh.Effects)
-        //        {
-        //            effect.World = model.BoneTransformations[modelMesh.ParentBone.Index];
-        //            effect.View = cameraComponent.ViewMatrix;
-        //            effect.Projection = cameraComponent.ProjectionMatrix;
-        //            effect.EnableDefaultLighting();
-        //            effect.LightingEnabled = true;
-        //            effect.Texture = textureComponent.Texture;
-        //            effect.TextureEnabled = true
-        //            modelMesh.Draw();
-        //        }
-        //    }
-        //});
     }
 }
 
