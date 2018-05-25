@@ -81,10 +81,13 @@
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Systems\FrameCounterSystem.cs" />
+    <Compile Include="Systems\Physics\CollisionDetectionSystem.cs" />
+    <Compile Include="Systems\Physics\FrictionSystem.cs" />
     <Compile Include="Systems\ModelRenderSystem.cs" />
     <Compile Include="Systems\IDrawableSystem.cs" />
     <Compile Include="Systems\IUpdateableSystem.cs" />
-    <Compile Include="Systems\PhysicsSystem.cs" />
+    <Compile Include="Systems\Physics\TransformSystem.cs" />
+    <Compile Include="Systems\Physics\GravitySystem.cs" />
     <Compile Include="Systems\UIRenderSystem.cs" />
   </ItemGroup>
   <ItemGroup>
