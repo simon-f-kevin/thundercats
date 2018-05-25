@@ -19,6 +19,8 @@ namespace Game_Engine.Components
         public Vector3 DiffuseLightDirection { get; set; }
         public Vector4 DiffuseColor { get; set; }
         public float DiffuseIntensity { get; set; }
+        public Vector4 SpecularColor { get; set; }
+        public float SpecularIntensity { get; set; }
         
 
         public LightComponent(Entity id) : base(id){}

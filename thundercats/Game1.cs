@@ -44,7 +44,7 @@ namespace thundercats
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
             IsFixedTimeStep = false;
-            graphics.SynchronizeWithVerticalRetrace = false;
+           //graphics.SynchronizeWithVerticalRetrace = false;
 
             Content.RootDirectory = "Content";
         }
@@ -68,6 +68,7 @@ namespace thundercats
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
             aiSystem = new AiSystem();
+          
 
 
             SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem, frameCounterSystem);
