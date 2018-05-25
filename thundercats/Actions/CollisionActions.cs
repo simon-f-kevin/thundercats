@@ -55,17 +55,20 @@ namespace thundercats.Actions
             }
         }
 
-        public static void HandleCollisionFromAbove(GameTime gameTime, Entity entity)
+        public static void HandleCollisionFromAbove(GameTime gameTime, Entity entity, float diff)
         {
             VelocityComponent velocityComponent = ComponentManager.Instance.GetComponentOfEntity<VelocityComponent>(entity);
             GravityComponent gravity = ComponentManager.Instance.GetComponentOfEntity<GravityComponent>(entity);
+            TransformComponent transformComponent = ComponentManager.Instance.GetComponentOfEntity<TransformComponent>(entity);
+            //var diffY = blockY - playerY;
 
-            if(velocityComponent != null)
+            if (velocityComponent != null)
             {
                 if(velocityComponent.Velocity.Y < 0)
                 {
                     // if we collide with an acceleration downwards then we want a counter force up.
-                    velocityComponent.Velocity.Y += (Math.Abs(velocityComponent.Velocity.Y));
+                    velocityComponent.Velocity.Y += (Math.Abs(velocityComponent.Velocity.Y)) + (diff/4);
+
                 }
                 gravity.HasJumped = false;
             } 
