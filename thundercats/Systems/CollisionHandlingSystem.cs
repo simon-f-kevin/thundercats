@@ -125,8 +125,8 @@ namespace thundercats.Systems
             CollisionComponent playerCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(player);
             CollisionComponent blockCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(block);
 
-            var playerBounding = (BoundingBox)playerCollisionComponent.BoundingShape;
-            var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
+            var playerBounding = playerCollisionComponent.BoundingVolume.BoundingBox;
+            var boxBounding = blockCollisionComponent.BoundingVolume.BoundingBox;
             var diff = boxBounding.Max.Y - (playerBounding.Min.Y);
 
             if (diff < 5 && diff > 0)

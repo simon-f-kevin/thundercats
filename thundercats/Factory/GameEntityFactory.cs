@@ -31,7 +31,7 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            CollisionComponent collisionComponent = new CollisionComponent(player, new SphereVolume(modelComponent.Model.Meshes[0].BoundingSphere));
+            CollisionComponent collisionComponent = new CollisionComponent(player, new BoxVolume(EntityFactory.CreateBoundingBox(modelComponent.Model)));
             //new BoxVolume(player, EntityFactory.CreateBoundingBox(modelComponent.Model)); 
             PlayerComponent playerComponent = new PlayerComponent(player);
             FrictionComponent frictionComponent = new FrictionComponent(player);
