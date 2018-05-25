@@ -47,11 +47,11 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, textureComponent);
             ComponentManager.Instance.AddComponentToEntity(player, gravityComponent);
 
-            //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
-            //TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
-
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
-            TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
+            TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
+
+            //TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
+            //TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
 
             return player;
         }

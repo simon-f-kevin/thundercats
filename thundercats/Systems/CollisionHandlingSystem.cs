@@ -68,7 +68,7 @@ namespace thundercats.Systems
                     HandleGoal(sourceEntity);
                     break;
                 case GameEntityFactory.BLOCK:
-                    KeepSourceOnTop(gameTime, sourceEntity, targetEntity);
+                    CheckSurfaceOfBlock(gameTime, sourceEntity, targetEntity);
                     break;
                 case GameEntityFactory.REMOTE_PLAYER:
                     PushSourceAwayFromTarget(gameTime, sourceEntity, targetEntity);
@@ -117,14 +117,17 @@ namespace thundercats.Systems
             {
                 CollisionActions.HandleCollisionFromAbove(gameTime, sourceEntity);
             }
-  */          CheckSurfaceOfBlock(gameTime, sourceEntity, targetEntity, sourceCollisionComponent, targetCollisionComponent);
+  */          
         }
 
-        private void CheckSurfaceOfBlock(GameTime gameTime, Entity player, Entity block, CollisionComponent playerCollisionComponent, CollisionComponent blockCollisionComponent)
+        private void CheckSurfaceOfBlock(GameTime gameTime, Entity player, Entity block)
         {
-            var playerBounding = (BoundingSphere)playerCollisionComponent.BoundingVolume.BoundingSphere;
-            var boxBounding = (BoundingBox)blockCollisionComponent.BoundingVolume.BoundingBox;
-            var diff = boxBounding.Max.Y - (playerBounding.Center.Y - playerBounding.Radius);
+            CollisionComponent playerCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(player);
+            CollisionComponent blockCollisionComponent = ComponentManager.Instance.GetComponentOfEntity<CollisionComponent>(block);
+
+            var playerBounding = (BoundingBox)playerCollisionComponent.BoundingShape;
+            var boxBounding = (BoundingBox)blockCollisionComponent.BoundingShape;
+            var diff = boxBounding.Max.Y - (playerBounding.Min.Y);
 
             if (diff < 5 && diff > 0)
             {
@@ -133,7 +136,7 @@ namespace thundercats.Systems
                 {
                      CollisionActions.RunParticleSystem(player);
                 }
-                CollisionActions.HandleCollisionFromAbove(gameTime, player);
+                CollisionActions.HandleCollisionFromAbove(gameTime, player, diff);
             }
             else
             {
