@@ -46,8 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\BlockComponent.cs" />
-    <Compile Include="Components\BoundingBoxComponent.cs" />
-    <Compile Include="Components\BoundingSphereComponent.cs" />
+    <Compile Include="Components\BoxVolume.cs" />
+    <Compile Include="Components\SphereVolume.cs" />
+    <Compile Include="Components\BoundingVolume.cs" />
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\CollisionComponent.cs" />
     <Compile Include="Components\Component.cs" />
