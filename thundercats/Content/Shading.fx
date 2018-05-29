@@ -6,7 +6,7 @@ float4x4 WorldInverseTranspose;
 float4 AmbientColor = float4(1, 1, 1, 1);
 float AmbientIntensity = 0.1;
 
-float3 DiffuseLightDirection = float3(1, 0, 0);
+float3 DiffuseLightDirection = float3(0, 1, 0);
 float4 DiffuseColor = float4(1, 1, 1, 1);
 float DiffuseIntensity = 1.0;
 

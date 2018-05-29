@@ -37,7 +37,7 @@ namespace thundercats
             FrictionComponent frictionComponent = new FrictionComponent(player);
             TextureComponent textureComponent = new TextureComponent(player, texture);
             GravityComponent gravityComponent = new GravityComponent(player);
-            LightComponent lightComponent = new LightComponent(player, new Vector3(0, 7, -5), Color.White.ToVector4(), 10f, Color.Blue.ToVector4(),0.2f, Color.White.ToVector4(),1000f);
+            LightComponent lightComponent = new LightComponent(player, new Vector3(0, 1, 0), Color.White.ToVector4(), 1f, Color.Blue.ToVector4(), 2f, Color.White.ToVector4(), 1000f);
             EffectComponent effectComponent = new EffectComponent(player, AssetManager.Instance.GetContent<Effect>("Shading"));
 
             ComponentManager.Instance.AddComponentToEntity(player, modelComponent);

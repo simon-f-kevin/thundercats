@@ -70,27 +70,23 @@ namespace Game_Engine.Systems
                     var viewVector = Vector3.Transform(cameraComponent.Target - cameraComponent.Position, Matrix.CreateRotationY(0));
                     viewVector.Normalize();
 
-                    
-
-           
-
-
                     model.BoneTransformations[0] = model.World;
 
                     foreach (var modelMesh in model.Model.Meshes)
                     {
+
                         foreach (ModelMeshPart part in modelMesh.MeshParts)
                         {
                             part.Effect = effectComponent.Effect;
 
-                            part.Effect.Parameters["DiffuseColor"].SetValue(lightComponent.DiffuseColor);
-                            part.Effect.Parameters["DiffuseLightDirection"].SetValue(lightComponent.DiffuseLightDirection);
-                            part.Effect.Parameters["DiffuseIntensity"].SetValue(lightComponent.DiffuseIntensity);
-                            part.Effect.Parameters["AmbientColor"].SetValue(lightComponent.AmbientColor);
-                            part.Effect.Parameters["AmbientIntensity"].SetValue(lightComponent.AmbientIntensity);
+                            //part.Effect.Parameters["DiffuseColor"].SetValue(lightComponent.DiffuseColor);
+                            //part.Effect.Parameters["DiffuseLightDirection"].SetValue(lightComponent.DiffuseLightDirection);
+                            //part.Effect.Parameters["DiffuseIntensity"].SetValue(lightComponent.DiffuseIntensity);
+                            //part.Effect.Parameters["AmbientColor"].SetValue(lightComponent.AmbientColor);
+                            //part.Effect.Parameters["AmbientIntensity"].SetValue(lightComponent.AmbientIntensity);
 
-                            part.Effect.Parameters["SpecularColor"].SetValue(lightComponent.SpecularColor);
-                            part.Effect.Parameters["SpecularIntensity"].SetValue(lightComponent.SpecularIntensity);
+                            //part.Effect.Parameters["SpecularColor"].SetValue(lightComponent.SpecularColor);
+                            //part.Effect.Parameters["SpecularIntensity"].SetValue(lightComponent.SpecularIntensity);
 
                             part.Effect.Parameters["World"].SetValue(model.BoneTransformations[modelMesh.ParentBone.Index] * EngineHelper.Instance().WorldMatrix);
                             part.Effect.Parameters["View"].SetValue(cameraComponent.ViewMatrix);
