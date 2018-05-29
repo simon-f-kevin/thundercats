@@ -91,7 +91,7 @@ namespace thundercats
                 frameCounterSystem
                 );
 
-            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem);
+            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem, uiSystem);
 
             base.Initialize();
         }

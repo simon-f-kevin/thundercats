@@ -109,6 +109,10 @@ namespace thundercats
             KeyboardComponent keyboardComponent = new KeyboardComponent(player);
             GamePadComponent gamePadComponent = new GamePadComponent(player, gamePadIndex);
             FPSComponent fpsComponent = new FPSComponent(player);
+            UIComponent spriteFPSCounterComponent = new UIComponent(player) { Position = new Vector2(10, 10),
+                Text = fpsComponent.CurrentFramesPerSecond.ToString(),
+                Color = Color.White,
+                SpriteFont = AssetManager.Instance.GetContent<SpriteFont>("menu") };
             NetworkDiagnosticComponent networkDiagnosticComponent = new NetworkDiagnosticComponent(player);
 
             ComponentManager.Instance.AddComponentToEntity(player, cameraComponent);
@@ -116,6 +120,7 @@ namespace thundercats
             ComponentManager.Instance.AddComponentToEntity(player, gamePadComponent);
             ComponentManager.Instance.AddComponentToEntity(player, fpsComponent);
             ComponentManager.Instance.AddComponentToEntity(player, networkDiagnosticComponent);
+            ComponentManager.Instance.AddComponentToEntity(player, spriteFPSCounterComponent);
             
 
             return player;

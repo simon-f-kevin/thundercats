@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game_Engine.Components;
 using Game_Engine.Components.Preformance;
 using Game_Engine.Managers;
 using Microsoft.Xna.Framework;
@@ -47,6 +48,9 @@ namespace Game_Engine.Systems
 
             fpsComponent.TotalFrames++;
             fpsComponent.TotalSeconds += elapsedTime;
+
+            UIComponent uIComponent = ComponentManager.Instance.GetConcurrentDictionary<UIComponent>().Values.First() as UIComponent;
+            uIComponent.Text = fpsComponent.CurrentFramesPerSecond.ToString();
         }
 
         public void Draw(GameTime gameTime)
