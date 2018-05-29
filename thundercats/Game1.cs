@@ -91,7 +91,7 @@ namespace thundercats
                 frameCounterSystem
                 );
 
-            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem);
+            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem, uiSystem);
 
             base.Initialize();
         }
@@ -121,7 +121,6 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
             //particles
-            AssetManager.Instance.AddContent<Effect>(Content, "Particles");
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
 
             gameManager = new GameManager(this);
