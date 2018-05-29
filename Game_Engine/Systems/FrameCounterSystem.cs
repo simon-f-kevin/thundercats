@@ -50,7 +50,7 @@ namespace Game_Engine.Systems
             fpsComponent.TotalSeconds += elapsedTime;
 
             UIComponent uIComponent = ComponentManager.Instance.GetConcurrentDictionary<UIComponent>().Values.First() as UIComponent;
-            uIComponent.Text = fpsComponent.CurrentFramesPerSecond.ToString();
+            uIComponent.Text = "FPS: " + fpsComponent.CurrentFramesPerSecond.ToString();
         }
 
         public void Draw(GameTime gameTime)
