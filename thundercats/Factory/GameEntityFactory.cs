@@ -62,7 +62,7 @@ namespace thundercats
             TransformComponent transformComponent = new TransformComponent(player, transformPos);
             ModelComponent modelComponent = new ModelComponent(player, AssetManager.Instance.GetContent<Model>(model));
             VelocityComponent velocityComponent = new VelocityComponent(player);
-            CollisionComponent collisionComponent = new CollisionComponent(player, new SphereVolume(modelComponent.Model.Meshes[0].BoundingSphere));
+            CollisionComponent collisionComponent = new CollisionComponent(player, new BoxVolume(EntityFactory.CreateBoundingBox(modelComponent.Model)));
 
             //new BoxVolume(player, EntityFactory.CreateBoundingBox(modelComponent.Model));
             PlayerComponent playerComponent = new PlayerComponent(player);
@@ -195,8 +195,8 @@ namespace thundercats
                 MaximumParticles = maxParticles,
                 MaxVelocity = 10,
                 MinVelocity = 0,
-                MinColor = new Color(255, 255, 255, 10),
-                MaxColor = new Color(255, 255, 255, 40),
+                MinColor = new Color(255, 255, 255, 100),
+                MaxColor = new Color(255, 255, 255, 100),
                 ParticleLifeSpan = TimeSpan.FromSeconds(lifeSpan),
                 MaxSize = 100,
                 MinSize = 100,

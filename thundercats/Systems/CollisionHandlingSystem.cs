@@ -86,7 +86,7 @@ namespace thundercats.Systems
             {
                 GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.GameOverScreen;
             }
-            //else GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
+            else GameService.Instance.gameManager.CurrentGameState = GameManager.GameState.VictoryScreen;
         }
         private static void HandleGoal(Entity sourceEntity)
         {
