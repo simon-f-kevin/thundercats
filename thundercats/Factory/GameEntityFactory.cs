@@ -96,7 +96,7 @@ namespace thundercats
             //TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
 
             TransformHelper.SetInitialModelPos(modelComponent, transformComponent);
-            TransformHelper.SetInitialBoundingSpherePos(collisionComponent, transformComponent);
+            TransformHelper.SetBoundingBoxPos(collisionComponent, transformComponent);
 
             return player;
         }
