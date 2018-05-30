@@ -122,6 +122,10 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
             //particles
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
+            //light
+            AssetManager.Instance.AddContent<Effect>(Content, "Shading");
+
+
 
             gameManager = new GameManager(this);
             GameService.Instance.gameManager = gameManager;
