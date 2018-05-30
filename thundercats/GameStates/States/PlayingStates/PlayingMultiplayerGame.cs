@@ -46,7 +46,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, HostPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
-                GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
+                GameEntityFactory.NewParticleSettingsEntity(local, 10, 1, "smoke");
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, ClientPosition, AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
             else
@@ -54,7 +54,7 @@ namespace thundercats.GameStates.States.PlayingStates
                 local = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, ClientPosition,
                     new Vector3(0, 0, -150), viewport.AspectRatio, true,
                     AssetManager.Instance.CreateTexture(Color.Blue, gameManager.game.GraphicsDevice));
-                GameEntityFactory.NewParticleSettingsEntity(local, 100, 1, "smoke");
+                GameEntityFactory.NewParticleSettingsEntity(local, 10, 1, "smoke");
                 remote = GameEntityFactory.NewBasePlayer("Models/Blob", 1, HostPosition, AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice), GameEntityFactory.REMOTE_PLAYER);
             }
             GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
@@ -62,11 +62,11 @@ namespace thundercats.GameStates.States.PlayingStates
             networkSystem.InitPlayers();
             SystemManager.Instance.AddToUpdateables(networkSystem);
 
-            //particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
-            //particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
-            //particleCreationSystem = new ParticleCreationSystem(particleSystem);
-            //SystemManager.Instance.AddToDrawables(particleSystem);
-            //SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
+            particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
+            particleSystem.InitializeParticleSystem(ComponentManager.Instance.ConcurrentGetComponentOfEntity<ParticleSettingsComponent>(local));
+            particleCreationSystem = new ParticleCreationSystem(particleSystem);
+            SystemManager.Instance.AddToDrawables(particleSystem);
+            SystemManager.Instance.AddToUpdateables(particleSystem, particleCreationSystem);
 
             AudioManager.Instance.ClearSongs();
             AudioManager.Instance.EnqueueSongs("playMusic1", "playMusic2");
