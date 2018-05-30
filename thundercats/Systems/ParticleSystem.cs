@@ -357,7 +357,7 @@ namespace thundercats.Systems
                                                      firstActiveParticle * 6, (firstFreeParticle - firstActiveParticle) * 2);
                     }
                     else
-                    {
+                    { 
                         // If the active particle range wraps past the end of the queue
                         // back to the start, we must split them over two draw calls.
                         GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,

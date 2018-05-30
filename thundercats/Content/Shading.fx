@@ -50,10 +50,10 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	output.Position = mul(viewPosition, Projection);
 
 	float4 normal = normalize(mul(input.Normal, WorldInverseTranspose));
-	float lightIntensity = dot(normal, DiffuseLightDirection);
+	float lightIntensity = dot(normal.xyz, DiffuseLightDirection);
 	output.Color = saturate(DiffuseColor * DiffuseIntensity * lightIntensity);
 
-	output.Normal = normal;
+	output.Normal = normal.xyz;
 
 	output.TextureCoordinate = input.TextureCoordinate;
 	return output;
@@ -65,10 +65,10 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float3 normal = normalize(input.Normal);
 	float3 r = normalize(2 * dot(light, normal) * normal - light);
 
-	float3 v = normalize(mul(normalize(ViewVector), World));
+	float3 v = normalize(mul(normalize(ViewVector), (float3x3)World));
 	float dotProduct = dot(r, v);
 
-	float4 specular = SpecularIntensity * SpecularColor * max(pow(dotProduct, Shininess), 0) * length(input.Color);
+	float4 specular = SpecularIntensity * SpecularColor * max(pow(abs(dotProduct), Shininess), 0) * length(input.Color);
 
 	float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
 	textureColor.a = 1;

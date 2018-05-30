@@ -64,7 +64,6 @@ namespace Game_Engine.Systems
                 {
                     TextureComponent textureComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TextureComponent>(modelComponentPair.Key);
                     EffectComponent effectComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<EffectComponent>(modelComponentPair.Key);
-                    LightComponent lightComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<LightComponent>(modelComponentPair.Key);
                     TransformComponent transformcComponent = ComponentManager.Instance.ConcurrentGetComponentOfEntity<TransformComponent>(modelComponentPair.Key);
 
                     var viewVector = Vector3.Transform(cameraComponent.Target - cameraComponent.Position, Matrix.CreateRotationY(0));
