@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using Game_Engine.Systems.Physics;
 using Microsoft.Xna.Framework.Media;
 using thundercats.GameStates;
 using thundercats.Systems;
@@ -25,13 +26,18 @@ namespace thundercats
         Viewport viewport;
 
         ModelRenderSystem modelRenderSystem;
-        PhysicsSystem physicsSystem;
         PlayerInputSystem playerInputSystem;
         CameraSystem cameraSystem;
         UIRenderSystem uiSystem;
         CollisionHandlingSystem collisionHandlingSystem;
         AiSystem aiSystem;
         FrameCounterSystem frameCounterSystem;
+        // Physics
+        private CollisionDetectionSystem collisionDetectionSystem;
+        private FrictionSystem frictionSystem;
+        private GravitySystem gravitySystem;
+        private TransformSystem transformSystem;
+
         //ParticleDrawSystem particleSystem;
         //ParticleSystem particleSystem;
 
@@ -44,7 +50,7 @@ namespace thundercats
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.IsFullScreen = false;
             IsFixedTimeStep = false;
-           //graphics.SynchronizeWithVerticalRetrace = false;
+            //graphics.SynchronizeWithVerticalRetrace = false;
 
             Content.RootDirectory = "Content";
         }
@@ -64,16 +70,28 @@ namespace thundercats
             modelRenderSystem.graphicsDevice = GraphicsDevice;
             playerInputSystem = new PlayerInputSystem();
             cameraSystem = new CameraSystem();
-            physicsSystem = new PhysicsSystem();
             uiSystem = new UIRenderSystem();
             collisionHandlingSystem = new CollisionHandlingSystem();
             aiSystem = new AiSystem();
-          
+            collisionDetectionSystem = new CollisionDetectionSystem(false);
+            frictionSystem = new FrictionSystem();
+            gravitySystem = new GravitySystem();
+            transformSystem = new TransformSystem();
 
 
-            SystemManager.Instance.AddToUpdateables(cameraSystem, physicsSystem, playerInputSystem, collisionHandlingSystem, aiSystem, frameCounterSystem);
-            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem);
-            
+            SystemManager.Instance.AddToUpdateables(
+                cameraSystem,
+                collisionDetectionSystem,
+                transformSystem,
+                gravitySystem,
+                frictionSystem,
+                playerInputSystem, 
+                collisionHandlingSystem,
+                aiSystem, 
+                frameCounterSystem
+                );
+
+            SystemManager.Instance.AddToDrawables(modelRenderSystem, frameCounterSystem, uiSystem);
 
             base.Initialize();
         }
@@ -87,8 +105,8 @@ namespace thundercats
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             uiSystem.Initialize(spriteBatch, this);
-            AssetManager.Instance.AddContent<Model>(Content,"Models/Blob");
-            AssetManager.Instance.AddContent<Model>(Content,"Models/block2");
+            AssetManager.Instance.AddContent<Model>(Content, "Models/Blob");
+            AssetManager.Instance.AddContent<Model>(Content, "Models/block2");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/option-marker");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/bg-menu");
             AssetManager.Instance.AddContent<Texture2D>(Content, "2DTextures/stars");
@@ -103,7 +121,6 @@ namespace thundercats
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Synthwave-Fun", "playMusic2");
             AssetManager.Instance.AddContent<Song>(Content, "Sounds/Lounge Game2", "lounge");
             //particles
-            AssetManager.Instance.AddContent<Effect>(Content, "Particles");
             AssetManager.Instance.AddContent<Effect>(Content, "ParticleEffect");
             //light
             AssetManager.Instance.AddContent<Effect>(Content, "Shading");

@@ -33,16 +33,16 @@ namespace thundercats.GameStates.States.PlayingStates
         {   
 
 
-            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 40, 70),
+            var playerEntity = GameEntityFactory.NewLocalPlayer("Models/Blob", 0, new Vector3(10, 45, 0),
                 new Vector3(0, 500, -100), viewport.AspectRatio, true,
                 AssetManager.Instance.CreateTexture(Color.Red, gameManager.game.GraphicsDevice));
             //GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 2, "fire");
-            GameEntityFactory.NewParticleSettingsEntity(playerEntity, 100, 1, "smoke");
+            GameEntityFactory.NewParticleSettingsEntity(playerEntity, 10, 1, "smoke");
 
-            /*GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-80, 40, 1),
+            GameEntityFactory.NewAiPlayer("Models/Blob", new Vector3(-100, 45, 0),
             AssetManager.Instance.CreateTexture(Color.Honeydew, gameManager.game.GraphicsDevice));
-            */        
-            //GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
+                    
+            GameEntityFactory.NewOutOfBounds(new Vector3(-10000, -1000, -10000), new Vector3(10000, -50, 10000));
             InitWorld();
 
             particleSystem = new ParticleSystem(gameManager.game.GraphicsDevice);
@@ -78,9 +78,9 @@ namespace thundercats.GameStates.States.PlayingStates
         /// </summary>
         private void InitWorld()
         {
-            worldGenerator = new WorldGenerator("nick", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
+            worldGenerator = new WorldGenerator("Leader", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
             //worldGenerator = new WorldGenerator("", WorldGenerator.GetWorldgenEntityDefs(), gameManager, viewport);
-            GenerateWorld(3, 10);
+            GenerateWorld(3, 6);
             worldGenerator.MoveBlocks();
         }
 

@@ -52,17 +52,17 @@ namespace Game_Engine.Entities
         }
 
         /* Adds four bounding boxes to the bounding hierarchy, each taking up a quadrant of the original bounding box. */
-        public static void AddBoundingBoxChildren(BoundingBoxComponent boxComponent)
+        public static void AddBoundingBoxChildren(BoxVolume boxVolume)
         {
-            BoundingBox box = (BoundingBox)boxComponent.BoundingShape;
-            Vector3[] corners = box.GetCorners();
+        //    BoundingBox box = (BoundingBox)boxVolume.BoundingShape;
+        //    Vector3[] corners = box.GetCorners();
 
-            //May need some adjustments. Atm the min is the lowest X value of each corner. Might cause problems?
-            //It would be more correct but more annoying to calculate the min for each sub-box instead of just using corners and the center.
-            boxComponent.Children.Add(new BoundingBox(corners[0], boxComponent.Center));
-            boxComponent.Children.Add(new BoundingBox(boxComponent.Center, corners[1]));
-            boxComponent.Children.Add(new BoundingBox(boxComponent.Center, corners[2]));
-            boxComponent.Children.Add(new BoundingBox(corners[3], boxComponent.Center));
+        //    //May need some adjustments. Atm the min is the lowest X value of each corner. Might cause problems?
+        //    //It would be more correct but more annoying to calculate the min for each sub-box instead of just using corners and the center.
+        //    boxVolume.Children.Add(new BoundingBox(corners[0], boxVolume.Center));
+        //    boxVolume.Children.Add(new BoundingBox(boxVolume.Center, corners[1]));
+        //    boxVolume.Children.Add(new BoundingBox(boxVolume.Center, corners[2]));
+        //    boxVolume.Children.Add(new BoundingBox(corners[3], boxVolume.Center));
         }
 
         /* Returns a new boudning box based on model mesh vertices. */
