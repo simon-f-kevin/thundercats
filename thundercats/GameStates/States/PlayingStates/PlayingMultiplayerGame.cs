@@ -38,8 +38,8 @@ namespace thundercats.GameStates.States.PlayingStates
             Entity local;
             Entity remote;
             this.connectionManager = gameManager.NetworkConnectionManager;
-            var HostPosition = new Vector3(0, (viewport.Height * 0.45f) + 100, 100);
-            var ClientPosition = new Vector3(100, (viewport.Height * 0.45f) + 100, 100);
+            var HostPosition = new Vector3(10, 45, -10);
+            var ClientPosition = new Vector3(-100, 45, 10);
             if (connectionManager.IsHost)
             {
 
