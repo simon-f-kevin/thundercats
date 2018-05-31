@@ -16,27 +16,29 @@ namespace thundercats.GameStates.States.AiStates
 {
     public class Winning : AiState, IAiState
     {
-        public Winning() : base(new Random()){}
+        public Winning() : base(new Random(DateTime.Now.Second.ToString().GetHashCode())){}
 
-        public void Update(GameTime gameTime, ref Point matrixPosition,Vector3 Position,VelocityComponent aiVelocity, GravityComponent gravity)
+        public void Update(GameTime gameTime, ref Point matrixPosition,Vector3 Position,VelocityComponent aiVelocity, GravityComponent gravity, AiComponent aiComponent)
         {
             worldMatrix = GameService.Instance.GameWorld;
             worldEntityMatrix = GameService.Instance.EntityGameWorld;
-            matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity);
+            matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity, aiComponent);
         }
 
         protected override Point ChooseBlock(int[,] world, int row)
         {
             int column;
+            int chosenColumn = 0;
             bool found = false;
-
+            int randomChoice = Random.Next(0, 11);
             // Choose a block on the row
             for(column = 0; column < world.GetLength(0); column++)
             {
-                switch(world[column, row])
+                switch (worldMatrix[column, row])
                 {
                 case(1): case(2):
                     found = true;
+                    chosenColumn = column;
                     break;
                 default:
                     break;
@@ -55,7 +57,8 @@ namespace thundercats.GameStates.States.AiStates
             {
                 return new Point(-1, -1);
             }
-            return new Point(column, row); // Index of the next block the ai is moving to;
+           
+            return new Point(chosenColumn, row); // Index of the next block the ai is moving to;
         }
     }
 }

@@ -19,11 +19,11 @@ namespace thundercats.GameStates.States.AiStates
     public class Losing : AiState, IAiState
     {
         public Losing() : base(new Random()) { }
-        public void Update(GameTime gameTime, ref Point matrixPosition, Vector3 Position, VelocityComponent aiVelocity, GravityComponent gravity)
+        public void Update(GameTime gameTime, ref Point matrixPosition, Vector3 Position, VelocityComponent aiVelocity, GravityComponent gravity, AiComponent aiComponent)
         {
             worldMatrix = GameService.Instance.GameWorld;
             worldEntityMatrix = GameService.Instance.EntityGameWorld;
-            matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity);
+            matrixPosition = ExecuteState(gameTime, matrixPosition, Position,aiVelocity, gravity,aiComponent);
         }
 
         protected override Point ChooseBlock(int[,] world, int row)

@@ -25,17 +25,14 @@ namespace thundercats.Systems
        
       
         //protected GameTime gameTime;
-        public enum AiState {
-            Winning,
-            Losing
-        };
+        
 
-        public Dictionary<AiState, IAiState> aiStates;
+        public Dictionary<AiState.State, IAiState> aiStates;
 
         public AiSystem() {
-            aiStates = new Dictionary<AiState, IAiState>();
-            aiStates.Add(AiState.Winning, new Winning());
-            aiStates.Add(AiState.Losing, new Losing());
+            aiStates = new Dictionary<AiState.State, IAiState>();
+            aiStates.Add(AiState.State.Winning, new Winning());
+            aiStates.Add(AiState.State.Losing, new Losing());
         }
 
         private void UpdateCurrentState(Entity AiKey, Entity PlayerKey, GameTime gameTime) {
@@ -47,11 +44,11 @@ namespace thundercats.Systems
             // we need +10 because we need a bufferZone to not change state like everysecond if players are close to eachother
             if (aiTransformComponent.Position.Z < (playerTransformComponent.Position.Z + 10))
             {
-                aiComponent.CurrentState = AiState.Losing;
+                aiComponent.CurrentState = AiState.State.Losing;
             }
             else if (aiTransformComponent.Position.Z > (playerTransformComponent.Position.Z + 2))
             {
-                aiComponent.CurrentState = AiState.Winning;
+                aiComponent.CurrentState = AiState.State.Winning;
   
             }
 
@@ -66,7 +63,7 @@ namespace thundercats.Systems
             //Player values
            
             var pos = aiComponent.MatrixPosition;
-            aiStates[aiComponent.CurrentState].Update(gameTime, ref pos, aiTransformComponent.Position, aiVelocityComponent, aiGravityComponent);
+            aiStates[aiComponent.CurrentState].Update(gameTime, ref pos, aiTransformComponent.Position, aiVelocityComponent, aiGravityComponent, aiComponent);
             aiComponent.MatrixPosition = pos;
         }
 
